@@ -6,4 +6,11 @@
   
   "description": "A suite of modules that enhance your OnCampus experience",
   
+  "content_scripts": [
+    {
+      "matches": ["https://gannacademy.myschoolapp.com/*"],
+      "js": ["dist/index.js"]
+    }
+   ]
+
 }
