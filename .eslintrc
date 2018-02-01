@@ -1,10 +1,12 @@
 {
   "extends": "airbnb-base",
   "env": {
-    "node": true,
-    "browser": false
+    "browser": true
   },
   "parser": "babel-eslint",
+  "globals": {
+    "chrome": false
+  },
   "rules": {
     "func-names": 0,
     "space-before-function-paren": 0,
