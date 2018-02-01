@@ -5,7 +5,7 @@
   "main": "script.js",
   "scripts": {
     "build": "parcel src/index.js",
-    "start": "parcel watch src/index.js"
+    "start": "parcel src/index.js --https"
   },
   "author": "",
   "license": "ISC",
@@ -14,5 +14,8 @@
     "eslint": "^4.16.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0"
+  },
+  "dependencies": {
+    "parcel-bundler": "^1.5.1"
   }
 }
