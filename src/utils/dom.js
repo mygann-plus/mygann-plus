@@ -17,3 +17,5 @@ export function registerListeners(elemsFunc, listener) {
       elemsFunc().forEach(e => e.addEventListener('click', listener));
     });
 }
+
+export function getElementsByIds(ids) { return ids.map(id => document.getElementById(id)); }
