@@ -3,7 +3,6 @@ import { waitForLoad, registerListeners, getElementsByIds } from '../utils/dom';
 function simulateDropdownChange(elemIndex, index) {
   document.getElementsByClassName('btn btn-link assignment-status-update')[elemIndex]
     .parentNode.children[0].click();
-
   setTimeout(() => {
     const elem = document.getElementsByClassName('btn btn-link assignment-status-update')[elemIndex]
       .parentNode.children[1].children[2].children[0].children[1].children[0];
@@ -56,7 +55,10 @@ function replaceButtons() {
 }
 
 function enableModule() {
-  waitForLoad("document.getElementById('assignment-center-assignment-items') && document.getElementById('assignment-center-assignment-items').children.length")
+  waitForLoad(() => {
+    return document.getElementById('assignment-center-assignment-items') &&
+           document.getElementById('assignment-center-assignment-items').children.length;
+  })
     .then(replaceButtons);
 }
 

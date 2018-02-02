@@ -1,13 +1,22 @@
-export function waitForLoad(condition, intervalTime = 500) {
-  const c = typeof condition === 'string' ? () => eval(condition) : condition; // eslint-disable-line no-eval
+export function waitForLoad(condition) {
+
   return new Promise(res => {
-    let interval = setInterval(() => {
-      if (c()) {
-        clearInterval(interval);
+
+    const observer = new MutationObserver(() => {
+      if (condition()) {
         res();
+        observer.disconnect();
       }
-    }, intervalTime); // allow for shorter intervals for in-page waits (see registerListeners)
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: false,
+      characterData: false,
+    });
   });
+
 }
 
 export function registerListeners(elemsFunc, listener) {
@@ -19,3 +28,18 @@ export function registerListeners(elemsFunc, listener) {
 }
 
 export function getElementsByIds(ids) { return ids.map(id => document.getElementById(id)); }
+
+export function constructButton(innerText, id, iClassName, onclick) {
+  let elem = document.createElement('button');
+  let i = document.createElement('i');
+  let text = document.createTextNode(innerText);
+  elem.id = id;
+  elem.className = 'btn btn-sm btn-default';
+  i.className = iClassName;
+  elem.style = 'color:#000';
+  i.style = 'visibility: visible;';
+  elem.appendChild(i);
+  elem.appendChild(text);
+  elem.onclick = onclick;
+  return elem;
+}
