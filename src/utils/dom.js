@@ -27,7 +27,13 @@ export function registerListeners(elemsFunc, listener) {
     });
 }
 
+// gets list of already loaded elements by their IDs
 export function getElementsByIds(ids) { return ids.map(id => document.getElementById(id)); }
+// gets list of unloaded elements by their IDS; is async
+export async function getUnloadedElementsByIds(ids) {
+  await waitForLoad(() => ids.every(id => document.getElementById(id)));
+  return getElementsByIds(ids);
+}
 
 export function constructButton(innerText, id, iClassName, onclick) {
   let elem = document.createElement('button');

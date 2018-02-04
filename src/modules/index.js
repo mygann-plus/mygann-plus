@@ -1,3 +1,4 @@
 import inlineChangeStatus from './inline-change-status';
+import toggleCompleted from './toggle-completed';
 
-export { inlineChangeStatus };
+export { inlineChangeStatus, toggleCompleted };

@@ -1,4 +1,4 @@
-import { waitForLoad, registerListeners, getElementsByIds } from '../utils/dom';
+import { waitForLoad, registerListeners, getElementsByIds, getUnloadedElementsByIds } from '../utils/dom';
 
 function simulateDropdownChange(elemIndex, index) {
   document.getElementsByClassName('btn btn-link assignment-status-update')[elemIndex]
@@ -75,8 +75,8 @@ export default function() {
         'month-view',
         'filter-status',
         'filter-student-sections',
-      ])
-    ),
+        'gocp-toggle-completed',
+      ])),
     enableModule,
   );
 }
