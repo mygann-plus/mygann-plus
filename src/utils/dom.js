@@ -2,6 +2,10 @@ export function waitForLoad(condition) {
 
   return new Promise(res => {
 
+    if (condition()) {
+      return res();
+    }
+
     const observer = new MutationObserver(() => {
       if (condition()) {
         res();
@@ -19,7 +23,7 @@ export function waitForLoad(condition) {
 
 }
 
-export function registerListeners(elemsFunc, listener) {
+export async function registerListeners(elemsFunc, listener) {
   // elemsFunc returns an array of elements, not a NodeList
   waitForLoad(() => elemsFunc().every(e => !!e), 10) // every element is defined
     .then(() => {
