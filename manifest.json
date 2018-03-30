@@ -11,6 +11,10 @@
       "matches": ["https://gannacademy.myschoolapp.com/*"],
       "js": ["dist/index.js"]
     }
-   ]
+   ],
+
+  "permissions": [
+    "storage"
+  ]
 
 }
