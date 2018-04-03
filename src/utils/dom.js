@@ -53,3 +53,15 @@ export function constructButton(innerText, id, iClassName, onclick) {
   elem.onclick = onclick;
   return elem;
 }
+
+export function nodeListToArray(nodeList) {
+  return [].slice.call(nodeList);
+}
+
+export function hasParentWithClassName(element, classnames) {
+  const containsClass = c => element.className.split(' ').indexOf(c) >= 0;
+  if (element.className && classnames.filter(containsClass).length > 0) {
+    return true;
+  }
+  return element.parentNode && hasParentWithClassName(element.parentNode, classnames);
+}
