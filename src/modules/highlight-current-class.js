@@ -1,11 +1,6 @@
-import { waitForLoad } from '../utils/dom';
+import { waitForLoad, nodeListToArray, hasParentWithClassName } from '../utils/dom';
 
-const DOM_QUERY = () => {
-  return document.getElementById('accordionSchedules')
-        && document.getElementById('accordionSchedules').children[0]
-        && document.getElementById('accordionSchedules').children[0].children
-        && document.getElementById('accordionSchedules').children[0].children.length;
-};
+// TIME & DATE CHECKERS
 
 function to24Hr(t) {
   let time = t;
@@ -20,8 +15,7 @@ function to24Hr(t) {
   if (minutes < 10) sMinutes = `0${sMinutes}`;
   return `${sHours}:${sMinutes}:00`;
 }
-
-function isBetween(start, end, m) {
+function isBetween(start, end) {
   const startTime = start;
   const endTime = end;
 
@@ -41,12 +35,10 @@ function isBetween(start, end, m) {
   return startDate < currentDate && endDate > currentDate;
 
 }
-
-function isCurrentClass(timeString) {
+function isCurrentTime(timeString) {
   const times = timeString.split('-').map(s => s.trim().split()).map(l => l[0]);
   return isBetween(to24Hr(times[0]), to24Hr(times[1]));
 }
-
 function isCurrentDay() { // the current page on the schedule is set to the current day
   const cur = document.getElementById('schedule-header')
     .children[0].children[0].children[0].children[1].children[0].children[3]
@@ -56,48 +48,49 @@ function isCurrentDay() { // the current page on the schedule is set to the curr
   let day = d.split(' ')[2];
   return cur.split(' ')[0].startsWith(month) && cur.split(' ')[1] === day;
 }
-
 function isCorrectFormat() { // is on day view, not month or week
   return !!document.getElementById('accordionSchedules');
 }
+function isCurrentClass(timeString) {
+  return isCorrectFormat() && isCurrentTime(timeString) && isCurrentDay();
+}
 
 function highlightClass() {
-  waitForLoad(DOM_QUERY).then(() => {
-    [].forEach.call(document.getElementById('accordionSchedules').children, c => {
-      let timeString = c.children[0].childNodes[0].data.trim();
-      if (isCorrectFormat() && isCurrentClass(timeString) && isCurrentDay()) {
-        c.style.background = '#fff38c';
-        setTimeout(() => {
-          if (!document.body.contains(c)) {
-            highlightClass();
-          }
-        }, 10);
+
+  const DOM_QUERY = () => {
+    return document.getElementById('accordionSchedules')
+          && document.getElementById('accordionSchedules').children[0]
+          && document.getElementById('accordionSchedules').children[0].children
+          && document.getElementById('accordionSchedules').children[0].children.length;
+  };
+
+  waitForLoad(DOM_QUERY)
+    .then(() => {
+      nodeListToArray(document.getElementById('accordionSchedules').children).forEach(c => {
+        const timeString = c.children[0].childNodes[0].data.trim();
+        if (isCurrentClass(timeString)) {
+          c.style.background = '#fff38c';
+          setTimeout(() => {
+            if (!document.body.contains(c)) {
+              highlightClass();
+            }
+          }, 50);
         // c.style.background = 'url("https://i.imgur.com/BYIdZvl.jpg")'; // GOD LOVES YOU
-      }
+        }
+      });
     });
+
+}
+
+function addDayChangeListeners() {
+  document.body.addEventListener('click', e => {
+    if (hasParentWithClassName(e.target, ['chCal-button-next', 'chCal-button-prev'])) {
+      highlightClass();
+    }
   });
 }
 
-// TODO: make day change listener work
-
-// function addDayChangeListener(btn) {
-//   btn.addEventListener('click', () => {
-//     highlightClass();
-//     addDayChangeListeners();
-//   });
-// }
-
-// function addDayChangeListeners() {
-//   console.log(1);
-//   waitForLoad(() => document.getElementsByClassName('chCal-button chCal-button-next')[0])
-//     .then(() => {
-//       console.log('listening');
-//       addDayChangeListener(document.getElementsByClassName('chCal-button chCal-button-next')[0]);
-//       addDayChangeListener(document.getElementsByClassName('chCal-button chCal-button-prev')[0]);
-//     });
-// }
-
 export default function() {
   highlightClass();
-  // addDayChangeListeners();
+  addDayChangeListeners();
 }
