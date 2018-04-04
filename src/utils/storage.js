@@ -14,11 +14,13 @@ export default {
   },
 
   set: function set(property, doSync = true) {
-    if (doSync) {
-      chrome.storage.sync.set(property);
-    } else {
-      chrome.storage.local.set(property);
-    }
+    return new Promise(resolve => {
+      if (doSync) {
+        chrome.storage.sync.set(property, resolve);
+      } else {
+        chrome.storage.local.set(property, resolve);
+      }
+    });
   },
 
 };
