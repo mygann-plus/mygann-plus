@@ -1,3 +1,4 @@
+import { waitForLoad, nodeListToArray } from './utils/dom';
 function generateDialogHtml() {
   return `
     <div class="modal bb-modal in" id="gocp_options_modal" style="display: block;" tabindex="-1">
@@ -47,6 +48,27 @@ const closeModal = e => {
   }
   window.location.reload();
 };
+async function constructDialog() {
+  document.body.innerHTML += generateDialogHtml();
+  loadOptions();
+
+  document.getElementById('gocp_options_close').onclick = closeModal;
+  document.getElementById('gocp_options_cancel').onclick = closeModal;
+  document.getElementById('gocp_options_save').onclick = saveOptions;
+}
+
+function appendNavLink() {
+  const sidebar = document.getElementById('settings-container');
+  const li = document.createElement('LI');
+  const a = document.createElement('A');
+  a.id = 'privacy-label';
+  a.href = window.location.href;
+  a.onclick = constructDialog;
+  a.innerText = 'Gann OnCampus+';
+  li.appendChild(a);
+  sidebar.appendChild(li);
+}
+
 export default function() {
   waitForLoad(() => document.getElementById('notification-label'))
     .then(appendNavLink);
