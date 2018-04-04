@@ -22,7 +22,7 @@ function attachListeners() {
   document.getElementById('app').addEventListener('click', hideDropdownMenu);
 }
 
-export default function() {
+export default function autoCloseDetailStatus() {
   waitForLoad(getDropdownButton).then(attachListeners);
 }
 

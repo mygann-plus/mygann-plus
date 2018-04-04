@@ -57,7 +57,7 @@ const DOM_QUERY = () => (
   document.getElementsByClassName('bb-tile-content-section')[3].children[0]
 );
 
-export default function() {
+export default function gradeSummary() {
   // TODO: Options
   waitForLoad(DOM_QUERY).then(() => {
     const button = constructButton('Grade Summary', '', '', generateReport);

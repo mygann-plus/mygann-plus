@@ -40,7 +40,7 @@ function showUI() {
   button = constructButton(' Hide Completed: Off', 'gocp-toggle-completed', 'fa fa-check', hide);
   constructParent(button);
 }
-export default function() {
+export default function toggleCompleted() {
   waitForLoad(() => (
     document.getElementsByClassName('pull-right assignment-calendar-button-bar')[0]
     && !document.getElementById('toggle-completed')

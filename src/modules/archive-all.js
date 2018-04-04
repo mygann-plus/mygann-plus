@@ -27,7 +27,7 @@ function handleButtonClick(e) {
   }
 }
 
-export default function() {
+export default function archiveAll() {
 
   const BUTTON_TEXT = window.location.hash === '#message/inbox' ? 'Archive All' : 'Unarchive All';
   const ARCHIVING_TEXT = window.location.hash === '#message/inbox' ? 'Archiving' : 'Unarchiving';

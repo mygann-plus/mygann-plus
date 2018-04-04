@@ -90,7 +90,7 @@ function addDayChangeListeners() {
   });
 }
 
-export default function() {
+export default function highlightCurrentClass() {
   highlightClass();
   addDayChangeListeners();
 }

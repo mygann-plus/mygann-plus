@@ -62,7 +62,7 @@ function enableModule() {
     .then(replaceButtons);
 }
 
-export default function() {
+export default function inlineChangeStatus() {
   enableModule();
   registerListeners(
     () => (

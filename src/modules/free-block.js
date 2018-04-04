@@ -126,7 +126,7 @@ function addDayChangeListeners() {
   });
 }
 
-export default function() {
+export default function freeBlock() {
   insertFreeBlock();
   addDayChangeListeners();
 }
