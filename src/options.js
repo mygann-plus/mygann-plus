@@ -98,6 +98,30 @@ const closeModal = e => {
   }
   window.location.reload();
 };
+
+const saveOptions = async e => {
+  e.preventDefault();
+
+  // generate options object
+
+  const options = {};
+  const sectionElems = nodeListToArray(document.getElementById('gocp_options_sections').children);
+  for (let i = 0; i < sectionElems.length; i++) {
+    const href = sectionElems[i].getAttribute('data-gocp-href');
+    const moduleElems = sectionElems[i].children[1].children;
+    options[href] = {};
+    for (let j = 0; j < moduleElems.length; j++) {
+      const module = moduleElems[j].getAttribute('data-gocp-module');
+      options[href][module] = moduleElems[j].children[0].checked;
+    }
+  }
+
+  await storage.set({ options });
+  alert('Options saved!'); // eslint-disable-line no-alert
+  closeModal(e);
+
+};
+
 const loadOptions = async () => {
   for (let i in MODULE_MAP) {
     // created elem-by-elem because embedding HTML will cause event listeners not to work
