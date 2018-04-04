@@ -1,23 +1,22 @@
-import {
-  toggleCompleted,
-  inlineChangeStatus,
-  autoCloseDetailStatus,
-  highlightCurrentClass,
-  archiveAll,
-} from './modules';
+import storage from './utils/storage';
+import { MODULE_MAP } from './module-map';
+import options from './options';
 
-const MODULE_MAP = {
-  assignmentdetail: [autoCloseDetailStatus],
-  'studentmyday/assignment-center': [inlineChangeStatus, toggleCompleted],
-  'studentmyday/schedule': [highlightCurrentClass],
-  'message/inbox': [archiveAll],
-  'message/archive': [archiveAll],
-};
+async function loadModules() {
+  let optsData = await storage.get('options');
 
-function loadModules() {
-  for (let i in MODULE_MAP) {
-    if (window.location.hash.startsWith(`#${i}`)) MODULE_MAP[i].forEach(m => m());
+  if (window.location.hash.startsWith('#account')) {
+    return options();
   }
+
+  for (let section in optsData) {
+    if (window.location.hash.startsWith(`#${section}`)) {
+      for (let module in optsData[section]) {
+        if (optsData[section][module]) MODULE_MAP[section].filter(s => s.name === module)[0]();
+      }
+    }
+  }
+
 }
 
 window.onhashchange = loadModules;
