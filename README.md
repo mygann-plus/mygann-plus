@@ -1,1 +1,0 @@
-2/1/18: Please note that parcel-bundler in node_modules has been edited manually to include changes from [PR#708](https://github.com/parcel-bundler/parcel/pull/708), since they changes have not been published to npm (latest@1.5.1)
