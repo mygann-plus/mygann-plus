@@ -50,7 +50,7 @@ export function constructButton(innerText, id, iClassName, onclick) {
   i.style = 'visibility: visible;';
   elem.appendChild(i);
   elem.appendChild(text);
-  elem.onclick = onclick;
+  elem.addEventListener('click', onclick);
   return elem;
 }
 
@@ -64,4 +64,8 @@ export function hasParentWithClassName(element, classnames) {
     return true;
   }
   return element.parentNode && hasParentWithClassName(element.parentNode, classnames);
+}
+
+export function insertAfter(referenceNode, newNode) {
+  referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }

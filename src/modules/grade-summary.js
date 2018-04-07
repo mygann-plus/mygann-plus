@@ -60,7 +60,7 @@ const DOM_QUERY = () => (
 export default function gradeSummary() {
   // TODO: Options
   waitForLoad(DOM_QUERY).then(() => {
-    const button = constructButton('Grade Summary', '', '', generateReport);
+    const button = constructButton('Grade Summary', 'gocp_grade-summary_button', '', generateReport);
     button.className += ' pull-right';
     const wrap = document.getElementById('courses').children[0].children[0].children[1].children[0];
     wrap.children[0].children[0].appendChild(button);

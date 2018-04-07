@@ -5,6 +5,7 @@ import highlightCurrentClass from './modules/highlight-current-class';
 import freeBlock from './modules/free-block';
 import gradeSummary from './modules/grade-summary';
 import archiveAll from './modules/archive-all';
+import coursesSearch from './modules/courses-search';
 
 /* eslint-disable quote-props */
 
@@ -12,7 +13,7 @@ const MODULE_MAP = {
   'assignmentdetail': [autoCloseDetailStatus],
   'studentmyday/assignment-center': [inlineChangeStatus, toggleCompleted],
   'studentmyday/schedule': [highlightCurrentClass, freeBlock],
-  'studentmyday/progress': [gradeSummary],
+  'studentmyday/progress': [gradeSummary, coursesSearch],
   'message': [archiveAll],
 };
 
