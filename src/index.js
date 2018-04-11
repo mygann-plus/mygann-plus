@@ -4,11 +4,9 @@ import options from './options';
 
 async function loadModules() {
   let optsData = await storage.get('options');
-
   if (window.location.hash.startsWith('#account')) {
     return options();
   }
-
   for (let section in optsData) {
     if (window.location.hash.startsWith(`#${section}`)) {
       for (let module in optsData[section]) {
@@ -25,7 +23,7 @@ async function loadModules() {
 }
 
 async function initializeOptions() {
-  const optsObj = await storage.get('options');
+  const optsObj = await storage.get('options') || {};
   for (let i in MODULE_MAP) {
     if ({}.hasOwnProperty.call(MODULE_MAP, i)) {
       if (!optsObj[i]) {
