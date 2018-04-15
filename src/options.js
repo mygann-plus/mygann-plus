@@ -65,6 +65,9 @@ function generateDialogHtml() {
                     Enable and Disable Modules
                     <div id="gocp_options_sections"></div>
                   </div>
+                  <div style="font-size:12px;padding-left:25px;padding-bottom:20px">
+                    Special thanks to Shai Mann-Robsison and Micah Shire-Plumb for beta testing and ideas.
+                  </div>
                   <div 
                     class="pull-right" 
                     style="padding-right: 22px; padding-bottom: 13px;"
