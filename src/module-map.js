@@ -7,23 +7,32 @@ import gradeSummary from './modules/grade-summary';
 import archiveAll from './modules/archive-all';
 import improveGrades from './modules/improve-grades';
 import coursesSearch from './modules/courses-search';
+import nextGradedCourse from './modules/next-graded-course';
+import searchClassesMenu from './modules/search-classes-menu';
+import filterWebsiteMainSearch from './modules/filter-website-main-search';
+import classEndingTime from './modules/class-ending-time';
+import messagePreview from './modules/message-preview';
 
 /* eslint-disable quote-props */
 
 const MODULE_MAP = {
-  'assignmentdetail': [autoCloseDetailStatus],
-  'studentmyday/assignment-center': [inlineChangeStatus, toggleCompleted],
-  'studentmyday/schedule': [highlightCurrentClass, freeBlock],
-  'studentmyday/progress': [gradeSummary, coursesSearch, improveGrades],
-  'message': [archiveAll],
+  '#': [searchClassesMenu, messagePreview], // universal modules
+  '#assignmentdetail': [autoCloseDetailStatus],
+  '#studentmyday/assignment-center': [inlineChangeStatus, toggleCompleted],
+  '#studentmyday/schedule': [highlightCurrentClass, freeBlock, classEndingTime],
+  '#studentmyday/progress': [gradeSummary, coursesSearch, improveGrades, nextGradedCourse],
+  '#message': [archiveAll],
+  '#searchresults/summary': [filterWebsiteMainSearch],
 };
 
 const SECTION_MAP = {
-  'assignmentdetail': 'Assignment Detail',
-  'studentmyday/assignment-center': 'Assignment Center',
-  'studentmyday/schedule': 'Schedule',
-  'studentmyday/progress': 'Progress',
-  'message': 'Messages',
+  '#': 'Entire Site',
+  '#assignmentdetail': 'Assignment Detail',
+  '#studentmyday/assignment-center': 'Assignment Center',
+  '#studentmyday/schedule': 'Schedule',
+  '#studentmyday/progress': 'Progress',
+  '#message': 'Messages',
+  '#searchresults/summary': 'Search Results Summary',
 };
 
 /* eslint-enable quote-props */
