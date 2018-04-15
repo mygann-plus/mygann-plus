@@ -1,4 +1,6 @@
-export function waitForLoad(condition) {
+export function waitForLoad(condition, optionalDocument) {
+
+  const document = optionalDocument || window.document;
 
   return new Promise(res => {
 
@@ -25,7 +27,7 @@ export function waitForLoad(condition) {
 
 export async function registerListeners(elemsFunc, listener) {
   // elemsFunc returns an array of elements, not a NodeList
-  waitForLoad(() => elemsFunc().every(e => !!e), 10) // every element is defined
+  waitForLoad(() => elemsFunc().every(e => !!e)) // every element is defined
     .then(() => {
       elemsFunc().forEach(e => e.addEventListener('click', listener));
     });
