@@ -1,4 +1,5 @@
 import { waitForLoad, nodeListToArray, hasParentWithClassName } from '../utils/dom';
+import registerModule from '../utils/module';
 
 // TIME & DATE CHECKERS
 
@@ -113,7 +114,10 @@ function addDayChangeListeners() {
   });
 }
 
-export default function classEndingTime() {
+function classEndingTime() {
   testForClass();
   addDayChangeListeners();
 }
+
+export default registerModule('Class Ending Time', classEndingTime);
+

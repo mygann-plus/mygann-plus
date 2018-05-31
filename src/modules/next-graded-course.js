@@ -1,4 +1,5 @@
 import { waitForLoad, nodeListToArray, insertAfter } from '../utils/dom';
+import registerModule from '../utils/module';
 
 const DOM_QUERY = () => (
   document.getElementById('coursesContainer') &&
@@ -32,7 +33,7 @@ function generateButton(grades, grade, direction, directionWord, dataAnalysis) {
   return btn;
 }
 
-export default function nextGradedCourse() {
+function nextGradedCourse() {
   waitForLoad(DOM_QUERY)
     .then(() => {
 
@@ -65,3 +66,6 @@ export default function nextGradedCourse() {
 
     });
 }
+
+export default registerModule('Next Graded Course', nextGradedCourse);
+

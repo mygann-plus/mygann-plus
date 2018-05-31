@@ -1,4 +1,5 @@
 import { waitForLoad, nodeListToArray, hasParentWithClassName } from '../utils/dom';
+import registerModule from '../utils/module';
 
 // TIME & DATE CHECKERS
 
@@ -90,7 +91,9 @@ function addDayChangeListeners() {
   });
 }
 
-export default function highlightCurrentClass() {
+function highlightCurrentClass() {
   highlightClass();
   addDayChangeListeners();
 }
+
+export default registerModule('Highlight Current Class in Schedule', highlightCurrentClass);

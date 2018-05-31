@@ -1,4 +1,5 @@
 import { waitForLoad, insertAfter, nodeListToArray } from '../utils/dom';
+import registerModule from '../utils/module';
 
 let classes;
 let match;
@@ -71,7 +72,7 @@ function renderSearchBar() {
   document.getElementById('gocp_search-classes-menu_searchbar').oninput = handleSearch;
 }
 
-export default function searchClassesMenu() {
+function searchClassesMenu() {
   waitForLoad(() => document.getElementById('group-header-Classes')).then(() => {
     document.body.addEventListener('keypress', goToMatch);
     document.getElementsByClassName('twoline parentitem')[0].addEventListener('mouseenter', () => {
@@ -79,3 +80,5 @@ export default function searchClassesMenu() {
     });
   });
 }
+
+export default registerModule('Search Classes Menu', searchClassesMenu);

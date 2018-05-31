@@ -12,6 +12,8 @@ import searchClassesMenu from './modules/search-classes-menu';
 import filterWebsiteMainSearch from './modules/filter-website-main-search';
 import classEndingTime from './modules/class-ending-time';
 import messagePreview from './modules/message-preview';
+import beezratHashem from './modules/beezerat-hashem';
+import gradeChart from './modules/grade-chart';
 
 /* eslint-disable quote-props */
 

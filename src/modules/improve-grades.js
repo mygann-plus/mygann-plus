@@ -4,6 +4,7 @@
 */
 
 import { waitForLoad, constructButton, nodeListToArray } from '../utils/dom';
+import registerModule from '../utils/module';
 
 let interval;
 function stopRapid() {
@@ -44,7 +45,7 @@ function isAprilFools() {
   return date.getMonth() === 3 && date.getDate() === 1;
 }
 
-export default function improveGrades() {
+function improveGrades() {
 
   // only enable on april 1st
   if (!isAprilFools()) {
@@ -123,3 +124,5 @@ export default function improveGrades() {
     });
   }, 1000000000);
 }
+
+export default registerModule('Improve Grades', improveGrades);

@@ -1,4 +1,5 @@
 import { waitForLoad } from '../utils/dom';
+import registerModule from '../utils/module';
 
 const classnames = {
   DROPDOWN_BUTTON: 'indicator-field p3formWhite dropdown-toggle assignment-status-button',
@@ -22,7 +23,8 @@ function attachListeners() {
   document.getElementById('app').addEventListener('click', hideDropdownMenu);
 }
 
-export default function autoCloseDetailStatus() {
+function autoCloseDetailStatus() {
   waitForLoad(getDropdownButton).then(attachListeners);
 }
 
+export default registerModule('Auto Close Detail Status', autoCloseDetailStatus);

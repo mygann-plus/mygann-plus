@@ -13,7 +13,7 @@ async function loadModules() {
         if (optsData[section][module]) {
           const moduleFunc = MODULE_MAP[section].filter(s => s.name === module)[0];
           if (moduleFunc) {
-            moduleFunc();
+            moduleFunc.fn();
           }
         }
       }

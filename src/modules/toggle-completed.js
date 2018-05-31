@@ -1,4 +1,5 @@
 import { waitForLoad, constructButton } from '../utils/dom';
+import registerModule from '../utils/module';
 
 let hidden = false;
 let button;
@@ -40,11 +41,11 @@ function showUI() {
   button = constructButton(' Hide Completed: Off', 'gocp-toggle-completed', 'fa fa-check', hide);
   constructParent(button);
 }
-export default function toggleCompleted() {
+function toggleCompleted() {
   waitForLoad(() => (
     document.getElementsByClassName('pull-right assignment-calendar-button-bar')[0]
     && !document.getElementById('toggle-completed')
   ))
     .then(showUI);
 }
-
+export default registerModule('Toggle Completed Assignments', toggleCompleted);

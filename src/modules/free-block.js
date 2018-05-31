@@ -1,4 +1,5 @@
 import { waitForLoad, hasParentWithClassName } from '../utils/dom';
+import registerModule from '../utils/module';
 
 const DOM_QUERY = () => {
   return document.getElementById('accordionSchedules')
@@ -126,7 +127,9 @@ function addDayChangeListeners() {
   });
 }
 
-export default function freeBlock() {
+function freeBlock() {
   insertFreeBlock();
   addDayChangeListeners();
 }
+
+export default registerModule('Show Free Blocks in Schedule', freeBlock);

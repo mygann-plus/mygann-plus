@@ -1,4 +1,5 @@
 import { waitForLoad, registerListeners, getElementsByIds, getUnloadedElementsByIds } from '../utils/dom';
+import registerModule from '../utils/module';
 
 function simulateDropdownChange(elemIndex, index) {
   document.getElementsByClassName('btn btn-link assignment-status-update')[elemIndex]
@@ -62,7 +63,7 @@ function enableModule() {
     .then(replaceButtons);
 }
 
-export default function inlineChangeStatus() {
+function inlineChangeStatus() {
   enableModule();
   registerListeners(
     () => (
@@ -80,3 +81,6 @@ export default function inlineChangeStatus() {
     enableModule,
   );
 }
+
+export default registerModule('Inline Change Status', inlineChangeStatus);
+

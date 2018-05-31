@@ -1,6 +1,7 @@
 import { waitForLoad } from '../utils/dom';
+import registerModule from '../utils/module';
 
-export default function filterWebsiteMainSearch() {
+function filterWebsiteMainSearch() {
   waitForLoad(() => document.getElementsByClassName('bb-tile-title')[0])
     .then(() => {
       document.getElementsByClassName('bb-tile-title')[0].parentNode.children[1].style.height = '0px';
@@ -14,3 +15,6 @@ export default function filterWebsiteMainSearch() {
       // parent.removeChild(elem);
     });
 }
+
+export default registerModule('Filter Gann Website from Search', filterWebsiteMainSearch);
+

@@ -1,4 +1,5 @@
 import { nodeListToArray, waitForLoad } from '../utils/dom';
+import registerModule from '../utils/module';
 
 const TRANSITION_TIME = 500; // milliseconds for fade in/out animations
 const DISAPPEAR_TIME = 5000000; // milliseconds for fade out
@@ -166,8 +167,10 @@ function createFrame() {
   }
 }
 
-export default function messagePreview() {
+function messagePreview() {
   createFrame();
 }
+
+export default registerModule('Message Preview', messagePreview);
 
 // TODO: shift over to contentDocument

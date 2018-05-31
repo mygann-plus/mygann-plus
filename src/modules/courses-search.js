@@ -1,4 +1,5 @@
 import { waitForLoad, nodeListToArray, insertAfter } from '../utils/dom';
+import registerModule from '../utils/module';
 
 let courses;
 
@@ -49,7 +50,10 @@ function renderSearchBar() {
   document.getElementById('gocp_courses-search_searchbar').oninput = handleSearch;
 }
 
-export default function coursesSearch() {
+function coursesSearch() {
   waitForLoad(DOM_QUERY)
     .then(renderSearchBar);
 }
+
+export default registerModule('Courses Search', coursesSearch);
+

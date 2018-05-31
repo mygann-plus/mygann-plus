@@ -1,4 +1,5 @@
 import { waitForLoad } from '../utils/dom';
+import registerModule from '../utils/module';
 
 const MESSAGE = 'This may take a few moments or temporarily slow down the website. Please do not use OnCampus until the operation is complete. Continue?';
 
@@ -27,7 +28,7 @@ function handleButtonClick(e) {
   }
 }
 
-export default function archiveAll() {
+function archiveAll() {
 
   const BUTTON_TEXT = window.location.hash === '#message/inbox' ? 'Archive All' : 'Unarchive All';
   const ARCHIVING_TEXT = window.location.hash === '#message/inbox' ? 'Archiving' : 'Unarchiving';
@@ -53,3 +54,5 @@ export default function archiveAll() {
 
   });
 }
+
+export default registerModule('Archive All', archiveAll);

@@ -1,4 +1,5 @@
 import { waitForLoad, constructButton, nodeListToArray } from '../utils/dom';
+import registerModule from '../utils/module';
 
 function letterGradeFromNumber(num) {
   const number = Number(num.split('%')[0]);
@@ -57,7 +58,7 @@ const DOM_QUERY = () => (
   document.getElementsByClassName('bb-tile-content-section')[3].children[0]
 );
 
-export default function gradeSummary() {
+function gradeSummary() {
   // TODO: Options
   waitForLoad(DOM_QUERY).then(() => {
     const button = constructButton('Grade Summary', 'gocp_grade-summary_button', '', generateReport);
@@ -66,3 +67,5 @@ export default function gradeSummary() {
     wrap.children[0].children[0].appendChild(button);
   });
 }
+
+export default registerModule('Grade Summary', gradeSummary);
