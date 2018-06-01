@@ -6,7 +6,7 @@ import freeBlock from './modules/free-block';
 import gradeSummary from './modules/grade-summary';
 import archiveAll from './modules/archive-all';
 import improveGrades from './modules/improve-grades';
-import coursesSearch from './modules/courses-search';
+import coursesFilter from './modules/courses-filter';
 import nextGradedCourse from './modules/next-graded-course';
 import searchClassesMenu from './modules/search-classes-menu';
 import filterWebsiteMainSearch from './modules/filter-website-main-search';
@@ -22,7 +22,13 @@ const MODULE_MAP = {
   '#assignmentdetail': [autoCloseDetailStatus],
   '#studentmyday/assignment-center': [inlineChangeStatus, toggleCompleted],
   '#studentmyday/schedule': [highlightCurrentClass, freeBlock, classEndingTime],
-  '#studentmyday/progress': [gradeSummary, coursesSearch, improveGrades, nextGradedCourse],
+  '#studentmyday/progress': [
+    gradeSummary,
+    coursesFilter,
+    improveGrades,
+    nextGradedCourse,
+    gradeChart,
+  ],
   '#message': [archiveAll],
   '#searchresults/summary': [filterWebsiteMainSearch],
 };
