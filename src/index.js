@@ -4,9 +4,6 @@ import options from './options';
 
 async function loadModules() {
   let optsData = await storage.get('options');
-  if (window.location.hash.startsWith('#account')) {
-    options();
-  }
   for (let section in optsData) {
     if (window.location.hash.startsWith(section)) {
       for (let module in optsData[section]) {

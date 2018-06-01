@@ -14,11 +14,12 @@ import classEndingTime from './modules/class-ending-time';
 import messagePreview from './modules/message-preview';
 import beezratHashem from './modules/beezerat-hashem';
 import gradeChart from './modules/grade-chart';
+import options from './options';
 
 /* eslint-disable quote-props */
 
 const MODULE_MAP = {
-  '#': [searchClassesMenu, messagePreview], // universal modules
+  '#': [searchClassesMenu, messagePreview, options], // universal modules
   '#assignmentdetail': [autoCloseDetailStatus],
   '#studentmyday/assignment-center': [inlineChangeStatus, toggleCompleted],
   '#studentmyday/schedule': [highlightCurrentClass, freeBlock, classEndingTime],

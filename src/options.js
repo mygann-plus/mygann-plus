@@ -1,13 +1,14 @@
-import { waitForLoad, nodeListToArray } from './utils/dom';
+import { waitForLoad, nodeListToArray, insertAfter, insertCss } from './utils/dom';
 import storage from './utils/storage';
 import { MODULE_MAP, SECTION_MAP } from './module-map';
+import registerModule from './utils/module';
 
 const formatModuleName = name => {
   let n = name.split(/(?=[A-Z])/).join(' ');
   return n.charAt(0).toUpperCase() + n.substring(1);
 };
 
-function createOptionsSection(sectionTitle, modules, sectionHref, options) {
+function createOptionsSection(sectionTitle, modules, sectionHref, opts) {
   const sectionWrap = document.createElement('div');
   const title = document.createElement('div');
   const optionsWrap = document.createElement('div');
@@ -29,7 +30,7 @@ function createOptionsSection(sectionTitle, modules, sectionHref, options) {
     label.style.display = 'block';
     input.id = name;
     input.type = 'checkbox';
-    input.checked = options[name];
+    input.checked = opts[name];
     checkbox.className = 'bb-check-checkbox';
     caption.style.fontWeight = 'normal';
     caption.style.marginLeft = '10px';
@@ -92,13 +93,12 @@ function generateDialogHtml() {
     </div>
   `;
 }
+function generateBackdropHtml() {
+  return '<div class="modal-backdrop in" id="gocp_options_modal-backdrop></div>';
+}
 
 const closeModal = e => {
   e.preventDefault();
-  const modal = document.getElementById('gocp_options_modal');
-  if (modal) {
-    document.body.removeChild(modal);
-  }
   window.location.reload();
 };
 
@@ -107,19 +107,19 @@ const saveOptions = async e => {
 
   // generate options object
 
-  const options = {};
+  const opts = {};
   const sectionElems = nodeListToArray(document.getElementById('gocp_options_sections').children);
   for (let i = 0; i < sectionElems.length; i++) {
     const href = sectionElems[i].getAttribute('data-gocp-href');
     const moduleElems = sectionElems[i].children[1].children;
-    options[href] = {};
+    opts[href] = {};
     for (let j = 0; j < moduleElems.length; j++) {
       const module = moduleElems[j].getAttribute('data-gocp-module');
-      options[href][module] = moduleElems[j].children[0].checked;
+      opts[href][module] = moduleElems[j].children[0].checked;
     }
   }
 
-  await storage.set({ options });
+  await storage.set({ opts });
   alert('Options saved!'); // eslint-disable-line no-alert
   closeModal(e);
 
@@ -129,8 +129,8 @@ const loadOptions = async () => {
   for (let i in MODULE_MAP) {
     // created elem-by-elem because embedding HTML will cause event listeners not to work
     if ({}.hasOwnProperty.call(MODULE_MAP, i)) {
-      const options = await storage.get('options');
-      let section = createOptionsSection(SECTION_MAP[i], MODULE_MAP[i], i, options[i]);
+      const opts = await storage.get('options');
+      let section = createOptionsSection(SECTION_MAP[i], MODULE_MAP[i], i, opts[i]);
       document.getElementById('gocp_options_sections').appendChild(section);
     }
   }
@@ -138,6 +138,7 @@ const loadOptions = async () => {
 
 async function constructDialog() {
   document.body.innerHTML += generateDialogHtml();
+  document.body.innerHTML += generateBackdropHtml();
   loadOptions();
 
   document.getElementById('gocp_options_close').onclick = closeModal;
@@ -146,18 +147,43 @@ async function constructDialog() {
 }
 
 function appendNavLink() {
-  const sidebar = document.getElementById('settings-container');
-  const li = document.createElement('LI');
-  const a = document.createElement('A');
-  a.id = 'privacy-label';
-  a.href = window.location.href;
+  if (document.getElementById('gocp_options_navlink')) return;
+
+  const menu = document.getElementsByClassName('oneline parentitem last')[0].children[2].children[0];
+  const nativeSettingsLink = menu.children[2];
+
+  const li = document.createElement('li');
+  const a = document.createElement('a');
+  const desc = document.createElement('span');
+  const title = document.createElement('span');
+
+  li.id = 'gocp_options_navlink';
+  a.href = '#';
+  a.className = 'pri-75-bgc-hover black-fgc white-fgc-hover active';
   a.onclick = constructDialog;
-  a.innerText = 'Gann OnCampus+';
+  desc.className = 'desc';
+  title.className = 'title';
+  // TODO: "Gann OnCampus+" or "OnCampus+ Options" (if former, remove css)
+  title.innerText = 'OnCampus+ Options';
+
+  desc.appendChild(title);
+  a.appendChild(desc);
   li.appendChild(a);
-  sidebar.appendChild(li);
+  insertAfter(nativeSettingsLink, li);
+
+  insertCss(`
+    .site-header-nav div.subnav li a {
+      width: 147px;
+    }
+  `);
 }
 
-export default function() {
-  waitForLoad(() => document.getElementById('notification-label'))
+function options() {
+  waitForLoad(() => (
+    document.getElementsByClassName('oneline parentitem last')[0] &&
+    document.getElementsByClassName('oneline parentitem last')[0].getElementsByClassName('subnavtop').length
+  ))
     .then(appendNavLink);
 }
+
+export default registerModule('Options', options);
