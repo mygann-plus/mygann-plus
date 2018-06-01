@@ -1,7 +1,8 @@
-import { waitForLoad, nodeListToArray, insertAfter, insertCss } from './utils/dom';
-import storage from './utils/storage';
-import { MODULE_MAP, SECTION_MAP } from './module-map';
-import registerModule from './utils/module';
+import { waitForLoad, nodeListToArray, insertAfter, insertCss } from '../utils/dom';
+import storage from '../utils/storage';
+import registerModule from '../utils/module';
+
+import { MODULE_MAP, SECTION_MAP } from '../module-map';
 
 const formatModuleName = name => {
   let n = name.split(/(?=[A-Z])/).join(' ');
