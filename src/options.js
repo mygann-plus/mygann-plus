@@ -18,7 +18,9 @@ function createOptionsSection(sectionTitle, modules, sectionHref, opts) {
   title.innerText = sectionTitle;
   optionsWrap.style.padding = '2px 0';
 
-  modules.forEach(({ name }) => {
+  modules.forEach(({ name, options: moduleOpts }) => {
+    if (!moduleOpts.showInOptions) return;
+
     const label = document.createElement('label');
     const input = document.createElement('input');
     const checkbox = document.createElement('span');
@@ -41,7 +43,6 @@ function createOptionsSection(sectionTitle, modules, sectionHref, opts) {
     label.appendChild(caption);
 
     optionsWrap.appendChild(label);
-
   });
 
   sectionWrap.appendChild(title);
@@ -186,4 +187,6 @@ function options() {
     .then(appendNavLink);
 }
 
-export default registerModule('Options', options);
+export default registerModule('Options', options, {
+  showInOptions: false,
+});
