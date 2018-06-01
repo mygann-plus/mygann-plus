@@ -1,6 +1,5 @@
 import storage from './utils/storage';
 import { MODULE_MAP } from './module-map';
-import options from './options';
 
 async function loadModules() {
   let optsData = await storage.get('options');
