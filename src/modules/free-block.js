@@ -121,7 +121,7 @@ function insertFreeBlock() {
 
 function addDayChangeListeners() {
   document.body.addEventListener('click', e => {
-    if (hasParentWithClassName(e.target, ['chCal-button-next', 'chCal-button-prev'])) {
+    if (hasParentWithClassName(e.target, ['chCal-button-next', 'chCal-button-prev', 'chCal-button-today'])) {
       insertFreeBlock();
     }
   });
