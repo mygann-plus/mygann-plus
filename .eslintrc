@@ -38,6 +38,7 @@
     "no-plusplus": 0,
     "no-await-in-loop": 0,
     "no-restricted-syntax": 0,
-    "import/no-named-as-default-member": 0
+    "import/no-named-as-default-member": 0,
+    "guard-for-in": 0
   }
 }
