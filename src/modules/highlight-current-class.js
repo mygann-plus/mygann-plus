@@ -1,5 +1,6 @@
 import { waitForLoad, nodeListToArray, hasParentWithClassName } from '../utils/dom';
 import registerModule from '../utils/module';
+import { isCurrentDay } from '../shared/schedule';
 
 // TIME & DATE CHECKERS
 
@@ -39,15 +40,6 @@ function isBetween(start, end) {
 function isCurrentTime(timeString) {
   const times = timeString.split('-').map(s => s.trim().split()).map(l => l[0]);
   return isBetween(to24Hr(times[0]), to24Hr(times[1]));
-}
-function isCurrentDay() { // the current page on the schedule is set to the current day
-  const cur = document.getElementById('schedule-header')
-    .children[0].children[0].children[0].children[1].children[0].children[3]
-    .innerText.split(', ')[1];
-  const d = new Date().toDateString();
-  let month = d.split(' ')[1];
-  let day = d.split(' ')[2];
-  return cur.split(' ')[0].startsWith(month) && cur.split(' ')[1] === day;
 }
 function isCorrectFormat() { // is on day view, not month or week
   return !!document.getElementById('accordionSchedules');
