@@ -1,5 +1,6 @@
-import { waitForLoad, nodeListToArray, hasParentWithClassName } from '../utils/dom';
+import { waitForLoad, nodeListToArray } from '../utils/dom';
 import registerModule from '../utils/module';
+import { isCurrentDay, addDayChangeListeners } from '../shared/schedule';
 
 // TIME & DATE CHECKERS
 
@@ -40,15 +41,7 @@ function isCurrentTime(timeString) {
   const times = timeString.split('-').map(s => s.trim().split()).map(l => l[0]);
   return isBetween(to24Hr(times[0]), to24Hr(times[1]));
 }
-function isCurrentDay() { // the current page on the schedule is set to the current day
-  const cur = document.getElementById('schedule-header')
-    .children[0].children[0].children[0].children[1].children[0].children[3]
-    .innerText.split(', ')[1];
-  const d = new Date().toDateString();
-  let month = d.split(' ')[1];
-  let day = d.split(' ')[2];
-  return cur.split(' ')[0].startsWith(month) && cur.split(' ')[1] === day;
-}
+
 function isCorrectFormat() { // is on day view, not month or week
   return !!document.getElementById('accordionSchedules');
 }
@@ -106,17 +99,9 @@ function testForClass() {
 
 }
 
-function addDayChangeListeners() {
-  document.body.addEventListener('click', e => {
-    if (hasParentWithClassName(e.target, ['chCal-button-next', 'chCal-button-prev'])) {
-      testForClass();
-    }
-  });
-}
-
 function classEndingTime() {
   testForClass();
-  addDayChangeListeners();
+  addDayChangeListeners(testForClass);
 }
 
 export default registerModule('Class Ending Time', classEndingTime);
