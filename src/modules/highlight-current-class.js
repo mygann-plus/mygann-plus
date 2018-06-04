@@ -1,6 +1,6 @@
-import { waitForLoad, nodeListToArray, hasParentWithClassName } from '../utils/dom';
+import { waitForLoad, nodeListToArray } from '../utils/dom';
 import registerModule from '../utils/module';
-import { isCurrentDay } from '../shared/schedule';
+import { isCurrentDay, addDayChangeListeners } from '../shared/schedule';
 
 // TIME & DATE CHECKERS
 
@@ -75,17 +75,9 @@ function highlightClass() {
 
 }
 
-function addDayChangeListeners() {
-  document.body.addEventListener('click', e => {
-    if (hasParentWithClassName(e.target, ['chCal-button-next', 'chCal-button-prev', 'chCal-button-today', 'chCal-button-today'])) {
-      highlightClass();
-    }
-  });
-}
-
 function highlightCurrentClass() {
   highlightClass();
-  addDayChangeListeners();
+  addDayChangeListeners(highlightClass);
 }
 
 export default registerModule('Highlight Current Class in Schedule', highlightCurrentClass);

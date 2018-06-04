@@ -1,9 +1,9 @@
 import registerModule from '../utils/module';
 
 import { fetchApi } from '../utils/fetch';
-import { waitForLoad, hasParentWithClassName } from '../utils/dom';
+import { waitForLoad } from '../utils/dom';
 import { isLeapYear } from '../utils/date';
-import { isCurrentDay } from '../shared/schedule';
+import { isCurrentDay, addDayChangeListeners } from '../shared/schedule';
 
 function getTommorowDateString() {
   const dateObj = new Date();
@@ -74,20 +74,12 @@ function showComingUp() {
     });
 }
 
-function addDayChangeListeners() {
-  document.body.addEventListener('click', e => {
-    if (hasParentWithClassName(e.target, [
-      'chCal-button-next', 'chCal-button-prev', 'chCal-button-today',
-    ])) {
-      // there's a small delay between button click and date change in dom
-      setTimeout(showComingUp, 100);
-    }
-  });
-}
-
 function comingUp() {
   showComingUp();
-  addDayChangeListeners();
+  addDayChangeListeners(() => {
+    // there's a small delay between button click and date change in dom
+    setTimeout(showComingUp, 100);
+  });
 }
 
 export default registerModule('Coming Up', comingUp);

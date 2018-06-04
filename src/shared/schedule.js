@@ -1,3 +1,5 @@
+import { hasParentWithClassName } from '../utils/dom';
+
 /* eslint-disable import/prefer-default-export */
 
 function formatDay(dayString) {
@@ -13,4 +15,14 @@ export function isCurrentDay() {
   let month = d.split(' ')[1];
   let day = d.split(' ')[2];
   return cur.split(' ')[0].startsWith(month) && cur.split(' ')[1] === formatDay(day);
+}
+
+export function addDayChangeListeners(callback) {
+  document.body.addEventListener('click', e => {
+    if (hasParentWithClassName(e.target, [
+      'chCal-button-next', 'chCal-button-prev', 'chCal-button-today', 'chCal-button-today',
+    ])) {
+      callback();
+    }
+  });
 }

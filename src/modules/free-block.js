@@ -1,5 +1,7 @@
-import { waitForLoad, hasParentWithClassName } from '../utils/dom';
 import registerModule from '../utils/module';
+
+import { waitForLoad } from '../utils/dom';
+import { addDayChangeListeners } from '../shared/schedule';
 
 const DOM_QUERY = () => {
   return document.getElementById('accordionSchedules')
@@ -119,17 +121,9 @@ function insertFreeBlock() {
     });
 }
 
-function addDayChangeListeners() {
-  document.body.addEventListener('click', e => {
-    if (hasParentWithClassName(e.target, ['chCal-button-next', 'chCal-button-prev', 'chCal-button-today'])) {
-      insertFreeBlock();
-    }
-  });
-}
-
 function freeBlock() {
   insertFreeBlock();
-  addDayChangeListeners();
+  addDayChangeListeners(insertFreeBlock);
 }
 
 export default registerModule('Show Free Blocks in Schedule', freeBlock);
