@@ -55,12 +55,14 @@ function createAlertBox() {
   document.getElementsByClassName('col-md-12')[3].children[1].innerHTML += html;
 }
 
+const domQuery = (
+  document.getElementsByClassName('alert alert-info').length ||
+  (document.getElementsByClassName('pl-10')[0] &&
+  document.getElementsByClassName('pl-10')[0].innerText === 'There is nothing scheduled for this date.')
+);
+
 function showComingUp() {
-  waitForLoad(() => (
-    document.getElementsByClassName('alert alert-info').length ||
-    (document.getElementsByClassName('pl-10')[0] &&
-    document.getElementsByClassName('pl-10')[0].innerText === 'There is nothing scheduled for this date.')
-  ))
+  waitForLoad(domQuery)
     .then(async () => {
       if (isCurrentDay()) {
         const announcements = await fetchData();

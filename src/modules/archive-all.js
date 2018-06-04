@@ -1,22 +1,26 @@
 import { waitForLoad } from '../utils/dom';
 import registerModule from '../utils/module';
 
-const MESSAGE = 'This may take a few moments or temporarily slow down the website. Please do not use OnCampus until the operation is complete. Continue?';
+const MESSAGE = `
+  This may take a few moments or temporarily slow down the website. 
+  Please do not use OnCampus until the operation is complete. Continue?
+`;
 
 
 function archive() {
-  let buttons = document.getElementsByClassName('conv-tooltip conv-archive btn bb-btn-secondary btn-sm pull-right mt-5');
+  const buttonClassName = 'conv-tooltip conv-archive btn bb-btn-secondary btn-sm pull-right mt-5';
+  let buttons = document.getElementsByClassName(buttonClassName);
   document.getElementById('archivingMessage').style.display = 'inline-block';
   for (let i in buttons) {
     if (typeof buttons[i] === 'object') buttons[i].click();
   }
   setTimeout(() => {
-    let buttons = document.getElementsByClassName('conv-tooltip conv-archive btn bb-btn-secondary btn-sm pull-right mt-5');
+    buttons = document.getElementsByClassName(buttonClassName);
     if (buttons.length > 0) {
       archive();
     } else {
       document.getElementById('archivingMessage').style.display = 'none';
-      alert('Archive/Unarchive Completed! You may now resume using OnCampus');
+      alert('Archive/Unarchive Completed! You may now resume using OnCampus'); // eslint-disable-line no-alert, max-len
     }
   }, 5000);
 }

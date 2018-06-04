@@ -117,9 +117,6 @@ function generatePreviews(froms, frameDocument, repeat) {
 function containsSurvey(text) {
   const urls = ['https://www.surveymonkey.com/r/FZXPNGR'];
   const contains = text.indexOf('https://www.surveymonkey.com') > -1;
-  if (contains) {
-
-  }
 }
 
 function getMessages(contentWindow) {
