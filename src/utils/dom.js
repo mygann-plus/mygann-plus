@@ -71,6 +71,9 @@ export function hasParentWithClassName(element, classnames) {
 export function insertAfter(referenceNode, newNode) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
+export function insertBefore(referenceNode, newNode) {
+  referenceNode.parentNode.insertBefore(newNode, referenceNode);
+}
 
 export function insertCss(css) {
   const styleElem = document.createElement('style');
