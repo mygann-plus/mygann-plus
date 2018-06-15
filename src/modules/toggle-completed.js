@@ -16,6 +16,9 @@ function simulateUserHide() {
   table.children[0].children[4].children[0].children[0].click();
   table.children[0].children[5].children[0].children[0].click();
   document.getElementById('btn-filter-apply').click();
+}
+
+function toggleButtonText() {
   hidden = !hidden;
   button.childNodes[1].nodeValue = hidden ? ' Hide Completed: On' : ' Hide Completed: Off';
   button.style.color = hidden ? '#51856f' : 'black';
@@ -28,12 +31,14 @@ function main() {
   } catch (e) {
     setTimeout(simulateUserHide, 10);
   }
+  toggleButtonText();
 }
 function hide() {
   try {
     main();
   } catch (e) {
-    alert(`Error: ${e}`);
+    // TODO: better error handling - this is leftover from bookmarklet!
+    alert(`Error: ${e}`); // eslint-disable-line no-alert
     throw e; /* To inspect stack trace */
   }
 }
