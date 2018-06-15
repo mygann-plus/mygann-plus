@@ -18,8 +18,6 @@ export function waitForLoad(condition, optionalDocument) {
     observer.observe(document.body, {
       childList: true,
       subtree: true,
-      attributes: false,
-      characterData: false,
     });
   });
 
