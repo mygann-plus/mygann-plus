@@ -14,14 +14,15 @@ import nextGradedCourse from './modules/next-graded-course';
 import options from './modules/options';
 import searchClassesMenu from './modules/search-classes-menu';
 import toggleCompleted from './modules/toggle-completed';
+import customAssignments from './modules/custom-assignments';
 
 /* eslint-disable quote-props */
 
 const MODULE_MAP = {
   '#': [searchClassesMenu, messagePreview, options], // universal modules
   '#assignmentdetail': [autoCloseDetailStatus],
-  '#studentmyday/assignment-center': [inlineChangeStatus, toggleCompleted],
   '#studentmyday/schedule': [highlightCurrentClass, freeBlock, classEndingTime],
+  '#studentmyday/assignment-center': [inlineChangeStatus, toggleCompleted, customAssignments],
   '#studentmyday/progress': [
     gradeSummary,
     coursesFilter,

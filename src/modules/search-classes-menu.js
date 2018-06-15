@@ -39,6 +39,21 @@ function handleSearch(e) {
   }
 }
 
+function renderMobileSearchBar() {
+  const li = document.createElement('li');
+  const a = document.createElement('a');
+  a.className = 'mobile-group-page-link-1';
+  const input = document.createElement('input');
+  input.placeholder = 'Search';
+  input.style.background = '#880d2f';
+  input.style.color = 'white';
+  input.style.border = 'none';
+  input.style.outline = 'none';
+  input.style.fontSize = '1.2em';
+  a.appendChild(input);
+  li.appendChild(a);
+  return li;
+}
 
 function renderSearchBar() {
 
@@ -77,6 +92,19 @@ function searchClassesMenu() {
     document.body.addEventListener('keypress', goToMatch);
     document.getElementsByClassName('twoline parentitem')[0].addEventListener('mouseenter', () => {
       renderSearchBar();
+    });
+  });
+  // waitForLoad(() => document.getElementById('site-mobile-sitenav').children[0].children.length > 1).then(() => {
+  //   document.getElementById('site-mobile-sitenav').children[0].prepend(renderMobileSearchBar());
+  // });
+
+  waitForLoad(() => document.getElementById('mobile-group-header-Classes') && document.getElementsByClassName('app-mobile-level').length).then(() => {
+    console.log(document.getElementById('mobile-group-header-Classes').parentNode);
+    document.getElementById('mobile-group-header-Classes').parentNode.addEventListener('click', e => {
+      console.log(e.target);
+      console.log(document.getElementById('mobile-group-header-Classes').parentNode);
+      alert(1);
+      document.getElementsByClassName('app-mobile-level open')[0].children[2].prepend(renderMobileSearchBar());
     });
   });
 }
