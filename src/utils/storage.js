@@ -24,3 +24,12 @@ export default {
   },
 
 };
+
+export function reduceArray(data, id, reducer) {
+  return data.map(item => {
+    if (item.id === id) {
+      return reducer(item);
+    }
+    return item;
+  });
+}
