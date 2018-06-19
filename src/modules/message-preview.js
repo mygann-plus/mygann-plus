@@ -68,7 +68,6 @@ function generateMessagePreview(message, frameDocument) {
     e.preventDefault();
     const isOnMessagesInbox = window.location.hash === '#message/inbox';
     const documentObject = isOnMessagesInbox ? document : frameDocument;
-    // debugger; // eslint-disable-line
     documentObject
       .querySelector(`tr[data-messageid="${message.id}"]`)
       .querySelector('button[title="Archive"]')

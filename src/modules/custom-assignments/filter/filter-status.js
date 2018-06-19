@@ -30,7 +30,6 @@ export function addFilterStatusListener(renderFunction) {
 }
 
 export default function filterStatus(assignment) {
-  debugger; // eslint-disable-line no-debugger
   return !(hiddenStatuses.indexOf(assignment.status) > -1 ||
     (hidingCompleted === true && assignment.status === 'Completed'));
 }
