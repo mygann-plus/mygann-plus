@@ -40,7 +40,7 @@ async function addAssignment() {
 
 async function showButton() {
   const button = constructButton(
-    ' Add Private Assignment',
+    'Add Private Assignment',
     'add-assignment',
     'fa fa-plus',
     addAssignment,

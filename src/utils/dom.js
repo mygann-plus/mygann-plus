@@ -47,8 +47,10 @@ export function constructButton(innerText, id, iClassName, onclick) {
   elem.className = 'btn btn-sm btn-default';
   i.className = iClassName;
   elem.style = 'color:#000';
-  i.style = 'visibility: visible;';
-  elem.appendChild(i);
+  i.style = 'visibility: visible; margin-right: 5px';
+  if (iClassName) {
+    elem.appendChild(i);
+  }
   elem.appendChild(text);
   elem.addEventListener('click', onclick);
   return elem;

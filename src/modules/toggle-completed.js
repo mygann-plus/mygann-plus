@@ -43,7 +43,7 @@ function hide() {
   }
 }
 function showUI() {
-  button = constructButton(' Hide Completed: Off', 'gocp-toggle-completed', 'fa fa-check', hide);
+  button = constructButton('Hide Completed: Off', 'gocp-toggle-completed', 'fa fa-check', hide);
   constructParent(button);
 }
 function toggleCompleted() {

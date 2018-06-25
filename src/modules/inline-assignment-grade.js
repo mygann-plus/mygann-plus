@@ -36,7 +36,7 @@ function inlineAssignmentGrade() {
   waitForLoad(() => document.getElementById('gocp-toggle-completed'))
     .then(() => {
       const toggleCompletedBtn = document.getElementById('gocp-toggle-completed');
-      const showGradesBtn = constructButton(' Show Grades', 'gocp_inline-assignment-grade_button', 'fa fa-eye', showGrades);
+      const showGradesBtn = constructButton('Show Grades', 'gocp_inline-assignment-grade_button', 'fa fa-eye', showGrades);
       insertAfter(toggleCompletedBtn, showGradesBtn);
     });
 }
