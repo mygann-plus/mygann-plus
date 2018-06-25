@@ -35,4 +35,6 @@ function dayScheduleButton() {
   });
 }
 
-export default registerModule('Day Schedule Button', dayScheduleButton);
+export default registerModule('Day Schedule Button', dayScheduleButton, {
+  description: 'Button to return to day view',
+});
