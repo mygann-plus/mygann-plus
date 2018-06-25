@@ -38,13 +38,11 @@ function nextGradedCourse() {
     .then(() => {
 
       const gradeElemToObject = e => ({
-        grade: e.innerText.trim(),
+        grade: e.textContent.trim(),
         class: e.parentNode.parentNode.children[0].children[0].children[0].innerText,
         elem: e,
       });
-      document.getElementsByClassName('btn btn-default btn-sm bold')[0].click();
-      // TODO: tell if grades are already shown.
-      // Also for grade-summary
+
       const grades = nodeListToArray(document.getElementsByClassName('showGrade'))
         .map(gradeElemToObject);
 

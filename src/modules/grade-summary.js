@@ -27,7 +27,7 @@ function letterGradeFromNumber(num) {
 function generateReport() {
 
   const gradeElemToObject = e => ({
-    grade: e.innerText.trim(),
+    grade: e.textContent.trim(),
     class: e.parentNode.parentNode.children[0].children[0].children[0].innerText,
   });
   const formatGradeObject = e => {
@@ -37,15 +37,12 @@ function generateReport() {
   };
   const removeEmptyGrade = e => e.grade !== '--';
 
-  document.getElementsByClassName('btn btn-default btn-sm bold')[0].click();
-
   const gradesString = nodeListToArray(document.getElementsByClassName('showGrade'))
     .map(gradeElemToObject)
     .filter(removeEmptyGrade)
     .map(formatGradeObject)
     .join('\n');
 
-  document.getElementsByClassName('btn btn-default btn-sm bold')[1].click();
   alert(`Your grade summary:\n\n${gradesString}`); // eslint-disable-line no-alert
 
 }
@@ -58,13 +55,17 @@ const DOM_QUERY = () => (
   document.getElementsByClassName('bb-tile-content-section')[3].children[0]
 );
 
+const getCoursesBar = () => (
+  document.getElementById('courses')
+    .children[0].children[0].children[1].children[0].children[0].children[0]
+);
+
 function gradeSummary() {
   // TODO: Options
   waitForLoad(DOM_QUERY).then(() => {
     const button = constructButton('Grade Summary', 'gocp_grade-summary_button', '', generateReport);
     button.className += ' pull-right';
-    const wrap = document.getElementById('courses').children[0].children[0].children[1].children[0];
-    wrap.children[0].children[0].appendChild(button);
+    getCoursesBar().appendChild(button);
   });
 }
 
