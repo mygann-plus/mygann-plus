@@ -78,3 +78,16 @@ export function insertCss(css) {
   styleElem.innerText = css;
   document.head.appendChild(styleElem);
 }
+
+export function createElementFromHTML(htmlString) {
+  const div = document.createElement('div');
+  div.innerHTML = htmlString.trim();
+  return div.firstChild;
+}
+
+export function addEventListeners(nodes, event, callback) {
+  if (!(nodes instanceof Array)) {
+    nodes = nodeListToArray(nodes);
+  }
+  nodes.forEach(node => node.addEventListener(event, callback));
+}

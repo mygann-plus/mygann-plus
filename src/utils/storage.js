@@ -1,7 +1,6 @@
 // Promise-based wrappers for chrome storage API
 
-export default {
-
+const storage = {
   get: function get(property, doSync = true) {
     return new Promise(resolve => {
       const handleGet = value => resolve(value[property]);
@@ -22,8 +21,9 @@ export default {
       }
     });
   },
-
 };
+
+export default storage;
 
 export function reduceArray(data, id, reducer) {
   return data.map(item => {
@@ -32,4 +32,28 @@ export function reduceArray(data, id, reducer) {
     }
     return item;
   });
+}
+
+export async function deleteItem(key, id) {
+  const array = await storage.get(key);
+  if (typeof id !== 'number') {
+    console.warn(`ID should be a number, not a ${typeof id}`); // eslint-disable-line no-console
+  }
+  const newArray = array.filter(assignment => (
+    assignment.id !== id
+  ));
+  storage.set({ [key]: newArray });
+}
+
+export async function changeItem(key, id, reducer) {
+  const array = await storage.get(key);
+  if (typeof id !== 'string') {
+    console.warn(`ID should be a string, not a ${typeof id}`); // eslint-disable-line no-console
+  }
+  const newArray = reduceArray(array, id, reducer);
+  storage.set({ [key]: newArray });
+}
+
+export function generateID() {
+  return String(Math.floor(Math.random() * 1000000));
 }
