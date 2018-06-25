@@ -1,10 +1,15 @@
 import storage from '../../utils/storage';
 import registerModule from '../../utils/module';
-import { waitForLoad, constructButton, removeElement } from '../../utils/dom';
+import {
+  waitForLoad,
+  constructButton,
+  removeElement,
+} from '../../utils/dom';
 
 import addListeners from './listeners';
 import renderAssignment from './render-assignments';
 import renderAssignmentCreateBar from './create-bar';
+import showWarnings from './warnings';
 
 function removeNoAssignmentsLabel() {
   const noAssignmentText = 'There are no assignments to display.';
@@ -62,6 +67,9 @@ const domQuery = {
   listeners: () => (
     document.getElementsByClassName('hidden-lg text-center bb-section-heading').length
   ),
+  warnings: () => (
+    document.getElementById('ical-menu')
+  ),
 };
 
 function customAssignment() {
@@ -69,6 +77,7 @@ function customAssignment() {
   waitForLoad(domQuery.button).then(showButton);
   waitForLoad(domQuery.list).then(renderSavedAssignments);
   waitForLoad(domQuery.listeners).then(() => addListeners(renderSavedAssignments));
+  waitForLoad(domQuery.warnings).then(showWarnings);
 }
 
 export default registerModule('Custom Assignments', customAssignment);
