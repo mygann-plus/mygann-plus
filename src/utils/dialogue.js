@@ -6,16 +6,20 @@ const noop = () => {};
 
 export default class Dialog {
 
-  constructor(title, innerElem, onSave = noop, onClose = noop) {
+  constructor(title, innerElem, opts = {}) {
+
     const defaultOpts = {
+      onSave: noop,
+      onClose: noop,
       buttons: [Dialog.buttons.SAVE, Dialog.buttons.CANCEL],
     };
     opts = Object.assign(defaultOpts, opts);
+
     this.id = Math.floor(Math.random() * 1000000); // random 5-digit number
     this.title = title;
     this.innerElem = innerElem;
-    this.onSave = onSave;
-    this.onClose = onClose;
+    this.onSave = opts.onSave;
+    this.onClose = opts.onClose;
     this.buttons = opts.buttons;
 
     this._generateOuterElem();

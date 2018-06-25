@@ -195,7 +195,9 @@ function handleAdd(event) {
     }
   };
 
-  const addDialog = new Dialog('Add Favorite', createDialogBody(), handleSave);
+  const addDialog = new Dialog('Add Favorite', createDialogBody(), {
+    onSave: handleSave,
+  });
   addDialog.open();
 
 }
@@ -217,7 +219,9 @@ function handleEdit(event) {
     }
   };
 
-  const dialog = new Dialog('Edit Favorite', createDialogBody(oldFavorite), handleSave);
+  const dialog = new Dialog('Edit Favorite', createDialogBody(oldFavorite), {
+    onSave: handleSave,
+  });
   dialog.open();
 
 }
