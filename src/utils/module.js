@@ -2,6 +2,7 @@ export default function registerModule(name, fn, options = {}) {
 
   const defaultOptions = {
     showInOptions: true, // used for enabler modules
+    description: '',
   };
 
   if (!name.trim()) {

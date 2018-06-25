@@ -26,6 +26,7 @@ function createOptionsSection(sectionTitle, modules, sectionHref, opts) {
     const input = document.createElement('input');
     const checkbox = document.createElement('span');
     const caption = document.createElement('span');
+    const description = document.createElement('span');
 
     label.className = 'bb-check-wrapper';
     label.setAttribute('for', name);
@@ -38,7 +39,11 @@ function createOptionsSection(sectionTitle, modules, sectionHref, opts) {
     caption.style.fontWeight = 'normal';
     caption.style.marginLeft = '10px';
     caption.innerText = formatModuleName(name);
+    description.style.paddingLeft = '4px';
+    description.style.color = '#9d9d9d';
+    description.innerText = moduleOpts.description && `- ${moduleOpts.description}`;
 
+    caption.appendChild(description);
     label.appendChild(input);
     label.appendChild(checkbox);
     label.appendChild(caption);
