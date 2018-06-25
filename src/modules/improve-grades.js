@@ -125,4 +125,6 @@ function improveGrades() {
   }, 1000000000);
 }
 
-export default registerModule('Improve Grades', improveGrades);
+export default registerModule('Improve Grades', improveGrades, {
+  showInOptions: false,
+});
