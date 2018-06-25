@@ -14,15 +14,18 @@ import nextGradedCourse from './modules/next-graded-course';
 import options from './modules/options';
 import searchClassesMenu from './modules/search-classes-menu';
 import toggleCompleted from './modules/toggle-completed';
+import comingUp from './modules/coming-up';
 import customAssignments from './modules/custom-assignments';
+import dayScheduleButton from './modules/day-schedule-button';
+import favorites from './modules/favorites';
 
 /* eslint-disable quote-props */
 
 const MODULE_MAP = {
-  '#': [searchClassesMenu, messagePreview, options], // universal modules
+  '#': [searchClassesMenu, messagePreview, options, favorites], // universal modules
   '#assignmentdetail': [autoCloseDetailStatus],
-  '#studentmyday/schedule': [highlightCurrentClass, freeBlock, classEndingTime],
   '#studentmyday/assignment-center': [inlineChangeStatus, toggleCompleted, customAssignments],
+  '#studentmyday/schedule': [highlightCurrentClass, freeBlock, classEndingTime, comingUp],
   '#studentmyday/progress': [
     gradeSummary,
     coursesFilter,
@@ -32,6 +35,7 @@ const MODULE_MAP = {
   ],
   '#message': [archiveAll],
   '#searchresults/summary': [filterWebsiteMainSearch],
+  '#myschedule': [dayScheduleButton],
 };
 
 const SECTION_MAP = {
@@ -42,6 +46,7 @@ const SECTION_MAP = {
   '#studentmyday/progress': 'Progress',
   '#message': 'Messages',
   '#searchresults/summary': 'Search Results Summary',
+  '#myschedule': 'Month & Week Schedule',
 };
 
 /* eslint-enable quote-props */
