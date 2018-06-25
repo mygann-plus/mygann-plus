@@ -67,8 +67,8 @@ function renderStatusWrap(statusText) {
 
 export default function renderAssignment(assignment) {
 
-  if (!filterAssignment(assignment)) return;
-  if (document.querySelector(`tr[data-gocp_custom-assignments_assignment_id="${assignment.id}"]`)) return;
+  if (!filterAssignment(assignment)) return false;
+  if (document.querySelector(`tr[data-gocp_custom-assignments_assignment_id="${assignment.id}"]`)) return false;
 
   const sortFn = getSortFnFromTable();
 
@@ -152,5 +152,8 @@ export default function renderAssignment(assignment) {
       return document.getElementById('assignment-center-assignment-items').appendChild(wrap);
     }
   }
+
+  // tell main renderSavedAssignment that this assignment did render
+  return true;
 
 }

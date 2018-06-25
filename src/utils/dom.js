@@ -91,3 +91,7 @@ export function addEventListeners(nodes, event, callback) {
   }
   nodes.forEach(node => node.addEventListener(event, callback));
 }
+
+export function removeElement(element) {
+  element.parentNode.removeChild(element);
+}
