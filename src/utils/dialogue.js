@@ -1,17 +1,22 @@
 import { createElementFromHTML } from './dom';
 
-// TODO: custom buttons
+// TODO: more configurable buttons
 
 const noop = () => {};
 
 export default class Dialog {
 
   constructor(title, innerElem, onSave = noop, onClose = noop) {
+    const defaultOpts = {
+      buttons: [Dialog.buttons.SAVE, Dialog.buttons.CANCEL],
+    };
+    opts = Object.assign(defaultOpts, opts);
     this.id = Math.floor(Math.random() * 1000000); // random 5-digit number
     this.title = title;
     this.innerElem = innerElem;
     this.onSave = onSave;
     this.onClose = onClose;
+    this.buttons = opts.buttons;
 
     this._generateOuterElem();
   }
@@ -45,8 +50,7 @@ export default class Dialog {
               </div>
               <div class="modal-body"></div>
               <div class="modal-footer">
-                <a href="#" class="btn btn-default btn-primary" id="gocp_dialog_save">Save</a>
-                <a href="#" class="btn btn-default" id="gocp_dialog_cancel">Cancel</a>
+                ${this.buttons.join('')}
               </div>
             </div>
           </div>
@@ -63,18 +67,31 @@ export default class Dialog {
   }
 
   _addListeners() {
+
+    const { buttons } = Dialog;
+
     document.getElementById('gocp_dialog_close').addEventListener('click', () => this.close());
-    document.getElementById('gocp_dialog_cancel').addEventListener('click', e => {
-      e.preventDefault();
-      this.close();
-    });
-    document.getElementById('gocp_dialog_save').addEventListener('click', e => {
-      e.preventDefault();
-      if (this.onSave() !== false) {
+    if (this.buttons.includes(buttons.CANCEL) || this.buttons.includes(buttons.OKAY)) {
+      document.getElementById('gocp_dialog_cancel').addEventListener('click', e => {
+        e.preventDefault();
         this.close();
-      }
-    });
-    return this;
+      });
+    }
+    if (this.buttons.includes(buttons.SAVE)) {
+      document.getElementById('gocp_dialog_save').addEventListener('click', e => {
+        e.preventDefault();
+        if (this.onSave() !== false) {
+          this.close();
+        }
+      });
+    }
   }
 
 }
+
+Dialog.buttons = {
+  SAVE: '<a href="#" class="btn btn-default btn-primary" id="gocp_dialog_save">Save</a>',
+  CANCEL: '<a href="#" class="btn btn-default" id="gocp_dialog_cancel">Cancel</a>',
+  OKAY: '<a href="#" class="btn btn-default btn-primary" id="gocp_dialog_cancel">Okay</a>',
+};
+
