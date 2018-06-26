@@ -1,5 +1,6 @@
-import { waitForLoad, constructButton, nodeListToArray } from '../utils/dom';
 import registerModule from '../utils/module';
+import { waitForLoad, constructButton, nodeListToArray, createElementFromHTML } from '../utils/dom';
+import Dialog from '../utils/dialogue';
 
 function letterGradeFromNumber(num) {
   const number = Number(num.split('%')[0]);
@@ -41,9 +42,14 @@ function generateReport() {
     .map(gradeElemToObject)
     .filter(removeEmptyGrade)
     .map(formatGradeObject)
-    .join('\n');
+    .join('<br />');
 
-  alert(`Your grade summary:\n\n${gradesString}`); // eslint-disable-line no-alert
+  const dialogElem = createElementFromHTML(`<span>${gradesString}</span>`);
+
+  const dialog = new Dialog('Grade Summary', dialogElem, {
+    buttons: [Dialog.buttons.OKAY],
+  });
+  dialog.open();
 
 }
 
