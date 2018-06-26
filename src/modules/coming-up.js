@@ -3,6 +3,7 @@ import registerModule from '../utils/module';
 import { fetchApi } from '../utils/fetch';
 import { waitForLoad } from '../utils/dom';
 import { isLeapYear } from '../utils/date';
+import { getUserId } from '../utils/user';
 import { isCurrentDay, addDayChangeListeners } from '../shared/schedule';
 
 function getTommorowDateString() {
@@ -36,7 +37,7 @@ function getTommorowDateString() {
 
 function fetchData() {
 
-  const id = document.getElementById('profile-link').href.split('profile/')[1].split('/')[0];
+  const id = getUserId();
 
   const query = `mydayDate=${getTommorowDateString()}&viewerId=${id}&viewerPersonaId=2`;
   const endpoint = `/api/schedule/ScheduleCurrentDayAnnouncmentParentStudent/?${query}`;
