@@ -18,13 +18,19 @@ import comingUp from './modules/coming-up';
 import customAssignments from './modules/custom-assignments';
 import dayScheduleButton from './modules/day-schedule-button';
 import favorites from './modules/favorites';
+import inlineAssignmentGrade from './modules/inline-assignment-grade';
 
 /* eslint-disable quote-props */
 
 const MODULE_MAP = {
   '#': [searchClassesMenu, messagePreview, options, favorites], // universal modules
   '#assignmentdetail': [autoCloseDetailStatus],
-  '#studentmyday/assignment-center': [inlineChangeStatus, toggleCompleted, customAssignments],
+  '#studentmyday/assignment-center': [
+    inlineChangeStatus,
+    toggleCompleted,
+    customAssignments,
+    inlineAssignmentGrade,
+  ],
   '#studentmyday/schedule': [highlightCurrentClass, freeBlock, classEndingTime, comingUp],
   '#studentmyday/progress': [
     gradeSummary,
