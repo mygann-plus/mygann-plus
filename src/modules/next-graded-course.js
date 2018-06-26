@@ -1,5 +1,11 @@
-import { waitForLoad, nodeListToArray, insertAfter } from '../utils/dom';
 import registerModule from '../utils/module';
+import {
+  waitForLoad,
+  nodeListToArray,
+  insertAfter,
+  insertBefore,
+  createElementFromHTML,
+} from '../utils/dom';
 
 const DOM_QUERY = () => (
   document.getElementById('coursesContainer') &&
@@ -10,27 +16,34 @@ const DOM_QUERY = () => (
   document.getElementsByClassName('btn btn-default btn-sm bold')[0]
 );
 
-function selectGrade(elem) {
+function selectCourse({ elem }) {
   elem.parentNode.getElementsByClassName('btn btn-default')[0].click();
 }
 
-function generateButton(grades, grade, direction, directionWord, dataAnalysis) {
-  let nextCourseElem;
-  const btn = document.createElement('button');
-  btn.innerText = `${directionWord} Graded Course`;
-  btn.className = 'btn btn-default';
-  for (let i = grades.indexOf(grade) + direction; i < grades.length; i += direction) {
-    if (grades[i] && grades[i].grade !== '--' && !nextCourseElem) {
-      nextCourseElem = grades[i].elem;
-    }
+function generateButton(followingCourse, icon) {
+  const btnHtml = `
+    <button class="btn btn-default">
+      <i style="color: ##4d4d4d;" class="fa fa-fast-${icon}"></i>
+    </button>
+  `;
+  const button = createElementFromHTML(btnHtml);
+  if (!followingCourse) {
+    button.classList.add('disabled');
+  } else {
+    // "following" refers both to next and previous
+    button.addEventListener('click', () => selectCourse(followingCourse));
   }
-  if (!nextCourseElem) {
-    btn.className += ' disabled';
-  }
-  btn.addEventListener('click', () => {
-    selectGrade(nextCourseElem);
-  });
-  return btn;
+  return button;
+}
+
+function getNextCourse(courses, course) {
+  return courses
+    .slice(courses.indexOf(course) + 1, course.length)
+    .find(c => c.grade !== '--');
+}
+function getPreviousCourse(courses, course) {
+  const reversedCourses = courses.slice().reverse();
+  return getNextCourse(reversedCourses, course);
 }
 
 function nextGradedCourse() {
@@ -43,21 +56,20 @@ function nextGradedCourse() {
         elem: e,
       });
 
-      const grades = nodeListToArray(document.getElementsByClassName('showGrade'))
+      const courses = nodeListToArray(document.getElementsByClassName('showGrade'))
         .map(gradeElemToObject);
 
-      grades.forEach(grade => {
-        grade.elem.parentNode.getElementsByClassName('btn btn-default')[0].addEventListener('click', () => {
+      courses.forEach(course => {
+        course.elem.parentNode.getElementsByClassName('btn btn-default')[0].addEventListener('click', () => {
           waitForLoad(() => document.querySelectorAll('button[data-analysis="next"]').length)
             .then(() => {
-              const next = generateButton(grades, grade, 1, 'Next', 'next');
-              // const prev = generateButton(grades, grade, -1, 'Previous', 'prev');
+              const nextGradedButton = generateButton(getNextCourse(courses, course), 'forward');
+              const prevGradedButton = generateButton(getPreviousCourse(courses, course), 'backward');
 
-              insertAfter(
-                document.querySelectorAll('button[data-analysis="next"]')[0],
-                next,
-              );
-              // document.querySelectorAll('button[data-analysis="prev"]')[0].insertBefore(prev);
+              const nextButton = document.querySelectorAll('button[data-analysis="next"]')[0];
+              const prevButton = document.querySelectorAll('button[data-analysis="prev"]')[0];
+              insertAfter(nextButton, nextGradedButton);
+              insertBefore(prevButton, prevGradedButton);
             });
         });
       });
