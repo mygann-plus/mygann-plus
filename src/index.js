@@ -7,7 +7,7 @@ async function loadModules() {
     if (window.location.hash.startsWith(section)) {
       for (let module in optsData[section]) {
         if (optsData[section][module]) {
-          const moduleFunc = MODULE_MAP[section].filter(s => s.name === module)[0];
+          const moduleFunc = MODULE_MAP[section].find(s => s.name === module);
           if (moduleFunc) {
             moduleFunc.fn();
           }
@@ -15,7 +15,6 @@ async function loadModules() {
       }
     }
   }
-
 }
 
 async function initializeOptions() {

@@ -53,7 +53,7 @@ async function editFavorite(id, newFavorite) {
 }
 
 function getFavorite(id) {
-  return favoritesData.filter(f => f.id === id)[0];
+  return favoritesData.find(f => f.id === id);
 }
 
 function favoriteToLink(favorite) {
