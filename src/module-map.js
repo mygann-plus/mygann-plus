@@ -19,11 +19,13 @@ import customAssignments from './modules/custom-assignments';
 import dayScheduleButton from './modules/day-schedule-button';
 import favorites from './modules/favorites';
 import inlineAssignmentGrade from './modules/inline-assignment-grade';
+import oneClickLogin from './modules/one-click-login';
 
 /* eslint-disable quote-props */
 
 const MODULE_MAP = {
   '#': [searchClassesMenu, messagePreview, options, favorites], // universal modules
+  '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus],
   '#studentmyday/assignment-center': [
     inlineChangeStatus,
@@ -46,6 +48,7 @@ const MODULE_MAP = {
 
 const SECTION_MAP = {
   '#': 'Entire Site',
+  '#login': 'Login',
   '#assignmentdetail': 'Assignment Detail',
   '#studentmyday/assignment-center': 'Assignment Center',
   '#studentmyday/schedule': 'Schedule',
