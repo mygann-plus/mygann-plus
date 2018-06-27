@@ -84,6 +84,7 @@ function createOptionsSection(sectionTitle, modules, sectionHref, opts) {
     label.className = 'bb-check-wrapper';
     label.setAttribute('for', name);
     label.style.display = 'inline-block';
+    label.style.maxWidth = '95%';
     label.style.margin = '0';
     input.id = name;
     input.type = 'checkbox';
@@ -98,6 +99,7 @@ function createOptionsSection(sectionTitle, modules, sectionHref, opts) {
     expandLink.style.color = 'black';
     expandLink.style.float = 'right';
     expandLink.style.cursor = 'pointer';
+    expandLink.style.maxWidth = '5%';
     expandLink.addEventListener('click', () => toggleSuboptions(extraOptions));
     chevron.className = 'fa fa-chevron-down';
     chevron.style.fontSize = '17px';
