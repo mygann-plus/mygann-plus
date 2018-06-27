@@ -3,6 +3,7 @@ import storage from '../utils/storage';
 import registerModule from '../utils/module';
 
 import { MODULE_MAP, SECTION_MAP } from '../module-map';
+import Dialog from '../utils/dialogue';
 
 const identifiers = {
   extraOptions: 'gocp_options_extra-options',
@@ -59,6 +60,7 @@ function createOptionsSection(sectionTitle, modules, sectionHref, opts) {
   const optionsWrap = document.createElement('div');
 
   sectionWrap.setAttribute('data-gocp-href', sectionHref);
+  sectionWrap.style.marginTop = '10px';
   title.className = 'bb-section-heading';
   title.innerText = sectionTitle;
   optionsWrap.style.padding = '2px 0';
@@ -136,62 +138,22 @@ function createOptionsSection(sectionTitle, modules, sectionHref, opts) {
 
 function generateDialogHtml() {
   return `
-    <div class="modal bb-modal in" id="gocp_options_modal" style="display: block;" tabindex="-1">
+    <div>
       <div>
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <a class="close fa fa-times" id="gocp_options_close"></a>
-              <h1 class="bb-dialog-header">Gann Academy OnCampus+ Options</h1>
-            </div>
-            <div class="modal-body" style="padding: 0px; overflow-x: hidden; max-height: 532px;">
-              <div>
-                  <div style="padding:25px;">
-                    Enable and Disable Modules
-                    <div id="gocp_options_sections"></div>
-                  </div>
-                  <div style="font-size:12px;padding-left:25px;padding-bottom:20px">
-                    Special thanks to Shai Mann-Robsison and Micah Shire-Plumb for beta testing and ideas.
-                  </div>
-                  <div 
-                    class="pull-right" 
-                    style="padding-right: 22px; padding-bottom: 13px;"
-                  >
-                    <a href="#" class="btn btn-link" id="gocp_options_cancel">
-                      Cancel
-                    </a>
-                    <a 
-                    href="#"
-                    class="btn btn-default btn-primary"
-                    style="margin-left: 20px;"
-                    id="gocp_options_save"
-                  >
-                      Save
-                    </a>
-                  </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div id="gocp_options_sections"></div>
+      </div>
+      <div style="font-size:13px; margin-top: 10px;">
+        Special thanks to Shai Mann-Robsison and Micah Shire-Plumb for beta testing and ideas.
       </div>
     </div>
   `;
 }
-function generateBackdropHtml() {
-  return '<div class="modal-backdrop in" id="gocp_options_modal-backdrop></div>';
-}
-
-const closeModal = e => {
-  e.preventDefault();
-  window.location.reload();
-};
 
 function getSuboptionValue(label) {
   return label.children[0].value;
 }
 
-const saveOptions = async e => {
-  e.preventDefault();
+const saveOptions = async () => {
 
   // generate options object
   const opts = {};
@@ -218,8 +180,6 @@ const saveOptions = async e => {
   }
 
   await storage.set({ options: opts });
-  alert('Options saved!'); // eslint-disable-line no-alert
-  closeModal(e);
 
 };
 
@@ -235,13 +195,13 @@ const loadOptions = async () => {
 };
 
 async function constructDialog() {
-  document.body.innerHTML += generateDialogHtml();
-  document.body.innerHTML += generateBackdropHtml();
+
+  const dialog = new Dialog('Gann OnCampus+ Options', createElementFromHTML(generateDialogHtml()), {
+    onSave: saveOptions,
+  });
+  dialog.open();
   loadOptions();
 
-  document.getElementById('gocp_options_close').onclick = closeModal;
-  document.getElementById('gocp_options_cancel').onclick = closeModal;
-  document.getElementById('gocp_options_save').onclick = saveOptions;
 }
 
 function appendNavLink() {
@@ -258,10 +218,12 @@ function appendNavLink() {
   li.id = 'gocp_options_navlink';
   a.href = '#';
   a.className = 'pri-75-bgc-hover black-fgc white-fgc-hover active';
-  a.onclick = constructDialog;
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    constructDialog();
+  });
   desc.className = 'desc';
   title.className = 'title';
-  // TODO: "Gann OnCampus+" or "OnCampus+ Options" (if former, remove css)
   title.innerText = 'OnCampus+ Options';
 
   desc.appendChild(title);
@@ -281,6 +243,7 @@ function appendMobileNavLink() {
   `;
   const mobileNav = createElementFromHTML(mobileNavLinkHtml);
   mobileNav.children[0].addEventListener('click', e => {
+    e.preventDefault();
     document.getElementById('app').click(); // hide menu by clicking out
     constructDialog();
   });

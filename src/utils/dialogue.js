@@ -1,6 +1,7 @@
 import { createElementFromHTML } from './dom';
 
 // TODO: more configurable buttons
+// TODO: optional backdrop
 
 const noop = () => {};
 
@@ -20,6 +21,7 @@ export default class Dialog {
     this.innerElem = innerElem;
     this.onSave = opts.onSave;
     this.onClose = opts.onClose;
+
     this.buttons = opts.buttons;
 
     this._generateOuterElem();
@@ -52,7 +54,7 @@ export default class Dialog {
                 <a class="close" id="gocp_dialog_close">×</a>
                 <h1 class="bb-dialog-header">${this.title}</h1>
               </div>
-              <div class="modal-body"></div>
+              <div class="modal-body" style="max-height: 465px; overflow-y: auto"></div>
               <div class="modal-footer">
                 ${this.buttons.join('')}
               </div>
