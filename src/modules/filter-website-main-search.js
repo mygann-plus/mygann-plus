@@ -1,10 +1,16 @@
-import { waitForLoad } from '../utils/dom';
+import { waitForLoad, removeElement } from '../utils/dom';
 import registerModule from '../utils/module';
 
-function filterWebsiteMainSearch() {
-  waitForLoad(() => document.getElementsByClassName('bb-tile-title')[0])
-    .then(() => {
-      document.getElementsByClassName('bb-tile-title')[0].parentNode.children[1].style.height = '0px';
+async function filterWebsiteMainSearch(options) {
+  await waitForLoad(() => document.getElementsByClassName('bb-tile-title')[0]);
+
+  const elem = document.getElementsByClassName('bb-tile-title')[0].parentNode;
+  const parent = document.getElementById('search_summary_results');
+
+  switch (options.hidingType) {
+    case 'Collapse':
+    default:
+      elem.children[1].style.height = '0px';
       document.getElementsByClassName('bb-tile-title')[0].click();
       // TODO: make these three methods different options
       // move to bottom:
