@@ -1,4 +1,4 @@
-import { waitForLoad, nodeListToArray, insertAfter, insertCss } from '../utils/dom';
+import { waitForLoad, nodeListToArray, insertAfter, insertCss, createElementFromHTML } from '../utils/dom';
 import storage from '../utils/storage';
 import registerModule from '../utils/module';
 
@@ -269,6 +269,26 @@ function appendNavLink() {
   li.appendChild(a);
   insertAfter(nativeSettingsLink, li);
 
+}
+
+function appendMobileNavLink() {
+  if (document.getElementById('gocp_options_mobilenavlink')) return;
+
+  const mobileNavLinkHtml = `
+    <li>
+      <a href="#" id="gocp_options_mobilenavlink">OnCampus+ Options</a>
+    </li>
+  `;
+  const mobileNav = createElementFromHTML(mobileNavLinkHtml);
+  mobileNav.children[0].addEventListener('click', e => {
+    document.getElementById('app').click(); // hide menu by clicking out
+    constructDialog();
+  });
+  const nativeSettingsLink = document.getElementById('mobile-settings-link');
+  insertAfter(nativeSettingsLink, mobileNav);
+}
+
+function insertStyles() {
   insertCss(`
     .site-header-nav div.subnav li a {
       width: 147px;
@@ -283,11 +303,21 @@ function appendNavLink() {
 }
 
 function options() {
+
   waitForLoad(() => (
     document.getElementsByClassName('oneline parentitem last')[0] &&
     document.getElementsByClassName('oneline parentitem last')[0].getElementsByClassName('subnavtop').length
-  ))
-    .then(appendNavLink);
+  )).then(appendNavLink);
+  waitForLoad(() => document.getElementById('mobile-account-nav')).then(() => {
+    document.getElementById('mobile-account-nav').addEventListener('click', () => {
+      waitForLoad(() => (
+        document.getElementsByClassName('app-mobile-level').length &&
+        document.getElementById('mobile-settings-link')
+      ))
+        .then(appendMobileNavLink);
+    });
+  });
+  insertStyles();
 }
 
 export default registerModule('Options', options, {
