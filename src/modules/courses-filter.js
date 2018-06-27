@@ -90,6 +90,7 @@ function renderFilterBar() {
   input.style.width = '234px';
   input.style.height = '29.6px';
   input.style.display = 'inline';
+  input.autocomplete = 'off';
   input.placeholder = 'Search Courses';
   input.oninput = runFilter;
 
