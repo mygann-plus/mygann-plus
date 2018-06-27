@@ -12,15 +12,25 @@ async function filterWebsiteMainSearch(options) {
     default:
       elem.children[1].style.height = '0px';
       document.getElementsByClassName('bb-tile-title')[0].click();
-      // TODO: make these three methods different options
-      // move to bottom:
-      // const elem = document.getElementsByClassName('bb-tile-title')[0].parentNode;
-      // const parent = document.getElementById('search_summary_results');
-      // parent.appendChild(elem);
-      // remove:
-      // parent.removeChild(elem);
-    });
+      break;
+    case 'Move To Bottom':
+      parent.appendChild(elem);
+      break;
+    case 'Remove':
+      removeElement(elem);
+  }
+
 }
 
-export default registerModule('Filter Gann Website from Search', filterWebsiteMainSearch);
+export default registerModule('Filter Website from Search', filterWebsiteMainSearch, {
+  description: 'Hide results from the Gann Website in OnCampus searches',
+  options: {
+    hidingType: {
+      name: 'Hiding Type',
+      type: 'enum',
+      defaultValue: 'Collapse',
+      enumValues: ['Collapse', 'Move To Bottom', 'Remove'],
+    },
+  },
+});
 
