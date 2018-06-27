@@ -6,10 +6,11 @@ async function loadModules() {
   for (let section in optsData) {
     if (window.location.hash.startsWith(section)) {
       for (let module in optsData[section]) {
-        if (optsData[section][module]) {
+        if (optsData[section][module].enabled) {
           const moduleFunc = MODULE_MAP[section].find(s => s.name === module);
           if (moduleFunc) {
-            moduleFunc.fn();
+            // invoke module function with options data
+            moduleFunc.fn(optsData[section][module].options);
           }
         }
       }
@@ -26,8 +27,27 @@ async function initializeOptions() {
       }
       for (let j in MODULE_MAP[i]) {
         if ({}.hasOwnProperty.call(MODULE_MAP[i], j)) {
-          const { name } = MODULE_MAP[i][j];
-          if (optsObj[i][name] === undefined) optsObj[i][name] = true;
+          const { name: moduleName } = MODULE_MAP[i][j];
+
+          if (optsObj[i][moduleName] === undefined) {
+            optsObj[i][moduleName] = {
+              enabled: true,
+              options: {},
+            };
+          } else if (optsObj[i][moduleName].options === undefined) {
+            optsObj[i][moduleName].options = {};
+          }
+
+          for (let subopt in MODULE_MAP[i][j].config.options) {
+            if ({}.hasOwnProperty.call(MODULE_MAP[i][j].config.options, subopt)) {
+              // option doesn't exist
+              if (!optsObj[i][moduleName].options[subopt]) {
+                const { defaultValue } = MODULE_MAP[i][j].config.options[subopt];
+                optsObj[i][moduleName].options[subopt] = defaultValue;
+              }
+            }
+          }
+
         }
       }
     }

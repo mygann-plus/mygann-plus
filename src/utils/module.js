@@ -1,8 +1,15 @@
-export default function registerModule(name, fn, options = {}) {
+/**
+ *
+ * @param {string} name Module name to be displayed in options
+ * @param {function} fn Main function to be run
+ * @param {object} config Extra configuration object
+ */
+export default function registerModule(name, fn, config = {}) {
 
-  const defaultOptions = {
+  const defaultConfig = {
     showInOptions: true, // used for enabler modules
     description: '',
+    options: [],
   };
 
   if (!name.trim()) {
@@ -12,5 +19,5 @@ export default function registerModule(name, fn, options = {}) {
     throw new Error('Module must be registered with function');
   }
 
-  return { name, fn, options: Object.assign(defaultOptions, options) };
+  return { name, fn, config: Object.assign(defaultConfig, config) };
 }
