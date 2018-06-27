@@ -55,10 +55,12 @@ async function initializeOptions() {
   await storage.set({ options: optsObj });
 }
 
-window.onhashchange = loadModules;
+async function runExtension() {
+  // TODO: only call initializeOptions on install and update
+  // (plus dev feature to force initialization)
+  await initializeOptions();
+  loadModules();
+  window.onhashchange = loadModules;
+}
 
-loadModules();
-
-// TODO: only call initializeOptions on install and update
-// (plus dev feature to force initialization)
-initializeOptions();
+runExtension();
