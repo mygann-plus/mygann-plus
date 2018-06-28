@@ -1,4 +1,4 @@
-import { waitForLoad, registerListeners, getElementsByIds, getUnloadedElementsByIds } from '../utils/dom';
+import { waitForLoad, registerListeners, getElementsByIds } from '../utils/dom';
 import registerModule from '../utils/module';
 
 function simulateDropdownChange(elemIndex, index) {

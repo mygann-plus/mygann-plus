@@ -1,6 +1,12 @@
-import { waitForLoad, nodeListToArray, insertAfter, insertCss, createElementFromHTML } from '../utils/dom';
-import storage from '../utils/storage';
 import registerModule from '../utils/module';
+import storage from '../utils/storage';
+import {
+  waitForLoad,
+  nodeListToArray,
+  insertAfter,
+  insertCss,
+  createElementFromHTML,
+} from '../utils/dom';
 
 import { MODULE_MAP, SECTION_MAP } from '../module-map';
 import Dialog from '../utils/dialogue';
@@ -14,6 +20,7 @@ const formatModuleName = name => {
   let n = name.split(/(?=[A-Z])/).join(' ');
   return n.charAt(0).toUpperCase() + n.substring(1);
 };
+const formatDescription = desc => desc.replace(/\n/g, ' ');
 
 function toggleSuboptions(suboptions) {
   const isOpen = suboptions.classList.contains('open');
@@ -97,7 +104,7 @@ function createOptionsSection(sectionTitle, modules, sectionHref, opts) {
     caption.innerText = formatModuleName(name);
     description.style.paddingLeft = '4px';
     description.style.color = '#9d9d9d';
-    description.innerText = config.description && `- ${config.description}`;
+    description.innerText = config.description && `- ${formatDescription(config.description)}`;
     expandLink.style.color = 'black';
     expandLink.style.float = 'right';
     expandLink.style.cursor = 'pointer';
@@ -208,7 +215,7 @@ async function constructDialog() {
 function appendNavLink() {
   if (document.getElementById('gocp_options_navlink')) return;
 
-  const menu = document.getElementsByClassName('oneline parentitem last')[0].children[2].children[0];
+  const menu = document.getElementsByClassName('oneline parentitem last')[0].children[2].firstChild;
   const nativeSettingsLink = menu.children[2];
 
   const li = document.createElement('li');
@@ -266,13 +273,19 @@ function insertStyles() {
   `);
 }
 
-function options() {
-
-  waitForLoad(() => (
+const domQuery = {
+  header: () => (
     document.getElementsByClassName('oneline parentitem last')[0] &&
-    document.getElementsByClassName('oneline parentitem last')[0].getElementsByClassName('subnavtop').length
-  )).then(appendNavLink);
-  waitForLoad(() => document.getElementById('mobile-account-nav')).then(() => {
+    document.getElementsByClassName('oneline parentitem last')[0]
+      .getElementsByClassName('subnavtop').length
+  ),
+  mobileMenu: () => document.getElementById('mobile-account-nav'),
+};
+
+function options() {
+  waitForLoad(domQuery.header).then(appendNavLink);
+
+  waitForLoad(domQuery.mobileMenu).then(() => {
     document.getElementById('mobile-account-nav').addEventListener('click', () => {
       waitForLoad(() => (
         document.getElementsByClassName('app-mobile-level').length &&

@@ -69,7 +69,12 @@ const getCoursesBar = () => (
 function gradeSummary() {
   // TODO: Options
   waitForLoad(DOM_QUERY).then(() => {
-    const button = constructButton('Grade Summary', 'gocp_grade-summary_button', '', generateReport);
+    const button = constructButton(
+      'Grade Summary',
+      'gocp_grade-summary_button',
+      '',
+      generateReport,
+    );
     button.className += ' pull-right';
     getCoursesBar().appendChild(button);
   });

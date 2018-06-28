@@ -60,18 +60,22 @@ function nextGradedCourse() {
         .map(gradeElemToObject);
 
       courses.forEach(course => {
-        course.elem.parentNode.getElementsByClassName('btn btn-default')[0].addEventListener('click', () => {
-          waitForLoad(() => document.querySelectorAll('button[data-analysis="next"]').length)
-            .then(() => {
-              const nextGradedButton = generateButton(getNextCourse(courses, course), 'forward');
-              const prevGradedButton = generateButton(getPreviousCourse(courses, course), 'backward');
+        course.elem.parentNode
+          .getElementsByClassName('btn btn-default')[0]
+          .addEventListener('click', () => {
+            waitForLoad(() => document.querySelectorAll('button[data-analysis="next"]').length)
+              .then(() => {
+                const nextCourses = getNextCourse(courses, course);
+                const prevCourses = getPreviousCourse(courses, course);
+                const nextGradedButton = generateButton(nextCourses, 'forward');
+                const prevGradedButton = generateButton(prevCourses, 'backward');
 
-              const nextButton = document.querySelectorAll('button[data-analysis="next"]')[0];
-              const prevButton = document.querySelectorAll('button[data-analysis="prev"]')[0];
-              insertAfter(nextButton, nextGradedButton);
-              insertBefore(prevButton, prevGradedButton);
-            });
-        });
+                const nextButton = document.querySelectorAll('button[data-analysis="next"]')[0];
+                const prevButton = document.querySelectorAll('button[data-analysis="prev"]')[0];
+                insertAfter(nextButton, nextGradedButton);
+                insertBefore(prevButton, prevGradedButton);
+              });
+          });
       });
 
     });

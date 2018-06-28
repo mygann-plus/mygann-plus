@@ -59,7 +59,7 @@ function createAlertBox() {
 const domQuery = () => (
   document.getElementsByClassName('alert alert-info').length ||
   (document.getElementsByClassName('pl-10')[0] &&
-  document.getElementsByClassName('pl-10')[0].innerText === 'There is nothing scheduled for this date.')
+  document.getElementsByClassName('pl-10')[0].innerText === 'There is nothing scheduled for this date.') // eslint-disable-line max-len
 );
 
 function showComingUp() {

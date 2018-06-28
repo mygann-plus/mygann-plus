@@ -5,10 +5,17 @@ import storage, { reduceArray } from '../../utils/storage';
 // TODO: fix bug with date pickers
 // TODO: RSS and temp. grid layout warnings
 
+const identifiers = {
+  classesMenu: 'subnav sec-75-bordercolor white-bgc subnav-multicol',
+  assignmentCenterItems: 'assignment-center-assignment-items',
+  createBar: 'gocp_custom_assignments_bar',
+  idAttribute: 'data-gocp_custom-assignments_assignment_id',
+};
+
 function getClassesList() {
   // todo: work with >2 collumns, mobile layout
   // TODO: deal with crashing issue (fail gracefully?)
-  const menu = document.getElementsByClassName('subnav sec-75-bordercolor white-bgc subnav-multicol')[0];
+  const menu = document.getElementsByClassName(identifiers.classesMenu)[0];
   const getTextFromCol = e => e.children[0].children[0].children[0].innerText;
   const firstCol = nodeListToArray(menu.children[0].children)
     .filter(e => e.tagName !== 'input') // input created by search-classes-menu
@@ -24,24 +31,23 @@ function parseHTML(html) {
 }
 
 function insertBar(html, assignment) {
-  const idAttribute = 'data-gocp_custom-assignments_assignment_id';
   if (assignment.id !== null) {
-    const assignmentElems = document.getElementById('assignment-center-assignment-items').children;
+    const assignmentElems = document.getElementById(identifiers.assignmentCenterItems).children;
     for (let i = 0; i < assignmentElems.length; i++) {
       const elem = assignmentElems[i];
-      if (parseInt(elem.getAttribute(idAttribute), 10) === assignment.id) {
+      if (parseInt(elem.getAttribute(identifiers.idAttribute), 10) === assignment.id) {
         insertAfter(elem, parseHTML(html));
         return elem.parentNode.removeChild(elem);
       }
     }
   } else {
-    document.getElementById('assignment-center-assignment-items').innerHTML += html;
+    document.getElementById(identifiers.assignmentCenterItems).innerHTML += html;
   }
 }
 
 export default function renderAssignmentCreateBar(assignment, renderAssignmentFunction, opts = {}) {
 
-  if (document.getElementById('oes_custom_assignment_bar')) return;
+  if (document.getElementById(identifiers.createBar)) return;
   if (!assignment) {
     assignment = {
       details: '',
@@ -57,7 +63,7 @@ export default function renderAssignmentCreateBar(assignment, renderAssignmentFu
   /* eslint-disable max-len */
 
   const html = `
-    <tr id="oes_custom_assignment_bar" style="background: ${opts.background || 'lightgreen'};">
+    <tr id="${identifiers.createBar}" style="background: ${opts.background || 'lightgreen'};">
       <td data-heading="Class">
         <input 
           type="text" 
@@ -108,7 +114,7 @@ export default function renderAssignmentCreateBar(assignment, renderAssignmentFu
 
   document.getElementById('oes_custom_assignment_cancel').onclick = e => {
     e.preventDefault();
-    const bar = document.getElementById('oes_custom_assignment_bar');
+    const bar = document.getElementById(identifiers.createBar);
     bar.parentNode.removeChild(bar);
     if (assignment.id !== null) {
       // show assignment if editing
@@ -156,7 +162,7 @@ export default function renderAssignmentCreateBar(assignment, renderAssignmentFu
     });
     renderAssignmentFunction(newAssignment);
 
-    const bar = document.getElementById('oes_custom_assignment_bar');
+    const bar = document.getElementById(identifiers.createBar);
     bar.parentNode.removeChild(bar);
 
 

@@ -13,7 +13,7 @@ function stopRapid() {
   }
 }
 
-function generateReport(e, increaseBy) {
+function generateReport(event, increaseBy) {
 
   document.querySelector('label[data-action="showGrade"]').click();
   nodeListToArray(document.getElementsByClassName('showGrade')).forEach(e => {
