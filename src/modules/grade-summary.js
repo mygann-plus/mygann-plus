@@ -42,7 +42,7 @@ function generateReport() {
     .map(gradeElemToObject)
     .filter(removeEmptyGrade)
     .map(formatGradeObject)
-    .join('<br />');
+    .join('<br />') || 'No graded courses yet.';
 
   const dialogElem = createElementFromHTML(`<span>${gradesString}</span>`);
 
