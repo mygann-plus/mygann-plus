@@ -32,12 +32,23 @@ async function showGrades() {
   });
 }
 
+function resizeToolbars() {
+  const datebar = document.getElementsByClassName('col-md-4')[1];
+  const buttonbar = document.getElementsByClassName('col-md-8')[0];
+  datebar.classList.remove('col-md-4');
+  datebar.classList.add('col-md-3');
+  buttonbar.classList.remove('col-md-8');
+  buttonbar.classList.add('col-md-9');
+
+}
+
 function inlineAssignmentGrade() {
   waitForLoad(() => document.getElementById('gocp-toggle-completed'))
     .then(() => {
       const toggleCompletedBtn = document.getElementById('gocp-toggle-completed');
       const showGradesBtn = constructButton('Show Grades', 'gocp_inline-assignment-grade_button', 'fa fa-eye', showGrades);
       insertAfter(toggleCompletedBtn, showGradesBtn);
+      resizeToolbars();
     });
 }
 
