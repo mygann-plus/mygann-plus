@@ -1,7 +1,6 @@
-import { createElementFromHTML } from './dom';
+import { createElementFromHTML, removeElement } from './dom';
 
 // TODO: more configurable buttons
-// TODO: optional backdrop
 
 const noop = () => {};
 
@@ -13,6 +12,7 @@ export default class Dialog {
       onSave: noop,
       onClose: noop,
       buttons: [Dialog.buttons.SAVE, Dialog.buttons.CANCEL],
+      backdrop: false,
     };
     opts = Object.assign(defaultOpts, opts);
 
@@ -21,6 +21,7 @@ export default class Dialog {
     this.innerElem = innerElem;
     this.onSave = opts.onSave;
     this.onClose = opts.onClose;
+    this.showBackdrop = opts.backdrop;
 
     this.buttons = opts.buttons;
 
@@ -29,12 +30,19 @@ export default class Dialog {
 
   open() {
     document.body.appendChild(this.outerElem);
+    if (this.showBackdrop) {
+      document.body.appendChild(this.backdropElem);
+    }
     this._insertInnerElement();
     this._addListeners();
   }
   close() {
     const dialog = document.querySelector(`div[data-gocp_dialog_id="${this.id}"]`);
-    dialog.parentNode.removeChild(dialog);
+    if (this.showBackdrop) {
+      const backdrop = document.querySelector(`div[data-gocp_dialog_backdrop-id="${this.id}"]`);
+      removeElement(backdrop);
+    }
+    removeElement(dialog);
     this.onClose();
   }
 
@@ -63,7 +71,15 @@ export default class Dialog {
         </div>
       </div>
     `;
+    const backdrop = `
+      <div 
+        class="modal-backdrop in" 
+        id="gocp_dialog_backdrop" 
+        data-gocp_dialog_backdrop-id="${this.id}"
+      ></div>
+    `;
     this.outerElem = createElementFromHTML(html);
+    this.backdropElem = createElementFromHTML(backdrop);
   }
 
   _insertInnerElement() {

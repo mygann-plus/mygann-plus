@@ -198,6 +198,7 @@ async function constructDialog() {
 
   const dialog = new Dialog('Gann OnCampus+ Options', createElementFromHTML(generateDialogHtml()), {
     onSave: saveOptions,
+    backdrop: true,
   });
   dialog.open();
   loadOptions();
