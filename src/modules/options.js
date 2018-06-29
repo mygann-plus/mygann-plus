@@ -31,10 +31,16 @@ function toggleSuboptions(suboptions) {
 function createSuboption(key, value, option) {
   const label = document.createElement('label');
   let input;
+
   switch (option.type) {
     case 'string':
       input = document.createElement('input');
-      input.value = value;
+      break;
+    case 'number':
+      input = document.createElement('input');
+      input.type = 'number';
+      input.min = option.min;
+      input.step = option.step;
       break;
     case 'enum':
       input = document.createElement('select');
@@ -44,12 +50,12 @@ function createSuboption(key, value, option) {
         optionElem.innerText = val;
         input.appendChild(optionElem);
       });
-      input.value = value;
       break;
     default:
       input = document.createElement('input');
   }
 
+  input.value = value;
   input.style.marginLeft = '7px';
   input.style.display = 'inline-block';
 
@@ -191,10 +197,10 @@ const saveOptions = async () => {
 };
 
 const loadOptions = async () => {
+  const opts = await storage.get('options');
   for (let i in MODULE_MAP) {
     // created elem-by-elem because embedding HTML will cause event listeners not to work
     if ({}.hasOwnProperty.call(MODULE_MAP, i)) {
-      const opts = await storage.get('options');
       let section = createOptionsSection(SECTION_MAP[i], MODULE_MAP[i], i, opts[i]);
       document.getElementById('gocp_options_sections').appendChild(section);
     }
