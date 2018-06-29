@@ -4,7 +4,6 @@ import { insertCss, createElementFromHTML, removeElement } from '../utils/dom';
 
 const TRANSITION_TIME = 500; // milliseconds for fade in/out animations
 const DISAPPEAR_TIME = 50000; // milliseconds for fade out
-const MAX_MESSAGES = 3; // amount of messages to show at a time
 
 const identifiers = {
   messagesWrap: 'gocp_message-preview_wrap',
@@ -149,10 +148,23 @@ function getMessages() {
     });
 }
 
-async function messagePreview() {
+async function messagePreview(options) {
   insertCss(messageStyles);
-  const messages = (await getMessages()).slice(0, MAX_MESSAGES);
   generatePreviews(messages);
+  const messages = (await getMessages()).slice(0, options.maxMessages);
 }
 
 export default registerModule('Message Preview', messagePreview);
+export default registerModule('Message Preview', messagePreview, {
+  options: {
+    maxMessages: {
+      type: 'number',
+      name: 'Maximum Messages to Preview',
+      defaultValue: 3,
+      min: 0,
+      validator: val => (
+        val >= 0 && Math.floor(val) === val
+      ),
+    },
+  },
+});
