@@ -23,7 +23,7 @@
       {
         "code": 100
       }, {
-        "ignoreTemplateLiterals": true,
+        "ignoreTemplateLiterals": true
       }
     ],
     "semi": 1,
