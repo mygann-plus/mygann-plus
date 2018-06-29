@@ -3,7 +3,6 @@ import { fetchApi } from '../utils/fetch';
 import { insertCss, createElementFromHTML, removeElement } from '../utils/dom';
 
 const TRANSITION_TIME = 500; // milliseconds for fade in/out animations
-const DISAPPEAR_TIME = 50000; // milliseconds for fade out
 
 const identifiers = {
   messagesWrap: 'gocp_message-preview_wrap',
@@ -37,7 +36,7 @@ const messageStyles = `
 const formatBodyText = text => text.replace(/\n/g, ' ').replace(/\s\s/g, ' ');
 const isOnMessagesInbox = () => window.location.hash === '#message/inbox';
 
-function generateMessagePreview(message) {
+function generateMessagePreview(message, disappearTime) {
 
   // CREATE ELEMENTS
 
@@ -107,12 +106,12 @@ function generateMessagePreview(message) {
   });
 
   fadeIn();
-  setTimeout(fadeOut, DISAPPEAR_TIME);
+  setTimeout(fadeOut, disappearTime * 1000);
 
   document.getElementById(identifiers.messagesWrap).appendChild(messageElem);
 }
 
-function generatePreviews(messages) {
+function generatePreviews(messages, disappearTime) {
 
   // don't re-show preview on hash change
   const existingWrap = document.getElementById(identifiers.messagesWrap);
@@ -129,7 +128,7 @@ function generatePreviews(messages) {
 
   document.body.appendChild(wrapElem);
 
-  messages.forEach(m => generateMessagePreview(m, generatePreviews));
+  messages.forEach(m => generateMessagePreview(m, disappearTime));
 }
 
 function getMessages() {
@@ -150,11 +149,10 @@ function getMessages() {
 
 async function messagePreview(options) {
   insertCss(messageStyles);
-  generatePreviews(messages);
   const messages = (await getMessages()).slice(0, options.maxMessages);
+  generatePreviews(messages, options.disappearTime);
 }
 
-export default registerModule('Message Preview', messagePreview);
 export default registerModule('Message Preview', messagePreview, {
   options: {
     maxMessages: {
@@ -164,6 +162,15 @@ export default registerModule('Message Preview', messagePreview, {
       min: 0,
       validator: val => (
         val >= 0 && Math.floor(val) === val
+      ),
+    },
+    disappearTime: {
+      type: 'number',
+      name: 'Disappear Time (seconds)',
+      defaultValue: 5,
+      min: 0,
+      validator: val => (
+        val >= 0
       ),
     },
   },
