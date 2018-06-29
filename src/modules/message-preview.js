@@ -1,108 +1,128 @@
-import { nodeListToArray, waitForLoad } from '../utils/dom';
 import registerModule from '../utils/module';
+import { fetchApi } from '../utils/fetch';
+import { insertCss, createElementFromHTML, removeElement } from '../utils/dom';
 
 const TRANSITION_TIME = 500; // milliseconds for fade in/out animations
-const DISAPPEAR_TIME = 5000000; // milliseconds for fade out
+const DISAPPEAR_TIME = 50000; // milliseconds for fade out
+const MAX_MESSAGES = 3; // amount of messages to show at a time
 
-function findUrls(text) {
-  let source = (text || '').toString();
-  let urlArray = [];
-  let url;
-  let matchArray;
+const identifiers = {
+  messagesWrap: 'gocp_message-preview_wrap',
+  messageMain: 'gocp_message-preview_message-main',
+  archive: 'gocp_message-preview_message-archive',
+};
 
-  // Regular expression to find FTP, HTTP(S) and email URLs.
-  let regexToken = /(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,&\/\/=]+)|((mailto:)?[_.\w-]+@([\w][\w\-]+\.)+[a-zA-Z]{2,3})/g;
-
-  // Iterate through any URLs in the text.
-  while ((matchArray = regexToken.exec(source)) !== null) {
-    let token = matchArray[0];
-    urlArray.push(token);
+const messageStyles = `
+  .${identifiers.messageMain} {
+    background: #52abf9;
+    padding: 20px;
+    padding-right: 90px;
+    border-radius: 4px;
+    box-shadow: 0px 3px 5px #c1bbbb;
+    margin-bottom: 10px;
+    color: white;
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity ${TRANSITION_TIME}ms;
   }
+  .${identifiers.archive} {
+    color: white;
+    right: 21px;
+    bottom: 28px;
+    position: absolute;
+    font-size: 20px;
+    cursor: pointer;
+  }
+`;
 
-  return urlArray;
-}
+const formatBodyText = text => text.replace(/\n/g, ' ').replace(/\s\s/g, ' ');
+const isOnMessagesInbox = () => window.location.hash === '#message/inbox';
 
+function generateMessagePreview(message) {
 
-function generateMessagePreview(message, frameDocument) {
+  // CREATE ELEMENTS
 
-  const wrap = document.getElementById('gocp_message-preview_wrap');
+  const messageHtml = `
+    <a href="https://gannacademy.myschoolapp.com/app/student#message/conversation/${message.id}">
+      <div class="${identifiers.messageMain}">
+        <b class="gocp_message_preview_message-from">${message.from}: </b>
+        <span class="gocp_message-preview_message-body">
+          ${formatBodyText(message.body)}
+          </span>
+        <i class="fa fa-archive ${identifiers.archive}"></i>
+      </div>
+    </a>
+  `;
 
-  const a = document.createElement('a');
-  const div = document.createElement('div');
-  const b = document.createElement('b');
-  const body = document.createElement('span');
-  const archive = document.createElement('a');
+  const messageElem = createElementFromHTML(messageHtml);
+  const main = messageElem.children[0];
+  const archive = main.children[2];
 
-  archive.className = 'fa fa-archive';
-  a.href = `https://gannacademy.myschoolapp.com/app/student#message/conversation/${message.id}`;
+  // METHODS
 
-  div.style.background = '#52abf9';
-  div.style.padding = '20px';
-  div.style.paddingRight = '90px';
-  div.style.borderRadius = '4px';
-  div.style.boxShadow = '0px 3px 5px #c1bbbb';
-  div.style.marginBottom = '10px';
-  div.style.color = 'white';
-  div.style.textDecoration = 'none';
-  div.style.opacity = '0';
-  div.style.transition = `opacity ${TRANSITION_TIME}ms`;
-  archive.style.color = 'white';
-  archive.style.right = '21px';
-  archive.style.position = 'absolute';
-  archive.style.fontSize = '20px';
-
-  b.innerText = message.from;
-  const bodyText = message.body.replace(/\n/g, ' ').replace(/\s\s/g, ' ');
-  body.innerText = `: ${bodyText}`;
-
-  function removeNode() {
-    div.style.opacity = '0';
+  function removeMessage() {
+    messageElem.children[0].style.opacity = '0';
     setTimeout(() => {
-      if (a.parentNode) {
-        a.parentNode.removeChild(a);
+      if (messageElem.parentNode) {
+        removeElement(messageElem);
       }
-      // generatePreviews(froms, frameDocument, true);
     }, TRANSITION_TIME);
   }
-  function archiveMessage(e) {
-    e.preventDefault();
-    const isOnMessagesInbox = window.location.hash === '#message/inbox';
-    const documentObject = isOnMessagesInbox ? document : frameDocument;
-    documentObject
-      .querySelector(`tr[data-messageid="${message.id}"]`)
-      .querySelector('button[title="Archive"]')
-      .click();
-    removeNode();
-    e.stopPropagation();
-  }
-  function fadeOut() {
-    if (document.querySelectorAll('#gocp_message-preview_wrap:hover').length === 0) {
-      removeNode();
+
+  function archiveMessage() {
+    if (isOnMessagesInbox()) {
+      document
+        .querySelector(`tr[data-messageid="${message.id}"]`)
+        .querySelector('button[title="Archive"]')
+        .click();
     } else {
-      document.querySelector('#gocp_message-preview_wrap').addEventListener('mouseleave', removeNode);
+      fetchApi(`/api/message/conversationarchive/${message.id}?format=json`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          id: message.id,
+          unarchive: false,
+        }),
+      });
     }
   }
 
-  div.addEventListener('click', removeNode);
-  archive.addEventListener('click', archiveMessage);
+  function fadeOut() {
+    if (document.querySelectorAll(`#${identifiers.messagesWrap}:hover`).length === 0) {
+      removeMessage();
+    } else {
+      document.getElementById(identifiers.messagesWrap).addEventListener('mouseleave', removeMessage);
+    }
+  }
+  function fadeIn() {
+    main.style.opacity = '1';
+  }
 
-  setTimeout(() => {
-    div.style.opacity = '1';
-  }, 10);
+  // EVENT LISTENERS & TRANSITIONS
+
+  main.addEventListener('click', removeMessage);
+  archive.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    archiveMessage();
+    removeMessage();
+  });
+
+  fadeIn();
   setTimeout(fadeOut, DISAPPEAR_TIME);
 
-  div.appendChild(b);
-  div.appendChild(body);
-  div.appendChild(archive);
-  a.appendChild(div);
-  wrap.appendChild(a);
+  document.getElementById(identifiers.messagesWrap).appendChild(messageElem);
 }
 
-function generatePreviews(froms, frameDocument, repeat) {
-  if (document.getElementById('gocp_message-preview_wrap') && !repeat) return;
+function generatePreviews(messages) {
+
+  // don't re-show preview on hash change
+  const existingWrap = document.getElementById(identifiers.messagesWrap);
+  if (existingWrap) {
+    return;
+  }
 
   const wrapElem = document.createElement('div');
-  wrapElem.id = 'gocp_message-preview_wrap';
+  wrapElem.id = identifiers.messagesWrap;
   wrapElem.style.position = 'fixed';
   wrapElem.style.right = '60px';
   wrapElem.style.bottom = '50px';
@@ -110,63 +130,29 @@ function generatePreviews(froms, frameDocument, repeat) {
 
   document.body.appendChild(wrapElem);
 
-  froms.forEach(m => generateMessagePreview(m, frameDocument));
+  messages.forEach(m => generateMessagePreview(m, generatePreviews));
 }
 
-function containsSurvey(text) {
-  const urls = ['https://www.surveymonkey.com/r/FZXPNGR'];
-  const contains = text.indexOf('https://www.surveymonkey.com') > -1;
-}
-
-function getMessages(contentWindow) {
-  const listElem = contentWindow.document.body.getElementsByClassName('table message-list m-0')[0];
-  const list = nodeListToArray(listElem.children[0].children);
-  return list
-    .filter(e => e.className.indexOf('alert') > -1) // FILTER READ
-    .map(elem => {
-      const from = elem.children[1].children[1].children[0].innerText.split(',')[0];
-      const bodyText = elem.children[1].children[2].innerText.trim();
-      const body = bodyText.length > 50 - from.length ?
-        `${bodyText.substring(0, 50 - from.length)}...`
-        : bodyText;
-      console.log(bodyText.indexOf('http'));
-      const id = elem.getAttribute('data-messageid');
-
-      return {
-        from, body, id, elem,
-      };
-
+function getMessages() {
+  return fetchApi('/api/message/inbox/?format=json')
+    .then(data => {
+      return data
+        .map(conversation => {
+          return conversation.Messages.filter(message => !message.ReadInd)[0];
+        })
+        .filter(Boolean)
+        .map(conversation => ({
+          from: `${conversation.FromUser.FirstName} ${conversation.FromUser.LastName}`,
+          body: conversation.Body,
+          id: conversation.ConversationId,
+        }));
     });
 }
 
-function handleFrameLoad(contentWindow) {
-  const DOM_QUERY = () => (
-    contentWindow.document.body.getElementsByClassName('table message-list m-0')[0] &&
-    contentWindow.document.body.getElementsByClassName('table message-list m-0')[0].children[0]
-  );
-
-  waitForLoad(DOM_QUERY, contentWindow.document)
-    .then(() => {
-      const messages = getMessages(contentWindow).slice(0, 3);
-      generatePreviews(messages, contentWindow.document);
-    });
-}
-
-function createFrame() {
-  const frame = document.createElement('iframe');
-  frame.style.display = 'none';
-  frame.src = 'https://gannacademy.myschoolapp.com/app/student#message/inbox';
-  frame.id = 'gocp_message-preview_frame';
-  frame.onload = () => handleFrameLoad(frame.contentWindow);
-  if (!document.getElementById('gocp_message-preview_frame')) {
-    document.body.appendChild(frame);
-  }
-}
-
-function messagePreview() {
-  createFrame();
+async function messagePreview() {
+  insertCss(messageStyles);
+  const messages = (await getMessages()).slice(0, MAX_MESSAGES);
+  generatePreviews(messages);
 }
 
 export default registerModule('Message Preview', messagePreview);
-
-// TODO: shift over to contentDocument
