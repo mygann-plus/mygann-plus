@@ -46,5 +46,7 @@ export function fetchApi(endpoint, opts = {}) {
     'content-type': 'application/json',
   }), headers);
 
-  return fetchJson(`https://gannacademy.myschoolapp.com${endpoint}`, Object.assign(opts, apiHeaders));
+  return fetchJson(`https://gannacademy.myschoolapp.com${endpoint}`, Object.assign(opts, {
+    headers: apiHeaders,
+  }));
 }
