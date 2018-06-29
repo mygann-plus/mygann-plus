@@ -39,8 +39,7 @@ function createSuboption(key, value, option) {
     case 'number':
       input = document.createElement('input');
       input.type = 'number';
-      input.min = option.min;
-      input.step = option.step;
+      if (option.min !== undefined) input.min = option.min;
       break;
     case 'enum':
       input = document.createElement('select');
