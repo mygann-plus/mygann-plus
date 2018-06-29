@@ -1,3 +1,5 @@
+import getUrls from 'get-urls-to-array';
+
 import registerModule from '../utils/module';
 import { fetchApi } from '../utils/fetch';
 import { insertCss, createElementFromHTML, removeElement } from '../utils/dom';
@@ -7,14 +9,15 @@ const TRANSITION_TIME = 500; // milliseconds for fade in/out animations
 const identifiers = {
   messagesWrap: 'gocp_message-preview_wrap',
   messageMain: 'gocp_message-preview_message-main',
-  archive: 'gocp_message-preview_message-archive',
+  controls: 'gocp_message-preview_message-archive',
+  text: 'gocp_message-preview_message-text',
 };
 
 const messageStyles = `
   .${identifiers.messageMain} {
     background: #52abf9;
-    padding: 20px;
-    padding-right: 90px;
+    max-width: 460px;
+    padding: 22px;
     border-radius: 4px;
     box-shadow: 0px 3px 5px #c1bbbb;
     margin-bottom: 10px;
@@ -22,39 +25,66 @@ const messageStyles = `
     text-decoration: none;
     opacity: 0;
     transition: opacity ${TRANSITION_TIME}ms;
+    display: flex;
+    padding-right: 40px;
   }
-  .${identifiers.archive} {
+  .${identifiers.controls} {
     color: white;
-    right: 21px;
+    right: 11px;
     bottom: 28px;
-    position: absolute;
     font-size: 20px;
     cursor: pointer;
+    display: inline-block;
+    vertical-align: text-bottom;
+    display: flex;
+  }
+  .${identifiers.text} {
+    margin-right: 4%;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    text-overflow: ellipsis;
+    max-width: 343px;
   }
 `;
 
-const formatBodyText = text => text.replace(/\n/g, ' ').replace(/\s\s/g, ' ');
+const formatBodyText = text => {
+  return text
+    .replace(/\n/g, ' ')
+    .replace(/\s\s/g, ' ')
+    .replace(/<br>/g, ' ')
+    .trim();
+};
 const isOnMessagesInbox = () => window.location.hash === '#message/inbox';
 
 function generateMessagePreview(message, disappearTime) {
+
+  const bodyText = formatBodyText(message.body);
+  const urls = getUrls(bodyText);
 
   // CREATE ELEMENTS
 
   const messageHtml = `
     <a href="https://gannacademy.myschoolapp.com/app/student#message/conversation/${message.id}">
       <div class="${identifiers.messageMain}">
-        <b class="gocp_message_preview_message-from">${message.from}: </b>
-        <span class="gocp_message-preview_message-body">
-          ${formatBodyText(message.body)}
+        <div class="${identifiers.text}">
+          <b class="gocp_message_preview_message-from">${message.from}: </b>
+          <span class="gocp_message-preview_message-body">
+            ${bodyText}
           </span>
-        <i class="fa fa-archive ${identifiers.archive}"></i>
+        </div>
+        <div class="${identifiers.controls}">
+          <i class="fa fa-archive"></i>
+          <i class="fa fa-link" style="margin-left: 50%; margin-top: 1px;"></i>
+        </div>
       </div>
     </a>
   `;
 
   const messageElem = createElementFromHTML(messageHtml);
   const main = messageElem.children[0];
-  const archive = main.children[2];
+  const archive = main.children[1].children[0];
+  const link = main.children[1].children[1];
 
   // METHODS
 
@@ -95,15 +125,27 @@ function generateMessagePreview(message, disappearTime) {
     main.style.opacity = '1';
   }
 
-  // EVENT LISTENERS & TRANSITIONS
+  // EVENT LISTENERS
 
   main.addEventListener('click', removeMessage);
+
   archive.addEventListener('click', e => {
     e.preventDefault();
     e.stopImmediatePropagation();
     archiveMessage();
     removeMessage();
   });
+
+  if (urls.length) {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      window.open(urls[0]);
+      removeMessage();
+    });
+  } else {
+    removeElement(link);
+  }
 
   fadeIn();
   setTimeout(fadeOut, disappearTime * 1000);
