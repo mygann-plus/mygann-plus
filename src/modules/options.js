@@ -56,6 +56,17 @@ function createSuboption(key, value, option) {
   }
 
   input.value = value;
+  if (option.validator) {
+    let pastValue = value;
+    input.addEventListener('change', () => {
+      const val = option.type === 'number' ? Number(input.value) : input.value;
+      if (!option.validator(val)) {
+        input.value = pastValue;
+      } else {
+        pastValue = input.value;
+      }
+    });
+  }
   input.style.marginLeft = '7px';
   input.style.display = 'inline-block';
 
