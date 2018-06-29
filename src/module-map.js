@@ -4,7 +4,6 @@ import classEndingTime from './modules/class-ending-time';
 import coursesFilter from './modules/courses-filter';
 import filterWebsiteMainSearch from './modules/filter-website-main-search';
 import freeBlock from './modules/free-block';
-import gradeChart from './modules/grade-chart';
 import gradeSummary from './modules/grade-summary';
 import highlightCurrentClass from './modules/highlight-current-class';
 import improveGrades from './modules/improve-grades';
@@ -39,7 +38,6 @@ const MODULE_MAP = {
     coursesFilter,
     improveGrades,
     nextGradedCourse,
-    gradeChart,
   ],
   '#message': [archiveAll],
   '#searchresults/summary': [filterWebsiteMainSearch],
