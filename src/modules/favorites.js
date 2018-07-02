@@ -204,6 +204,7 @@ function handleAdd(event) {
 
 function handleEdit(event) {
   event.preventDefault();
+  event.stopPropagation();
 
   const li = event.target.parentNode.parentNode.parentNode.parentNode;
   const id = li.getAttribute('data-gocp_favorites_id');
@@ -228,6 +229,8 @@ function handleEdit(event) {
 
 function handleDelete(event) {
   event.preventDefault();
+  event.stopPropagation();
+
   const li = event.target.parentNode.parentNode.parentNode.parentNode;
   const id = li.getAttribute('data-gocp_favorites_id');
 
