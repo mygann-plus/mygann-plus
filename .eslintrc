@@ -18,11 +18,8 @@
     "max-len": [
       1,
       {
-        "ignoreComments": true
-      },
-      {
-        "code": 100
-      }, {
+        "ignoreComments": true,
+        "code": 100,
         "ignoreTemplateLiterals": true
       }
     ],
