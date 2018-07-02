@@ -207,6 +207,7 @@ const saveOptions = async () => {
 };
 
 const loadOptions = async () => {
+  document.getElementById('gocp_options_sections').innerHTML = '';
   const opts = await storage.get('options');
   for (let i in MODULE_MAP) {
     // created elem-by-elem because embedding HTML will cause event listeners not to work
@@ -217,10 +218,46 @@ const loadOptions = async () => {
   }
 };
 
+const resetOptions = async () => {
+
+  if (!window.confirm('Are you sure you want to reset all options?')) return; // eslint-disable-line no-alert, max-len
+
+  const opts = {};
+
+  for (let i in MODULE_MAP) {
+    if ({}.hasOwnProperty.call(MODULE_MAP, i)) {
+      opts[i] = {};
+      for (let j in MODULE_MAP[i]) {
+        if ({}.hasOwnProperty.call(MODULE_MAP[i], j)) {
+          const { name: moduleName } = MODULE_MAP[i][j];
+
+          opts[i][moduleName] = {
+            enabled: true,
+            options: {},
+          };
+
+          for (let subopt in MODULE_MAP[i][j].config.options) {
+            if ({}.hasOwnProperty.call(MODULE_MAP[i][j].config.options, subopt)) {
+              const { defaultValue } = MODULE_MAP[i][j].config.options[subopt];
+              opts[i][moduleName].options[subopt] = defaultValue;
+            }
+          }
+
+        }
+      }
+    }
+  }
+
+  await storage.set({ options: opts });
+  loadOptions();
+};
+
 async function constructDialog() {
 
   const dialog = new Dialog('Gann OnCampus+ Options', createElementFromHTML(generateDialogHtml()), {
     onSave: saveOptions,
+    onRight: resetOptions,
+    rightButton: '<a href="#">Reset Options</a>',
     backdrop: true,
   });
   dialog.open();

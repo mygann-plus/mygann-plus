@@ -12,6 +12,8 @@ export default class Dialog {
       onSave: noop,
       onClose: noop,
       buttons: [Dialog.buttons.SAVE, Dialog.buttons.CANCEL],
+      rightButton: '',
+      onRight: noop,
       backdrop: false,
     };
     opts = Object.assign(defaultOpts, opts);
@@ -21,9 +23,11 @@ export default class Dialog {
     this.innerElem = innerElem;
     this.onSave = opts.onSave;
     this.onClose = opts.onClose;
+    this.onRight = opts.onRight;
     this.showBackdrop = opts.backdrop;
 
     this.buttons = opts.buttons;
+    this.rightButton = defaultOpts.rightButton;
 
     this._generateOuterElem();
   }
@@ -65,6 +69,9 @@ export default class Dialog {
               <div class="modal-body" style="max-height: 465px; overflow-y: auto"></div>
               <div class="modal-footer">
                 ${this.buttons.join('')}
+                <div id="gocp_modal-right" style="float: right; margin-top: 5px;">
+                  ${this.rightButton}
+                </div>
               </div>
             </div>
           </div>
@@ -107,6 +114,11 @@ export default class Dialog {
         }
       });
     }
+
+    document.getElementById('gocp_modal-right').addEventListener('click', e => {
+      e.preventDefault();
+      this.onRight();
+    });
   }
 
 }
