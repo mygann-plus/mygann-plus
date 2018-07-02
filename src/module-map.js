@@ -19,6 +19,7 @@ import dayScheduleButton from './modules/day-schedule-button';
 import favorites from './modules/favorites';
 import inlineAssignmentGrade from './modules/inline-assignment-grade';
 import oneClickLogin from './modules/one-click-login';
+import messageDraft from './modules/message-draft';
 
 /* eslint-disable quote-props */
 
@@ -39,7 +40,7 @@ const MODULE_MAP = {
     improveGrades,
     nextGradedCourse,
   ],
-  '#message': [archiveAll],
+  '#message': [archiveAll, messageDraft],
   '#searchresults/summary': [filterWebsiteMainSearch],
   '#myschedule': [dayScheduleButton],
 };

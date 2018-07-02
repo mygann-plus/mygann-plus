@@ -75,16 +75,35 @@ export function insertBefore(referenceNode, newNode) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode);
 }
 
+export function removeElement(element) {
+  element.parentNode.removeChild(element);
+}
+
+export function removeElements(elements) {
+  if (elements instanceof Array) {
+    elements.forEach(removeElement);
+  } else {
+    nodeListToArray(elements).forEach(removeElement);
+  }
+}
+
 export function insertCss(css) {
   const styleElem = document.createElement('style');
   styleElem.innerText = css;
   document.head.appendChild(styleElem);
+  return {
+    remove: () => {
+      if (styleElem && styleElem.parentNode) {
+        removeElement(styleElem);
+      }
+    },
+  };
 }
 
-export function createElementFromHTML(htmlString) {
-  const div = document.createElement('div');
-  div.innerHTML = htmlString.trim();
-  return div.firstChild;
+export function createElementFromHTML(htmlString, parent) {
+  parent = parent || document.createElement('div');
+  parent.innerHTML = htmlString.trim();
+  return parent.firstChild;
 }
 
 export function addEventListeners(nodes, event, callback) {
@@ -94,6 +113,13 @@ export function addEventListeners(nodes, event, callback) {
   nodes.forEach(node => node.addEventListener(event, callback));
 }
 
-export function removeElement(element) {
-  element.parentNode.removeChild(element);
+export function toggleClass(elem, className) {
+  if (elem.classList.contains(className)) {
+    elem.classList.remove(className);
+  } else {
+    elem.classList.add(className);
+  }
+}
+export function toggleClasses(elem, classNames) {
+  classNames.forEach(name => toggleClass(elem, name));
 }
