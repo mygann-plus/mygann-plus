@@ -188,6 +188,11 @@ function getMessages() {
           body: conversation.Body,
           id: conversation.ConversationId,
         }));
+    })
+    .catch(() => {
+      // will throw if not signed in or servers are down
+      // don't display error message, because errors are shown natively
+      return [];
     });
 }
 
