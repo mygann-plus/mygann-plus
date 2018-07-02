@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 const getVerificationToken = () => {
   return document.getElementsByName('__RequestVerificationToken')[0].value;
 };
