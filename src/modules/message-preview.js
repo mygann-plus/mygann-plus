@@ -3,6 +3,7 @@ import getUrls from 'get-urls-to-array';
 import registerModule from '../utils/module';
 import { fetchApi } from '../utils/fetch';
 import { insertCss, createElementFromHTML, removeElement } from '../utils/dom';
+import { sanitizeHTMLString } from '../utils/string';
 
 const TRANSITION_TIME = 500; // milliseconds for fade in/out animations
 
@@ -49,11 +50,12 @@ const messageStyles = `
 `;
 
 const formatBodyText = text => {
-  return text
+  const formatted = text
     .replace(/\n/g, ' ')
     .replace(/\s\s/g, ' ')
     .replace(/<br>/g, ' ')
     .trim();
+  return sanitizeHTMLString(formatted);
 };
 const isOnMessagesInbox = () => window.location.hash === '#message/inbox';
 
