@@ -36,8 +36,8 @@ export function reduceArray(data, id, reducer) {
 
 export async function deleteItem(key, id) {
   const array = await storage.get(key);
-  if (typeof id !== 'number') {
-    console.warn(`ID should be a number, not a ${typeof id}`); // eslint-disable-line no-console
+  if (typeof id !== 'string') {
+    console.warn(`ID should be a string, not a ${typeof id}`); // eslint-disable-line no-console
   }
   const newArray = array.filter(assignment => (
     assignment.id !== id
