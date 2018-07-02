@@ -7,7 +7,10 @@ async function loadModules() {
     if (window.location.hash.startsWith(section)) {
       for (let module in optsData[section]) {
         if (optsData[section][module].enabled) {
-          const moduleFunc = MODULE_MAP[section].find(s => s.name === module);
+          const moduleFunc = (
+            MODULE_MAP[section] &&
+            MODULE_MAP[section].find(s => s.name === module)
+          );
           if (moduleFunc) {
             // invoke module function with options data
             moduleFunc.fn(optsData[section][module].options);
