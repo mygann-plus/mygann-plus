@@ -16,25 +16,18 @@ export default class Dialog {
       onRight: noop,
       backdrop: false,
     };
-    opts = Object.assign(defaultOpts, opts);
 
     this.id = Math.floor(Math.random() * 1000000); // random 5-digit number
     this.title = title;
     this.innerElem = innerElem;
-    this.onSave = opts.onSave;
-    this.onClose = opts.onClose;
-    this.onRight = opts.onRight;
-    this.showBackdrop = opts.backdrop;
-
-    this.buttons = opts.buttons;
-    this.rightButton = defaultOpts.rightButton;
+    this.opts = Object.assign(defaultOpts, opts);
 
     this._generateOuterElem();
   }
 
   open() {
     document.body.appendChild(this.outerElem);
-    if (this.showBackdrop) {
+    if (this.opts.backdrop) {
       document.body.appendChild(this.backdropElem);
     }
     this._insertInnerElement();
@@ -42,12 +35,12 @@ export default class Dialog {
   }
   close() {
     const dialog = document.querySelector(`div[data-gocp_dialog_id="${this.id}"]`);
-    if (this.showBackdrop) {
+    if (this.opts.backdrop) {
       const backdrop = document.querySelector(`div[data-gocp_dialog_backdrop-id="${this.id}"]`);
       removeElement(backdrop);
     }
     removeElement(dialog);
-    this.onClose();
+    this.opts.onClose();
   }
 
   _generateOuterElem() {
@@ -68,9 +61,9 @@ export default class Dialog {
               </div>
               <div class="modal-body" style="max-height: 465px; overflow-y: auto"></div>
               <div class="modal-footer">
-                ${this.buttons.join('')}
+                ${this.opts.buttons.join('')}
                 <div id="gocp_modal-right" style="float: right; margin-top: 5px;">
-                  ${this.rightButton}
+                  ${this.opts.rightButton}
                 </div>
               </div>
             </div>
@@ -100,16 +93,16 @@ export default class Dialog {
     const { buttons } = Dialog;
 
     document.getElementById('gocp_dialog_close').addEventListener('click', () => this.close());
-    if (this.buttons.includes(buttons.CANCEL) || this.buttons.includes(buttons.OKAY)) {
+    if (this.opts.buttons.includes(buttons.CANCEL) || this.opts.buttons.includes(buttons.OKAY)) {
       document.getElementById('gocp_dialog_cancel').addEventListener('click', e => {
         e.preventDefault();
         this.close();
       });
     }
-    if (this.buttons.includes(buttons.SAVE)) {
+    if (this.opts.buttons.includes(buttons.SAVE)) {
       document.getElementById('gocp_dialog_save').addEventListener('click', e => {
         e.preventDefault();
-        if (this.onSave() !== false) {
+        if (this.opts.onSave() !== false) {
           this.close();
         }
       });
@@ -117,7 +110,7 @@ export default class Dialog {
 
     document.getElementById('gocp_modal-right').addEventListener('click', e => {
       e.preventDefault();
-      this.onRight();
+      this.opts.onRight();
     });
   }
 
