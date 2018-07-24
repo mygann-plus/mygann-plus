@@ -101,7 +101,7 @@ async function createMenu() {
       <a href="#" data-taskid="-5" class="subnavtrigger black-fgc" id="group-header-News">
         <img src="${starIconUrl}">
         <span class="desc">
-          <span class="title pri-100-fgc">Favorites
+          <span class="title pri-100-fgc sky-nav">Favorites
           </span>
         </span>
         <span class="caret"></span>
