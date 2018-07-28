@@ -21,8 +21,6 @@ import inlineAssignmentGrade from './modules/inline-assignment-grade';
 import oneClickLogin from './modules/one-click-login';
 import messageDraft from './modules/message-draft';
 
-/* eslint-disable quote-props */
-
 const MODULE_MAP = {
   '#': [searchClassesMenu, messagePreview, options, favorites], // universal modules
   '#login': [oneClickLogin],
@@ -56,7 +54,5 @@ const SECTION_MAP = {
   '#searchresults/summary': 'Search Results Summary',
   '#myschedule': 'Month & Week Schedule',
 };
-
-/* eslint-enable quote-props */
 
 export { MODULE_MAP, SECTION_MAP };
