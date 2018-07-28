@@ -9,7 +9,6 @@ import {
   getElementsByIds,
   nodeListToArray,
   removeElement,
-  toggleClasses,
 } from '../utils/dom';
 import { getUserProfile } from '../utils/user';
 import storage, { generateID, changeItem, deleteItem } from '../utils/storage';
@@ -34,8 +33,10 @@ function goBack(link) {
   removeElements(document.getElementsByClassName(identifiers.draftbox));
   const draftsLink = document.getElementById(identifiers.sidebarLink);
 
-  toggleClasses(draftsLink.children[0], identifiers.iconClasses);
-  toggleClasses(link.children[0], identifiers.iconClasses);
+  for (const className of identifiers.iconClasses) {
+    draftsLink.firstElementChild.classList.toggle(className);
+    link.firstElementChild.classList.toggle(className);
+  }
 
   link.removeEventListener('click', goBack);
 }
@@ -157,8 +158,10 @@ async function openDraftsPage(link) {
   const selected = document.getElementsByClassName('p3icon-radioOn')[0].parentNode;
   if (selected.id === identifiers.sidebarLink) return;
 
-  toggleClasses(selected.children[0], identifiers.iconClasses);
-  toggleClasses(link.children[0].children[0], identifiers.iconClasses);
+  for (const className of identifiers.iconClasses) {
+    selected.firstElementChild.classList.toggle(className);
+    link.firstElementChild.firstElementChild.classList.toggle(className);
+  }
 
   const messageList = document.getElementsByClassName('table message-list m-0')[0];
 

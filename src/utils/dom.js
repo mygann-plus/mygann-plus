@@ -112,14 +112,3 @@ export function addEventListeners(nodes, event, callback) {
   }
   nodes.forEach(node => node.addEventListener(event, callback));
 }
-
-export function toggleClass(elem, className) {
-  if (elem.classList.contains(className)) {
-    elem.classList.remove(className);
-  } else {
-    elem.classList.add(className);
-  }
-}
-export function toggleClasses(elem, classNames) {
-  classNames.forEach(name => toggleClass(elem, name));
-}
