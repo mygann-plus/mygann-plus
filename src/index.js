@@ -23,30 +23,30 @@ async function loadModules() {
 
 async function initializeOptions() {
   const optsObj = await storage.get('options') || {};
-  for (let i in MODULE_MAP) {
-    if ({}.hasOwnProperty.call(MODULE_MAP, i)) {
-      if (!optsObj[i]) {
-        optsObj[i] = {};
+  for (const section in MODULE_MAP) {
+    if ({}.hasOwnProperty.call(MODULE_MAP, section)) {
+      if (!optsObj[section]) {
+        optsObj[section] = {};
       }
-      for (let j in MODULE_MAP[i]) {
-        if ({}.hasOwnProperty.call(MODULE_MAP[i], j)) {
-          const { name: moduleName } = MODULE_MAP[i][j];
+      for (const module in MODULE_MAP[section]) {
+        if ({}.hasOwnProperty.call(MODULE_MAP[section], module)) {
+          const { name: moduleName } = MODULE_MAP[section][module];
 
-          if (optsObj[i][moduleName] === undefined) {
-            optsObj[i][moduleName] = {
+          if (optsObj[section][moduleName] === undefined) {
+            optsObj[section][moduleName] = {
               enabled: true,
               options: {},
             };
-          } else if (optsObj[i][moduleName].options === undefined) {
-            optsObj[i][moduleName].options = {};
+          } else if (optsObj[section][moduleName].options === undefined) {
+            optsObj[section][moduleName].options = {};
           }
 
-          for (let subopt in MODULE_MAP[i][j].config.options) {
-            if ({}.hasOwnProperty.call(MODULE_MAP[i][j].config.options, subopt)) {
+          for (const subopt in MODULE_MAP[section][module].config.options) {
+            if ({}.hasOwnProperty.call(MODULE_MAP[section][module].config.options, subopt)) {
               // option doesn't exist
-              if (!optsObj[i][moduleName].options[subopt]) {
-                const { defaultValue } = MODULE_MAP[i][j].config.options[subopt];
-                optsObj[i][moduleName].options[subopt] = defaultValue;
+              if (!optsObj[section][moduleName].options[subopt]) {
+                const { defaultValue } = MODULE_MAP[section][module].config.options[subopt];
+                optsObj[section][moduleName].options[subopt] = defaultValue;
               }
             }
           }
