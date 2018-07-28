@@ -5,7 +5,8 @@
   "main": "script.js",
   "scripts": {
     "build": "parcel build src/index.js",
-    "start": "parcel src/index.js --https"
+    "start": "parcel src/index.js --https",
+    "eslint": "eslint src"
   },
   "author": "",
   "license": "ISC",
