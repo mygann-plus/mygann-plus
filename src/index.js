@@ -2,10 +2,10 @@ import storage from './utils/storage';
 import { MODULE_MAP } from './module-map';
 
 async function loadModules() {
-  let optsData = await storage.get('options');
-  for (let section in optsData) {
+  const optsData = await storage.get('options');
+  for (const section in optsData) {
     if (window.location.hash.startsWith(section)) {
-      for (let module in optsData[section]) {
+      for (const module in optsData[section]) {
         if (optsData[section][module].enabled) {
           const moduleFunc = (
             MODULE_MAP[section] &&
