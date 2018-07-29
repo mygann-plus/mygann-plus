@@ -141,9 +141,7 @@ function createOptionsSection(sectionTitle, modules, sectionHref, opts) {
     if (Object.keys(config.options).length > 0) {
       const suboptions = [];
       for (let i in config.options) {
-        if (config.options.hasOwnProperty(i)) {
-          suboptions.push(createSuboption(i, opts[name].options[i], config.options[i]));
-        }
+        suboptions.push(createSuboption(i, opts[name].options[i], config.options[i]));
       }
       suboptions.forEach(suboption => extraOptions.appendChild(suboption));
       top.appendChild(expandLink);
@@ -211,10 +209,8 @@ const loadOptions = async () => {
   const opts = await storage.get('options');
   for (let i in MODULE_MAP) {
     // created elem-by-elem because embedding HTML will cause event listeners not to work
-    if ({}.hasOwnProperty.call(MODULE_MAP, i)) {
-      let section = createOptionsSection(SECTION_MAP[i], MODULE_MAP[i], i, opts[i]);
-      document.getElementById('gocp_options_sections').appendChild(section);
-    }
+    let section = createOptionsSection(SECTION_MAP[i], MODULE_MAP[i], i, opts[i]);
+    document.getElementById('gocp_options_sections').appendChild(section);
   }
 };
 
@@ -225,25 +221,18 @@ const resetOptions = async () => {
   const opts = {};
 
   for (let i in MODULE_MAP) {
-    if ({}.hasOwnProperty.call(MODULE_MAP, i)) {
-      opts[i] = {};
-      for (let j in MODULE_MAP[i]) {
-        if ({}.hasOwnProperty.call(MODULE_MAP[i], j)) {
-          const { name: moduleName } = MODULE_MAP[i][j];
+    opts[i] = {};
+    for (let j in MODULE_MAP[i]) {
+      const { name: moduleName } = MODULE_MAP[i][j];
 
-          opts[i][moduleName] = {
-            enabled: true,
-            options: {},
-          };
+      opts[i][moduleName] = {
+        enabled: true,
+        options: {},
+      };
 
-          for (let subopt in MODULE_MAP[i][j].config.options) {
-            if ({}.hasOwnProperty.call(MODULE_MAP[i][j].config.options, subopt)) {
-              const { defaultValue } = MODULE_MAP[i][j].config.options[subopt];
-              opts[i][moduleName].options[subopt] = defaultValue;
-            }
-          }
-
-        }
+      for (let subopt in MODULE_MAP[i][j].config.options) {
+        const { defaultValue } = MODULE_MAP[i][j].config.options[subopt];
+        opts[i][moduleName].options[subopt] = defaultValue;
       }
     }
   }

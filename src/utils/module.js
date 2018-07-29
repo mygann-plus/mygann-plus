@@ -10,6 +10,7 @@ export default function registerModule(name, fn, config = {}) {
     showInOptions: true, // used for enabler modules
     description: '',
     options: [],
+    __proto__: null, // use as map
   };
 
   if (!name.trim()) {
@@ -19,5 +20,11 @@ export default function registerModule(name, fn, config = {}) {
     throw new Error('Module must be registered with function');
   }
 
-  return { name, fn, config: Object.assign(defaultConfig, config) };
+  return {
+    name,
+    fn,
+    config: Object.assign(defaultConfig, config),
+
+    __proto__: null,
+  };
 }

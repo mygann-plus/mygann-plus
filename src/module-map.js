@@ -41,6 +41,8 @@ const MODULE_MAP = {
   '#message': [archiveAll, messageDraft],
   '#searchresults/summary': [filterWebsiteMainSearch],
   '#myschedule': [dayScheduleButton],
+
+  __proto__: null, // use as map
 };
 
 const SECTION_MAP = {
@@ -53,6 +55,8 @@ const SECTION_MAP = {
   '#message': 'Messages',
   '#searchresults/summary': 'Search Results Summary',
   '#myschedule': 'Month & Week Schedule',
+
+  __proto__: null,
 };
 
 export { MODULE_MAP, SECTION_MAP };

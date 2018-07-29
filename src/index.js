@@ -23,34 +23,29 @@ async function loadModules() {
 
 async function initializeOptions() {
   const optsObj = await storage.get('options') || {};
+  Object.setPrototypeOf(optsObj, null); // use as map
+
   for (const section in MODULE_MAP) {
-    if ({}.hasOwnProperty.call(MODULE_MAP, section)) {
-      if (!optsObj[section]) {
-        optsObj[section] = {};
+    if (!optsObj[section]) {
+      optsObj[section] = {};
+    }
+    for (const module in MODULE_MAP[section]) {
+      const { name: moduleName } = MODULE_MAP[section][module];
+
+      if (optsObj[section][moduleName] === undefined) {
+        optsObj[section][moduleName] = {
+          enabled: true,
+          options: {},
+        };
+      } else if (optsObj[section][moduleName].options === undefined) {
+        optsObj[section][moduleName].options = {};
       }
-      for (const module in MODULE_MAP[section]) {
-        if ({}.hasOwnProperty.call(MODULE_MAP[section], module)) {
-          const { name: moduleName } = MODULE_MAP[section][module];
 
-          if (optsObj[section][moduleName] === undefined) {
-            optsObj[section][moduleName] = {
-              enabled: true,
-              options: {},
-            };
-          } else if (optsObj[section][moduleName].options === undefined) {
-            optsObj[section][moduleName].options = {};
-          }
-
-          for (const subopt in MODULE_MAP[section][module].config.options) {
-            if ({}.hasOwnProperty.call(MODULE_MAP[section][module].config.options, subopt)) {
-              // option doesn't exist
-              if (!optsObj[section][moduleName].options[subopt]) {
-                const { defaultValue } = MODULE_MAP[section][module].config.options[subopt];
-                optsObj[section][moduleName].options[subopt] = defaultValue;
-              }
-            }
-          }
-
+      for (const subopt in MODULE_MAP[section][module].config.options) {
+        // option doesn't exist
+        if (!optsObj[section][moduleName].options[subopt]) {
+          const { defaultValue } = MODULE_MAP[section][module].config.options[subopt];
+          optsObj[section][moduleName].options[subopt] = defaultValue;
         }
       }
     }
