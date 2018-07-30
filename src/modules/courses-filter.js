@@ -1,4 +1,4 @@
-import { waitForLoad, nodeListToArray, insertAfter, insertCss } from '../utils/dom';
+import { waitForLoad, insertAfter, insertCss } from '../utils/dom';
 import registerModule from '../utils/module';
 
 const CHECKED_ATTR = 'data-gocp-courses_filter-checked';
@@ -8,10 +8,10 @@ const filters = [];
 
 function generateCourseList() {
   const rows = document.getElementById('coursesContainer').getElementsByClassName('row');
-  return nodeListToArray(rows).map(e => ({
+  return Array.from(rows).map(e => ({
     elem: e,
-    name: e.getElementsByTagName('h3')[0].innerText,
-    grade: e.getElementsByClassName('showGrade')[0].innerHTML.trim(),
+    name: e.querySelector('h3').textContent,
+    grade: e.querySelector('.showGrade').textContent.trim(),
   }));
 }
 
@@ -24,9 +24,9 @@ function regenerateCoursesList() {
 function runFilter() {
   regenerateCoursesList();
   const kept = filters.reduce((arr, filter) => arr.filter(filter), courses);
+  // [audit] perhaps use dataset
   courses.forEach(course => course.elem.setAttribute('data-gocp_courses-filter_hidden', 'true'));
   kept.forEach(course => course.elem.setAttribute('data-gocp_courses-filter_hidden', 'false'));
-
 }
 
 function handleSearch(course) {
@@ -120,7 +120,7 @@ function renderFilterBar() {
   const dropdownMenu = generateDropdown([
     {
       name: 'Hide Ungraded Courses',
-      filter: course => course.grade !== '--&nbsp;&nbsp;',
+      filter: course => course.grade !== '--',
     },
   ]);
 
