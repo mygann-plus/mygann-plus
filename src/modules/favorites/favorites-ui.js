@@ -1,7 +1,7 @@
 import { sanitizeHTMLString } from '../../utils/string';
 import { getAssetUrl } from '../../utils/assets';
 import Dialog from '../../utils/dialogue';
-import { createElementFromHTML, addEventListeners, insertBefore } from '../../utils/dom';
+import { createElementFromHTML, addEventListeners } from '../../utils/dom';
 
 import {
   editSavedFavorite,
@@ -9,7 +9,7 @@ import {
   deleteSavedFavorite,
   saveNewFavorite,
 } from './favorites-model';
-import selectors from './favorites-selectors';
+import selectors from './selectors';
 
 function createLink(favorite) {
   const title = sanitizeHTMLString(favorite.title);
