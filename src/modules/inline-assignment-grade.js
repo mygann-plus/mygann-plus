@@ -1,5 +1,6 @@
 import registerModule from '../utils/module';
-import { waitForLoad, nodeListToArray, constructButton } from '../utils/dom';
+
+import { waitForLoad, constructButton } from '../utils/dom';
 import { fetchApi } from '../utils/fetch';
 import { getUserId } from '../utils/user';
 
@@ -23,7 +24,7 @@ async function getGrade(id) {
 }
 
 async function showGrades() {
-  const gradedLabels = nodeListToArray(document.getElementsByClassName('label-success')).filter(filterUngraded);
+  const gradedLabels = Array.from(document.getElementsByClassName('label-success')).filter(filterUngraded);
   const ids = gradedLabels.map(getIdFromLabel);
   const data = await Promise.all(ids.map(getGrade));
   const grades = data.map(([d]) => calculateGrade(d));
@@ -42,14 +43,13 @@ function resizeToolbars() {
 
 }
 
-function inlineAssignmentGrade() {
-  waitForLoad(() => document.getElementById('gocp-toggle-completed'))
-    .then(() => {
-      const toggleCompletedBtn = document.getElementById('gocp-toggle-completed');
-      const showGradesBtn = constructButton('Show Grades', 'gocp_inline-assignment-grade_button', 'fa fa-eye', showGrades);
-      toggleCompletedBtn.after(showGradesBtn);
-      resizeToolbars();
-    });
+async function inlineAssignmentGrade() {
+  await waitForLoad(() => document.getElementById('gocp-toggle-completed'));
+
+  const toggleCompletedBtn = document.getElementById('gocp-toggle-completed');
+  const showGradesBtn = constructButton('Show Grades', 'gocp_inline-assignment-grade_button', 'fa fa-eye', showGrades);
+  toggleCompletedBtn.after(showGradesBtn);
+  resizeToolbars();
 }
 
 export default registerModule('Inline Assignment Grade', inlineAssignmentGrade, {
