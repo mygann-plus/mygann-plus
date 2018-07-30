@@ -14,7 +14,7 @@ export default class Dialog {
       buttons: [Dialog.buttons.SAVE, Dialog.buttons.CANCEL],
       rightButton: '',
       onRight: noop,
-      backdrop: false,
+      backdrop: true,
     };
 
     this.id = Math.floor(Math.random() * 1000000); // random 5-digit number
