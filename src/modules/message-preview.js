@@ -2,7 +2,7 @@ import getUrls from 'get-urls-to-array';
 
 import registerModule from '../utils/module';
 import { fetchApi } from '../utils/fetch';
-import { insertCss, createElementFromHTML, removeElement } from '../utils/dom';
+import { insertCss, createElementFromHTML } from '../utils/dom';
 import { sanitizeHTMLString } from '../utils/string';
 
 const TRANSITION_TIME = 500; // milliseconds for fade in/out animations
@@ -94,7 +94,7 @@ function generateMessagePreview(message, disappearTime) {
     messageElem.children[0].style.opacity = '0';
     setTimeout(() => {
       if (messageElem.parentNode) {
-        removeElement(messageElem);
+        messageElem.remove();
       }
     }, TRANSITION_TIME);
   }
@@ -146,7 +146,7 @@ function generateMessagePreview(message, disappearTime) {
       removeMessage();
     });
   } else {
-    removeElement(link);
+    link.remove();
   }
 
   fadeIn();

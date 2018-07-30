@@ -1,4 +1,4 @@
-import { createElementFromHTML, removeElement } from './dom';
+import { createElementFromHTML } from './dom';
 
 // TODO: more configurable buttons
 
@@ -37,9 +37,9 @@ export default class Dialog {
     const dialog = document.querySelector(`div[data-gocp_dialog_id="${this.id}"]`);
     if (this.opts.backdrop) {
       const backdrop = document.querySelector(`div[data-gocp_dialog_backdrop-id="${this.id}"]`);
-      removeElement(backdrop);
+      backdrop.remove();
     }
-    removeElement(dialog);
+    dialog.remove();
     this.opts.onClose();
   }
 

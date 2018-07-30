@@ -75,15 +75,11 @@ export function insertBefore(referenceNode, newNode) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode);
 }
 
-export function removeElement(element) {
-  element.parentNode.removeChild(element);
-}
-
 export function removeElements(elements) {
   if (elements instanceof Array) {
-    elements.forEach(removeElement);
+    elements.forEach(e => e.remove());
   } else {
-    nodeListToArray(elements).forEach(removeElement);
+    nodeListToArray(elements).forEach(e => e.remove());
   }
 }
 
@@ -94,7 +90,7 @@ export function insertCss(css) {
   return {
     remove: () => {
       if (styleElem && styleElem.parentNode) {
-        removeElement(styleElem);
+        styleElem.remove();
       }
     },
   };

@@ -8,7 +8,6 @@ import {
   addEventListeners,
   getElementsByIds,
   nodeListToArray,
-  removeElement,
 } from '../utils/dom';
 import { getUserProfile } from '../utils/user';
 import storage, { generateID, changeItem, deleteItem } from '../utils/storage';
@@ -75,7 +74,7 @@ async function loadDraft(draft) {
 function deleteDraft(draft, draftbox) {
   if (window.confirm('Are you sure you want to delete this draft?')) { // eslint-disable-line no-alert, max-len
     deleteItem('message-drafts', draft.id);
-    removeElement(draftbox);
+    draftbox.remove();
   }
 }
 

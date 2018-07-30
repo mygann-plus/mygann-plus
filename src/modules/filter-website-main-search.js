@@ -1,4 +1,4 @@
-import { waitForLoad, removeElement } from '../utils/dom';
+import { waitForLoad } from '../utils/dom';
 import registerModule from '../utils/module';
 
 async function filterWebsiteMainSearch(options) {
@@ -17,7 +17,7 @@ async function filterWebsiteMainSearch(options) {
       parent.appendChild(elem);
       break;
     case 'Remove':
-      removeElement(elem);
+      elem.remove();
   }
 
 }
