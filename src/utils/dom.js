@@ -68,13 +68,6 @@ export function hasParentWithClassName(element, classnames) {
   return element.parentNode && hasParentWithClassName(element.parentNode, classnames);
 }
 
-export function insertAfter(referenceNode, newNode) {
-  referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-}
-export function insertBefore(referenceNode, newNode) {
-  referenceNode.parentNode.insertBefore(newNode, referenceNode);
-}
-
 export function removeElements(elements) {
   if (elements instanceof Array) {
     elements.forEach(e => e.remove());

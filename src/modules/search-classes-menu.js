@@ -162,7 +162,7 @@ function renderDesktopSearchBar() {
   input.oninput = handleSearch;
 
   const firstClass = getClassesMenu().firstChild.firstChild;
-  insertBefore(firstClass, input);
+  firstClass.before(input);
 
   input.focus();
 }

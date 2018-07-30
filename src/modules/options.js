@@ -3,7 +3,6 @@ import storage from '../utils/storage';
 import {
   waitForLoad,
   nodeListToArray,
-  insertAfter,
   insertCss,
   createElementFromHTML,
 } from '../utils/dom';
@@ -279,7 +278,7 @@ function appendNavLink() {
   desc.appendChild(title);
   a.appendChild(desc);
   li.appendChild(a);
-  insertAfter(nativeSettingsLink, li);
+  nativeSettingsLink.after(li);
 
 }
 
@@ -298,7 +297,7 @@ function appendMobileNavLink() {
     constructDialog();
   });
   const nativeSettingsLink = document.getElementById('mobile-settings-link');
-  insertAfter(nativeSettingsLink, mobileNav);
+  nativeSettingsLink.after(mobileNav);
 }
 
 function insertStyles() {

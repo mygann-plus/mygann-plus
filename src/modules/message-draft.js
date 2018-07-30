@@ -1,7 +1,6 @@
 import registerModule from '../utils/module';
 import {
   waitForLoad,
-  insertAfter,
   createElementFromHTML,
   insertCss,
   removeElements,
@@ -196,7 +195,7 @@ function renderDraftButton() {
     document.getElementsByClassName('close')[0].click();
   });
   const sendButton = document.querySelector('a[data-loading-text="Sending..."]');
-  insertAfter(sendButton, button);
+  sendButton.after(button);
 }
 
 function renderSidebarLink() {
@@ -217,7 +216,7 @@ function renderSidebarLink() {
     openDraftsPage(link);
   });
   const archiveLink = document.getElementById('view-archived').parentNode;
-  insertAfter(archiveLink, link);
+  archiveLink.archive(link);
 }
 
 const domQueries = {

@@ -1,5 +1,5 @@
 import registerModule from '../utils/module';
-import { waitForLoad, nodeListToArray, constructButton, insertAfter } from '../utils/dom';
+import { waitForLoad, nodeListToArray, constructButton } from '../utils/dom';
 import { fetchApi } from '../utils/fetch';
 import { getUserId } from '../utils/user';
 
@@ -47,7 +47,7 @@ function inlineAssignmentGrade() {
     .then(() => {
       const toggleCompletedBtn = document.getElementById('gocp-toggle-completed');
       const showGradesBtn = constructButton('Show Grades', 'gocp_inline-assignment-grade_button', 'fa fa-eye', showGrades);
-      insertAfter(toggleCompletedBtn, showGradesBtn);
+      toggleCompletedBtn.after(showGradesBtn);
       resizeToolbars();
     });
 }

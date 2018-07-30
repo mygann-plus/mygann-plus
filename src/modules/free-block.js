@@ -47,10 +47,6 @@ function isConsecutive(start, end) {
 }
 window.isConsecutive = isConsecutive;
 
-function insertAfter(referenceNode, newNode) {
-  referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-}
-
 function addMinutes(time, mins) {
   const padNumber = m => (String(m).length === 1 ? `0${m}` : m);
   const t = time.split(' ')[0];
@@ -96,7 +92,7 @@ function insertBlock(elemBefore, startTime, endTime) {
   tr.appendChild(details);
   tr.appendChild(attendance);
 
-  insertAfter(elemBefore, tr);
+  elemBefore.after(tr);
 }
 
 function insertFreeBlock() {

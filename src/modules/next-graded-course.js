@@ -2,8 +2,6 @@ import registerModule from '../utils/module';
 import {
   waitForLoad,
   nodeListToArray,
-  insertAfter,
-  insertBefore,
   createElementFromHTML,
 } from '../utils/dom';
 
@@ -72,8 +70,8 @@ function nextGradedCourse() {
 
                 const nextButton = document.querySelectorAll('button[data-analysis="next"]')[0];
                 const prevButton = document.querySelectorAll('button[data-analysis="prev"]')[0];
-                insertAfter(nextButton, nextGradedButton);
-                insertBefore(prevButton, prevGradedButton);
+                nextButton.after(nextGradedButton);
+                prevButton.before(prevGradedButton);
               });
           });
       });

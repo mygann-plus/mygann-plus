@@ -118,7 +118,7 @@ export function createDialogBody(favorite = {}) {
 
 function insertFavoriteNode(favorite) {
   const addPageLi = document.getElementById('gocp_favorites_addbutton').parentNode;
-  insertBefore(addPageLi, createElementFromHTML(createLink(favorite)));
+  addPageLi.before(createElementFromHTML(createLink(favorite)));
   const favoriteLi = document.querySelector(`li[data-gocp_favorites_id="${favorite.id}"]`);
 
   /* editFavoriteNode needs to be before handleEdit, so fixing this issue would require having node

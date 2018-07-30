@@ -1,4 +1,4 @@
-import { waitForLoad, insertAfter, insertCss } from '../utils/dom';
+import { waitForLoad, insertCss } from '../utils/dom';
 import registerModule from '../utils/module';
 
 const CHECKED_ATTR = 'data-gocp-courses_filter-checked';
@@ -129,7 +129,7 @@ function renderFilterBar() {
   wrap.appendChild(input);
   wrap.appendChild(dropdownButton);
 
-  insertAfter(document.getElementById('showHideGrade'), wrap);
+  document.getElementById('showHideGrade').after(wrap);
   document.getElementById('showHideGrade').style.marginRight = '15px';
 
   insertCss(`

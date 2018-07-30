@@ -26,7 +26,7 @@ async function dayScheduleButton() {
     window.location.hash = 'studentmyday/schedule';
   });
   monthButton.classList.remove('fc-corner-left');
-  insertBefore(monthButton, dayButton);
+  monthButton.before(dayButton);
 }
 
 export default registerModule('Day Schedule Button', dayScheduleButton, {

@@ -2,7 +2,6 @@ import registerModule from '../../utils/module';
 
 import {
   waitForLoad,
-  insertBefore,
   insertCss,
 } from '../../utils/dom';
 import { createMenu, addListeners } from './favorites-ui';
@@ -37,7 +36,7 @@ async function favorites() {
   const menu = await createMenu(await getSavedFavorites());
   const directoriesMenu = document.querySelector('.topnav > .twoline.parentitem.last');
 
-  insertBefore(directoriesMenu, menu);
+  directoriesMenu.before(menu);
   addListeners();
   insertControlStyle();
 }
