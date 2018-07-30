@@ -34,6 +34,17 @@ export function reduceArray(data, id, reducer) {
   });
 }
 
+/**
+ * @returns Added item's ID
+ */
+export async function addItem(key, newItem) {
+  const array = await storage.get(key);
+  newItem.id = generateID();
+  array.push(newItem);
+  storage.set({ [key]: array });
+  return newItem.id;
+}
+
 export async function deleteItem(key, id) {
   const array = await storage.get(key);
   if (typeof id !== 'string') {
