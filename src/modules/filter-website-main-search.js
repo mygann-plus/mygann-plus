@@ -29,6 +29,7 @@ async function filterWebsiteMainSearch(options) {
 
 export default registerModule('Filter Website from Search', filterWebsiteMainSearch, {
   description: 'Hide results from the Gann Website in OnCampus searches',
+  defaultEnabled: false,
   options: {
     hidingType: {
       name: 'Hiding Type',

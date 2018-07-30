@@ -9,6 +9,7 @@ export default function registerModule(name, fn, config = {}) {
   const defaultConfig = {
     showInOptions: true, // used for enabler modules
     description: '',
+    defaultEnabled: true,
     options: [],
     __proto__: null, // use as map
   };

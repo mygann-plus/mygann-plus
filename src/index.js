@@ -34,7 +34,7 @@ async function initializeOptions() {
 
       if (optsObj[section][moduleName] === undefined) {
         optsObj[section][moduleName] = {
-          enabled: true,
+          enabled: MODULE_MAP[section][module].config.defaultEnabled,
           options: {},
         };
       } else if (optsObj[section][moduleName].options === undefined) {
