@@ -55,18 +55,28 @@ export async function addItem(key, newItem) {
   return newItem.id;
 }
 
-export async function deleteItem(key, id) {
-  const array = await storage.get(key);
+export async function changeItem(key, id, reducer) {
   warnType(id);
-  const newArray = array.filter(assignment => (
-    assignment.id !== id
-  ));
+  // TODO: warn if item doesn't exist
+  const array = await storage.get(key) || [];
+  const newArray = reduceArray(array, id, reducer);
   storage.set({ [key]: newArray });
 }
 
-export async function changeItem(key, id, reducer) {
-  const array = await storage.get(key);
+export async function addOrChangeItem(key, id, reducer) {
   warnType(id);
-  const newArray = reduceArray(array, id, reducer);
+  const array = await storage.get(key) || [];
+  if (!array.find(e => e.id === id)) {
+    return addItem(key, reducer());
+  }
+  return changeItem(key, id, reducer);
+}
+
+export async function deleteItem(key, id) {
+  warnType(id);
+  const array = await storage.get(key) || [];
+  const newArray = array.filter(assignment => (
+    assignment.id !== id
+  ));
   storage.set({ [key]: newArray });
 }
