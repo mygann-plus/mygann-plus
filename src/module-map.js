@@ -14,7 +14,6 @@ import options from './modules/options';
 import searchClassesMenu from './modules/search-classes-menu';
 import toggleCompleted from './modules/toggle-completed';
 import comingUp from './modules/coming-up';
-import customAssignments from './modules/custom-assignments';
 import dayScheduleButton from './modules/day-schedule-button';
 import favorites from './modules/favorites';
 import inlineAssignmentGrade from './modules/inline-assignment-grade';
@@ -28,7 +27,6 @@ const MODULE_MAP = {
   '#studentmyday/assignment-center': [
     inlineChangeStatus,
     toggleCompleted,
-    customAssignments,
     inlineAssignmentGrade,
   ],
   '#studentmyday/schedule': [highlightCurrentClass, freeBlock, classEndingTime, comingUp],
