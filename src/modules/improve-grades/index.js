@@ -127,7 +127,7 @@ function isAprilFools() {
 async function improveGrades() {
 
   if (!isAprilFools()) {
-    // return;
+    return;
   }
   await waitForLoad(DOM_QUERY);
 
