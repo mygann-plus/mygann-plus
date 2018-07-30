@@ -8,6 +8,9 @@ async function filterWebsiteMainSearch(options) {
   const elem = title.parentNode;
   const parent = document.querySelector('#search_summary_results');
 
+  if (title.dataset.target !== '#searchSummaryPages') {
+    return;
+  }
 
   switch (options.hidingType) {
     case 'Collapse':
