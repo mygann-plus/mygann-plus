@@ -3,8 +3,10 @@
   THIS MODULE DOES NOT ACTUALLY IMPROVE THE USER'S GRADES
 */
 
-import { waitForLoad, constructButton, insertCss } from '../utils/dom';
-import registerModule from '../utils/module';
+import { waitForLoad, constructButton, insertCss, createElementFromHTML } from '../../utils/dom';
+import registerModule from '../../utils/module';
+
+import ConfettiGenerator from './confetti';
 
 function addStyles() {
   insertCss(`
@@ -54,6 +56,12 @@ function addStyles() {
       -webkit-animation-direction: alternate;
       -webkit-animation-play-state: running;
     }
+
+    #gocp_improve-grades_confetti-canvas {
+      position: fixed;
+      top: 0;
+      z-index: 10000000000000000000000000000000;
+    }
   `);
 }
 
@@ -85,6 +93,24 @@ function changeGrades(e, increaseBy) {
   }
 
 }
+
+function showConfetti() {
+  const canvas = createElementFromHTML('<canvas id="gocp_improve-grades_confetti-canvas"></canvas>');
+  document.body.appendChild(canvas);
+  const confettiSettings = {
+    target: 'gocp_improve-grades_confetti-canvas',
+    max: '1000',
+    size: '1',
+    animate: true,
+    props: ['circle', 'square', 'triangle', 'line'],
+    colors: [[165, 104, 246], [230, 61, 135], [0, 199, 228], [253, 214, 126]],
+    clock: '50',
+    width: '1536',
+    height: '732',
+  };
+  const confetti = new ConfettiGenerator(confettiSettings);
+  confetti.render();
+}
 const DOM_QUERY = () => (
   document.getElementById('coursesContainer') &&
   document.getElementById('coursesContainer').children &&
@@ -105,11 +131,15 @@ async function improveGrades() {
   }
   await waitForLoad(DOM_QUERY);
 
-  const button = constructButton('IMPROVE GRADES', 'gocp_improve-grades_button', '', changeGrades);
+  const button = constructButton('IMPROVE GRADES', 'gocp_improve-grades_button', '', () => {
+    changeGrades();
+    showConfetti();
+  });
   button.className += ' pull-right';
   const wrap = document.getElementById('courses').children[0].children[0].children[1].children[0];
   wrap.children[0].children[0].appendChild(button);
   addStyles();
+
 }
 
 export default registerModule('Improve Grades', improveGrades, {
