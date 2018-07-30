@@ -1,6 +1,5 @@
 ## 0.6.0 (UNRELEASED) [must clear stored options]
 ### Added
-- "Custom Assignments" module
 - "Coming Up" module, which shows a preview of the next day's events in the schedule.
 - "Favorites" module
 - "Day Schedule Button" module, which adds a button tutton to return to the day view in the month & week schedule view.
