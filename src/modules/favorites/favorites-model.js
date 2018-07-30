@@ -22,8 +22,5 @@ export async function editSavedFavorite(id, newFavorite) {
 }
 
 export async function getFavorite(id) {
-  if (!favoritesData) {
-    favoritesData = await getSavedFavorites();
-  }
-  return favoritesData.find(f => f.id === id);
+  return (await getSavedFavorites()).find(f => f.id === id);
 }
