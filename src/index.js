@@ -13,7 +13,13 @@ async function loadModules() {
           );
           if (moduleFunc) {
             // invoke module function with options data
-            moduleFunc.fn(optsData[section][module].options);
+            try {
+              moduleFunc.fn(optsData[section][module].options);
+            } catch (e) {
+              if (process.env.NODE_ENV !== 'production') {
+                console.error(e); // eslint-disable-line no-console
+              }
+            }
           }
         }
       }
