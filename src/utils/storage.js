@@ -25,6 +25,12 @@ const storage = {
 
 export default storage;
 
+function warnType(id) {
+  if (typeof id !== 'string') {
+    console.warn(`ID should be a string, not a ${typeof id}`); // eslint-disable-line no-console
+  }
+}
+
 export function reduceArray(data, id, reducer) {
   return data.map(item => {
     if (item.id === id) {
@@ -32,6 +38,10 @@ export function reduceArray(data, id, reducer) {
     }
     return item;
   });
+}
+// [audit-todo] can this not be exported?
+export function generateID() {
+  return String(Math.floor(Math.random() * 1000000));
 }
 
 /**
@@ -47,9 +57,7 @@ export async function addItem(key, newItem) {
 
 export async function deleteItem(key, id) {
   const array = await storage.get(key);
-  if (typeof id !== 'string') {
-    console.warn(`ID should be a string, not a ${typeof id}`); // eslint-disable-line no-console
-  }
+  warnType(id);
   const newArray = array.filter(assignment => (
     assignment.id !== id
   ));
@@ -58,13 +66,7 @@ export async function deleteItem(key, id) {
 
 export async function changeItem(key, id, reducer) {
   const array = await storage.get(key);
-  if (typeof id !== 'string') {
-    console.warn(`ID should be a string, not a ${typeof id}`); // eslint-disable-line no-console
-  }
+  warnType(id);
   const newArray = reduceArray(array, id, reducer);
   storage.set({ [key]: newArray });
-}
-
-export function generateID() {
-  return String(Math.floor(Math.random() * 1000000));
 }
