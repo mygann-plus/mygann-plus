@@ -1,4 +1,4 @@
-import { waitForLoad, nodeListToArray } from '../utils/dom';
+import { waitForLoad } from '../utils/dom';
 import registerModule from '../utils/module';
 import { isCurrentDay, addDayChangeListeners } from '../shared/schedule';
 
@@ -48,30 +48,30 @@ function isCurrentClass(timeString) {
   return isCorrectFormat() && isCurrentTime(timeString) && isCurrentDay();
 }
 
-function highlightClass() {
+const domQuery = () => (
+  document.getElementById('accordionSchedules')
+  && document.getElementById('accordionSchedules').children[0]
+  && document.getElementById('accordionSchedules').children[0].children
+  && document.getElementById('accordionSchedules').children[0].children.length
+);
 
-  const DOM_QUERY = () => {
-    return document.getElementById('accordionSchedules')
-          && document.getElementById('accordionSchedules').children[0]
-          && document.getElementById('accordionSchedules').children[0].children
-          && document.getElementById('accordionSchedules').children[0].children.length;
-  };
+async function highlightClass() {
 
-  waitForLoad(DOM_QUERY)
-    .then(() => {
-      nodeListToArray(document.getElementById('accordionSchedules').children).forEach(c => {
-        const timeString = c.children[0].childNodes[0].data.trim();
-        if (isCurrentClass(timeString)) {
-          c.style.background = '#fff38c';
-          setTimeout(() => {
-            if (!document.body.contains(c)) {
-              highlightClass();
-            }
-          }, 50);
-        // c.style.background = 'url("https://i.imgur.com/BYIdZvl.jpg")'; // GOD LOVES YOU
+  await waitForLoad(domQuery);
+
+  const blocks = document.getElementById('accordionSchedules').children;
+  for (const block of blocks) {
+    const timeString = block.children[0].childNodes[0].data.trim();
+    if (isCurrentClass(timeString)) {
+      block.style.background = '#fff38c';
+      // [audit] replace with MutationObserver; extract to shared
+      setTimeout(() => {
+        if (!document.body.contains(block)) {
+          highlightClass();
         }
-      });
-    });
+      }, 50);
+    }
+  }
 
 }
 
