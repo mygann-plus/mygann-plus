@@ -98,12 +98,15 @@ function insertBlock(elemBefore, startTime, endTime) {
 function insertFreeBlock() {
   waitForLoad(DOM_QUERY)
     .then(() => {
-      [].forEach.call(document.getElementById('accordionSchedules').children, (elem, i, all) => {
+      const blocks = Array.from(document.getElementById('accordionSchedules').children);
+      blocks.forEach((elem, i) => {
         const time = elem.children[0].childNodes[0].data.trim();
         const endTime = time.split('-')[1].trim();
-        if (all[i + 1]) {
-          const nextTime = all[i + 1].children[0].childNodes[0].data.trim();
+
+        if (blocks[i + 1]) {
+          const nextTime = blocks[i + 1].children[0].childNodes[0].data.trim();
           const nextStartTime = nextTime.split('-')[0].trim();
+
           if (!(isConsecutive(to24Hr(endTime), to24Hr(nextStartTime)))) {
             insertBlock(elem, endTime, nextStartTime);
             setTimeout(() => {
