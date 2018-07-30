@@ -1,20 +1,16 @@
 import registerModule from '../utils/module';
 import { waitForLoad, insertBefore, createElementFromHTML } from '../utils/dom';
 
-const domQuery = () => (
-  document.getElementsByClassName('fc-header')[0] &&
-  document.getElementsByClassName('fc-header')[0].children[0] &&
-  document.getElementsByClassName('fc-header')[0].children[0].children[0] &&
-  document.getElementsByClassName('fc-header')[0].children[0].children[0].children[0] &&
-  document.getElementsByClassName('fc-header')[0].children[0].children[0].children[0].children[5]
+const getMonthButton = () => (
+  document.querySelector('.fc-header > :first-child > :first-child > :first-child > :nth-child(6)')
 );
 
-function dayScheduleButton() {
-  waitForLoad(domQuery).then(() => {
+async function dayScheduleButton() {
+  await waitForLoad(getMonthButton);
 
-    const monthButton = document.getElementsByClassName('fc-header')[0]
-      .children[0].children[0].children[0].children[5];
-    const dayButtonHtml = `
+  const monthButton = getMonthButton();
+
+  const dayButtonHtml = `
       <span class="fc-button fc-corner-left fc-state-default">
         <span class="fc-button-inner">
           <span class="fc-button-content">day</span>
@@ -25,14 +21,12 @@ function dayScheduleButton() {
       </span>
     `;
 
-    const dayButton = createElementFromHTML(dayButtonHtml);
-    dayButton.addEventListener('click', () => {
-      window.location.hash = 'studentmyday/schedule';
-    });
-    monthButton.classList.remove('fc-corner-left');
-    insertBefore(monthButton, dayButton);
-
+  const dayButton = createElementFromHTML(dayButtonHtml);
+  dayButton.addEventListener('click', () => {
+    window.location.hash = 'studentmyday/schedule';
   });
+  monthButton.classList.remove('fc-corner-left');
+  insertBefore(monthButton, dayButton);
 }
 
 export default registerModule('Day Schedule Button', dayScheduleButton, {
