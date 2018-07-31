@@ -7,8 +7,10 @@ import { sanitizeHTMLString } from '../utils/string';
 
 const TRANSITION_TIME = 500; // milliseconds for fade in/out animations
 
+let wrapperElem;
+const displayedMessages = new Set();
+
 const identifiers = {
-  messagesWrap: 'gocp_message-preview_wrap',
   messageMain: 'gocp_message-preview_message-main',
   controls: 'gocp_message-preview_message-archive',
   text: 'gocp_message-preview_message-text',
@@ -52,152 +54,160 @@ const messageStyles = `
 const formatBodyText = text => {
   const formatted = text
     .replace(/\n/g, ' ')
-    .replace(/\s\s/g, ' ')
+    .replace(/\s+/g, ' ')
     .replace(/<br>/g, ' ')
     .trim();
   return sanitizeHTMLString(formatted);
 };
 const isOnMessagesInbox = () => window.location.hash === '#message/inbox';
 
-function generateMessagePreview(message, disappearTime) {
 
-  const bodyText = formatBodyText(message.body);
-  const urls = getUrls(bodyText);
+class MessagePreview {
 
-  // CREATE ELEMENTS
+  constructor(message, disappearTime) {
+    const bodyText = formatBodyText(message.body);
 
-  const messageHtml = `
-    <a href="https://gannacademy.myschoolapp.com/app/student#message/conversation/${message.id}">
-      <div class="${identifiers.messageMain}">
-        <div class="${identifiers.text}">
-          <b class="gocp_message_preview_message-from">${message.from}: </b>
-          <span class="gocp_message-preview_message-body">
-            ${bodyText}
-          </span>
+    const messageHtml = `
+      <a href="https://gannacademy.myschoolapp.com/app/student#message/conversation/${message.id}">
+        <div class="${identifiers.messageMain}">
+          <div class="${identifiers.text}">
+            <b class="gocp_message_preview_message-from">${message.from}: </b>
+            <span class="gocp_message-preview_message-body">
+              ${bodyText}
+            </span>
+          </div>
+          <div class="${identifiers.controls}">
+            <i class="fa fa-archive"></i>
+            <i class="fa fa-link" style="margin-left: 50%; margin-top: 1px;"></i>
+          </div>
         </div>
-        <div class="${identifiers.controls}">
-          <i class="fa fa-archive"></i>
-          <i class="fa fa-link" style="margin-left: 50%; margin-top: 1px;"></i>
-        </div>
-      </div>
-    </a>
-  `;
+      </a>
+    `;
 
-  const messageElem = createElementFromHTML(messageHtml);
-  const main = messageElem.children[0];
-  const archive = main.children[1].children[0];
-  const link = main.children[1].children[1];
+    this.messageElem = createElementFromHTML(messageHtml);
+    /* eslint-disable prefer-destructuring */
+    this.main = this.messageElem.children[0];
+    this.archive = this.main.children[1].children[0];
+    this.link = this.main.children[1].children[1];
+    /* eslint-enable prefer-destructuring */
 
-  // METHODS
+    this.disappearTime = disappearTime;
+    this.urls = getUrls(bodyText);
 
-  function removeMessage() {
-    messageElem.children[0].style.opacity = '0';
+    this.addEventListeners();
+  }
+
+  addEventListeners() {
+    this.main.addEventListener('click', () => this.removeMessage());
+
+    this.archive.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      this.archiveMessage();
+      this.removeMessage();
+    });
+
+    if (this.urls.length) {
+      this.link.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        window.open(this.urls[0]);
+        this.removeMessage();
+      });
+    } else {
+      this.link.remove();
+    }
+
+    this.fadeIn();
+    setTimeout(() => this.fadeOut(), this.disappearTime * 1000);
+  }
+
+  removeMessage() {
+    this.messageElem.children[0].style.opacity = '0';
     setTimeout(() => {
-      if (messageElem.parentNode) {
-        messageElem.remove();
+      if (this.messageElem.parentNode) {
+        this.messageElem.remove();
       }
     }, TRANSITION_TIME);
   }
 
-  function archiveMessage() {
+  archiveMessage() {
     if (isOnMessagesInbox()) {
       document
-        .querySelector(`tr[data-messageid="${message.id}"]`)
-        .querySelector('button[title="Archive"]')
+        .querySelector(`tr[data-messageid="${this.message.id}"] button[title="Archive"]`)
         .click();
     } else {
-      fetchApi(`/api/message/conversationarchive/${message.id}?format=json`, {
+      fetchApi(`/api/message/conversationarchive/${this.message.id}?format=json`, {
         method: 'PUT',
         body: JSON.stringify({
-          id: message.id,
+          id: this.message.id,
           unarchive: false,
         }),
       });
     }
   }
 
-  function fadeOut() {
-    if (document.querySelectorAll(`#${identifiers.messagesWrap}:hover`).length === 0) {
-      removeMessage();
+  fadeOut() {
+    if (!wrapperElem.matches(':hover')) {
+      this.removeMessage();
     } else {
-      document.getElementById(identifiers.messagesWrap).addEventListener('mouseleave', removeMessage);
+      wrapperElem.addEventListener('mouseleave', () => {
+        this.removeMessage();
+      }, {
+        once: true,
+      });
     }
   }
-  function fadeIn() {
-    main.style.opacity = '1';
+  fadeIn() {
+    this.main.style.opacity = '1';
   }
+}
 
-  // EVENT LISTENERS
-
-  main.addEventListener('click', removeMessage);
-
-  archive.addEventListener('click', e => {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    archiveMessage();
-    removeMessage();
-  });
-
-  if (urls.length) {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      window.open(urls[0]);
-      removeMessage();
-    });
-  } else {
-    link.remove();
-  }
-
-  fadeIn();
-  setTimeout(fadeOut, disappearTime * 1000);
-
-  document.getElementById(identifiers.messagesWrap).appendChild(messageElem);
+function createWrapper() {
+  const wrap = document.createElement('div');
+  wrap.style.position = 'fixed';
+  wrap.style.right = '60px';
+  wrap.style.bottom = '50px';
+  wrap.style.zIndex = '1';
+  return wrap;
 }
 
 function generatePreviews(messages, disappearTime) {
-
-  // don't re-show preview on hash change
-  const existingWrap = document.getElementById(identifiers.messagesWrap);
-  if (existingWrap) {
-    return;
+  for (const message of messages) {
+    if (!displayedMessages.has(message.id)) {
+      displayedMessages.add(message.id);
+      const preview = new MessagePreview(message, disappearTime);
+      wrapperElem.appendChild(preview.messageElem);
+    }
   }
-
-  const wrapElem = document.createElement('div');
-  wrapElem.id = identifiers.messagesWrap;
-  wrapElem.style.position = 'fixed';
-  wrapElem.style.right = '60px';
-  wrapElem.style.bottom = '50px';
-  wrapElem.style.zIndex = '1';
-
-  document.body.appendChild(wrapElem);
-
-  messages.forEach(m => generateMessagePreview(m, disappearTime));
 }
 
-function getMessages() {
-  return fetchApi('/api/message/inbox/?format=json')
-    .then(data => {
-      return data
-        .map(conversation => {
-          return conversation.Messages.filter(message => !message.ReadInd)[0];
-        })
-        .filter(Boolean)
-        .map(conversation => ({
-          from: `${conversation.FromUser.FirstName} ${conversation.FromUser.LastName}`,
-          body: conversation.Body,
-          id: conversation.ConversationId,
-        }));
-    })
-    .catch(() => {
-      // will throw if not signed in or servers are down
-      // don't display error message, because errors are shown natively
-      return [];
-    });
+async function getMessages() {
+  try {
+    const data = await fetchApi('/api/message/inbox/?format=json');
+    return data
+      .map(conversation => {
+        return conversation.Messages.filter(message => !message.ReadInd)[0];
+      })
+      .filter(Boolean)
+      .map(conversation => ({
+        from: `${conversation.FromUser.FirstName} ${conversation.FromUser.LastName}`,
+        body: conversation.Body,
+        id: conversation.ConversationId,
+      }));
+  } catch (e) {
+    // will throw if not signed in or servers are down
+    // don't display error message, because errors are shown natively
+    return [];
+  }
 }
 
 async function messagePreview(options) {
-  insertCss(messageStyles);
+  if (!wrapperElem) {
+    insertCss(messageStyles);
+    wrapperElem = createWrapper();
+    document.body.appendChild(wrapperElem);
+  }
   const messages = (await getMessages()).slice(0, options.maxMessages);
   generatePreviews(messages, options.disappearTime);
 }
