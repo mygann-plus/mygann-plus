@@ -1,18 +1,9 @@
 import registerModule from '../utils/module';
 import {
   waitForLoad,
-  nodeListToArray,
   createElementFromHTML,
 } from '../utils/dom';
-
-const DOM_QUERY = () => (
-  document.getElementById('coursesContainer') &&
-  document.getElementById('coursesContainer').children &&
-  document.getElementById('coursesContainer').children.length &&
-  document.getElementsByClassName('bb-tile-content-section')[3] &&
-  document.getElementsByClassName('bb-tile-content-section')[3].children[0] &&
-  document.getElementsByClassName('btn btn-default btn-sm bold')[0]
-);
+import { coursesListLoaded } from '../shared/progress';
 
 function selectCourse({ elem }) {
   elem.parentNode.getElementsByClassName('btn btn-default')[0].click();
@@ -44,39 +35,39 @@ function getPreviousCourse(courses, course) {
   return getNextCourse(reversedCourses, course);
 }
 
-function nextGradedCourse() {
-  waitForLoad(DOM_QUERY)
-    .then(() => {
+const domQuery = () => (
+  coursesListLoaded() &&
+  document.getElementsByClassName('btn btn-default btn-sm bold')[0]
+);
 
-      const gradeElemToObject = e => ({
-        grade: e.textContent.trim(),
-        class: e.parentNode.parentNode.children[0].children[0].children[0].innerText,
-        elem: e,
+async function nextGradedCourse() {
+  await waitForLoad(domQuery);
+
+  const gradeElemToObject = e => ({
+    grade: e.textContent.trim(),
+    class: e.parentNode.parentNode.children[0].children[0].children[0].innerText,
+    elem: e,
+  });
+
+  const courses = Array.from(document.getElementsByClassName('showGrade'))
+    .map(gradeElemToObject);
+
+  for (const course of courses) {
+    course.elem.parentNode
+      .querySelector('.btn.btn-default')
+      .addEventListener('click', async () => {
+        await waitForLoad(() => document.querySelectorAll('button[data-analysis="next"]').length);
+        const nextCourses = getNextCourse(courses, course);
+        const prevCourses = getPreviousCourse(courses, course);
+        const nextGradedButton = generateButton(nextCourses, 'forward');
+        const prevGradedButton = generateButton(prevCourses, 'backward');
+
+        const nextButton = document.querySelectorAll('button[data-analysis="next"]')[0];
+        const prevButton = document.querySelectorAll('button[data-analysis="prev"]')[0];
+        nextButton.after(nextGradedButton);
+        prevButton.before(prevGradedButton);
       });
-
-      const courses = nodeListToArray(document.getElementsByClassName('showGrade'))
-        .map(gradeElemToObject);
-
-      courses.forEach(course => {
-        course.elem.parentNode
-          .getElementsByClassName('btn btn-default')[0]
-          .addEventListener('click', () => {
-            waitForLoad(() => document.querySelectorAll('button[data-analysis="next"]').length)
-              .then(() => {
-                const nextCourses = getNextCourse(courses, course);
-                const prevCourses = getPreviousCourse(courses, course);
-                const nextGradedButton = generateButton(nextCourses, 'forward');
-                const prevGradedButton = generateButton(prevCourses, 'backward');
-
-                const nextButton = document.querySelectorAll('button[data-analysis="next"]')[0];
-                const prevButton = document.querySelectorAll('button[data-analysis="prev"]')[0];
-                nextButton.after(nextGradedButton);
-                prevButton.before(prevGradedButton);
-              });
-          });
-      });
-
-    });
+  }
 }
 
 export default registerModule('Next Graded Course', nextGradedCourse);
