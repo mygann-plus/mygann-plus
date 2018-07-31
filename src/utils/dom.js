@@ -23,14 +23,6 @@ export function waitForLoad(condition, optionalDocument) {
 
 }
 
-export async function registerListeners(elemsFunc, listener) {
-  // elemsFunc returns an array of elements, not a NodeList
-  waitForLoad(() => elemsFunc().every(e => !!e)) // every element is defined
-    .then(() => {
-      elemsFunc().forEach(e => e.addEventListener('click', listener));
-    });
-}
-
 export function constructButton(innerText, id, iClassName, onclick) {
   let elem = document.createElement('button');
   let i = document.createElement('i');
@@ -62,10 +54,10 @@ export function hasParentWithClassName(element, classnames) {
 
 export function insertCss(css) {
   const styleElem = document.createElement('style');
-  styleElem.innerText = css;
+  styleElem.textContent = css;
   document.head.appendChild(styleElem);
   return {
-    remove: () => {
+    remove() {
       if (styleElem && styleElem.parentNode) {
         styleElem.remove();
       }
@@ -80,8 +72,7 @@ export function createElementFromHTML(htmlString, parent) {
 }
 
 export function addEventListeners(nodes, event, callback) {
-  if (!(nodes instanceof Array)) {
-    nodes = nodeListToArray(nodes);
+  for (const node of nodes) {
+    node.addEventListener(event, callback);
   }
-  nodes.forEach(node => node.addEventListener(event, callback));
 }
