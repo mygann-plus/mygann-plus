@@ -18,7 +18,6 @@ import dayScheduleButton from './modules/day-schedule-button';
 import favorites from './modules/favorites';
 import inlineAssignmentGrade from './modules/inline-assignment-grade';
 import oneClickLogin from './modules/one-click-login';
-import messageDraft from './modules/message-draft';
 import exitCompose from './modules/exit-compose';
 
 const MODULE_MAP = {
@@ -37,7 +36,7 @@ const MODULE_MAP = {
     improveGrades,
     nextGradedCourse,
   ],
-  '#message': [archiveAll, messageDraft],
+  '#message': [archiveAll],
   '#message/compose': [exitCompose],
   '#searchresults/summary': [filterWebsiteMainSearch],
   '#myschedule': [dayScheduleButton],
