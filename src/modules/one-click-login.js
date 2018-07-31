@@ -6,12 +6,14 @@ const getNextbtn = () => document.getElementById('nextBtn');
 
 async function oneClickLogin() {
   await waitForLoad(() => getPasswordDiv() && getNextbtn());
+
   getPasswordDiv().style.display = 'block';
   getNextbtn().value = 'Login';
-  document.getElementById('nextBtn').addEventListener('click', () => {
+
+  document.getElementById('nextBtn').addEventListener('click', async () => {
     document.getElementById('loginBtn').click();
-    waitForLoad(() => document.getElementById('site-login-alert').children.length)
-      .then(() => { document.getElementById('Username').disabled = false; });
+    await waitForLoad(() => document.getElementById('site-login-alert').children.length);
+    document.getElementById('Username').disabled = false;
   });
 }
 
