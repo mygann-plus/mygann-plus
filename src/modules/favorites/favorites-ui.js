@@ -1,6 +1,6 @@
 import { sanitizeHTMLString } from '../../utils/string';
 import { getAssetUrl } from '../../utils/assets';
-import Dialog from '../../utils/dialogue';
+import Dialog from '../../utils/dialog';
 import { createElementFromHTML, addEventListeners } from '../../utils/dom';
 
 import {
@@ -88,7 +88,6 @@ export function createDialogBody(favorite = {}) {
               id="${selectors.dialog.title}" 
               value="${title}" 
               required 
-              autofocus 
               autocomplete="off"
             > 
           </div>
@@ -178,9 +177,17 @@ async function handleEdit(event) {
   };
 
   const dialog = new Dialog('Edit Favorite', createDialogBody(oldFavorite), {
-    onSave: handleSave,
+    leftButtons: [
+      {
+        name: 'Save',
+        primary: true,
+        onClick: handleSave,
+      },
+      Dialog.buttons.CANCEL,
+    ],
   });
   dialog.open();
+  dialog.getBody().querySelector(`#${selectors.dialog.title}`).focus();
 
 }
 
@@ -198,9 +205,17 @@ function handleAdd(event) {
   };
 
   const addDialog = new Dialog('Add Favorite', createDialogBody(), {
-    onSave: handleDialogSave,
+    leftButtons: [
+      {
+        name: 'Add',
+        primary: true,
+        onClick: handleDialogSave,
+      },
+      Dialog.buttons.CANCEL,
+    ],
   });
   addDialog.open();
+  addDialog.getBody().querySelector(`#${selectors.dialog.title}`).focus();
 
 }
 

@@ -1,6 +1,6 @@
 import registerModule from '../utils/module';
-import { waitForLoad, constructButton, nodeListToArray, createElementFromHTML } from '../utils/dom';
-import Dialog from '../utils/dialogue';
+import { waitForLoad, constructButton, createElementFromHTML } from '../utils/dom';
+import Dialog from '../utils/dialog';
 import { coursesListLoaded } from '../shared/progress';
 
 function letterGradeFromNumber(num) {
@@ -49,10 +49,9 @@ function generateReport() {
   const dialogElem = createElementFromHTML(`<span>${gradesString}</span>`);
 
   const dialog = new Dialog('Grade Summary', dialogElem, {
-    buttons: [Dialog.buttons.OKAY],
+    leftButtons: [Dialog.buttons.OK],
   });
   dialog.open();
-
 }
 
 const getCoursesBar = () => (
