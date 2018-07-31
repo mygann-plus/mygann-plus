@@ -1,5 +1,6 @@
 import { waitForLoad, insertCss } from '../utils/dom';
 import registerModule from '../utils/module';
+import { coursesListLoaded } from '../shared/progress';
 
 const CHECKED_ATTR = 'data-gocp-courses_filter-checked';
 
@@ -140,11 +141,7 @@ function renderFilterBar() {
 }
 
 const domQuery = () => (
-  document.getElementById('coursesContainer') &&
-  document.getElementById('coursesContainer').children &&
-  document.getElementById('coursesContainer').children.length &&
-  document.getElementsByClassName('bb-tile-content-section')[3] &&
-  document.getElementsByClassName('bb-tile-content-section')[3].children[0] &&
+  coursesListLoaded() &&
   document.getElementById('showHideGrade')
 );
 

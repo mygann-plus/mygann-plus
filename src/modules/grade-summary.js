@@ -1,6 +1,7 @@
 import registerModule from '../utils/module';
 import { waitForLoad, constructButton, nodeListToArray, createElementFromHTML } from '../utils/dom';
 import Dialog from '../utils/dialogue';
+import { coursesListLoaded } from '../shared/progress';
 
 function letterGradeFromNumber(num) {
   const number = Number(num.split('%')[0]);
@@ -54,19 +55,13 @@ function generateReport() {
 
 }
 
-const domQuery = () => (
-  document.querySelector('#coursesContainer > *') &&
-  document.querySelectorAll('.bb-tile-content-section')[3] &&
-  document.querySelectorAll('.bb-tile-content-section')[3].children[0]
-);
-
 const getCoursesBar = () => (
   document.querySelector(`#courses > :first-child > :first-child > :nth-child(2)
     > :first-child > :first-child > :first-child`)
 );
 
 async function gradeSummary() {
-  await waitForLoad(domQuery);
+  await waitForLoad(coursesListLoaded);
 
   const button = constructButton(
     'Grade Summary',

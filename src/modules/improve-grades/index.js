@@ -7,6 +7,7 @@ import { waitForLoad, constructButton, insertCss, createElementFromHTML } from '
 import registerModule from '../../utils/module';
 
 import ConfettiGenerator from './confetti';
+import { coursesListLoaded } from '../../shared/progress';
 
 function addStyles() {
   insertCss(`
@@ -111,13 +112,6 @@ function showConfetti() {
   const confetti = new ConfettiGenerator(confettiSettings);
   confetti.render();
 }
-const DOM_QUERY = () => (
-  document.getElementById('coursesContainer') &&
-  document.getElementById('coursesContainer').children &&
-  document.getElementById('coursesContainer').children.length &&
-  document.getElementsByClassName('bb-tile-content-section')[3] &&
-  document.getElementsByClassName('bb-tile-content-section')[3].children[0]
-);
 
 function isAprilFools() {
   const date = new Date();
@@ -129,7 +123,7 @@ async function improveGrades() {
   if (!isAprilFools()) {
     return;
   }
-  await waitForLoad(DOM_QUERY);
+  await waitForLoad(coursesListLoaded);
 
   const button = constructButton('IMPROVE GRADES', 'gocp_improve-grades_button', '', () => {
     changeGrades();
