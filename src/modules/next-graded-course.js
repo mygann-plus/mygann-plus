@@ -6,7 +6,7 @@ import {
 import { coursesListLoaded } from '../shared/progress';
 
 function selectCourse({ elem }) {
-  elem.parentNode.getElementsByClassName('btn btn-default')[0].click();
+  elem.parentNode.querySelector('.btn.btn-default').click();
 }
 
 function generateButton(followingCourse, icon) {
@@ -37,7 +37,7 @@ function getPreviousCourse(courses, course) {
 
 const domQuery = () => (
   coursesListLoaded() &&
-  document.getElementsByClassName('btn btn-default btn-sm bold')[0]
+  document.querySelector('.btn.btn-default.btn-sm.bold')
 );
 
 async function nextGradedCourse() {
