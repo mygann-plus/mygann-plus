@@ -2,7 +2,7 @@
 ### Added
 - "Coming Up" module, which shows a preview of the next day's events in the schedule.
 - "Favorites" module
-- "Day Schedule Button" module, which adds a button tutton to return to the day view in the month & week schedule view.
+- "Day Schedule Button" module, which adds a button to return to the day view in the month & week schedule view.
 - "One Click Login" module, which restores the login page to before the summer of 2018 update with only one login button (as opposed to post-2018 version, which requires two button clicks: "next", then "login")
 - Previous graded course button added to Next Graded Course module.
 - Hide ungraded courses feature in Filter Courses module.
@@ -16,11 +16,12 @@
 - "Courses Search" module renamed to "Courses Filter"
 - Options moved into desktop and mobile main dropdown
 - Option dialog improvements
-  - Popup box no longer appears and page no longer reloads after saving.
+  - Popup box no longer appears after saving.
   - Small look & feel tweaks, including font size, spacing, colors, and backdrop.
   - Longer descriptions for Filter Website from Search, One Click Login, and Inline Assignment Grade.
   - Ability to reset options to default values.
 - Use native dialog instead of alert for Grade Summary.
+- Dialogs respond to escape key and are more consistent with native dialogs.
 - Message Preview is now significantly faster and does not slow down the rest of the page while loading.
 
 ### Fixed
