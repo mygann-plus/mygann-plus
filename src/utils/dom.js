@@ -31,14 +31,6 @@ export async function registerListeners(elemsFunc, listener) {
     });
 }
 
-// gets list of already loaded elements by their IDs
-export function getElementsByIds(ids) { return ids.map(id => document.getElementById(id)); }
-// gets list of unloaded elements by their IDS; is async
-export async function getUnloadedElementsByIds(ids) {
-  await waitForLoad(() => ids.every(id => document.getElementById(id)));
-  return getElementsByIds(ids);
-}
-
 export function constructButton(innerText, id, iClassName, onclick) {
   let elem = document.createElement('button');
   let i = document.createElement('i');
@@ -66,14 +58,6 @@ export function hasParentWithClassName(element, classnames) {
     return true;
   }
   return element.parentNode && hasParentWithClassName(element.parentNode, classnames);
-}
-
-export function removeElements(elements) {
-  if (elements instanceof Array) {
-    elements.forEach(e => e.remove());
-  } else {
-    nodeListToArray(elements).forEach(e => e.remove());
-  }
 }
 
 export function insertCss(css) {
