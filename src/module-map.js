@@ -19,6 +19,7 @@ import favorites from './modules/favorites';
 import inlineAssignmentGrade from './modules/inline-assignment-grade';
 import oneClickLogin from './modules/one-click-login';
 import messageDraft from './modules/message-draft';
+import exitCompose from './modules/exit-compose';
 
 const MODULE_MAP = {
   '#': [searchClassesMenu, messagePreview, options, favorites], // universal modules
@@ -37,6 +38,7 @@ const MODULE_MAP = {
     nextGradedCourse,
   ],
   '#message': [archiveAll, messageDraft],
+  '#message/compose': [exitCompose],
   '#searchresults/summary': [filterWebsiteMainSearch],
   '#myschedule': [dayScheduleButton],
 
@@ -51,6 +53,7 @@ const SECTION_MAP = {
   '#studentmyday/schedule': 'Schedule',
   '#studentmyday/progress': 'Progress',
   '#message': 'Messages',
+  '#message/compose': 'Message Compose',
   '#searchresults/summary': 'Search Results Summary',
   '#myschedule': 'Month & Week Schedule',
 
