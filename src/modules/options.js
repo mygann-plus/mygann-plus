@@ -2,7 +2,6 @@ import registerModule from '../utils/module';
 import storage from '../utils/storage';
 import {
   waitForLoad,
-  nodeListToArray,
   insertCss,
   createElementFromHTML,
 } from '../utils/dom';
@@ -10,9 +9,24 @@ import {
 import { MODULE_MAP, SECTION_MAP } from '../module-map';
 import Dialog from '../utils/dialogue';
 
-const identifiers = {
+const selectors = {
   extraOptions: 'gocp_options_extra-options',
-  suboptionKeyAttribute: 'gocp_options_suboption-key',
+  suboptionKeyAttribute: 'data-gocp_options_suboption-key',
+  module: {
+    wrap: 'gocp_options_module-wrap',
+    top: 'gocp_options_module-top',
+    label: 'gocp_options_module-label',
+    input: 'gocp_options_module-input',
+    caption: 'gocp_options_module-caption',
+    checkbox: 'gocp_options_module-checkbox',
+    description: 'gocp_options_module-description',
+    expandLink: 'gocp_options_module-expand-link',
+    chevron: 'gocp_options_module-chevron',
+  },
+  suboption: {
+    input: 'gocp_options_suboption-input',
+    label: 'gocp_options_suboption-label',
+  },
 };
 
 const formatModuleName = name => {
@@ -20,12 +34,6 @@ const formatModuleName = name => {
   return n.charAt(0).toUpperCase() + n.substring(1);
 };
 const formatDescription = desc => desc.replace(/\n/g, ' ');
-
-function toggleSuboptions(suboptions) {
-  const isOpen = suboptions.classList.contains('open');
-  suboptions.classList.remove(isOpen ? 'open' : 'closed');
-  suboptions.classList.add(isOpen ? 'closed' : 'open');
-}
 
 function createSuboption(key, value, option) {
   const label = document.createElement('label');
@@ -45,7 +53,7 @@ function createSuboption(key, value, option) {
       option.enumValues.forEach(val => {
         const optionElem = document.createElement('option');
         optionElem.value = val;
-        optionElem.innerText = val;
+        optionElem.textContent = val;
         input.appendChild(optionElem);
       });
       break;
@@ -65,14 +73,14 @@ function createSuboption(key, value, option) {
       }
     });
   }
-  input.style.marginLeft = '7px';
-  input.style.display = 'inline-block';
+  input.className = selectors.suboption.input;
+  label.className = selectors.suboption.label;
 
-  label.innerText = `${option.name}:`;
-  label.style.fontWeight = 'normal';
-  label.style.marginLeft = '10px';
-  label.setAttribute('gocp_options_suboption-key', key);
+  label.textContent = `${option.name}:`;
+  label.setAttribute(selectors.suboptionKeyAttribute, key);
   label.appendChild(input);
+
+
   return label;
 }
 
@@ -84,11 +92,11 @@ function createOptionsSection(sectionTitle, modules, sectionHref, opts) {
   sectionWrap.setAttribute('data-gocp-href', sectionHref);
   sectionWrap.style.marginTop = '10px';
   title.className = 'bb-section-heading';
-  title.innerText = sectionTitle;
+  title.textContent = sectionTitle;
   optionsWrap.style.padding = '2px 0';
 
-  modules.forEach(({ name, config }) => {
-    if (!config.showInOptions) return;
+  for (const { name, config } of modules) {
+    if (!config.showInOptions) continue;
 
     const wrap = document.createElement('div');
     const top = document.createElement('div');
@@ -101,33 +109,24 @@ function createOptionsSection(sectionTitle, modules, sectionHref, opts) {
     const chevron = document.createElement('i');
     const extraOptions = document.createElement('div');
 
-    wrap.style.background = '#f0efef';
-    wrap.style.marginBottom = '5px';
     wrap.setAttribute('data-gocp-module', name);
-    top.style.padding = '10px';
-    label.className = 'bb-check-wrapper';
+    wrap.className = selectors.module.wrap;
+    top.className = selectors.module.top;
+    label.classList.add('bb-check-wrapper', selectors.module.label);
     label.setAttribute('for', name);
-    label.style.display = 'inline-block';
-    label.style.maxWidth = '95%';
-    label.style.margin = '0';
     input.id = name;
     input.type = 'checkbox';
     input.checked = opts[name].enabled;
-    checkbox.className = 'bb-check-checkbox';
-    caption.style.fontWeight = 'normal';
-    caption.style.marginLeft = '10px';
-    caption.innerText = formatModuleName(name);
-    description.style.paddingLeft = '4px';
-    description.style.color = '#9d9d9d';
-    description.innerText = config.description && `- ${formatDescription(config.description)}`;
-    expandLink.style.color = 'black';
-    expandLink.style.float = 'right';
-    expandLink.style.cursor = 'pointer';
-    expandLink.style.maxWidth = '5%';
-    expandLink.addEventListener('click', () => toggleSuboptions(extraOptions));
-    chevron.className = 'fa fa-chevron-down';
-    chevron.style.fontSize = '17px';
-    extraOptions.className = `${identifiers.extraOptions} closed`;
+    input.className = selectors.module.input;
+    checkbox.classList.add('bb-check-checkbox', selectors.module.checkbox);
+    caption.textContent = formatModuleName(name);
+    caption.className = selectors.module.caption;
+    description.textContent = config.description && `- ${formatDescription(config.description)}`;
+    description.className = selectors.module.description;
+    expandLink.addEventListener('click', () => extraOptions.classList.toggle('open'));
+    expandLink.className = selectors.module.expandLink;
+    chevron.classList.add('fa', 'fa-chevron-down', selectors.module.chevron);
+    extraOptions.className = `${selectors.extraOptions}`;
 
     caption.appendChild(description);
     expandLink.appendChild(chevron);
@@ -139,7 +138,7 @@ function createOptionsSection(sectionTitle, modules, sectionHref, opts) {
 
     if (Object.keys(config.options).length > 0) {
       const suboptions = [];
-      for (let i in config.options) {
+      for (const i in config.options) {
         suboptions.push(createSuboption(i, opts[name].options[i], config.options[i]));
       }
       suboptions.forEach(suboption => extraOptions.appendChild(suboption));
@@ -148,7 +147,7 @@ function createOptionsSection(sectionTitle, modules, sectionHref, opts) {
     }
 
     optionsWrap.appendChild(wrap);
-  });
+  }
 
   sectionWrap.appendChild(title);
   sectionWrap.appendChild(optionsWrap);
@@ -178,21 +177,23 @@ const saveOptions = async () => {
   // generate options object
   const opts = {};
 
-  const sectionElems = nodeListToArray(document.getElementById('gocp_options_sections').children);
-  for (let i = 0; i < sectionElems.length; i++) {
-    const href = sectionElems[i].getAttribute('data-gocp-href');
-    const moduleElems = sectionElems[i].children[1].children;
+  const sectionElems = document.getElementById('gocp_options_sections').children;
+
+  for (const sectionElem of sectionElems) {
+    const href = sectionElem.getAttribute('data-gocp-href');
+    const moduleElems = sectionElem.children[1].children;
     opts[href] = {};
-    for (let j = 0; j < moduleElems.length; j++) {
-      const module = moduleElems[j].getAttribute('data-gocp-module');
+
+    for (const moduleElem of moduleElems) {
+      const module = moduleElem.getAttribute('data-gocp-module');
       opts[href][module] = {
-        enabled: moduleElems[j].children[0].children[0].children[0].checked,
+        enabled: moduleElem.children[0].children[0].children[0].checked,
         options: {},
       };
       const suboptions = MODULE_MAP[href].find(m => m.name === module).config.options;
-      for (let suboptKey in suboptions) {
-        const query = `label[${identifiers.suboptionKeyAttribute}="${suboptKey}"`;
-        const label = moduleElems[j].querySelector(query);
+      for (const suboptKey in suboptions) {
+        const query = `label[${selectors.suboptionKeyAttribute}="${suboptKey}"`;
+        const label = moduleElem.querySelector(query);
         const value = getSuboptionValue(label, suboptions[suboptKey].type);
         opts[href][module].options[suboptKey] = value;
       }
@@ -204,12 +205,18 @@ const saveOptions = async () => {
 };
 
 const loadOptions = async () => {
-  document.getElementById('gocp_options_sections').innerHTML = '';
+  const sectionsWrap = document.getElementById('gocp_options_sections');
+  sectionsWrap.innerHTML = '';
+
   const opts = await storage.get('options');
-  for (let i in MODULE_MAP) {
-    // created elem-by-elem because embedding HTML will cause event listeners not to work
-    let section = createOptionsSection(SECTION_MAP[i], MODULE_MAP[i], i, opts[i]);
-    document.getElementById('gocp_options_sections').appendChild(section);
+  for (const sectionName in MODULE_MAP) {
+    const section = createOptionsSection(
+      SECTION_MAP[sectionName],
+      MODULE_MAP[sectionName],
+      sectionName,
+      opts[sectionName],
+    );
+    sectionsWrap.appendChild(section);
   }
 };
 
@@ -219,19 +226,19 @@ const resetOptions = async () => {
 
   const opts = {};
 
-  for (let i in MODULE_MAP) {
-    opts[i] = {};
-    for (let j in MODULE_MAP[i]) {
-      const { name: moduleName } = MODULE_MAP[i][j];
+  for (const section in MODULE_MAP) {
+    opts[section] = {};
+    for (const module in MODULE_MAP[section]) {
+      const { name: moduleName } = MODULE_MAP[section][module];
 
-      opts[i][moduleName] = {
-        enabled: true,
+      opts[section][moduleName] = {
+        enabled: MODULE_MAP[section][module].config.defaultEnabled,
         options: {},
       };
 
-      for (let subopt in MODULE_MAP[i][j].config.options) {
-        const { defaultValue } = MODULE_MAP[i][j].config.options[subopt];
-        opts[i][moduleName].options[subopt] = defaultValue;
+      for (const subopt in MODULE_MAP[section][module].config.options) {
+        const { defaultValue } = MODULE_MAP[section][module].config.options[subopt];
+        opts[section][moduleName].options[subopt] = defaultValue;
       }
     }
   }
@@ -241,49 +248,42 @@ const resetOptions = async () => {
 };
 
 async function constructDialog() {
-
   const dialog = new Dialog('Gann OnCampus+ Options', createElementFromHTML(generateDialogHtml()), {
     onSave: saveOptions,
     onRight: resetOptions,
     rightButton: '<a href="#">Reset Options</a>',
-    backdrop: true,
   });
   dialog.open();
   loadOptions();
-
 }
 
 function appendNavLink() {
   if (document.getElementById('gocp_options_navlink')) return;
 
-  const menu = document.getElementsByClassName('oneline parentitem last')[0].children[2].firstChild;
+  const menu = document.querySelector('.oneline.parentitem.last > :nth-child(3) > :first-child');
   const nativeSettingsLink = menu.children[2];
 
-  const li = document.createElement('li');
-  const a = document.createElement('a');
-  const desc = document.createElement('span');
-  const title = document.createElement('span');
+  const html = `
+    <li id="gocp_options_navlink">
+      <a href="#" class="pri-75-bgc-hover black-fgc white-fgc-hover active">
+        <span class="desc">
+          <span class="title">OnCampus+ Options</span>
+        </span>
+      </a>
+    </li>
+  `;
 
-  li.id = 'gocp_options_navlink';
-  a.href = '#';
-  a.className = 'pri-75-bgc-hover black-fgc white-fgc-hover active';
-  a.addEventListener('click', e => {
+  const link = createElementFromHTML(html);
+  link.firstElementChild.addEventListener('click', e => {
     e.preventDefault();
     constructDialog();
   });
-  desc.className = 'desc';
-  title.className = 'title';
-  title.innerText = 'OnCampus+ Options';
-
-  desc.appendChild(title);
-  a.appendChild(desc);
-  li.appendChild(a);
-  nativeSettingsLink.after(li);
+  nativeSettingsLink.after(link);
 
 }
 
 function appendMobileNavLink() {
-  if (document.getElementById('gocp_options_mobilenavlink')) return;
+  if (document.querySelector('#gocp_options_mobilenavlink')) return;
 
   const mobileNavLinkHtml = `
     <li>
@@ -305,36 +305,80 @@ function insertStyles() {
     .site-header-nav div.subnav li a {
       width: 147px;
     }
-    .gocp_options_extra-options.closed {
+    .gocp_options_extra-options {
       display: none;
     }
-    gocp_options_extra-options.open {
+    .gocp_options_extra-options.open {
       display: block;
+    }
+    
+    .${selectors.module.wrap} {
+      background: #f0efef;
+      margin-bottom: 5px;
+    }
+
+    .${selectors.module.top} {
+      padding: 10px;
+    }
+    
+    .${selectors.module.label} {
+      display: inline-block;
+      max-width: 95%;
+      margin: 0;
+    }
+    
+    .${selectors.module.caption} {
+      font-weight: normal; 
+      margin-left: 10px;
+    }
+
+    .${selectors.module.chevron} {
+      font-size: 17px;
+    }
+    
+    .${selectors.module.description} {
+      padding-left: 4px;
+      color: #9d9d9d;
+    }
+    
+    .${selectors.module.expandLink} {
+      max-width: 5%;
+      color: black;
+      float: right;
+      cursor: pointer;
+    }
+
+
+    .${selectors.suboption.input} {
+      margin-left: 7px;
+      display: inline-block;
+    }
+
+    .${selectors.suboption.label} {
+      font-weight: normal;
+      margin-left: 10px;
     }
   `);
 }
 
 const domQuery = {
-  header: () => (
-    document.getElementsByClassName('oneline parentitem last')[0] &&
-    document.getElementsByClassName('oneline parentitem last')[0]
-      .getElementsByClassName('subnavtop').length
-  ),
-  mobileMenu: () => document.getElementById('mobile-account-nav'),
+  header: () => document.querySelector('.oneline.parentitem.last .subnavtop'),
+  mobileMenu: () => document.querySelector('#mobile-account-nav'),
 };
 
 function options() {
   waitForLoad(domQuery.header).then(appendNavLink);
 
   waitForLoad(domQuery.mobileMenu).then(() => {
-    document.getElementById('mobile-account-nav').addEventListener('click', () => {
-      waitForLoad(() => (
-        document.getElementsByClassName('app-mobile-level').length &&
-        document.getElementById('mobile-settings-link')
-      ))
-        .then(appendMobileNavLink);
+    document.querySelector('#mobile-account-nav').addEventListener('click', async () => {
+      await waitForLoad(() => (
+        document.querySelector('.app-mobile-level') &&
+        document.querySelector('#mobile-settings-link')
+      ));
+      appendMobileNavLink();
     });
   });
+
   insertStyles();
 }
 
