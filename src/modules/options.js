@@ -7,11 +7,15 @@ import {
 } from '../utils/dom';
 
 import { MODULE_MAP, SECTION_MAP } from '../module-map';
-import Dialog from '../utils/dialogue';
+import Dialog from '../utils/dialog';
 
 const selectors = {
-  extraOptions: 'gocp_options_extra-options',
   suboptionKeyAttribute: 'data-gocp_options_suboption-key',
+  section: {
+    wrap: 'gocp_options_section-wrap',
+    title: 'gocp_options_section-title',
+    optionsWrap: 'gocp_options_section-option-wrap',
+  },
   module: {
     wrap: 'gocp_options_module-wrap',
     top: 'gocp_options_module-top',
@@ -22,6 +26,7 @@ const selectors = {
     description: 'gocp_options_module-description',
     expandLink: 'gocp_options_module-expand-link',
     chevron: 'gocp_options_module-chevron',
+    extraOptions: 'gocp_options_module-extra-options',
   },
   suboption: {
     input: 'gocp_options_suboption-input',
@@ -35,195 +40,214 @@ const formatModuleName = name => {
 };
 const formatDescription = desc => desc.replace(/\n/g, ' ');
 
-function createSuboption(key, value, option) {
-  const label = document.createElement('label');
-  let input;
 
-  switch (option.type) {
-    case 'string':
-      input = document.createElement('input');
-      break;
+function validateSuboption(input, suboption) {
+  switch (suboption.type) {
     case 'number':
-      input = document.createElement('input');
-      input.type = 'number';
-      if (option.min !== undefined) input.min = option.min;
-      break;
-    case 'enum':
-      input = document.createElement('select');
-      option.enumValues.forEach(val => {
-        const optionElem = document.createElement('option');
-        optionElem.value = val;
-        optionElem.textContent = val;
-        input.appendChild(optionElem);
-      });
+      const numValue = Number(input.value);
+      if (suboption.min && numValue < suboption.min) return false;
+      if (suboption.max && numValue > suboption.max) return false;
+      if (suboption.validator && !suboption.validator(numValue)) return false;
       break;
     default:
-      input = document.createElement('input');
+      if (suboption.validator && !suboption.validator(input.value)) return false;
   }
+  return true;
+}
 
-  input.value = value;
-  if (option.validator) {
-    let pastValue = value;
-    input.addEventListener('change', () => {
-      const val = option.type === 'number' ? Number(input.value) : input.value;
-      if (!option.validator(val)) {
-        input.value = pastValue;
-      } else {
-        pastValue = input.value;
-      }
+class OptionsDialog {
+
+  constructor(optionsData, onSave, getDefaultState) {
+    this.state = optionsData;
+    this.onSave = onSave;
+    this.getDefaultState = getDefaultState;
+
+    this.bodyElement = this.renderBody();
+
+    this.dialog = new Dialog('Gann OnCampus+ Options', this.bodyElement, {
+      leftButtons: [{
+        name: 'Save',
+        primary: true,
+        onClick: () => this.save(),
+      }, {
+        name: 'Cancel',
+        type: Dialog.buttonTypes.BUTTON, // default cancel is link
+      }],
+      rightButtons: [{
+        name: 'Reset Options',
+        type: Dialog.buttonTypes.LINK,
+        onClick: () => {
+          this.reset();
+          return false;
+        },
+      }],
     });
   }
-  input.className = selectors.suboption.input;
-  label.className = selectors.suboption.label;
 
-  label.textContent = `${option.name}:`;
-  label.setAttribute(selectors.suboptionKeyAttribute, key);
-  label.appendChild(input);
+  open() {
+    this.dialog.open();
+  }
+  save() {
+    this.onSave(this.state);
+  }
+  reset() {
+    this.state = this.getDefaultState();
+    const newBodyElement = this.renderBody();
+    this.bodyElement.replaceWith(newBodyElement);
+    this.bodyElement = newBodyElement;
+  }
+
+  renderBody() {
+    const sectionWrap = document.createElement('div');
+    for (const sectionName in MODULE_MAP) {
+      const section = this.createSectionView(
+        SECTION_MAP[sectionName],
+        sectionName,
+        MODULE_MAP[sectionName],
+      );
+      if (section) {
+        sectionWrap.appendChild(section);
+      }
+    }
+    return sectionWrap;
+  }
+
+  createSectionView(publicName, hash, modules) {
+    const moduleViews = modules.map(module => this.createModuleView(hash, module));
+    if (moduleViews.every(x => !x)) {
+      // all modules are null, therefore hidden in options
+      return null;
+    }
+
+    const sectionView = createElementFromHTML(`
+      <div class="${selectors.section.wrap}">
+        <div class="bb-section-heading ${selectors.section.title}">${publicName}</div>
+        <div class="${selectors.section.optionsWrap}"></div>
+      </div>
+    `);
+
+    const optionsWrap = sectionView.querySelector(`.${selectors.section.optionsWrap}`);
+    for (const moduleView of moduleViews) {
+      if (moduleView) {
+        optionsWrap.appendChild(moduleView);
+      }
+    }
+    return sectionView;
+  }
+
+  createModuleView(sectionHash, module) {
+    const moduleState = this.state[sectionHash][module.name];
+
+    if (!module.config.showInOptions) return null;
+
+    const html = `
+      <div class=${selectors.module.wrap}>
+        <div class="${selectors.module.top}">
+          <label class="bb-check-wrapper ${selectors.module.label}" for="${module.name}">
+            <input type="checkbox" ${moduleState.enabled ? 'checked' : ''} class="${selectors.module.input}" name="${module.name}"/>
+            <span class="bb-check-checkbox ${selectors.module.checkbox}"></span>
+            <span class="${selectors.module.caption}">
+              ${formatModuleName(module.name)}
+              ${module.config.description && `
+                <span class="${selectors.module.description}">
+                  - ${formatDescription(module.config.description)}
+                </span>
+              `}
+            </span>
+          </label>
+        </div>
+      </div>
+    `;
+
+    const moduleView = createElementFromHTML(html);
+
+    moduleView.querySelector(`.${selectors.module.input}`).addEventListener('change', ({ target }) => {
+      moduleState.enabled = target.checked;
+    });
+
+    if (Object.keys(module.config.options).length) {
+      const expandLink = createElementFromHTML(`
+        <a href="#" class="${selectors.module.expandLink}">
+          <i class="fa fa-chevron-down ${selectors.module.chevron}"></i>
+        </a>
+      `);
+      const extraOptions = createElementFromHTML(`
+        <div class="${selectors.module.extraOptions}"></div>
+      `);
+
+      expandLink.addEventListener('click', e => {
+        e.preventDefault();
+        extraOptions.classList.toggle('open');
+      });
+      for (const suboption in module.config.options) {
+        const suboptionView = this.createSuboptionView(sectionHash, module, suboption);
+        extraOptions.appendChild(suboptionView);
+      }
+
+      moduleView.querySelector(`.${selectors.module.top}`).appendChild(expandLink);
+      moduleView.appendChild(extraOptions);
+    }
 
 
-  return label;
-}
+    return moduleView;
+  }
 
-function createOptionsSection(sectionTitle, modules, sectionHref, opts) {
-  const sectionWrap = document.createElement('div');
-  const title = document.createElement('div');
-  const optionsWrap = document.createElement('div');
+  createSuboptionView(sectionHash, module, key) {
+    const suboption = module.config.options[key];
+    const value = this.state[sectionHash][module.name].options[key];
+    let input;
 
-  sectionWrap.setAttribute('data-gocp-href', sectionHref);
-  sectionWrap.style.marginTop = '10px';
-  title.className = 'bb-section-heading';
-  title.textContent = sectionTitle;
-  optionsWrap.style.padding = '2px 0';
+    switch (suboption.type) {
+      case 'string':
+        input = createElementFromHTML('<input />');
+        break;
+      case 'number':
+        input = createElementFromHTML(`<input type="number" min=${suboption.min} max=${suboption.max}/>`);
+        break;
+      case 'enum':
+        input = createElementFromHTML(`
+          <select>
+            ${suboption.enumValues.map(val => `
+              <option value=${val}>${val}</option>
+            `).join('')}
+          </select>
+        `);
+        break;
+      default:
+        break;
+    }
 
-  for (const { name, config } of modules) {
-    if (!config.showInOptions) continue;
+    input.className = selectors.suboption.input;
+    input.value = value;
 
-    const wrap = document.createElement('div');
-    const top = document.createElement('div');
-    const label = document.createElement('label');
-    const input = document.createElement('input');
-    const checkbox = document.createElement('span');
-    const caption = document.createElement('span');
-    const description = document.createElement('span');
-    const expandLink = document.createElement('a');
-    const chevron = document.createElement('i');
-    const extraOptions = document.createElement('div');
+    let oldValue = value;
+    input.addEventListener('change', () => {
+      if (validateSuboption(input, suboption)) {
+        this.state[sectionHash][module.name].options[key] = input.value;
+      } else {
+        input.value = oldValue;
+      }
+    });
 
-    wrap.setAttribute('data-gocp-module', name);
-    wrap.className = selectors.module.wrap;
-    top.className = selectors.module.top;
-    label.classList.add('bb-check-wrapper', selectors.module.label);
-    label.setAttribute('for', name);
-    input.id = name;
-    input.type = 'checkbox';
-    input.checked = opts[name].enabled;
-    input.className = selectors.module.input;
-    checkbox.classList.add('bb-check-checkbox', selectors.module.checkbox);
-    caption.textContent = formatModuleName(name);
-    caption.className = selectors.module.caption;
-    description.textContent = config.description && `- ${formatDescription(config.description)}`;
-    description.className = selectors.module.description;
-    expandLink.addEventListener('click', () => extraOptions.classList.toggle('open'));
-    expandLink.className = selectors.module.expandLink;
-    chevron.classList.add('fa', 'fa-chevron-down', selectors.module.chevron);
-    extraOptions.className = `${selectors.extraOptions}`;
-
-    caption.appendChild(description);
-    expandLink.appendChild(chevron);
+    const label = createElementFromHTML(`
+      <label class=${selectors.suboption.label}>
+        ${suboption.name}:
+      </label>
+    `);
     label.appendChild(input);
-    label.appendChild(checkbox);
-    label.appendChild(caption);
-    top.appendChild(label);
-    wrap.appendChild(top);
 
-    if (Object.keys(config.options).length > 0) {
-      const suboptions = [];
-      for (const i in config.options) {
-        suboptions.push(createSuboption(i, opts[name].options[i], config.options[i]));
-      }
-      suboptions.forEach(suboption => extraOptions.appendChild(suboption));
-      top.appendChild(expandLink);
-      wrap.appendChild(extraOptions);
-    }
-
-    optionsWrap.appendChild(wrap);
+    return label;
   }
 
-  sectionWrap.appendChild(title);
-  sectionWrap.appendChild(optionsWrap);
-
-  return sectionWrap;
 }
 
-function generateDialogHtml() {
-  return `
-    <div>
-      <div>
-        <div id="gocp_options_sections"></div>
-      </div>
-      <div style="font-size:13px; margin-top: 10px;">
-        Special thanks to Shai Mann-Robsison and Micah Shire-Plumb for beta testing and ideas.
-      </div>
-    </div>
-  `;
+function getOptions() {
+  return storage.get('options');
 }
-
-function getSuboptionValue(label) {
-  return label.children[0].value;
+function saveOptions(optionState) {
+  return storage.set({ options: optionState });
 }
-
-const saveOptions = async () => {
-
-  // generate options object
-  const opts = {};
-
-  const sectionElems = document.getElementById('gocp_options_sections').children;
-
-  for (const sectionElem of sectionElems) {
-    const href = sectionElem.getAttribute('data-gocp-href');
-    const moduleElems = sectionElem.children[1].children;
-    opts[href] = {};
-
-    for (const moduleElem of moduleElems) {
-      const module = moduleElem.getAttribute('data-gocp-module');
-      opts[href][module] = {
-        enabled: moduleElem.children[0].children[0].children[0].checked,
-        options: {},
-      };
-      const suboptions = MODULE_MAP[href].find(m => m.name === module).config.options;
-      for (const suboptKey in suboptions) {
-        const query = `label[${selectors.suboptionKeyAttribute}="${suboptKey}"`;
-        const label = moduleElem.querySelector(query);
-        const value = getSuboptionValue(label, suboptions[suboptKey].type);
-        opts[href][module].options[suboptKey] = value;
-      }
-    }
-  }
-
-  await storage.set({ options: opts });
-
-};
-
-const loadOptions = async () => {
-  const sectionsWrap = document.getElementById('gocp_options_sections');
-  sectionsWrap.innerHTML = '';
-
-  const opts = await storage.get('options');
-  for (const sectionName in MODULE_MAP) {
-    const section = createOptionsSection(
-      SECTION_MAP[sectionName],
-      MODULE_MAP[sectionName],
-      sectionName,
-      opts[sectionName],
-    );
-    sectionsWrap.appendChild(section);
-  }
-};
-
-const resetOptions = async () => {
-
-  if (!window.confirm('Are you sure you want to reset all options?')) return; // eslint-disable-line no-alert, max-len
-
+function getDefaultOptions() {
   const opts = {};
 
   for (const section in MODULE_MAP) {
@@ -243,18 +267,14 @@ const resetOptions = async () => {
     }
   }
 
-  await storage.set({ options: opts });
-  loadOptions();
-};
+  return opts;
+}
 
-async function constructDialog() {
-  const dialog = new Dialog('Gann OnCampus+ Options', createElementFromHTML(generateDialogHtml()), {
-    onSave: saveOptions,
-    onRight: resetOptions,
-    rightButton: '<a href="#">Reset Options</a>',
-  });
-  dialog.open();
-  loadOptions();
+
+async function showDialog() {
+  const optionsData = await getOptions();
+  const optionsDialog = new OptionsDialog(optionsData, saveOptions, getDefaultOptions);
+  optionsDialog.open();
 }
 
 function appendNavLink() {
@@ -276,7 +296,7 @@ function appendNavLink() {
   const link = createElementFromHTML(html);
   link.firstElementChild.addEventListener('click', e => {
     e.preventDefault();
-    constructDialog();
+    showDialog();
   });
   nativeSettingsLink.after(link);
 
@@ -291,10 +311,10 @@ function appendMobileNavLink() {
     </li>
   `;
   const mobileNav = createElementFromHTML(mobileNavLinkHtml);
-  mobileNav.children[0].addEventListener('click', e => {
+  mobileNav.firstElementChild.addEventListener('click', e => {
     e.preventDefault();
     document.getElementById('app').click(); // hide menu by clicking out
-    constructDialog();
+    showDialog();
   });
   const nativeSettingsLink = document.getElementById('mobile-settings-link');
   nativeSettingsLink.after(mobileNav);
@@ -305,10 +325,16 @@ function insertStyles() {
     .site-header-nav div.subnav li a {
       width: 147px;
     }
-    .gocp_options_extra-options {
+    .${selectors.section.wrap} {
+      margin-top: 10px;
+    }
+    .${selectors.section.optionsWrap} {
+      padding: 2px 0;
+    }
+    .${selectors.module.extraOptions} {
       display: none;
     }
-    .gocp_options_extra-options.open {
+    .${selectors.module.extraOptions}.open {
       display: block;
     }
     
