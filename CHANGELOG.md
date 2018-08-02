@@ -18,11 +18,11 @@
 - Option dialog improvements
   - Popup box no longer appears after saving.
   - Small look & feel tweaks, including font size, spacing, colors, and backdrop.
-  - Longer descriptions for Filter Website from Search, One Click Login, and Inline Assignment Grade.
   - Ability to reset options to default values.
 - Use native dialog instead of alert for Grade Summary.
 - Dialogs respond to escape key and are more consistent with native dialogs.
 - Message Preview is now significantly faster and does not slow down the rest of the page while loading.
+  - More detailed descriptions for certain modules
 
 ### Fixed
 - Fix all schedule modules (Free Block, Highlight Current Class, and Class Ending Time) not working with "today" button.
