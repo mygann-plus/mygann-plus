@@ -1,36 +1,36 @@
 ## 0.6.0 (UNRELEASED) [must clear stored options]
 ### Added
-- "Coming Up" module, which shows a preview of the next day's events in the schedule.
+- "Coming Up" module, which shows a preview of the next day's events in the schedule
 - "Favorites" module
-- "Day Schedule Button" module, which adds a button to return to the day view in the month & week schedule view.
+- "Day Schedule Button" module, which adds a button to return to the day view in the month & week schedule view
 - "One Click Login" module, which restores the login page to before the summer of 2018 update with only one login button (as opposed to post-2018 version, which requires two button clicks: "next", then "login")
-- Previous graded course button added to Next Graded Course module.
-- Hide ungraded courses feature in Filter Courses module.
-- Support for mobile menu in Search Classes Menu.
-- Three options for Filter Website in Main Search: collapse, move to bottom, and remove.
-- Maximum messages to preview and dissapear time in message preview is now configurable.
-- New button in Message Preview to go to the first link found in the body of the message.
+- Previous graded course button added to Next Graded Course module
+- Hide ungraded courses feature in Filter Courses module
+- Support for mobile menu in Search Classes Menu
+- Three options for Filter Website in Main Search: collapse, move to bottom, and remove
+- Maximum messages to preview and dissapear time in message preview is now configurable
+- New button in Message Preview to go to the first link found in the body of the message
 
 ### Changed
 - Extension renamed to "Gann OnCampus+"
-- "Courses Search" module renamed to "Courses Filter"
+- Courses Search module renamed to "Courses Filter"
 - Options moved into desktop and mobile main dropdown
 - Option dialog improvements
-  - Popup box no longer appears after saving.
-  - Small look & feel tweaks, including font size, spacing, colors, and backdrop.
-  - Ability to reset options to default values.
-- Use native dialog instead of alert for Grade Summary.
-- Dialogs respond to escape key and are more consistent with native dialogs.
-- Message Preview is now significantly faster and does not slow down the rest of the page while loading.
+  - Popup box no longer appears after saving
+  - Small look & feel tweaks, including font size, spacing, colors, and backdrop
   - More detailed descriptions for certain modules
+  - Ability to reset options to default values
+- Use native dialog instead of alert for Grade Summary
+- Dialogs respond to escape key and are more consistent with native dialogs
+- Message Preview is now significantly faster and does not slow down the rest of the page while loading
 
 ### Fixed
-- Fix all schedule modules (Free Block, Highlight Current Class, and Class Ending Time) not working with "today" button.
-- Fix multiple class ending times appearing.
-- Fix grades being hidden when using Grade Summary and Next Graded Course.
-- Fix inline change status not always appearing and flashing dropdown.
-- Fix "view more classes" being included in Search Classes Menu result.
-- Under the hood fixes and performance improvements.
+- Fix all schedule modules (Free Block, Highlight Current Class, and Class Ending Time) not working with "today" button
+- Fix multiple class ending times appearing
+- Fix grades being hidden when using Grade Summary and Next Graded Course
+- Fix Inline Change Status not always appearing and flashing dropdown
+- Fix "view more classes" being included in Search Classes Menu result
+- Under the hood fixes and performance improvements
 
 ## 0.5.0 (2018-04-15)
 ### Added
