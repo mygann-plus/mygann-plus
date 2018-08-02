@@ -69,13 +69,12 @@ class OptionsDialog {
         name: 'Save',
         primary: true,
         onClick: () => this.save(),
-      }, {
-        name: 'Cancel',
-        type: Dialog.buttonTypes.BUTTON, // default cancel is link
-      }],
+      },
+      Dialog.buttons.CANCEL,
+      ],
       rightButtons: [{
         name: 'Reset Options',
-        type: Dialog.buttonTypes.LINK,
+        type: Dialog.buttonTypes.BUTTON,
         onClick: () => {
           this.reset();
           return false;
