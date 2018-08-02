@@ -111,7 +111,7 @@ class DesktopClassFilter extends ClassFilter {
     }
 
     return elems.map(elem => ({
-      title: elem.innerText.toLowerCase().trim(),
+      title: elem.textContent.toLowerCase().trim(),
       elem,
     }));
   }

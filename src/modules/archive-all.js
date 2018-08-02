@@ -42,7 +42,7 @@ async function archiveAll() {
   button.style.margin = '5px 0px 5px 10px';
 
   const archivingMessage = document.createElement('span');
-  archivingMessage.innerText = `${ARCHIVING_TEXT} in progress... Please wait.`;
+  archivingMessage.textContent = `${ARCHIVING_TEXT} in progress... Please wait.`;
   archivingMessage.id = 'archivingMessage';
   archivingMessage.style.display = 'none';
   archivingMessage.style.marginLeft = '10px';

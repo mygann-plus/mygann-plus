@@ -23,10 +23,10 @@ export function waitForLoad(condition, optionalDocument) {
 
 }
 
-export function constructButton(innerText, id, iClassName, onclick) {
+export function constructButton(textContent, id, iClassName, onclick) {
   let elem = document.createElement('button');
   let i = document.createElement('i');
-  let text = document.createTextNode(innerText);
+  let text = document.createTextNode(textContent);
   elem.id = id;
   elem.className = 'btn btn-sm btn-default';
   i.className = iClassName;
@@ -38,10 +38,6 @@ export function constructButton(innerText, id, iClassName, onclick) {
   elem.appendChild(text);
   elem.addEventListener('click', onclick);
   return elem;
-}
-
-export function nodeListToArray(nodeList) {
-  return [].slice.call(nodeList);
 }
 
 export function hasParentWithClassName(element, classnames) {

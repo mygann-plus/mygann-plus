@@ -78,16 +78,16 @@ function changeGrades(e, increaseBy) {
   document.querySelector('label[data-action="showGrade"]').click();
   const gradeTexts = document.getElementsByClassName('showGrade');
   for (const gradeText of gradeTexts) {
-    const curGrade = Number(gradeText.innerText.split('%')[0]);
+    const curGrade = Number(gradeText.textContent.split('%')[0]);
     const button = document.querySelector('#gocp_improve-grades_button');
     if (curGrade < 100 || Number.isNaN(curGrade)) {
-      gradeText.innerText = '100.00%';
-      button.innerText = 'IMPROVE GRADES MORE';
+      gradeText.textContent = '100.00%';
+      button.textContent = 'IMPROVE GRADES MORE';
     } else if (curGrade < 300 || increaseBy) {
-      gradeText.innerText = `${curGrade + (increaseBy || 10)}.00%`;
+      gradeText.textContent = `${curGrade + (increaseBy || 10)}.00%`;
     } else {
       interval = setInterval(() => changeGrades(gradeText, 100), 500);
-      button.innerText = 'RAPIDLY IMPROVE GRADES';
+      button.textContent = 'RAPIDLY IMPROVE GRADES';
       button.removeEventListener('click', changeGrades);
       button.addEventListener('click', stopRapid);
     }

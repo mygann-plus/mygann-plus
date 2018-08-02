@@ -48,7 +48,7 @@ function generateDropdown(items) {
 
     li.setAttribute(CHECKED_ATTR, 'false');
     a.href = '#';
-    a.innerText = item.name;
+    a.textContent = item.name;
 
     li.appendChild(a);
     wrap.appendChild(li);

@@ -45,7 +45,7 @@ async function nextGradedCourse() {
 
   const gradeElemToObject = e => ({
     grade: e.textContent.trim(),
-    class: e.parentNode.parentNode.children[0].children[0].children[0].innerText,
+    class: e.parentNode.parentNode.children[0].children[0].children[0].textContent,
     elem: e,
   });
 

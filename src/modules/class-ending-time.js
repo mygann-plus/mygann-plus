@@ -1,4 +1,4 @@
-import { waitForLoad, nodeListToArray } from '../utils/dom';
+import { waitForLoad } from '../utils/dom';
 import registerModule from '../utils/module';
 import { isCurrentDay, addDayChangeListeners } from '../shared/schedule';
 
@@ -69,36 +69,37 @@ function addTime(minutes, parent) {
   span.style.color = 'grey';
   span.style.display = 'inline-block';
   span.style.marginTop = '10px';
-  span.innerText = `${minutes} minutes left`;
+  span.textContent = `${minutes} minutes left`;
   span.id = 'gocp_class-ending-time_main';
   parent.appendChild(br);
   parent.appendChild(span);
 }
 
-function testForClass() {
+const domQuery = () => {
+  return document.getElementById('accordionSchedules')
+        && document.getElementById('accordionSchedules').children[0]
+        && document.getElementById('accordionSchedules').children[0].children
+        && document.getElementById('accordionSchedules').children[0].children.length;
+};
 
-  const DOM_QUERY = () => {
-    return document.getElementById('accordionSchedules')
-          && document.getElementById('accordionSchedules').children[0]
-          && document.getElementById('accordionSchedules').children[0].children
-          && document.getElementById('accordionSchedules').children[0].children.length;
-  };
+async function testForClass() {
 
-  waitForLoad(DOM_QUERY)
-    .then(() => {
-      nodeListToArray(document.getElementById('accordionSchedules').children).forEach(c => {
-        const timeString = c.children[0].childNodes[0].data.trim();
-        if (isCurrentClass(timeString)) {
-          const minutes = minutesTo(timeString.split('-')[1].trim());
-          addTime(minutes, c.children[0]);
-          setTimeout(() => {
-            if (!document.body.contains(c)) {
-              testForClass();
-            }
-          }, 50);
+  await waitForLoad(domQuery);
+
+  const blocks = document.getElementById('accordionSchedules').children;
+
+  for (const block of blocks) {
+    const timeString = block.children[0].childNodes[0].data.trim();
+    if (isCurrentClass(timeString)) {
+      const minutes = minutesTo(timeString.split('-')[1].trim());
+      addTime(minutes, block.children[0]);
+      setTimeout(() => {
+        if (!document.body.contains(block)) {
+          testForClass();
         }
-      });
-    });
+      }, 50);
+    }
+  }
 
 }
 

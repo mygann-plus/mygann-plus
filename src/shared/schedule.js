@@ -10,7 +10,7 @@ function formatDay(dayString) {
 export function isCurrentDay() {
   const cur = document.getElementById('schedule-header')
     .children[0].children[0].children[0].children[1].children[0].children[3]
-    .innerText.split(', ')[1];
+    .textContent.split(', ')[1];
   const d = new Date().toDateString();
   let month = d.split(' ')[1];
   let day = d.split(' ')[2];
