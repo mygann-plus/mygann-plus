@@ -85,7 +85,7 @@ function renderFilterBar() {
   // search bar
   const input = document.createElement('input');
   input.id = 'gocp_courses-search_searchbar';
-  input.className = 'filter-search-box form-control';
+  input.className = 'form-control';
   input.size = '16';
   input.type = 'search';
   input.style.width = '234px';
