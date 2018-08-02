@@ -152,7 +152,7 @@ class MobileClassFilter extends ClassFilter {
 
 /* eslint-enable class-methods-use-this */
 
-function insertStyles() {
+function addStyles() {
   insertCss(`
     #group-header-Classes + * + .subnav {
       /* Move search bar up */
@@ -194,7 +194,7 @@ function searchClassesMenu() {
   if (moduleLoaded) return;
   moduleLoaded = true;
 
-  insertStyles();
+  addStyles();
 
   // desktop
   waitForLoad(domQuery.desktop).then(() => {

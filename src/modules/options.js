@@ -319,7 +319,7 @@ function appendMobileNavLink() {
   nativeSettingsLink.after(mobileNav);
 }
 
-function insertStyles() {
+function addStyles() {
   insertCss(`
     .site-header-nav div.subnav li a {
       width: 147px;
@@ -404,7 +404,7 @@ function options() {
     });
   });
 
-  insertStyles();
+  addStyles();
 }
 
 export default registerModule('Options', options, {
