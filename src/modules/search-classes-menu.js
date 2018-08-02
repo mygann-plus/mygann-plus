@@ -1,185 +1,218 @@
-import { waitForLoad, nodeListToArray, insertBefore } from '../utils/dom';
-import { isDesktop } from '../utils/ui';
+import { waitForLoad, createElementFromHTML, insertCss } from '../utils/dom';
 
 import registerModule from '../utils/module';
+import colors from '../utils/colors';
 
-const formats = {
-  DESKTOP: 'desktop',
-  MOBILE: 'mobile',
-};
-const classNames = {
+const selectors = {
   desktopSearchbar: 'gocp_search-classes-menu_searchbar',
+  mobileSearchbarWrap: 'gocp_search-classes-menu_mobile-searchbar-wrap',
   mobileSearchbar: 'gocp_search-classes-menu_mobile-searchbar',
-  desktopClassesMenu: 'subnav sec-75-bordercolor white-bgc subnav-multicol nav-visible',
+  hiddenCourse: {
+    desktop: 'gocp_search-classes-menu_hidden-course-mobile',
+    mobile: 'gocp_search-classes-menu_hidden-course-mobile',
+  },
+  highlightedCourse: {
+    desktop: 'gocp_search-classes-menu_highlighted-course-desktop',
+    mobile: 'gocp_search-classes-menu_highlighted-course-mobile',
+  },
+  desktopClassesMenu: 'subnav',
 };
 
-let courses;
-let match;
-let format = isDesktop() ? formats.DESKTOP : formats.MOBILE;
+const getDesktopMenu = () => (
+  document.querySelector(`#group-header-Classes + * + .${selectors.desktopClassesMenu}`)
+);
 
-const getFormat = () => (isDesktop() ? formats.DESKTOP : formats.MOBILE);
+// ESLint doesn't recognize that getCourses is an override
+/* eslint-disable class-methods-use-this */
 
-const getDesktopCourseElems = () => {
-  // TODO: support >2 collumns
-  const cols = document.getElementsByClassName(classNames.desktopClassesMenu)[0].children;
-  const elems = [
-    ...nodeListToArray(cols[0].children).filter(e => e.id !== classNames.desktopSearchbar),
-    ...nodeListToArray(cols[1].children),
-  ];
-  return elems.map(elem => ({
-    title: elem.innerText.toLowerCase().trim(),
-    elem,
-  }));
-};
-const getMobileCourseElems = () => {
-  const elems = document.getElementsByClassName('app-mobile-level')[2].children[2].children;
-  return nodeListToArray(elems)
-    .filter(e => e.id !== classNames.mobileSearchbar)
-    .map(elem => ({
-      title: elem.children[0].innerText.toLowerCase().trim(),
-      elem,
-    }));
-};
+class ClassFilter {
 
-function generateCourseList() {
-  return isDesktop() ? getDesktopCourseElems() : getMobileCourseElems();
-}
+  constructor(inputId, hiddenClassName, highlightedClassName) {
+    this.input = createElementFromHTML(`
+      <input 
+        id="${inputId}"
+        class="form-control"
+        type="search"
+        autocomplete="off"
+        placeholder="Filter Classes"
+      >
+    `);
+    this.input.addEventListener('input', () => this.handleSearch());
+    this.input.addEventListener('keypress', e => this.handleKeypress(e));
+    this.courses = this.getCourses();
+    this.match = null;
 
-function hideCourse({ elem }) {
-  elem.style.background = 'initial';
-  elem.children[0].style.background = 'initial';
-  elem.style.opacity = '0.1';
-  if (isDesktop()) {
-    const text = elem.firstChild.firstChild.firstChild;
-    text.className = 'title black-fgc';
-    text.style.color = 'black';
-  } else {
-    elem.children[0].style.textShadow = 'initial';
-    elem.children[0].style.color = 'white';
+    this.hiddenClassName = hiddenClassName;
+    this.highlightedClassName = highlightedClassName;
   }
-}
-function showCourse({ elem }) {
-  elem.style.opacity = '1';
-  if (isDesktop()) {
-    elem.children[0].children[0].children[0].className = '';
+  showSearchbar() {
+    this.input.value = '';
+    this.handleSearch();
+    this.input.focus();
   }
-}
-function highlightCourse({ elem }) {
-  elem.children[0].style.background = isDesktop() ? '#d9edf7' : 'rgb(234, 215, 104)';
-  if (!isDesktop()) {
-    elem.children[0].style.textShadow = 'none';
-    elem.children[0].style.color = 'black';
+  getCurrentSearch() {
+    return this.input.value.toLowerCase().trim();
   }
-}
 
-function goToMatch(e) {
-  if (e.key === 'Enter' && match) {
-    if (isDesktop()) {
-      match.elem.children[0].children[0].children[0].click();
-    } else {
-      match.elem.children[0].click();
+  handleSearch() {
+    const matches = [];
+    for (const course of this.courses) {
+      const isMatched = course.title.includes(this.getCurrentSearch());
+      if (isMatched) {
+        matches.push(course);
+      }
+      this.setCourseShown(course.elem, isMatched);
+      this.setCourseHighlighted(course.elem, false);
+    }
+
+    if (matches.length === 1) {
+      this.match = matches[0]; // eslint-disable-line prefer-destructuring
+      this.setCourseHighlighted(this.match.elem, true);
     }
   }
-}
 
-function handleSearch(e) {
-  if (!courses || format !== getFormat()) {
-    courses = generateCourseList();
+  handleKeypress(e) {
+    if (this.match && e.key === 'Enter') {
+      this.goToMatch();
+    }
   }
-  match = null;
-  const matches = courses.filter(course => {
-    hideCourse(course);
-    return course.title.startsWith(e.target.value.toLowerCase());
-  });
-  matches.forEach(showCourse);
-  if (matches.length === 1) {
-    highlightCourse(matches[0]);
-    [match] = matches;
-  }
-}
-
-function resetSearchbar(inputElem) {
-  inputElem.value = '';
-  inputElem.dispatchEvent(new Event('change'));
-  handleSearch({
-    target: { value: '' },
-  });
-  inputElem.focus();
-}
-
-function renderMobileSearchBar() {
-
-  const search = document.getElementById(classNames.mobileSearchbar);
-  if (search) {
-    return resetSearchbar(search.firstChild.firstChild);
+  goToMatch() {
+    this.match.elem.querySelector('a').click();
   }
 
-  const li = document.createElement('li');
-  const a = document.createElement('a');
-  const input = document.createElement('input');
-  li.id = classNames.mobileSearchbar;
-  a.className = 'mobile-group-page-link-1';
-  input.placeholder = 'Search';
-  input.style.background = '#880d2f';
-  input.style.color = 'white';
-  input.style.border = 'none';
-  input.style.outline = 'none';
-  input.style.fontSize = '1.2em';
-  a.appendChild(input);
-  li.appendChild(a);
-  input.oninput = handleSearch;
-  document.getElementsByClassName('app-mobile-level')[2].children[2].prepend(li);
-  input.focus();
-}
-
-function renderDesktopSearchBar() {
-
-  const getClassesMenu = () => document.getElementsByClassName(classNames.desktopClassesMenu)[0];
-
-  const menu = getClassesMenu();
-  const search = document.getElementById(classNames.desktopSearchbar);
-
-  if (search) {
-    return resetSearchbar(search);
-  }
-  if (!menu) {
-    return setTimeout(() => {
-      renderDesktopSearchBar();
-    }, 100);
+  setCourseShown(elem, isShown) {
+    elem.classList.toggle(this.hiddenClassName, !isShown);
   }
 
-  const input = document.createElement('input');
-
-  input.id = 'gocp_search-classes-menu_searchbar';
-  input.className = 'filter-search-box form-control';
-  input.size = '16';
-  input.type = 'search';
-  input.style.width = '170px';
-  input.style.height = '29.6px';
-  input.style.display = 'inline';
-  input.autocomplete = 'false';
-  input.placeholder = 'Filter Classes';
-  input.oninput = handleSearch;
-
-  const firstClass = getClassesMenu().firstChild.firstChild;
-  firstClass.before(input);
-
-  input.focus();
+  setCourseHighlighted(elem, isHighlighted) {
+    elem.classList.toggle(this.highlightedClassName, isHighlighted);
+  }
 }
+
+class DesktopClassFilter extends ClassFilter {
+  constructor() {
+    super(
+      selectors.desktopSearchbar,
+      selectors.hiddenCourse.desktop,
+      selectors.highlightedCourse.desktop,
+    );
+  }
+
+  getCourses() {
+    const cols = getDesktopMenu().children;
+    const elems = [];
+    for (const col of cols) {
+      if (col.matches('.subnavfooter')) {
+        continue;
+      }
+      elems.push(...Array.from(col.children).filter(child => {
+        return !child.matches(`.divider, #${selectors.desktopSearchbar}`);
+      }));
+    }
+
+    return elems.map(elem => ({
+      title: elem.innerText.toLowerCase().trim(),
+      elem,
+    }));
+  }
+  mountInput(node) {
+    node.prepend(this.input);
+  }
+}
+
+class MobileClassFilter extends ClassFilter {
+  constructor() {
+    super(
+      selectors.mobileSearchbar,
+      selectors.hiddenCourse.mobile,
+      selectors.highlightedCourse.mobile,
+    );
+  }
+  getCourses() {
+    const elems = Array.from(document.querySelectorAll('.app-mobile-level')[2].children[2].children);
+    elems.splice(elems.length - 1, 1);
+    return Array.from(elems)
+      .filter(e => e.id !== selectors.mobileSearchbarWrap)
+      .map(elem => ({
+        title: elem.firstElementChild.textContent.toLowerCase().trim(),
+        elem,
+      }));
+  }
+  mountInput(node) {
+    const wrapHtml = `
+      <li id="${selectors.mobileSearchbarWrap}">
+        <a class="mobile-group-page-link-1"></a>
+      </li>
+    `;
+    const wrap = createElementFromHTML(wrapHtml);
+    wrap.querySelector('a').appendChild(this.input);
+    node.prepend(wrap);
+  }
+}
+
+/* eslint-enable class-methods-use-this */
+
+function insertStyles() {
+  insertCss(`
+    #group-header-Classes + * + .subnav {
+      /* Move search bar up */
+      padding-top: 1px !important;
+    }
+    #${selectors.mobileSearchbar} {
+      background: #880d2f;
+      color: white;
+      border: none;
+      outline: none;
+      font-size: 1.2em;
+    }
+    .${selectors.hiddenCourse.desktop}, .${selectors.hiddenCourse.mobile} {
+      opacity: 0.1;
+    }
+    .${selectors.highlightedCourse.mobile} a {
+      /* text-shadow and color override more specific native selectors */
+      text-shadow: none !important;
+      color: black !important;
+      background: rgb(234, 215, 104);
+    }
+    .${selectors.highlightedCourse.desktop} a {
+      background: ${colors.lightBlue};
+    }
+    `);
+}
+
+const domQuery = {
+  desktop: getDesktopMenu,
+  mobile: () => (
+    document.querySelectorAll('.app-mobile-level')[2] &&
+    document.querySelectorAll('.app-mobile-level')[2].children[2]
+  ),
+};
+
+let moduleLoaded = false;
 
 function searchClassesMenu() {
-  document.body.addEventListener('keypress', goToMatch);
+  if (moduleLoaded) return;
+  moduleLoaded = true;
+
+  insertStyles();
+
   // desktop
-  waitForLoad(() => document.getElementById('group-header-Classes')).then(() => {
-    document.getElementsByClassName('twoline parentitem')[0].addEventListener('mouseenter', () => {
-      renderDesktopSearchBar();
+  waitForLoad(domQuery.desktop).then(() => {
+    const classFilter = new DesktopClassFilter();
+    classFilter.mountInput(getDesktopMenu());
+
+    const classesMenu = document.querySelector('#group-header-Classes').parentNode;
+    classesMenu.addEventListener('mouseenter', () => {
+      classFilter.showSearchbar();
     });
   });
+
   // mobile
-  waitForLoad(() => document.getElementById('mobile-group-header-Classes')).then(() => {
-    document.getElementById('mobile-group-header-Classes').addEventListener('click', () => {
-      waitForLoad(() => document.getElementsByClassName('app-mobile-level').length)
-        .then(renderMobileSearchBar);
+  waitForLoad(domQuery.mobile).then(() => {
+    const classFilter = new MobileClassFilter();
+    classFilter.mountInput(domQuery.mobile());
+    document.querySelector('#mobile-group-header-Classes').addEventListener('click', () => {
+      classFilter.showSearchbar();
     });
   });
 }
