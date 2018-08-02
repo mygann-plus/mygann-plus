@@ -12,7 +12,7 @@ import messagePreview from './modules/message-preview';
 import nextGradedCourse from './modules/next-graded-course';
 import options from './modules/options';
 import searchClassesMenu from './modules/search-classes-menu';
-import toggleCompleted from './modules/toggle-completed';
+import hideCompleted from './modules/hide-completed';
 import comingUp from './modules/coming-up';
 import dayScheduleButton from './modules/day-schedule-button';
 import favorites from './modules/favorites';
@@ -26,7 +26,7 @@ const MODULE_MAP = {
   '#assignmentdetail': [autoCloseDetailStatus],
   '#studentmyday/assignment-center': [
     inlineChangeStatus,
-    toggleCompleted,
+    hideCompleted,
     inlineAssignmentGrade,
   ],
   '#studentmyday/schedule': [highlightCurrentClass, freeBlock, classEndingTime, comingUp],
