@@ -14,6 +14,7 @@
 ### Changed
 - Extension renamed to "Gann OnCampus+"
 - Courses Search module renamed to "Courses Filter"
+- Toggle Completed module tweaked visually and renamed to "Hide Completed"
 - Options moved into desktop and mobile main dropdown
 - Option dialog improvements
   - Popup box no longer appears after saving
@@ -29,6 +30,7 @@
 - Fix multiple class ending times appearing
 - Fix grades being hidden when using Grade Summary and Next Graded Course
 - Fix Inline Change Status not always appearing and flashing dropdown
+- Fix Hide Completed flickering and inconsistently working
 - Fix "view more classes" being included in Search Classes Menu result
 - Under the hood fixes and performance improvements
 
