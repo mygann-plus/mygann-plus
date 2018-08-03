@@ -226,7 +226,7 @@ export default registerModule('Message Preview', messagePreview, {
     disappearTime: {
       type: 'number',
       name: 'Disappear Time (seconds)',
-      defaultValue: 5,
+      defaultValue: 10,
       min: 0,
     },
   },
