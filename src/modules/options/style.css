@@ -1,0 +1,66 @@
+:global .site-header-nav div.subnav li a {
+  width: 147px;
+}
+
+.section-wrap {
+  margin-top: 10px;
+}
+
+.section-options-wrap {
+  padding: 2px 0;
+}
+
+.module-extra-options {
+  display: none;
+}
+
+.module-extra-options.module-expanded {
+  display: block;
+}
+
+.module-wrap {
+  background: #f0efef;
+  margin-bottom: 5px;
+}
+
+.module-top {
+  padding: 10px;
+}
+
+.module-label {
+  display: inline-block;
+  max-width: 95%;
+  margin: 0;
+}
+
+.module-caption {
+  font-weight: normal; 
+  margin-left: 10px;
+}
+
+.module-chevron {
+  font-size: 17px;
+}
+
+.module-description {
+  padding-left: 4px;
+  color: #9d9d9d;
+}
+
+.module-expand-link {
+  max-width: 5%;
+  color: black;
+  float: right;
+  cursor: pointer;
+}
+
+
+.suboption-input {
+  margin-left: 7px;
+  display: inline-block;
+}
+
+.suboption-label {
+  font-weight: normal;
+  margin-left: 10px;
+}

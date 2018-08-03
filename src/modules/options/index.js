@@ -1,36 +1,36 @@
-import registerModule from '../utils/module';
-import storage from '../utils/storage';
+import registerModule from '../../utils/module';
+import storage from '../../utils/storage';
 import {
   waitForLoad,
   insertCss,
   createElementFromHTML,
-} from '../utils/dom';
+} from '../../utils/dom';
 
-import { MODULE_MAP, SECTION_MAP } from '../module-map';
-import Dialog from '../utils/dialog';
+import { MODULE_MAP, SECTION_MAP } from '../../module-map';
+import Dialog from '../../utils/dialog';
+
+import style from './style.css';
 
 const selectors = {
-  suboptionKeyAttribute: 'data-gocp_options_suboption-key',
   section: {
-    wrap: 'gocp_options_section-wrap',
-    title: 'gocp_options_section-title',
-    optionsWrap: 'gocp_options_section-option-wrap',
+    wrap: style.locals['section-wrap'],
+    optionsWrap: style.locals['section-options-wrap'],
   },
   module: {
-    wrap: 'gocp_options_module-wrap',
-    top: 'gocp_options_module-top',
-    label: 'gocp_options_module-label',
-    input: 'gocp_options_module-input',
-    caption: 'gocp_options_module-caption',
-    checkbox: 'gocp_options_module-checkbox',
-    description: 'gocp_options_module-description',
-    expandLink: 'gocp_options_module-expand-link',
-    chevron: 'gocp_options_module-chevron',
-    extraOptions: 'gocp_options_module-extra-options',
+    wrap: style.locals['module-wrap'],
+    top: style.locals['module-top'],
+    label: style.locals['module-label'],
+    input: style.locals['module-input'],
+    caption: style.locals['module-caption'],
+    description: style.locals['module-description'],
+    expandLink: style.locals['module-expand-link'],
+    chevron: style.locals['module-chevron'],
+    extraOptions: style.locals['module-extra-options'],
+    expanded: style.locals['module-expanded'],
   },
   suboption: {
-    input: 'gocp_options_suboption-input',
-    label: 'gocp_options_suboption-label',
+    input: style.locals['suboption-input'],
+    label: style.locals['suboption-label'],
   },
 };
 
@@ -120,7 +120,7 @@ class OptionsDialog {
 
     const sectionView = createElementFromHTML(`
       <div class="${selectors.section.wrap}">
-        <div class="bb-section-heading ${selectors.section.title}">${publicName}</div>
+        <div class="bb-section-heading">${publicName}</div>
         <div class="${selectors.section.optionsWrap}"></div>
       </div>
     `);
@@ -144,7 +144,7 @@ class OptionsDialog {
         <div class="${selectors.module.top}">
           <label class="bb-check-wrapper ${selectors.module.label}" for="${module.name}">
             <input type="checkbox" ${moduleState.enabled ? 'checked' : ''} class="${selectors.module.input}" name="${module.name}"/>
-            <span class="bb-check-checkbox ${selectors.module.checkbox}"></span>
+            <span class="bb-check-checkbox"></span>
             <span class="${selectors.module.caption}">
               ${formatModuleName(module.name)}
               ${module.config.description && `
@@ -176,7 +176,7 @@ class OptionsDialog {
 
       expandLink.addEventListener('click', e => {
         e.preventDefault();
-        extraOptions.classList.toggle('open');
+        extraOptions.classList.toggle(selectors.module.expanded);
       });
       for (const suboption in module.config.options) {
         const suboptionView = this.createSuboptionView(sectionHash, module, suboption);
@@ -201,7 +201,7 @@ class OptionsDialog {
         input = createElementFromHTML('<input />');
         break;
       case 'number':
-        input = createElementFromHTML(`<input type="number" min=${suboption.min} max=${suboption.max}/>`);
+        input = createElementFromHTML(`<input type="number" min="${suboption.min}" max="${suboption.max}"/>`);
         break;
       case 'enum':
         input = createElementFromHTML(`
@@ -319,73 +319,6 @@ function appendMobileNavLink() {
   nativeSettingsLink.after(mobileNav);
 }
 
-function addStyles() {
-  insertCss(`
-    .site-header-nav div.subnav li a {
-      width: 147px;
-    }
-    .${selectors.section.wrap} {
-      margin-top: 10px;
-    }
-    .${selectors.section.optionsWrap} {
-      padding: 2px 0;
-    }
-    .${selectors.module.extraOptions} {
-      display: none;
-    }
-    .${selectors.module.extraOptions}.open {
-      display: block;
-    }
-    
-    .${selectors.module.wrap} {
-      background: #f0efef;
-      margin-bottom: 5px;
-    }
-
-    .${selectors.module.top} {
-      padding: 10px;
-    }
-    
-    .${selectors.module.label} {
-      display: inline-block;
-      max-width: 95%;
-      margin: 0;
-    }
-    
-    .${selectors.module.caption} {
-      font-weight: normal; 
-      margin-left: 10px;
-    }
-
-    .${selectors.module.chevron} {
-      font-size: 17px;
-    }
-    
-    .${selectors.module.description} {
-      padding-left: 4px;
-      color: #9d9d9d;
-    }
-    
-    .${selectors.module.expandLink} {
-      max-width: 5%;
-      color: black;
-      float: right;
-      cursor: pointer;
-    }
-
-
-    .${selectors.suboption.input} {
-      margin-left: 7px;
-      display: inline-block;
-    }
-
-    .${selectors.suboption.label} {
-      font-weight: normal;
-      margin-left: 10px;
-    }
-  `);
-}
-
 const domQuery = {
   header: () => document.querySelector('.oneline.parentitem.last .subnavtop'),
   mobileMenu: () => document.querySelector('#mobile-account-nav'),
@@ -404,7 +337,7 @@ function options() {
     });
   });
 
-  addStyles();
+  insertCss(style.toString());
 }
 
 export default registerModule('Options', options, {
