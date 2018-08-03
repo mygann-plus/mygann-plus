@@ -1,7 +1,3 @@
-:root {
-  --success-green: #71bf43;
-}
-
 .active-button {
   color: white !important;
   background: var(--success-green) !important;

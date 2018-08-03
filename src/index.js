@@ -1,6 +1,8 @@
 import storage from './utils/storage';
 import { MODULE_MAP } from './module-map';
 
+import setCssVars from './utils/css-vars';
+
 async function loadModules() {
   const optsData = await storage.get('options');
   for (const section in optsData) {
@@ -63,8 +65,9 @@ async function runExtension() {
   // TODO: only call initializeOptions on install and update
   // (plus dev feature to force initialization)
   await initializeOptions();
+  setCssVars();
   loadModules();
-  window.onhashchange = loadModules;
+  window.addEventListener('hashchange', loadModules);
 }
 
 runExtension();
