@@ -3,7 +3,7 @@ import {
   waitForLoad,
   createElementFromHTML,
 } from '~/utils/dom';
-import { coursesListLoaded } from '../shared/progress';
+import { coursesListLoaded } from '~/shared/progress';
 
 function selectCourse({ elem }) {
   elem.parentNode.querySelector('.btn.btn-default').click();

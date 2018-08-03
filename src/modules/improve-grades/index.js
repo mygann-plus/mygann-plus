@@ -6,7 +6,7 @@
 import registerModule from '~/utils/module';
 
 import { waitForLoad, constructButton, insertCss, createElementFromHTML } from '~/utils/dom';
-import { coursesListLoaded } from '../../shared/progress';
+import { coursesListLoaded } from '~/shared/progress';
 
 import ConfettiGenerator from './confetti';
 import style from './style.css';

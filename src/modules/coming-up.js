@@ -4,7 +4,7 @@ import { fetchApi } from '~/utils/fetch';
 import { waitForLoad } from '~/utils/dom';
 import { isLeapYear } from '~/utils/date';
 import { getUserId } from '~/utils/user';
-import { isCurrentDay, addDayChangeListeners } from '../shared/schedule';
+import { isCurrentDay, addDayChangeListeners } from '~/shared/schedule';
 
 function getTommorowDateString() {
   const dateObj = new Date();

@@ -1,7 +1,7 @@
 import registerModule from '~/utils/module';
 import { waitForLoad, constructButton, createElementFromHTML } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
-import { coursesListLoaded } from '../shared/progress';
+import { coursesListLoaded } from '~/shared/progress';
 
 function letterGradeFromNumber(num) {
   const number = Number(num.split('%')[0]);

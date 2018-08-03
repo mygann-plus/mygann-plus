@@ -169,7 +169,6 @@ function searchClassesMenu() {
 
   insertCss(style.toString());
 
-  // desktop
   waitForLoad(domQuery.desktop).then(() => {
     const classFilter = new DesktopClassFilter();
     classFilter.mountInput(getDesktopMenu());
@@ -180,7 +179,6 @@ function searchClassesMenu() {
     });
   });
 
-  // mobile
   waitForLoad(domQuery.mobile).then(() => {
     const classFilter = new MobileClassFilter();
     classFilter.mountInput(domQuery.mobile());

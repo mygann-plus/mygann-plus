@@ -39,8 +39,8 @@ export function reduceArray(data, id, reducer) {
     return item;
   });
 }
-// [audit-todo] can this not be exported?
-export function generateID() {
+
+function generateID() {
   return String(Math.floor(Math.random() * 1000000));
 }
 
