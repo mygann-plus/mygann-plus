@@ -1,5 +1,5 @@
-import registerModule from '../../utils/module';
-import { waitForLoad, insertCss } from '../../utils/dom';
+import registerModule from '~/utils/module';
+import { waitForLoad, insertCss } from '~/utils/dom';
 
 import { createMenu, addListeners } from './favorites-ui';
 import { getSavedFavorites } from './favorites-model';

@@ -1,5 +1,5 @@
-import { waitForLoad } from '../utils/dom';
-import registerModule from '../utils/module';
+import { waitForLoad } from '~/utils/dom';
+import registerModule from '~/utils/module';
 import { isCurrentDay, addDayChangeListeners } from '../shared/schedule';
 
 // TIME & DATE CHECKERS

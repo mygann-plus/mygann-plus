@@ -1,5 +1,5 @@
-import { waitForLoad, constructButton } from '../utils/dom';
-import registerModule from '../utils/module';
+import { waitForLoad, constructButton } from '~/utils/dom';
+import registerModule from '~/utils/module';
 
 const MESSAGE = `
 This may take a few moments or temporarily slow down the website. 

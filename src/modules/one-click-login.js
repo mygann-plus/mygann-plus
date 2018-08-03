@@ -1,5 +1,5 @@
-import registerModule from '../utils/module';
-import { waitForLoad } from '../utils/dom';
+import registerModule from '~/utils/module';
+import { waitForLoad } from '~/utils/dom';
 
 const getPasswordDiv = () => document.getElementById('divPassword');
 const getNextbtn = () => document.getElementById('nextBtn');

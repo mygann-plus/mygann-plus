@@ -1,7 +1,8 @@
-import registerModule from '../../utils/module';
+// import registerModule from '~/utils/module/';
+import registerModule from '~/utils/module';
 
-import { waitForLoad, insertCss } from '../../utils/dom';
-import { coursesListLoaded } from '../../shared/progress';
+import { waitForLoad, insertCss } from '~/utils/dom';
+import { coursesListLoaded } from '~/shared/progress';
 
 import style from './style.css';
 

@@ -1,8 +1,8 @@
-import registerModule from '../utils/module';
+import registerModule from '~/utils/module';
 
-import { waitForLoad, constructButton } from '../utils/dom';
-import { fetchApi } from '../utils/fetch';
-import { getUserId } from '../utils/user';
+import { waitForLoad, constructButton } from '~/utils/dom';
+import { fetchApi } from '~/utils/fetch';
+import { getUserId } from '~/utils/user';
 
 const filterUngraded = label => {
   return label.textContent === 'Graded';

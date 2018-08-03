@@ -1,13 +1,13 @@
-import registerModule from '../../utils/module';
-import storage from '../../utils/storage';
+import registerModule from '~/utils/module';
+import storage from '~/utils/storage';
 import {
   waitForLoad,
   insertCss,
   createElementFromHTML,
-} from '../../utils/dom';
+} from '~/utils/dom';
 
-import { MODULE_MAP, SECTION_MAP } from '../../module-map';
-import Dialog from '../../utils/dialog';
+import { MODULE_MAP, SECTION_MAP } from '~/module-map';
+import Dialog from '~/utils/dialog';
 
 import style from './style.css';
 

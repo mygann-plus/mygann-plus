@@ -1,8 +1,8 @@
-import registerModule from '../utils/module';
+import registerModule from '~/utils/module';
 import {
   waitForLoad,
   createElementFromHTML,
-} from '../utils/dom';
+} from '~/utils/dom';
 import { coursesListLoaded } from '../shared/progress';
 
 function selectCourse({ elem }) {

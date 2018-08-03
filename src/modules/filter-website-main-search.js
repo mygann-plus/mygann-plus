@@ -1,5 +1,5 @@
-import registerModule from '../utils/module';
-import { waitForLoad } from '../utils/dom';
+import registerModule from '~/utils/module';
+import { waitForLoad } from '~/utils/dom';
 
 async function filterWebsiteMainSearch(options) {
   await waitForLoad(() => document.querySelector('.bb-tile-title'));

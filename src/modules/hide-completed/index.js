@@ -1,6 +1,6 @@
-import registerModule from '../../utils/module';
+import registerModule from '~/utils/module';
 
-import { waitForLoad, constructButton, insertCss } from '../../utils/dom';
+import { waitForLoad, constructButton, insertCss } from '~/utils/dom';
 
 import style from './style.css';
 

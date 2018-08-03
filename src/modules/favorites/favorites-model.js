@@ -1,4 +1,4 @@
-import storage, { deleteItem, changeItem, addItem } from '../../utils/storage';
+import storage, { deleteItem, changeItem, addItem } from '~/utils/storage';
 
 let favoritesData = null;
 

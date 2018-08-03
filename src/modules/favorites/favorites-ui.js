@@ -1,7 +1,7 @@
-import { sanitizeHTMLString } from '../../utils/string';
-import { getAssetUrl } from '../../utils/assets';
-import Dialog from '../../utils/dialog';
-import { createElementFromHTML, addEventListeners } from '../../utils/dom';
+import { sanitizeHTMLString } from '~/utils/string';
+import { getAssetUrl } from '~/utils/assets';
+import Dialog from '~/utils/dialog';
+import { createElementFromHTML, addEventListeners } from '~/utils/dom';
 
 import {
   editSavedFavorite,

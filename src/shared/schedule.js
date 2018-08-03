@@ -1,4 +1,4 @@
-import { hasParentWithClassName } from '../utils/dom';
+import { hasParentWithClassName } from '~/utils/dom';
 
 /* eslint-disable import/prefer-default-export */
 

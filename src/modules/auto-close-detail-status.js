@@ -1,5 +1,5 @@
-import { waitForLoad } from '../utils/dom';
-import registerModule from '../utils/module';
+import { waitForLoad } from '~/utils/dom';
+import registerModule from '~/utils/module';
 
 const classnames = {
   DROPDOWN_BUTTON: 'indicator-field p3formWhite dropdown-toggle assignment-status-button',

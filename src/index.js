@@ -1,7 +1,7 @@
-import storage from './utils/storage';
-import { MODULE_MAP } from './module-map';
+import storage from '~/utils/storage';
+import { MODULE_MAP } from '~/module-map';
 
-import setCssVars from './utils/css-vars';
+import setCssVars from '~/utils/css-vars';
 
 async function loadModules() {
   const optsData = await storage.get('options');

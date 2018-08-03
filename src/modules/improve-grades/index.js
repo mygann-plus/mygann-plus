@@ -3,9 +3,9 @@
   THIS MODULE DOES NOT ACTUALLY IMPROVE THE USER'S GRADES
 */
 
-import registerModule from '../../utils/module';
+import registerModule from '~/utils/module';
 
-import { waitForLoad, constructButton, insertCss, createElementFromHTML } from '../../utils/dom';
+import { waitForLoad, constructButton, insertCss, createElementFromHTML } from '~/utils/dom';
 import { coursesListLoaded } from '../../shared/progress';
 
 import ConfettiGenerator from './confetti';

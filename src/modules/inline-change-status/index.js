@@ -1,5 +1,5 @@
-import registerModule from '../../utils/module';
-import { waitForLoad, insertCss, createElementFromHTML } from '../../utils/dom';
+import registerModule from '~/utils/module';
+import { waitForLoad, insertCss, createElementFromHTML } from '~/utils/dom';
 
 import style from './style.css';
 

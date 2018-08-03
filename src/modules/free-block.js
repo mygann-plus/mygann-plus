@@ -1,6 +1,6 @@
-import registerModule from '../utils/module';
+import registerModule from '~/utils/module';
 
-import { waitForLoad } from '../utils/dom';
+import { waitForLoad } from '~/utils/dom';
 import { addDayChangeListeners } from '../shared/schedule';
 
 const DOM_QUERY = () => {

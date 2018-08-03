@@ -1,5 +1,5 @@
-import registerModule from '../utils/module';
-import { waitForLoad, insertBefore, createElementFromHTML } from '../utils/dom';
+import registerModule from '~/utils/module';
+import { waitForLoad, insertBefore, createElementFromHTML } from '~/utils/dom';
 
 const getMonthButton = () => (
   document.querySelector('.fc-header > :first-child > :first-child > :first-child > :nth-child(6)')

@@ -1,9 +1,9 @@
 import getUrls from 'get-urls-to-array';
 
-import registerModule from '../utils/module';
-import { fetchApi } from '../utils/fetch';
-import { insertCss, createElementFromHTML } from '../utils/dom';
-import { sanitizeHTMLString } from '../utils/string';
+import registerModule from '~/utils/module';
+import { fetchApi } from '~/utils/fetch';
+import { insertCss, createElementFromHTML } from '~/utils/dom';
+import { sanitizeHTMLString } from '~/utils/string';
 
 const TRANSITION_TIME = 500; // milliseconds for fade in/out animations
 
