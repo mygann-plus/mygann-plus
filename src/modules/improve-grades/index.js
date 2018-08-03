@@ -3,68 +3,18 @@
   THIS MODULE DOES NOT ACTUALLY IMPROVE THE USER'S GRADES
 */
 
-import { waitForLoad, constructButton, insertCss, createElementFromHTML } from '../../utils/dom';
 import registerModule from '../../utils/module';
 
-import ConfettiGenerator from './confetti';
+import { waitForLoad, constructButton, insertCss, createElementFromHTML } from '../../utils/dom';
 import { coursesListLoaded } from '../../shared/progress';
 
-function addStyles() {
-  insertCss(`
-    /* W3C */
-    @keyframes fun-time-awesome {
-      0% {background-position: left top;}
-      100% {background-position: left bottom;}
-    }
-    
-    /* Firefox */
-    @-moz-keyframes fun-time-awesome {
-      0% {background-position: left top;}
-      100% {background-position: left bottom;}
-    }
-    
-    /* Chrome, Safari */
-    @-webkit-keyframes fun-time-awesome {
-      0% {background-position: left top;}
-      100% {background-position: left bottom;}
-    }
+import ConfettiGenerator from './confetti';
+import style from './style.css';
 
-    #gocp_improve-grades_button {
-      color: white !important;
-      font-weight: bold;
-      margin-left: 10px;
-      margin-right: 10px;
-    
-      background: linear-gradient(to top, #ff3232 0%,#fcf528 16%,#28fc28 32%,#28fcf8 50%,#272ef9 66%,#ff28fb 82%,#ff3232 100%);
-      /* Chrome has a bug (?) where unprefixed background-size cause background-position animation to not work */
-      background-size: 1000%;
-      -moz-background-size: 1000%;
-      -webkit-background-size: 1000%;
-    
-      /* W3C */
-      animation-name: fun-time-awesome;
-      animation-duration: 40s;
-      animation-timing-function: linear;
-      animation-iteration-count: infinite;
-      animation-direction: alternate;
-      animation-play-state: running;
-    
-      /* Chrome, Safari */
-      -webkit-animation-name: fun-time-awesome;
-      -webkit-animation-duration: 1s;
-      -webkit-animation-timing-function: linear;
-      -webkit-animation-iteration-count: infinite;
-      -webkit-animation-direction: alternate;
-      -webkit-animation-play-state: running;
-    }
-
-    #gocp_improve-grades_confetti-canvas {
-      position: fixed;
-      top: 0;
-      z-index: 10000000000000000000000000000000;
-    }
-  `);
-}
+const selectors = {
+  button: style.locals.button,
+  canvas: style.locals.canvas,
+};
 
 let interval;
 function stopRapid() {
@@ -79,7 +29,7 @@ function changeGrades(e, increaseBy) {
   const gradeTexts = document.getElementsByClassName('showGrade');
   for (const gradeText of gradeTexts) {
     const curGrade = Number(gradeText.textContent.split('%')[0]);
-    const button = document.querySelector('#gocp_improve-grades_button');
+    const button = document.querySelector(`#${selectors.button}`);
     if (curGrade < 100 || Number.isNaN(curGrade)) {
       gradeText.textContent = '100.00%';
       button.textContent = 'IMPROVE GRADES MORE';
@@ -96,10 +46,10 @@ function changeGrades(e, increaseBy) {
 }
 
 function showConfetti() {
-  const canvas = createElementFromHTML('<canvas id="gocp_improve-grades_confetti-canvas"></canvas>');
+  const canvas = createElementFromHTML(`<canvas id="${selectors.canvas}"></canvas>`);
   document.body.appendChild(canvas);
   const confettiSettings = {
-    target: 'gocp_improve-grades_confetti-canvas',
+    target: selectors.canvas,
     max: '1000',
     size: '1',
     animate: true,
@@ -125,14 +75,14 @@ async function improveGrades() {
   }
   await waitForLoad(coursesListLoaded);
 
-  const button = constructButton('IMPROVE GRADES', 'gocp_improve-grades_button', '', () => {
+  const button = constructButton('IMPROVE GRADES', selectors.button, '', () => {
     changeGrades();
     showConfetti();
   });
   button.className += ' pull-right';
   const wrap = document.getElementById('courses').children[0].children[0].children[1].children[0];
   wrap.children[0].children[0].appendChild(button);
-  addStyles();
+  insertCss(style.toString());
 
 }
 
