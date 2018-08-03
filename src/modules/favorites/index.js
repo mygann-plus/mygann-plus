@@ -4,21 +4,7 @@ import { waitForLoad, insertCss } from '../../utils/dom';
 import { createMenu, addListeners } from './favorites-ui';
 import { getSavedFavorites } from './favorites-model';
 
-function insertControlStyle() {
-  insertCss(`
-    .gocp_favorites_controls > i {
-      font-size: 15px;
-      margin-right: 4px;
-      background: #fff2c0;
-      padding: 3px;
-      color: black;
-      display: none;
-    }
-    .gocp_favorites_link:hover .gocp_favorites_controls > i {
-      display: inline;
-    }
-  `);
-}
+import style from './style.css';
 
 async function favorites() {
   await waitForLoad(() => document.querySelector('.topnav > .twoline.parentitem.last'));
@@ -31,7 +17,7 @@ async function favorites() {
 
   directoriesMenu.before(menu);
   addListeners();
-  insertControlStyle();
+  insertCss(style.toString());
 }
 
 export default registerModule('Favorites', favorites);

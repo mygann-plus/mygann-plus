@@ -14,21 +14,11 @@ import selectors from './selectors';
 function createLink(favorite) {
   const title = sanitizeHTMLString(favorite.title);
   return `
-    <li class="gocp_favorites_link" data-gocp_favorites_id="${favorite.id}">
-      <a href="#${favorite.hash}" data-taskid="53179" class="sec-25-bgc-hover" data-spid="5">
+    <li class="${selectors.menuItem.link}" data-gocp_favorites_id="${favorite.id}">
+      <a href="#${favorite.hash}" class="sec-25-bgc-hover">
         <span class="desc">
-          <span class="gocp_favorites_link-title title black-fgc">${title}</span>
-          <div 
-            style="
-              position: absolute;
-              display: inline;
-              right: 10px;
-              bottom: 6px;
-              background: rgba(255, 242, 192, 1);
-              padding: 0 5px;
-            " 
-            class="gocp_favorites_controls"
-          >
+          <span class="${selectors.menuItem.title} title black-fgc">${title}</span>
+          <div class="${selectors.control.wrap}">
             <i class="fa fa-edit ${selectors.control.edit}"></i>
             <i class="fa fa-trash ${selectors.control.delete}"></i>
           </div>
@@ -43,8 +33,8 @@ export async function createMenu(favorites) {
   const favoriteLinks = favorites.map(createLink).join('');
 
   const html = `
-    <li class="oneline parentitem" id="gocp_favorites_menu">
-      <a href="#" data-taskid="-5" class="subnavtrigger black-fgc" id="group-header-News">
+    <li class="oneline parentitem" id="${selectors.menu}">
+      <a href="#" class="subnavtrigger black-fgc" id="group-header-News">
         <img src="${starIconUrl}">
         <span class="desc">
           <span class="title pri-100-fgc sky-nav">Favorites
@@ -53,11 +43,11 @@ export async function createMenu(favorites) {
         <span class="caret"></span>
       </a>
       <div class="subnavtop sec-75-bordercolor white-bgc"></div>
-      <div class="subnav sec-75-bordercolor white-bgc" id="gocp_favorites_dropdown">
+      <div class="subnav sec-75-bordercolor white-bgc" id="${selectors.dropdown}">
         <ul>
           ${favoriteLinks}
           <li class="">
-            <a href="#" class="sec-25-bgc-hover" id="gocp_favorites_addbutton">
+            <a href="#" class="sec-25-bgc-hover" id="${selectors.addButton}">
               <span class="desc">
                 <span class=" title black-fgc">
                  <i class="fa fa-plus"></i>
@@ -77,10 +67,10 @@ export function createDialogBody(favorite = {}) {
   const hash = favorite.hash || window.location.hash.split('#')[1] || '';
   const title = favorite.title || '';
   const html = `
-    <form id="gocp_favorites_form">
+    <form id="${selectors.form}">
       <div class="row">
         <div class="form-group col-md-12">
-          <label class="control-label" for="textarea">Title</label>
+          <label class="control-label" for="${selectors.dialog.title}">Title</label>
           <div class="controls">
             <input 
               type="text" 
@@ -95,7 +85,7 @@ export function createDialogBody(favorite = {}) {
       </div>
       <div class="row">
         <div class="form-group col-md-12">
-          <label class="control-label" for="textarea">Page</label>
+          <label class="control-label" for="${selectors.dialog.hash}">Page</label>
           <div class="controls">
             <input 
               type="text" 
@@ -116,7 +106,7 @@ export function createDialogBody(favorite = {}) {
 /* DOM MANIPULATORS */
 
 function insertFavoriteNode(favorite) {
-  const addPageLi = document.getElementById('gocp_favorites_addbutton').parentNode;
+  const addPageLi = document.getElementById(selectors.addButton).parentNode;
   addPageLi.before(createElementFromHTML(createLink(favorite)));
   const favoriteLi = document.querySelector(`li[data-gocp_favorites_id="${favorite.id}"]`);
 
@@ -130,7 +120,7 @@ function insertFavoriteNode(favorite) {
 
 function editFavoriteNode(id, newFavorite) {
   const link = document.querySelector(`li[data-gocp_favorites_id="${id}"] > :first-child`);
-  link.querySelector('.gocp_favorites_link-title').textContent = newFavorite.title;
+  link.querySelector(selectors.menuItem.title).textContent = newFavorite.title;
   link.href = `#${newFavorite.hash}`;
 }
 
@@ -147,7 +137,7 @@ const idFromEvent = event => {
 };
 
 function getInputtedFavorite() {
-  const form = document.getElementById('gocp_favorites_form');
+  const form = document.getElementById(selectors.form);
   if (!form.reportValidity()) {
     // prevent dialog from closing
     return null;

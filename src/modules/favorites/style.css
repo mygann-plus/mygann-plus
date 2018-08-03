@@ -1,0 +1,19 @@
+.controls {
+  position: absolute;
+  display: inline;
+  right: 10px;
+  bottom: 6px;
+  background: rgba(255, 242, 192, 1);
+  padding: 0 5px;
+}
+.controls > i {
+  font-size: 15px;
+  margin-right: 4px;
+  background: #fff2c0;
+  padding: 3px;
+  color: black;
+  display: none;
+}
+.menu-link:hover .controls > i {
+  display: inline;
+}
