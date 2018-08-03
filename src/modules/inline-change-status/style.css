@@ -1,0 +1,3 @@
+:global #assignment-center-assignment-items .assignment-status-update + .popover {
+  visibility: hidden;
+}

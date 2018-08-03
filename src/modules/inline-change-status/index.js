@@ -1,13 +1,7 @@
-import registerModule from '../utils/module';
-import { waitForLoad, insertCss, createElementFromHTML } from '../utils/dom';
+import registerModule from '../../utils/module';
+import { waitForLoad, insertCss, createElementFromHTML } from '../../utils/dom';
 
-function addStyle() {
-  insertCss(`
-    #assignment-center-assignment-items .assignment-status-update + .popover {
-      visibility: hidden;
-    }
-  `);
-}
+import style from './style.css';
 
 function simulateDropdownChange(elemIndex, index) {
   document.querySelectorAll('.assignment-status-update')[elemIndex].parentNode.children[0].click();
@@ -73,7 +67,7 @@ function addMutationObserver() {
 const domQuery = () => document.querySelector('#assignment-center-assignment-items *');
 
 async function inlineChangeStatus() {
-  addStyle();
+  insertCss(style.toString());
   await waitForLoad(domQuery);
   replaceLinks();
   addMutationObserver();
