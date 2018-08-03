@@ -1,19 +1,20 @@
-import { waitForLoad, createElementFromHTML, insertCss } from '../utils/dom';
+import registerModule from '../../utils/module';
 
-import registerModule from '../utils/module';
-import colors from '../utils/colors';
+import { waitForLoad, createElementFromHTML, insertCss } from '../../utils/dom';
+
+import style from './style.css';
 
 const selectors = {
   desktopSearchbar: 'gocp_search-classes-menu_searchbar',
   mobileSearchbarWrap: 'gocp_search-classes-menu_mobile-searchbar-wrap',
-  mobileSearchbar: 'gocp_search-classes-menu_mobile-searchbar',
+  mobileSearchbar: style.locals['mobile-search-bar'],
   hiddenCourse: {
-    desktop: 'gocp_search-classes-menu_hidden-course-mobile',
-    mobile: 'gocp_search-classes-menu_hidden-course-mobile',
+    desktop: style.locals['hidden-course-desktop'],
+    mobile: style.locals['hidden-course-mobile'],
   },
   highlightedCourse: {
-    desktop: 'gocp_search-classes-menu_highlighted-course-desktop',
-    mobile: 'gocp_search-classes-menu_highlighted-course-mobile',
+    desktop: style.locals['highlighted-course-desktop'],
+    mobile: style.locals['highlighted-course-mobile'],
   },
   desktopClassesMenu: 'subnav',
 };
@@ -152,34 +153,6 @@ class MobileClassFilter extends ClassFilter {
 
 /* eslint-enable class-methods-use-this */
 
-function addStyles() {
-  insertCss(`
-    #group-header-Classes + * + .subnav {
-      /* Move search bar up */
-      padding-top: 1px !important;
-    }
-    #${selectors.mobileSearchbar} {
-      background: #880d2f;
-      color: white;
-      border: none;
-      outline: none;
-      font-size: 1.2em;
-    }
-    .${selectors.hiddenCourse.desktop}, .${selectors.hiddenCourse.mobile} {
-      opacity: 0.1;
-    }
-    .${selectors.highlightedCourse.mobile} a {
-      /* text-shadow and color override more specific native selectors */
-      text-shadow: none !important;
-      color: black !important;
-      background: rgb(234, 215, 104);
-    }
-    .${selectors.highlightedCourse.desktop} a {
-      background: ${colors.lightBlue};
-    }
-    `);
-}
-
 const domQuery = {
   desktop: getDesktopMenu,
   mobile: () => (
@@ -194,7 +167,7 @@ function searchClassesMenu() {
   if (moduleLoaded) return;
   moduleLoaded = true;
 
-  addStyles();
+  insertCss(style.toString());
 
   // desktop
   waitForLoad(domQuery.desktop).then(() => {

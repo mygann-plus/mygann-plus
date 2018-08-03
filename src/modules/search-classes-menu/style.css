@@ -1,0 +1,31 @@
+:root {
+  --light-blue: #d9edf7;
+}
+
+:global #group-header-Classes + * + .subnav {
+  /* Move search bar up */
+  padding-top: 1px !important;
+}
+
+#mobile-search-bar {
+  background: #880d2f;
+  color: white;
+  border: none;
+  outline: none;
+  font-size: 1.2em;
+}
+
+.hidden-course-desktop, .hidden-course-mobile {
+  opacity: 0.1;
+}
+
+.highlighted-course-desktop a {
+  background: var(--light-blue);
+}
+
+.highlighted-course-mobile a {
+  /* text-shadow and color override more specific native selectors */
+  text-shadow: none !important;
+  color: black !important;
+  background: rgb(234, 215, 104);
+}
