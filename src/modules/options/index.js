@@ -45,8 +45,8 @@ function validateSuboption(input, suboption) {
   switch (suboption.type) {
     case 'number':
       const numValue = Number(input.value);
-      if (suboption.min && numValue < suboption.min) return false;
-      if (suboption.max && numValue > suboption.max) return false;
+      if ('min' in suboption && numValue < suboption.min) return false;
+      if ('max' in suboption && numValue > suboption.max) return false;
       if (suboption.validator && !suboption.validator(numValue)) return false;
       break;
     default:
