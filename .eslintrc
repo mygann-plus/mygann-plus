@@ -7,6 +7,13 @@
   "globals": {
     "chrome": false
   },
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "config/webpack.common.js"
+      }
+    }
+  },
   "rules": {
     "func-names": 0,
     "space-before-function-paren": 0,
