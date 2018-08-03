@@ -1,10 +1,11 @@
-import registerModule from '../utils/module';
+import registerModule from '../../utils/module';
 
-import { waitForLoad, constructButton, insertCss } from '../utils/dom';
-import colors from '../utils/colors';
+import { waitForLoad, constructButton, insertCss } from '../../utils/dom';
+
+import style from './style.css';
 
 const selectors = {
-  activeButton: 'gocp_hide-completed_active-button',
+  activeButton: style.locals['active-button'],
 };
 
 
@@ -37,18 +38,9 @@ async function toggleHidden({ target: button }) {
 
 const domQuery = () => document.querySelector('.assignment-calendar-button-bar');
 
-function addStyles() {
-  insertCss(`
-    .${selectors.activeButton} {
-      color: white !important;
-      background: ${colors.successGreen} !important;
-    }
-  `);
-}
-
 async function hideCompleted() {
   await waitForLoad(domQuery);
-  addStyles();
+  insertCss(style.toString());
 
   const button = constructButton('Hide Completed', '', 'fa fa-check', toggleHidden);
   domQuery().appendChild(button);
