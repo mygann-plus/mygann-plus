@@ -220,7 +220,7 @@ export default registerModule('Message Preview', messagePreview, {
       defaultValue: 3,
       min: 0,
       validator: val => (
-        val >= 0 && Math.floor(val) === val
+        Math.floor(val) === val
       ),
     },
     disappearTime: {
@@ -228,9 +228,6 @@ export default registerModule('Message Preview', messagePreview, {
       name: 'Disappear Time (seconds)',
       defaultValue: 5,
       min: 0,
-      validator: val => (
-        val >= 0
-      ),
     },
   },
 });
