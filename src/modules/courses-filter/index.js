@@ -1,8 +1,15 @@
-import { waitForLoad, insertCss } from '../utils/dom';
-import registerModule from '../utils/module';
-import { coursesListLoaded } from '../shared/progress';
+import registerModule from '../../utils/module';
+
+import { waitForLoad, insertCss } from '../../utils/dom';
+import { coursesListLoaded } from '../../shared/progress';
+
+import style from './style.css';
 
 const CHECKED_ATTR = 'data-gocp-courses_filter-checked';
+
+const selectors = {
+  hidden: style.locals.hidden,
+};
 
 let courses;
 const filters = [];
@@ -26,8 +33,8 @@ function runFilter() {
   regenerateCoursesList();
   const kept = filters.reduce((arr, filter) => arr.filter(filter), courses);
   // [audit] perhaps use dataset
-  courses.forEach(course => course.elem.setAttribute('data-gocp_courses-filter_hidden', 'true'));
-  kept.forEach(course => course.elem.setAttribute('data-gocp_courses-filter_hidden', 'false'));
+  courses.forEach(course => course.elem.classList.add(selectors.hidden));
+  kept.forEach(course => course.elem.classList.remove(selectors.hidden));
 }
 
 function handleSearch(course) {
@@ -133,11 +140,7 @@ function renderFilterBar() {
   document.getElementById('showHideGrade').after(wrap);
   document.getElementById('showHideGrade').style.marginRight = '15px';
 
-  insertCss(`
-    div[data-gocp_courses-filter_hidden="true"] {
-      display: none;
-    }
-  `);
+  insertCss(style.toString());
 }
 
 const domQuery = () => (
