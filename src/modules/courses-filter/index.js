@@ -1,4 +1,3 @@
-// import registerModule from '~/utils/module/';
 import registerModule from '~/utils/module';
 
 import { waitForLoad, insertCss } from '~/utils/dom';
