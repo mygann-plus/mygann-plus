@@ -1,4 +1,12 @@
-import { createElementFromHTML } from './dom';
+import { createElementFromHTML, insertCss } from '../dom';
+
+import style from './style.css';
+
+const selectors = {
+  modalWrap: style.locals['modal-wrap'],
+  modalBody: style.locals['custom-modal-body'],
+  modalFooterRight: style.locals['modal-footer-right'],
+};
 
 const buttonTypes = {
   BUTTON: 'BUTTON',
@@ -78,8 +86,7 @@ export default class Dialog {
       <div 
         id="site-modal" 
         tabindex="-1" 
-        class="modal bb-modal in" 
-        style="display: block; padding-right: 16px;"
+        class="modal bb-modal in ${selectors.modalWrap}"
       >
         <div>
           <div class="modal-dialog">
@@ -88,9 +95,9 @@ export default class Dialog {
                 <a class="close fa fa-times"></a>
                 <h1 class="bb-dialog-header">${this.title}</h1>
               </div>
-              <div class="modal-body" style="max-height: 465px; overflow-y: auto"></div>
+              <div class="modal-body ${selectors.modalBody}"></div>
               <div class="modal-footer">
-                <div class="gocp_modal-right" style="float: right; margin-top: 5px;">
+                <div class="${selectors.modalFooterRight}">
                 </div>
               </div>
             </div>
@@ -103,7 +110,7 @@ export default class Dialog {
     this.backdropElem = createElementFromHTML(backdrop);
 
     const footer = this.outerElem.querySelector('.modal-footer');
-    const rightFooter = this.outerElem.querySelector('.gocp_modal-right');
+    const rightFooter = this.outerElem.querySelector(`.${selectors.modalFooterRight}`);
 
     this.opts.leftButtons.forEach(btn => footer.appendChild(this._constructButton(btn)));
     this.opts.rightButtons.forEach(btn => rightFooter.appendChild(this._constructButton(btn)));
@@ -138,3 +145,5 @@ Dialog.buttons = {
 };
 
 Dialog.buttonTypes = buttonTypes;
+
+insertCss(style.toString());
