@@ -82,14 +82,6 @@ export function constructButton(textContent, id, iClassName, onClick) {
   );
 }
 
-export function hasParentWithClassName(element, classnames) {
-  const containsClass = c => element.className.split(' ').indexOf(c) >= 0;
-  if (element.className && classnames.filter(containsClass).length > 0) {
-    return true;
-  }
-  return element.parentNode && hasParentWithClassName(element.parentNode, classnames);
-}
-
 export function insertCss(css) {
   const styleElem = document.createElement('style');
   styleElem.textContent = css;
@@ -101,12 +93,6 @@ export function insertCss(css) {
       }
     },
   };
-}
-
-export function createElementFromHTML(htmlString, parent) {
-  parent = parent || document.createElement('div');
-  parent.innerHTML = htmlString.trim();
-  return parent.firstChild;
 }
 
 export function addEventListeners(nodes, event, callback) {

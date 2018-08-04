@@ -1,9 +1,15 @@
-import { hasParentWithClassName } from '~/utils/dom';
-
 /* eslint-disable import/prefer-default-export */
 
 function formatDay(dayString) {
   return Number(dayString).toString(); // remove leading "0"
+}
+
+export function hasParentWithClassName(element, classnames) {
+  const containsClass = c => element.className.split(' ').indexOf(c) >= 0;
+  if (element.className && classnames.filter(containsClass).length > 0) {
+    return true;
+  }
+  return element.parentNode && hasParentWithClassName(element.parentNode, classnames);
 }
 
 // tests if the current day on the schedule is set to today + daysFromNow
