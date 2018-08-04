@@ -10,6 +10,7 @@
 - Three options for Filter Website in Main Search: collapse, move to bottom, and remove
 - Maximum messages to preview and dissapear time in message preview is now configurable
 - New button in Message Preview to go to the first link found in the body of the message
+- Added fix for native OnCampus bug where pressing escape in a compose message window causes unexpected quirks
 
 ### Changed
 - Extension renamed to "Gann OnCampus+"
