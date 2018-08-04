@@ -120,7 +120,7 @@ function insertFavoriteNode(favorite) {
 
 function editFavoriteNode(id, newFavorite) {
   const link = document.querySelector(`li[data-gocp_favorites_id="${id}"] > :first-child`);
-  link.querySelector(selectors.menuItem.title).textContent = newFavorite.title;
+  link.querySelector(`.${selectors.menuItem.title}`).textContent = newFavorite.title;
   link.href = `#${newFavorite.hash}`;
 }
 
