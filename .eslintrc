@@ -62,6 +62,7 @@
     ],
     "react/no-unknown-property": [2, {
       "ignore": ["autocomplete"]
-    }]
+    }],
+    "react/jsx-key": 0
   }
 }
