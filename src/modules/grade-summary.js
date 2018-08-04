@@ -1,5 +1,5 @@
 import registerModule from '~/utils/module';
-import { waitForLoad, constructButton, createElementFromHTML } from '~/utils/dom';
+import { waitForLoad, constructButton, createElement } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
 import { coursesListLoaded } from '~/shared/progress';
 
@@ -39,14 +39,21 @@ function generateReport() {
   };
   const removeEmptyGrade = e => e.grade !== '--';
 
-  const gradesString = Array.from(document.querySelectorAll('.showGrade'))
+  const grades = Array.from(document.querySelectorAll('.showGrade'))
     .map(gradeElemToObject)
     .filter(removeEmptyGrade)
-    .map(formatGradeObject)
-    .join('<br />') || 'No graded courses yet.';
+    .map(formatGradeObject);
 
   // span is necessary for multiple courses
-  const dialogElem = createElementFromHTML(`<span>${gradesString}</span>`);
+  const dialogElem = (
+    <div>
+    {
+      grades.length ?
+      grades.map(grade => [grade, <br />]) :
+      'No Graded Courses Yet'
+    }
+    </div>
+  );
 
   const dialog = new Dialog('Grade Summary', dialogElem, {
     leftButtons: [Dialog.buttons.OK],
