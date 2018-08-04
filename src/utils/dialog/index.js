@@ -1,4 +1,6 @@
-import { createElementFromHTML, insertCss } from '../dom';
+import classNames from 'classnames';
+
+import { createElement, insertCss } from '../dom';
 
 import style from './style.css';
 
@@ -58,10 +60,16 @@ export default class Dialog {
 
   _constructButton(buttonConfig) {
     buttonConfig = Object.assign({}, defaultButtonConfig, buttonConfig);
-    const html = `<button>${buttonConfig.name}</button>`;
-    const button = createElementFromHTML(html);
 
-    button.classList.add('btn');
+    const handleClick = e => {
+      e.preventDefault();
+      if (buttonConfig.onClick() !== false) {
+        this.close();
+      }
+    };
+
+    const button = <button className="btn" onClick={ handleClick }>{buttonConfig.name}</button>;
+
     if (buttonConfig.type === buttonTypes.BUTTON) {
       button.classList.add('btn-default');
       if (buttonConfig.primary) {
@@ -71,64 +79,49 @@ export default class Dialog {
       button.classList.add('btn-link');
     }
 
-    button.addEventListener('click', e => {
-      e.preventDefault();
-      if (buttonConfig.onClick() !== false) {
-        this.close();
-      }
-    });
-
     return button;
   }
 
   _generateOuterElem() {
-    const html = `
-      <div 
-        id="site-modal" 
-        tabindex="-1" 
-        class="modal bb-modal in ${selectors.modalWrap}"
+    this.outerElem = (
+      <div
+        id="site-modal"
+        tabIndex="-1"
+        className={ classNames('modal bb-modal in', selectors.modalWrap) }
+        onKeyDown={ e => this._onKeyDown(e) }
       >
         <div>
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <a class="close fa fa-times"></a>
-                <h1 class="bb-dialog-header">${this.title}</h1>
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <a className="close fa fa-times" onClick={ () => this.close() }></a>
+                <h1 className="bb-dialog-header">{this.title}</h1>
               </div>
-              <div class="modal-body ${selectors.modalBody}"></div>
-              <div class="modal-footer">
-                <div class="${selectors.modalFooterRight}">
+              <div className={ classNames('modal-body', selectors.modalBody) }></div>
+
+              <div className="modal-footer">
+                { this.opts.leftButtons.map(btn => this._constructButton(btn)) }
+                <div className={selectors.modalFooterRight}>
+                  { this.opts.rightButtons.map(btn => this._constructButton(btn)) }
                 </div>
               </div>
+
             </div>
           </div>
         </div>
       </div>
-    `;
-    const backdrop = '<div class="modal-backdrop in"></div>';
-    this.outerElem = createElementFromHTML(html);
-    this.backdropElem = createElementFromHTML(backdrop);
-
-    const footer = this.outerElem.querySelector('.modal-footer');
-    const rightFooter = this.outerElem.querySelector(`.${selectors.modalFooterRight}`);
-
-    this.opts.leftButtons.forEach(btn => footer.appendChild(this._constructButton(btn)));
-    this.opts.rightButtons.forEach(btn => rightFooter.appendChild(this._constructButton(btn)));
-
-    this._addListeners();
+    );
+    this.backdropElem = <div className="modal-backdrop in"></div>;
   }
 
   _insertInnerElement() {
     this.outerElem.querySelector('.modal-body').appendChild(this.innerElem);
   }
 
-  _addListeners() {
-    this.outerElem.querySelector('.close').addEventListener('click', () => this.close());
-    this.outerElem.addEventListener('keydown', ({ key }) => {
-      if (key === 'Escape') {
-        this.close();
-      }
-    });
+  _onKeyDown({ key }) {
+    if (key === 'Escape') {
+      this.close();
+    }
   }
 
 }
