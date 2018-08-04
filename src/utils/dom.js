@@ -1,8 +1,6 @@
 import flatten from 'array-flatten';
 
-export function waitForLoad(condition, optionalDocument) {
-
-  const document = optionalDocument || window.document;
+export function waitForLoad(condition) {
 
   return new Promise(res => {
 
@@ -83,14 +81,11 @@ export function constructButton(textContent, id, iClassName, onClick) {
 }
 
 export function insertCss(css) {
-  const styleElem = document.createElement('style');
-  styleElem.textContent = css;
+  const styleElem = <style>{ css }</style>;
   document.head.appendChild(styleElem);
   return {
     remove() {
-      if (styleElem && styleElem.parentNode) {
-        styleElem.remove();
-      }
+      styleElem.remove();
     },
   };
 }
