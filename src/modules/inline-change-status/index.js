@@ -3,6 +3,12 @@ import { waitForLoad, insertCss, createElement } from '~/utils/dom';
 
 import style from './style.css';
 
+const TASKS_ASSIGNMENT_TYPE = 'My tasks';
+
+const selectors = {
+  inlined: style.locals.inlined,
+};
+
 function simulateDropdownChange(elemIndex, index) {
   document.querySelectorAll('.assignment-status-update')[elemIndex].parentNode.children[0].click();
   setTimeout(() => {
@@ -53,7 +59,13 @@ function createDropdown(parentNode, controller, index, preVal) {
 function replaceLinks() {
   const links = Array.from(document.getElementsByClassName('assignment-status-update'));
   links.forEach((button, i) => {
-    button.style.display = 'none';
+    const assignmentRow = button.parentNode.parentNode;
+    const assignmentType = assignmentRow.querySelector('[data-heading="Type"]').textContent;
+    if (assignmentType === TASKS_ASSIGNMENT_TYPE) {
+      // [audit] confirm this does not target regular assignments
+      return; // tasks also have an "edit" link, which needs to be available from the popover
+    }
+    assignmentRow.classList.add(selectors.inlined);
     createDropdown(button.parentNode, button, i);
   });
 }
