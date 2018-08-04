@@ -1,7 +1,8 @@
-import { sanitizeHTMLString } from '~/utils/string';
+import classNames from 'classnames';
+
 import { getAssetUrl } from '~/utils/assets';
 import Dialog from '~/utils/dialog';
-import { createElementFromHTML, addEventListeners } from '~/utils/dom';
+import { createElement, addEventListeners } from '~/utils/dom';
 
 import {
   editSavedFavorite,
@@ -12,46 +13,46 @@ import {
 import selectors from './selectors';
 
 function createLink(favorite) {
-  const title = sanitizeHTMLString(favorite.title);
-  return `
-    <li class="${selectors.menuItem.link}" data-gocp_favorites_id="${favorite.id}">
-      <a href="#${favorite.hash}" class="sec-25-bgc-hover">
-        <span class="desc">
-          <span class="${selectors.menuItem.title} title black-fgc">${title}</span>
-          <div class="${selectors.control.wrap}">
-            <i class="fa fa-edit ${selectors.control.edit}"></i>
-            <i class="fa fa-trash ${selectors.control.delete}"></i>
+  return (
+    <li className={selectors.menuItem.link} dataset={{ gocp_favorites_id: favorite.id }}>
+      <a href={`#${favorite.hash}`} className="sec-25-bgc-hover">
+        <span className="desc">
+          <span className={classNames(selectors.menuItem.title, 'title black-fgc')}>
+            {favorite.title}
+          </span>
+          <div className={selectors.control.wrap}>
+            <i className={classNames('fa fa-edit', selectors.control.edit)}></i>
+            <i className={classNames('fa fa-trash', selectors.control.delete)}></i>
           </div>
         </span>
       </a>
     </li>
-  `;
+  );
 }
 
 export async function createMenu(favorites) {
   const starIconUrl = getAssetUrl('star_icon.png');
-  const favoriteLinks = favorites.map(createLink).join('');
 
-  const html = `
-    <li class="oneline parentitem" id="${selectors.menu}">
-      <a href="#" class="subnavtrigger black-fgc" id="group-header-News">
-        <img src="${starIconUrl}">
-        <span class="desc">
-          <span class="title pri-100-fgc sky-nav">Favorites
+  return (
+    <li className="oneline parentitem" id={selectors.menu}>
+      <a href="#" className="subnavtrigger black-fgc">
+        <img src={starIconUrl} />
+        <span className="desc">
+          <span className="title pri-100-fgc sky-nav">Favorites
           </span>
         </span>
-        <span class="caret"></span>
+        <span className="caret"></span>
       </a>
-      <div class="subnavtop sec-75-bordercolor white-bgc"></div>
-      <div class="subnav sec-75-bordercolor white-bgc" id="${selectors.dropdown}">
+      <div className="subnavtop sec-75-bordercolor white-bgc"></div>
+      <div className="subnav sec-75-bordercolor white-bgc" id={selectors.dropdown}>
         <ul>
-          ${favoriteLinks}
-          <li class="">
-            <a href="#" class="sec-25-bgc-hover" id="${selectors.addButton}">
-              <span class="desc">
-                <span class=" title black-fgc">
-                 <i class="fa fa-plus"></i>
-                  Add Page
+          { favorites.map(createLink) }
+          <li className="">
+            <a href="#" className="sec-25-bgc-hover" id={selectors.addButton}>
+              <span className="desc">
+                <span className="title black-fgc">
+                 <i className="fa fa-plus"></i>
+                 &nbsp;Add Page
                 </span>
               </span>
             </a>
@@ -59,55 +60,52 @@ export async function createMenu(favorites) {
         </ul>
       </div>
     </li>
-  `;
-  return createElementFromHTML(html);
+  );
 }
 
 export function createDialogBody(favorite = {}) {
   const hash = favorite.hash || window.location.hash.split('#')[1] || '';
   const title = favorite.title || '';
-  const html = `
-    <form id="${selectors.form}">
-      <div class="row">
-        <div class="form-group col-md-12">
-          <label class="control-label" for="${selectors.dialog.title}">Title</label>
-          <div class="controls">
-            <input 
-              type="text" 
-              class="form-control col-md-8" 
-              id="${selectors.dialog.title}" 
-              value="${title}" 
-              required 
+  return (
+    <form id={selectors.form}>
+      <div className="row">
+        <div className="form-group col-md-12">
+          <label className="control-label" htmlFor={selectors.dialog.title}>Title</label>
+          <div className="controls">
+            <input
+              type="text"
+              className="form-control col-md-8"
+              id={selectors.dialog.title}
+              value={title}
+              required
               autocomplete="off"
-            > 
+            />
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="form-group col-md-12">
-          <label class="control-label" for="${selectors.dialog.hash}">Page</label>
-          <div class="controls">
-            <input 
-              type="text" 
-              class="form-control col-md-8" 
-              id="${selectors.dialog.hash}"
-              value="${hash}" 
+      <div className="row">
+        <div className="form-group col-md-12">
+          <label className="control-label" htmlFor={selectors.dialog.hash}>Page</label>
+          <div className="controls">
+            <input
+              type="text"
+              className="form-control col-md-8"
+              id={selectors.dialog.hash}
+              value={hash}
               required
-            > 
+            />
           </div>
-        </div>
         </div>
       </div>
     </form>
-  `;
-  return createElementFromHTML(html);
+  );
 }
 
 /* DOM MANIPULATORS */
 
 function insertFavoriteNode(favorite) {
   const addPageLi = document.getElementById(selectors.addButton).parentNode;
-  addPageLi.before(createElementFromHTML(createLink(favorite)));
+  addPageLi.before(createLink(favorite));
   const favoriteLi = document.querySelector(`li[data-gocp_favorites_id="${favorite.id}"]`);
 
   /* editFavoriteNode needs to be before handleEdit, so fixing this issue would require having node
@@ -143,7 +141,7 @@ function getInputtedFavorite() {
     return null;
   }
 
-  const title = sanitizeHTMLString(document.getElementById(selectors.dialog.title).value);
+  const title = document.getElementById(selectors.dialog.title).value;
   const hash = document.getElementById(selectors.dialog.hash).value;
   return { title, hash };
 }
