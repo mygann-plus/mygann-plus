@@ -1,6 +1,6 @@
 import registerModule from '~/utils/module';
 
-import { waitForLoad, createElementFromHTML, insertCss } from '~/utils/dom';
+import { waitForLoad, insertCss, createElement } from '~/utils/dom';
 
 import style from './style.css';
 
@@ -29,15 +29,14 @@ const getDesktopMenu = () => (
 class ClassFilter {
 
   constructor(inputId, hiddenClassName, highlightedClassName) {
-    this.input = createElementFromHTML(`
-      <input 
-        id="${inputId}"
-        class="form-control"
+    this.input = <input
+        id={inputId}
+        className="form-control"
         type="search"
         autocomplete="off"
         placeholder="Filter Classes"
-      >
-    `);
+      />;
+
     this.input.addEventListener('input', () => this.handleSearch());
     this.input.addEventListener('keypress', e => this.handleKeypress(e));
     this.courses = this.getCourses();
@@ -140,13 +139,11 @@ class MobileClassFilter extends ClassFilter {
       }));
   }
   mountInput(node) {
-    const wrapHtml = `
-      <li id="${selectors.mobileSearchbarWrap}">
-        <a class="mobile-group-page-link-1"></a>
+    const wrap = (
+      <li id={selectors.mobileSearchbarWrap}>
+        <a className="mobile-group-page-link-1">{ this.input }</a>
       </li>
-    `;
-    const wrap = createElementFromHTML(wrapHtml);
-    wrap.querySelector('a').appendChild(this.input);
+    );
     node.prepend(wrap);
   }
 }
