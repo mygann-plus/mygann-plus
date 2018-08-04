@@ -1,5 +1,8 @@
 {
-  "extends": "airbnb-base",
+  "extends": [
+    "airbnb-base",
+    "plugin:react/recommended"
+  ],
   "env": {
     "browser": true
   },
@@ -12,6 +15,9 @@
       "webpack": {
         "config": "config/webpack.common.js"
       }
+    },
+    "react": {
+      "pragma": "createElement"
     }
   },
   "rules": {
