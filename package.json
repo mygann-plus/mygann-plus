@@ -26,6 +26,7 @@
     "webpack-command": "^0.4.1"
   },
   "dependencies": {
+    "array-flatten": "^2.1.1",
     "get-urls-to-array": "^1.0.0"
   }
 }

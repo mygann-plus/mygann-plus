@@ -1,3 +1,5 @@
+import flatten from 'array-flatten';
+
 export function waitForLoad(condition, optionalDocument) {
 
   const document = optionalDocument || window.document;
@@ -34,9 +36,46 @@ export function constructButton(textContent, id, iClassName, onclick) {
   i.style = 'visibility: visible; margin-right: 5px';
   if (iClassName) {
     elem.appendChild(i);
+export function createElement(tagName, props, ...children) {
+  const elem = document.createElement(tagName);
+
+  for (const propName in props) {
+    const prop = props[propName];
+    if (/^on[A-Z]/.test(propName)) {
+      let listener;
+      let opts = {};
+      if (typeof prop === 'function') {
+        listener = prop;
+      } else {
+        // bogus error
+        listener = prop.listener; // eslint-disable-line prefer-destructuring
+        Object.assign(opts, prop);
+      }
+      elem.addEventListener(propName.slice(2).toLowerCase(), listener, opts);
+    } else if (propName === 'dataset') {
+      Object.assign(elem.dataset, prop);
+    } else if (propName === 'style') {
+      for (const styleProp in prop) {
+        if (styleProp.includes('-')) {
+          elem.style.setProperty(styleProp, prop[styleProp]);
+        } else {
+          elem.style[styleProp] = prop[styleProp];
+        }
+      }
+    } else {
+      elem[propName] = prop;
+    }
+  }
+
+  for (let child of flatten(children)) {
+    if (typeof child === 'string') {
+      child = document.createTextNode(child);
+    }
+    elem.appendChild(child);
   }
   elem.appendChild(text);
   elem.addEventListener('click', onclick);
+
   return elem;
 }
 
