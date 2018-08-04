@@ -5,7 +5,7 @@
 
 import registerModule from '~/utils/module';
 
-import { waitForLoad, constructButton, insertCss, createElementFromHTML } from '~/utils/dom';
+import { waitForLoad, constructButton, insertCss, createElement } from '~/utils/dom';
 import { coursesListLoaded } from '~/shared/progress';
 
 import ConfettiGenerator from './confetti';
@@ -46,7 +46,7 @@ function changeGrades(e, increaseBy) {
 }
 
 function showConfetti() {
-  const canvas = createElementFromHTML(`<canvas id="${selectors.canvas}"></canvas>`);
+  const canvas = <canvas id={selectors.canvas} />;
   document.body.appendChild(canvas);
   const confettiSettings = {
     target: selectors.canvas,
