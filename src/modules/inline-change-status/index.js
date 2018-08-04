@@ -24,9 +24,9 @@ function createOptionElem(name, val) {
 function createDropdown(parentNode, controller, index, preVal) {
   const existingValue = preVal || document.getElementsByClassName('assignment-status-update')[index].parentNode.parentNode.children[5].textContent.trim();
   const selectElem = document.createElement('select');
-  optionNames.splice(optionNames.map(n => n.trim()).indexOf(existingValue), 1);
   // oncampus natively uses non breaking spaces for ONLY in progress labels
   const optionNames = ['To Do', 'In\u00a0Progress', 'Completed'];
+  optionNames.splice(optionNames.indexOf(existingValue), 1);
 
   const optionElems = [
     createOptionElem('-- Select --', '0'),
