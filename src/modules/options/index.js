@@ -1,9 +1,11 @@
+import classNames from 'classnames';
+
 import registerModule from '~/utils/module';
 import storage from '~/utils/storage';
 import {
+  createElement,
   waitForLoad,
   insertCss,
-  createElementFromHTML,
 } from '~/utils/dom';
 
 import { MODULE_MAP, SECTION_MAP } from '~/module-map';
@@ -118,12 +120,12 @@ class OptionsDialog {
       return null;
     }
 
-    const sectionView = createElementFromHTML(`
-      <div class="${selectors.section.wrap}">
-        <div class="bb-section-heading">${publicName}</div>
-        <div class="${selectors.section.optionsWrap}"></div>
+    const sectionView = (
+      <div className={selectors.section.wrap}>
+        <div className="bb-section-heading">{publicName}</div>
+        <div className={selectors.section.optionsWrap}></div>
       </div>
-    `);
+    );
 
     const optionsWrap = sectionView.querySelector(`.${selectors.section.optionsWrap}`);
     for (const moduleView of moduleViews) {
@@ -139,54 +141,60 @@ class OptionsDialog {
 
     if (!module.config.showInOptions) return null;
 
-    const html = `
-      <div class=${selectors.module.wrap}>
-        <div class="${selectors.module.top}">
-          <label class="bb-check-wrapper ${selectors.module.label}" for="${module.name}">
-            <input type="checkbox" ${moduleState.enabled ? 'checked' : ''} class="${selectors.module.input}" name="${module.name}"/>
-            <span class="bb-check-checkbox"></span>
-            <span class="${selectors.module.caption}">
-              ${formatModuleName(module.name)}
-              ${module.config.description && `
-                <span class="${selectors.module.description}">
-                  - ${formatDescription(module.config.description)}
+    const moduleView = (
+      <div className={selectors.module.wrap}>
+        <div className={selectors.module.top}>
+          <label
+            className={ classNames('bb-check-wrapper', selectors.module.label) }
+            htmlFor={module.name}
+          >
+            <input
+              type="checkbox"
+              checked={moduleState.enabled}
+              className={selectors.module.input}
+              name={module.name}
+              onChange={ ({ target }) => { moduleState.enabled = target.checked; } }
+            />
+            <span className="bb-check-checkbox"></span>
+            <span className={selectors.module.caption}>
+              {formatModuleName(module.name)}
+              {
+                module.config.description &&
+                <span className={selectors.module.description}>
+                  - {formatDescription(module.config.description)}
                 </span>
-              `}
+              }
             </span>
           </label>
         </div>
       </div>
-    `;
-
-    const moduleView = createElementFromHTML(html);
-
-    moduleView.querySelector(`.${selectors.module.input}`).addEventListener('change', ({ target }) => {
-      moduleState.enabled = target.checked;
-    });
+    );
 
     if (Object.keys(module.config.options).length) {
-      const expandLink = createElementFromHTML(`
-        <a href="#" class="${selectors.module.expandLink}">
-          <i class="fa fa-chevron-down ${selectors.module.chevron}"></i>
-        </a>
-      `);
-      const extraOptions = createElementFromHTML(`
-        <div class="${selectors.module.extraOptions}"></div>
-      `);
+      const extraOptions = (
+        <div className={selectors.module.extraOptions}>
+          {
+            Object.keys(module.config.options).map(suboptName => (
+              this.createSuboptionView(sectionHash, module, suboptName)
+            ))
+          }
+        </div>
+      );
 
-      expandLink.addEventListener('click', e => {
+      const onExpandLinkClick = e => {
         e.preventDefault();
         extraOptions.classList.toggle(selectors.module.expanded);
-      });
-      for (const suboption in module.config.options) {
-        const suboptionView = this.createSuboptionView(sectionHash, module, suboption);
-        extraOptions.appendChild(suboptionView);
-      }
+      };
 
-      moduleView.querySelector(`.${selectors.module.top}`).appendChild(expandLink);
+      const expandLink = (
+        <a href="#" className={selectors.module.expandLink} onClick={ onExpandLinkClick }>
+          <i className={classNames('fa fa-chevron-down', selectors.module.chevron)}></i>
+        </a>
+      );
+
       moduleView.appendChild(extraOptions);
+      moduleView.querySelector(`.${selectors.module.top}`).appendChild(expandLink);
     }
-
 
     return moduleView;
   }
@@ -198,19 +206,17 @@ class OptionsDialog {
 
     switch (suboption.type) {
       case 'string':
-        input = createElementFromHTML('<input />');
+        input = <input />;
         break;
       case 'number':
-        input = createElementFromHTML(`<input type="number" min="${suboption.min}" max="${suboption.max}"/>`);
+        input = <input type="number" min={suboption.min} max={suboption.max} />;
         break;
       case 'enum':
-        input = createElementFromHTML(`
+        input = (
           <select>
-            ${suboption.enumValues.map(val => `
-              <option value=${val}>${val}</option>
-            `).join('')}
+            {suboption.enumValues.map(val => <option value={val}>{val}</option>)}
           </select>
-        `);
+        );
         break;
       default:
         break;
@@ -228,12 +234,12 @@ class OptionsDialog {
       }
     });
 
-    const label = createElementFromHTML(`
-      <label class=${selectors.suboption.label}>
-        ${suboption.name}:
+    const label = (
+      <label className={selectors.suboption.label}>
+        {suboption.name}:
+        { input }
       </label>
-    `);
-    label.appendChild(input);
+    );
 
     return label;
   }
@@ -277,26 +283,26 @@ async function showDialog() {
 }
 
 function appendNavLink() {
-  if (document.getElementById('gocp_options_navlink')) return;
+  if (document.querySelector('#gocp_options_navlink')) return;
 
   const menu = document.querySelector('.oneline.parentitem.last > :nth-child(3) > :first-child');
   const nativeSettingsLink = menu.children[2];
 
-  const html = `
+  const showDialogDesktop = e => {
+    e.preventDefault();
+    showDialog();
+  };
+
+  const link = (
     <li id="gocp_options_navlink">
-      <a href="#" class="pri-75-bgc-hover black-fgc white-fgc-hover active">
-        <span class="desc">
-          <span class="title">OnCampus+ Options</span>
+      <a href="#" className="pri-75-bgc-hover black-fgc white-fgc-hover active" onClick={showDialogDesktop}>
+        <span className="desc">
+          <span className="title">OnCampus+ Options</span>
         </span>
       </a>
     </li>
-  `;
+  );
 
-  const link = createElementFromHTML(html);
-  link.firstElementChild.addEventListener('click', e => {
-    e.preventDefault();
-    showDialog();
-  });
   nativeSettingsLink.after(link);
 
 }
@@ -304,19 +310,20 @@ function appendNavLink() {
 function appendMobileNavLink() {
   if (document.querySelector('#gocp_options_mobilenavlink')) return;
 
-  const mobileNavLinkHtml = `
-    <li>
-      <a href="#" id="gocp_options_mobilenavlink">OnCampus+ Options</a>
-    </li>
-  `;
-  const mobileNav = createElementFromHTML(mobileNavLinkHtml);
-  mobileNav.firstElementChild.addEventListener('click', e => {
+  const showDialogMobile = e => {
     e.preventDefault();
-    document.getElementById('app').click(); // hide menu by clicking out
+    document.body.click(); // hide mobile nav
     showDialog();
-  });
+  };
+
+  const mobileNavLink = (
+    <li>
+      <a href="#" id="gocp_options_mobilenavlink" onClick={ showDialogMobile }>OnCampus+ Options</a>
+    </li>
+  );
+
   const nativeSettingsLink = document.getElementById('mobile-settings-link');
-  nativeSettingsLink.after(mobileNav);
+  nativeSettingsLink.after(mobileNavLink);
 }
 
 const domQuery = {
