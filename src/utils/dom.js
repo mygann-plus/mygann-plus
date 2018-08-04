@@ -25,17 +25,6 @@ export function waitForLoad(condition, optionalDocument) {
 
 }
 
-export function constructButton(textContent, id, iClassName, onclick) {
-  let elem = document.createElement('button');
-  let i = document.createElement('i');
-  let text = document.createTextNode(textContent);
-  elem.id = id;
-  elem.className = 'btn btn-sm btn-default';
-  i.className = iClassName;
-  elem.style = 'color:#000';
-  i.style = 'visibility: visible; margin-right: 5px';
-  if (iClassName) {
-    elem.appendChild(i);
 export function createElement(tagName, props, ...children) {
   const elem = document.createElement(tagName);
 
@@ -73,10 +62,21 @@ export function createElement(tagName, props, ...children) {
     }
     elem.appendChild(child);
   }
-  elem.appendChild(text);
-  elem.addEventListener('click', onclick);
 
   return elem;
+}
+
+export function constructButton(textContent, id, iClassName, onClick) {
+  const styles = {
+    button: { color: 'black' },
+    icon: { visibility: 'visible', marginRight: '5px' },
+  };
+  return (
+    <button id={id} className="btn btn-sm btn-default" onClick={onClick} style={{ color: 'black' }}>
+      { iClassName && <i className={iClassName} style={styles.icon} /> }
+      { textContent }
+    </button>
+  );
 }
 
 export function hasParentWithClassName(element, classnames) {
