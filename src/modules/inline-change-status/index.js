@@ -1,5 +1,5 @@
 import registerModule from '~/utils/module';
-import { waitForLoad, insertCss, createElementFromHTML } from '~/utils/dom';
+import { waitForLoad, insertCss, createElement } from '~/utils/dom';
 
 import style from './style.css';
 
@@ -17,13 +17,11 @@ function simulateDropdownChange(elemIndex, index) {
 }
 
 function createOptionElem(name, val) {
-  const html = `<option value="${val}">${name}</option>`;
-  return createElementFromHTML(html);
+  return <option value={val}>{name}</option>;
 }
 
 function createDropdown(parentNode, controller, index, preVal) {
-  const existingValue = preVal || document.getElementsByClassName('assignment-status-update')[index].parentNode.parentNode.children[5].textContent.trim();
-  const selectElem = document.createElement('select');
+  const existingValue = preVal || document.querySelectorAll('.assignment-status-update')[index].parentNode.parentNode.children[5].textContent.trim();
   // oncampus natively uses non breaking spaces for ONLY in progress labels
   const optionNames = ['To Do', 'In\u00a0Progress', 'Completed'];
   optionNames.splice(optionNames.indexOf(existingValue), 1);
@@ -33,18 +31,21 @@ function createDropdown(parentNode, controller, index, preVal) {
     createOptionElem(optionNames[0], '1'),
     createOptionElem(optionNames[1], '2'),
   ];
-
-  optionElems.forEach(o => selectElem.appendChild(o));
-  selectElem.onchange = e => {
+  const handleSelectChange = e => {
+    const selectElem = e.target;
     if (selectElem.value === '0') {
-      e.preventDefault();
       return;
     }
     selectElem.remove();
     createDropdown(parentNode, controller, index, optionNames[selectElem.value - 1]);
     simulateDropdownChange(index, selectElem.value);
   };
-  selectElem.className = 'form-control';
+
+  const selectElem = (
+    <select onChange={handleSelectChange} className="form-control">
+      { optionElems }
+    </select>
+  );
 
   parentNode.appendChild(selectElem);
 }
