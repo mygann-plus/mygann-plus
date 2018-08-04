@@ -57,8 +57,11 @@ export function createElement(tagName, props, ...children) {
   }
 
   for (let child of flatten(children)) {
-    if (typeof child === 'string') {
-      child = document.createTextNode(child);
+    if (child == null) {
+      continue;
+    }
+    if (typeof child !== 'object') {
+      child = document.createTextNode(child.toString());
     }
     elem.appendChild(child);
   }
