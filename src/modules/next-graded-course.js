@@ -1,7 +1,7 @@
 import registerModule from '~/utils/module';
 import {
   waitForLoad,
-  createElementFromHTML,
+  constructButton,
 } from '~/utils/dom';
 import { coursesListLoaded } from '~/shared/progress';
 
@@ -10,18 +10,8 @@ function selectCourse({ elem }) {
 }
 
 function generateButton(followingCourse, icon) {
-  const btnHtml = `
-    <button class="btn btn-default">
-      <i style="color: ##4d4d4d;" class="fa fa-fast-${icon}"></i>
-    </button>
-  `;
-  const button = createElementFromHTML(btnHtml);
-  if (!followingCourse) {
-    button.classList.add('disabled');
-  } else {
-    // "following" refers both to next and previous
-    button.addEventListener('click', () => selectCourse(followingCourse));
-  }
+  const button = constructButton('', '', `fa fa-fast-${icon}`, () => selectCourse(followingCourse));
+  button.disabled = !followingCourse;
   return button;
 }
 
