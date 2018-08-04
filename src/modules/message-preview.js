@@ -2,8 +2,7 @@ import getUrls from 'get-urls-to-array';
 
 import registerModule from '~/utils/module';
 import { fetchApi } from '~/utils/fetch';
-import { insertCss, createElementFromHTML } from '~/utils/dom';
-import { sanitizeHTMLString } from '~/utils/string';
+import { createElement, insertCss } from '~/utils/dom';
 
 const TRANSITION_TIME = 500; // milliseconds for fade in/out animations
 
@@ -52,12 +51,11 @@ const messageStyles = `
 `;
 
 const formatBodyText = text => {
-  const formatted = text
+  return text
     .replace(/\n/g, ' ')
     .replace(/\s+/g, ' ')
     .replace(/<br>/g, ' ')
     .trim();
-  return sanitizeHTMLString(formatted);
 };
 const isOnMessagesInbox = () => window.location.hash === '#message/inbox';
 
@@ -67,59 +65,58 @@ class MessagePreview {
   constructor(message, disappearTime) {
     const bodyText = formatBodyText(message.body);
 
-    const messageHtml = `
-      <a href="https://gannacademy.myschoolapp.com/app/student#message/conversation/${message.id}">
-        <div class="${identifiers.messageMain}">
-          <div class="${identifiers.text}">
-            <b class="gocp_message_preview_message-from">${message.from}: </b>
-            <span class="gocp_message-preview_message-body">
-              ${bodyText}
+    this.urls = getUrls(bodyText);
+    this.message = message;
+    this.disappearTime = disappearTime;
+
+    this.messageElem = (
+      <a
+        href={`https://gannacademy.myschoolapp.com/app/student#message/conversation/${message.id}`}
+        onClick={ () => this.removeMessage() }
+      >
+        <div className={identifiers.messageMain}>
+          <div className={identifiers.text}>
+            <b>{message.from}: </b>
+            <span>
+              {bodyText}
             </span>
           </div>
-          <div class="${identifiers.controls}">
-            <i class="fa fa-archive"></i>
-            <i class="fa fa-link" style="margin-left: 50%; margin-top: 1px;"></i>
+          <div className={identifiers.controls}>
+            <i className="fa fa-archive" onClick={e => this.onArchiveClick(e)}></i>
+            {
+              this.urls.length ?
+              <i
+                className="fa fa-link"
+                style={{ marginLeft: '50%', marginTop: '1px' }}
+                onClick={ () => this.removeMessage() }
+              ></i> :
+              null
+            }
           </div>
         </div>
       </a>
-    `;
+    );
 
-    this.messageElem = createElementFromHTML(messageHtml);
-    /* eslint-disable prefer-destructuring */
-    this.main = this.messageElem.children[0];
-    this.archive = this.main.children[1].children[0];
-    this.link = this.main.children[1].children[1];
-    /* eslint-enable prefer-destructuring */
-
-    this.disappearTime = disappearTime;
-    this.urls = getUrls(bodyText);
-
-    this.addEventListeners();
+    this.main = this.messageElem.children[0]; // eslint-disable-line prefer-destructuring
+    this.show();
   }
 
-  addEventListeners() {
-    this.main.addEventListener('click', () => this.removeMessage());
-
-    this.archive.addEventListener('click', e => {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      this.archiveMessage();
-      this.removeMessage();
-    });
-
-    if (this.urls.length) {
-      this.link.addEventListener('click', e => {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        window.open(this.urls[0]);
-        this.removeMessage();
-      });
-    } else {
-      this.link.remove();
-    }
-
+  show() {
     this.fadeIn();
     setTimeout(() => this.fadeOut(), this.disappearTime * 1000);
+  }
+
+  onArchiveClick(e) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    this.archiveMessage();
+    this.removeMessage();
+  }
+  onLinkClick(e) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    window.open(this.urls[0]);
+    this.removeMessage();
   }
 
   removeMessage() {
