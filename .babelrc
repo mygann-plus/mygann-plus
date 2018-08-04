@@ -8,5 +8,13 @@
         "modules": false
       }
     ]
+  ],
+  "plugins": [
+    [
+      "transform-react-jsx",
+      {
+        "pragma": "createElement"
+      }
+    ]
   ]
 }
