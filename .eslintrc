@@ -59,6 +59,9 @@
       {
         "newlines-between": "ignore"  
       }
-    ]
+    ],
+    "react/no-unknown-property": [2, {
+      "ignore": ["autocomplete"]
+    }]
   }
 }
