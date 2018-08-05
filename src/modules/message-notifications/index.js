@@ -4,51 +4,18 @@ import registerModule from '~/utils/module';
 import { fetchApi } from '~/utils/fetch';
 import { createElement, insertCss } from '~/utils/dom';
 
+import style from './style.css';
+
 const TRANSITION_TIME = 500; // milliseconds for fade in/out animations
 
 let wrapperElem;
 const displayedMessages = new Set();
 
 const identifiers = {
-  messageMain: 'gocp_message-preview_message-main',
-  controls: 'gocp_message-preview_message-archive',
-  text: 'gocp_message-preview_message-text',
+  messageMain: style.locals['message-main'],
+  controls: style.locals.controls,
+  messageText: style.locals['message-text'],
 };
-
-const messageStyles = `
-  .${identifiers.messageMain} {
-    background: #52abf9;
-    max-width: 460px;
-    padding: 22px;
-    border-radius: 4px;
-    box-shadow: 0px 3px 5px #c1bbbb;
-    margin-bottom: 10px;
-    color: white;
-    text-decoration: none;
-    opacity: 0;
-    transition: opacity ${TRANSITION_TIME}ms;
-    display: flex;
-    padding-right: 40px;
-  }
-  .${identifiers.controls} {
-    color: white;
-    right: 11px;
-    bottom: 28px;
-    font-size: 20px;
-    cursor: pointer;
-    display: inline-block;
-    vertical-align: text-bottom;
-    display: flex;
-  }
-  .${identifiers.text} {
-    margin-right: 4%;
-    overflow: hidden;
-    white-space: nowrap;
-    display: inline-block;
-    text-overflow: ellipsis;
-    max-width: 343px;
-  }
-`;
 
 const formatBodyText = text => {
   return text
@@ -60,7 +27,7 @@ const formatBodyText = text => {
 const isOnMessagesInbox = () => window.location.hash === '#message/inbox';
 
 
-class MessagePreview {
+class MessageNotification {
 
   constructor(message, disappearTime) {
     const bodyText = formatBodyText(message.body);
@@ -75,7 +42,7 @@ class MessagePreview {
         onClick={ () => this.removeMessage() }
       >
         <div className={identifiers.messageMain}>
-          <div className={identifiers.text}>
+          <div className={identifiers.messageText}>
             <b>{message.from}: </b>
             <span>
               {bodyText}
@@ -169,12 +136,12 @@ function createWrapper() {
   return wrap;
 }
 
-function generatePreviews(messages, disappearTime) {
+function generateNotifications(messages, disappearTime) {
   for (const message of messages) {
     if (!displayedMessages.has(message.id)) {
       displayedMessages.add(message.id);
-      const preview = new MessagePreview(message, disappearTime);
-      wrapperElem.appendChild(preview.messageElem);
+      const notification = new MessageNotification(message, disappearTime);
+      wrapperElem.appendChild(notification.messageElem);
     }
   }
 }
@@ -199,21 +166,27 @@ async function getMessages() {
   }
 }
 
-async function messagePreview(options) {
+function addStyles() {
+  const transitionPropertyName = '--message-notifications--transition-time';
+  document.documentElement.style.setProperty(transitionPropertyName, `${TRANSITION_TIME}ms`);
+  insertCss(style.toString());
+}
+
+async function messageNotifications(options) {
   if (!wrapperElem) {
-    insertCss(messageStyles);
+    addStyles();
     wrapperElem = createWrapper();
     document.body.appendChild(wrapperElem);
   }
   const messages = (await getMessages()).slice(0, options.maxMessages);
-  generatePreviews(messages, options.disappearTime);
+  generateNotifications(messages, options.disappearTime);
 }
 
-export default registerModule('Message Preview', messagePreview, {
+export default registerModule('Message Notifications', messageNotifications, {
   options: {
     maxMessages: {
       type: 'number',
-      name: 'Maximum Messages to Preview',
+      name: 'Maximum Messages to Display',
       defaultValue: 3,
       min: 0,
       validator: val => (
