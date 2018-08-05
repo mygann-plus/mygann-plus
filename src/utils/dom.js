@@ -4,13 +4,15 @@ export function waitForLoad(condition) {
 
   return new Promise(res => {
 
-    if (condition()) {
-      return res();
+    const resolvedCondition = condition();
+    if (resolvedCondition) {
+      return res(resolvedCondition);
     }
 
     const observer = new MutationObserver(() => {
-      if (condition()) {
-        res();
+      const resolvedCondition = condition(); // eslint-disable-line no-shadow
+      if (resolvedCondition) {
+        res(resolvedCondition);
         observer.disconnect();
       }
     });
