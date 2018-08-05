@@ -6,7 +6,7 @@ import { createElement, insertCss } from '~/utils/dom';
 
 import style from './style.css';
 
-const TRANSITION_TIME = 500; // milliseconds for fade in/out animations
+const TRANSITION_TIME = 300; // milliseconds for fade in/out animations
 
 let wrapperElem;
 const displayedMessages = new Set();
