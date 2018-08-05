@@ -8,6 +8,29 @@ const selectors = {
   activeButton: style.locals['active-button'],
 };
 
+const completedStatusIndices = [
+  4, // completed
+  5, // graded
+];
+
+function isChecked(checkbox) {
+  return checkbox.classList.contains('active');
+}
+
+async function onFilterStatusClick(hideCompletedButton) {
+  const applyButton = await waitForLoad(() => document.querySelector('#btn-filter-apply'));
+  const dialog = applyButton.closest('.modal-dialog');
+
+  applyButton.addEventListener('click', () => {
+    const checkboxes = dialog.querySelectorAll('.status-button');
+    let allUnchecked = true;
+    for (const index of completedStatusIndices) {
+      allUnchecked = allUnchecked && !isChecked(checkboxes[index]);
+    }
+    hideCompletedButton.classList.toggle(selectors.activeButton, allUnchecked);
+    hideCompletedButton.disabled = false;
+  });
+}
 
 async function toggleHidden({ target: button }) {
   document.getElementById('filter-status').click();
@@ -20,29 +43,34 @@ async function toggleHidden({ target: button }) {
 
   await waitForLoad(() => document.querySelector('.modal-dialog'));
   const dialog = document.querySelector('.modal-dialog');
+  button.disabled = true;
 
   try {
-    const checkboxes = dialog.querySelectorAll('.p3icon-check');
-    checkboxes[4].click(); // completed
-    checkboxes[5].click(); // graded
+    const checkboxes = dialog.querySelectorAll('.status-button');
+    const desiredState = button.classList.contains(selectors.activeButton);
+
+    for (const index of completedStatusIndices) {
+      if (isChecked(checkboxes[index]) !== desiredState) {
+        checkboxes[index].querySelector('.p3icon-check').click();
+      }
+    }
+
     dialog.querySelector('#btn-filter-apply').click();
   } finally {
     // reset modal style even if error occurs
     // failure to do so could break all other dialogs
     hideDialogStyle.remove();
   }
-
-
-  button.classList.toggle(selectors.activeButton);
 }
 
-const domQuery = () => document.querySelector('.assignment-calendar-button-bar');
+const domQuery = () => document.querySelector('#filter-status');
 
 async function hideCompleted() {
-  await waitForLoad(domQuery);
   insertCss(style.toString());
+  const filterStatusButton = await waitForLoad(domQuery);
 
   const button = constructButton('Hide Completed', '', 'fa fa-check', toggleHidden);
-  domQuery().appendChild(button);
+  filterStatusButton.parentNode.appendChild(button);
+  filterStatusButton.addEventListener('click', () => onFilterStatusClick(button));
 }
 export default registerModule('Hide Completed Assignments', hideCompleted);
