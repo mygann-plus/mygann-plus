@@ -31,7 +31,7 @@
 - Fix multiple class ending times appearing
 - Fix grades being hidden when using Grade Summary and Next Graded Course
 - Fix Inline Change Status not always appearing and flashing dropdown
-- Fix Hide Completed flickering and inconsistently working
+- Fix Hide Completed causing background flickering and behaving inconsistently
 - Fix "view more classes" being included in Search Classes Menu result
 - Under the hood fixes and performance improvements
 
