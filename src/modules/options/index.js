@@ -99,7 +99,7 @@ class OptionsDialog {
   }
 
   renderBody() {
-    const sectionWrap = document.createElement('div');
+    const sectionWrap = <div />;
     for (const sectionName in MODULE_MAP) {
       const section = this.createSectionView(
         SECTION_MAP[sectionName],
