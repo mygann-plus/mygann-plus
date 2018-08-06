@@ -1,5 +1,6 @@
-import { waitForLoad, constructButton } from '~/utils/dom';
 import registerModule from '~/utils/module';
+
+import { createElement, waitForLoad, constructButton } from '~/utils/dom';
 
 const MESSAGE = `
 This may take a few moments or temporarily slow down the website. 
@@ -41,11 +42,14 @@ async function archiveAll() {
   const button = constructButton(BUTTON_TEXT, '', 'fa fa-archive', handleButtonClick);
   button.style.margin = '5px 0px 5px 10px';
 
-  const archivingMessage = document.createElement('span');
-  archivingMessage.textContent = `${ARCHIVING_TEXT} in progress... Please wait.`;
-  archivingMessage.id = 'archivingMessage';
-  archivingMessage.style.display = 'none';
-  archivingMessage.style.marginLeft = '10px';
+  const archivingMessage = (
+    <span
+      id="archivingMessage"
+      style={{ display: 'none', marginLeft: '10px' }}
+    >
+      {ARCHIVING_TEXT} in progress... Please wait.
+    </span>
+  );
 
   document.getElementById('button-bar').children[0].appendChild(button);
   document.getElementById('button-bar').children[0].appendChild(archivingMessage);
