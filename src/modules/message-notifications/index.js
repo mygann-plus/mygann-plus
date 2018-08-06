@@ -12,6 +12,7 @@ let wrapperElem;
 const displayedMessages = new Set();
 
 const identifiers = {
+  wrap: style.locals.wrap,
   messageMain: style.locals['message-main'],
   controls: style.locals.controls,
   messageText: style.locals['message-text'],
@@ -120,12 +121,7 @@ class MessageNotification {
 }
 
 function createWrapper() {
-  const wrap = document.createElement('div');
-  wrap.style.position = 'fixed';
-  wrap.style.right = '60px';
-  wrap.style.bottom = '50px';
-  wrap.style.zIndex = '1';
-  return wrap;
+  return <div className={identifiers.wrap}></div>;
 }
 
 const activeNotifications = [];

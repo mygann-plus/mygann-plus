@@ -1,3 +1,10 @@
+.wrap {
+  position: fixed;
+  right: 60px;
+  bottom: 50px;
+  z-index: 1;
+}
+
 .message-main {
   background: var(--primary-maroon);
   max-width: 460px;
