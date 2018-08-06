@@ -1,5 +1,6 @@
+import createModule from '~/utils/module';
+
 import { waitForLoad } from '~/utils/dom';
-import registerModule from '~/utils/module';
 import { isCurrentDay, addDayChangeListeners } from '~/shared/schedule';
 
 // TIME & DATE CHECKERS
@@ -108,5 +109,5 @@ function classEndingTime() {
   addDayChangeListeners(testForClass);
 }
 
-export default registerModule('Class Ending Time', classEndingTime);
+export default createModule('Class Ending Time', classEndingTime);
 

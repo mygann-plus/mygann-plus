@@ -1,4 +1,4 @@
-import registerModule from '~/utils/module';
+import createModule from '~/utils/module';
 
 import { waitForLoad, constructButton, insertCss } from '~/utils/dom';
 
@@ -73,4 +73,4 @@ async function hideCompleted() {
   filterStatusButton.parentNode.appendChild(button);
   filterStatusButton.addEventListener('click', () => onFilterStatusClick(button));
 }
-export default registerModule('Hide Completed Assignments', hideCompleted);
+export default createModule('Hide Completed Assignments', hideCompleted);

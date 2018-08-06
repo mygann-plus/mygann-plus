@@ -3,7 +3,7 @@
   THIS MODULE DOES NOT ACTUALLY IMPROVE THE USER'S GRADES
 */
 
-import registerModule from '~/utils/module';
+import createModule from '~/utils/module';
 
 import { waitForLoad, constructButton, insertCss, createElement } from '~/utils/dom';
 import { coursesListLoaded } from '~/shared/progress';
@@ -86,6 +86,6 @@ async function improveGrades() {
 
 }
 
-export default registerModule('Improve Grades', improveGrades, {
+export default createModule('Improve Grades', improveGrades, {
   showInOptions: false,
 });

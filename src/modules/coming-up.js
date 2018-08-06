@@ -1,4 +1,4 @@
-import registerModule from '~/utils/module';
+import createModule from '~/utils/module';
 
 import { fetchApi } from '~/utils/fetch';
 import { waitForLoad } from '~/utils/dom';
@@ -61,7 +61,6 @@ const domQuery = () => (
   (document.getElementsByClassName('pl-10')[0] &&
   document.getElementsByClassName('pl-10')[0].textContent === 'There is nothing scheduled for this date.') // eslint-disable-line max-len
 );
-
 function showComingUp() {
   waitForLoad(domQuery)
     .then(async () => {
@@ -85,4 +84,4 @@ function comingUp() {
   });
 }
 
-export default registerModule('Coming Up', comingUp);
+export default createModule('Coming Up', comingUp);

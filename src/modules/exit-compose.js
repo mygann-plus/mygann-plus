@@ -1,6 +1,6 @@
 // fixes native bug with unhandled escape
 
-import registerModule from '~/utils/module';
+import createModule from '~/utils/module';
 
 function exitCompose() {
   const siteModal = document.querySelector('#site-modal');
@@ -17,6 +17,6 @@ function exitCompose() {
   });
 }
 
-export default registerModule('Exit Compose', exitCompose, {
+export default createModule('Exit Compose', exitCompose, {
   showInOptions: false,
 });

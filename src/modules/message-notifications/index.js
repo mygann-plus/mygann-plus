@@ -1,6 +1,6 @@
 import getUrls from 'get-urls-to-array';
 
-import registerModule from '~/utils/module';
+import createModule from '~/utils/module';
 import { fetchApi } from '~/utils/fetch';
 import { createElement, insertCss } from '~/utils/dom';
 
@@ -185,7 +185,7 @@ async function messageNotifications(options) {
   generateNotifications(messages, options.disappearTime);
 }
 
-export default registerModule('Message Notifications', messageNotifications, {
+export default createModule('Message Notifications', messageNotifications, {
   options: {
     maxMessages: {
       type: 'number',

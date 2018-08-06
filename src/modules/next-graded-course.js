@@ -1,4 +1,4 @@
-import registerModule from '~/utils/module';
+import createModule from '~/utils/module';
 import {
   waitForLoad,
   constructButton,
@@ -60,5 +60,5 @@ async function nextGradedCourse() {
   }
 }
 
-export default registerModule('Next Graded Course', nextGradedCourse);
+export default createModule('Next Graded Course', nextGradedCourse);
 

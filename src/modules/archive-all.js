@@ -1,4 +1,4 @@
-import registerModule from '~/utils/module';
+import createModule from '~/utils/module';
 
 import { createElement, waitForLoad, constructButton } from '~/utils/dom';
 
@@ -55,4 +55,4 @@ async function archiveAll() {
   document.getElementById('button-bar').children[0].appendChild(archivingMessage);
 }
 
-export default registerModule('Archive All', archiveAll);
+export default createModule('Archive All', archiveAll);

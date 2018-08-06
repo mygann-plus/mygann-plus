@@ -1,4 +1,4 @@
-import registerModule from '~/utils/module';
+import createModule from '~/utils/module';
 import { waitForLoad, constructButton, createElement } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
 import { coursesListLoaded } from '~/shared/progress';
@@ -79,4 +79,4 @@ async function gradeSummary() {
   getCoursesBar().appendChild(button);
 }
 
-export default registerModule('Grade Summary', gradeSummary);
+export default createModule('Grade Summary', gradeSummary);

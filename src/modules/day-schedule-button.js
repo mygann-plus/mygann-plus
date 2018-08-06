@@ -1,4 +1,4 @@
-import registerModule from '~/utils/module';
+import createModule from '~/utils/module';
 import { waitForLoad, createElement } from '~/utils/dom';
 
 const getMonthButton = () => (
@@ -28,6 +28,6 @@ async function dayScheduleButton() {
   monthButton.before(dayButton);
 }
 
-export default registerModule('Day Schedule Button', dayScheduleButton, {
+export default createModule('Day Schedule Button', dayScheduleButton, {
   description: 'Button to return to day view',
 });

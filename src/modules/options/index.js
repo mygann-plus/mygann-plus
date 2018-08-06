@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 
-import registerModule from '~/utils/module';
+import createModule from '~/utils/module';
 import storage from '~/utils/storage';
 import {
   createElement,
@@ -347,6 +347,6 @@ function options() {
   insertCss(style.toString());
 }
 
-export default registerModule('Options', options, {
+export default createModule('Options', options, {
   showInOptions: false,
 });

@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 
-import registerModule from '~/utils/module';
+import createModule from '~/utils/module';
 
 import { createElement, waitForLoad, insertCss } from '~/utils/dom';
 import { coursesListLoaded } from '~/shared/progress';
@@ -142,4 +142,4 @@ function coursesFilter() {
   waitForLoad(domQuery).then(renderFilterBar);
 }
 
-export default registerModule('Courses Filter', coursesFilter);
+export default createModule('Courses Filter', coursesFilter);

@@ -1,4 +1,4 @@
-import registerModule from '~/utils/module';
+import createModule from '~/utils/module';
 import { waitForLoad } from '~/utils/dom';
 
 async function filterWebsiteMainSearch(options) {
@@ -27,7 +27,7 @@ async function filterWebsiteMainSearch(options) {
 
 }
 
-export default registerModule('Filter Website from Search', filterWebsiteMainSearch, {
+export default createModule('Filter Website from Search', filterWebsiteMainSearch, {
   description: 'Hide results from the Gann Website in OnCampus searches',
   defaultEnabled: false,
   options: {

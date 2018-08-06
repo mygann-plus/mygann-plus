@@ -4,7 +4,7 @@
  * @param {function} fn Main function to be run
  * @param {object} config Extra configuration object
  */
-export default function registerModule(name, fn, config = {}) {
+export default function createModule(name, fn, config = {}) {
 
   const defaultConfig = {
     showInOptions: true, // used for enabler modules

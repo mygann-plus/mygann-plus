@@ -1,4 +1,4 @@
-import registerModule from '~/utils/module';
+import createModule from '~/utils/module';
 
 import { waitForLoad, constructButton } from '~/utils/dom';
 import { fetchApi } from '~/utils/fetch';
@@ -52,6 +52,6 @@ async function inlineAssignmentGrade() {
   resizeToolbars();
 }
 
-export default registerModule('Inline Assignment Grade', inlineAssignmentGrade, {
+export default createModule('Inline Assignment Grade', inlineAssignmentGrade, {
   description: 'Show grade of graded assignments in main assignments list',
 });

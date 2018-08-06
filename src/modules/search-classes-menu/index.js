@@ -1,4 +1,4 @@
-import registerModule from '~/utils/module';
+import createModule from '~/utils/module';
 
 import { waitForLoad, insertCss, createElement } from '~/utils/dom';
 
@@ -185,4 +185,4 @@ function searchClassesMenu() {
   });
 }
 
-export default registerModule('Search Classes Menu', searchClassesMenu);
+export default createModule('Search Classes Menu', searchClassesMenu);

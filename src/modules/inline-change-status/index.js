@@ -1,4 +1,4 @@
-import registerModule from '~/utils/module';
+import createModule from '~/utils/module';
 import { waitForLoad, insertCss, createElement } from '~/utils/dom';
 
 import style from './style.css';
@@ -87,5 +87,5 @@ async function inlineChangeStatus() {
   addMutationObserver();
 }
 
-export default registerModule('Inline Change Status', inlineChangeStatus);
+export default createModule('Inline Change Status', inlineChangeStatus);
 

@@ -1,4 +1,4 @@
-import registerModule from '~/utils/module';
+import createModule from '~/utils/module';
 import { waitForLoad, insertCss } from '~/utils/dom';
 
 import { createMenu, addListeners } from './favorites-ui';
@@ -20,4 +20,4 @@ async function favorites() {
   insertCss(style.toString());
 }
 
-export default registerModule('Favorites', favorites);
+export default createModule('Favorites', favorites);

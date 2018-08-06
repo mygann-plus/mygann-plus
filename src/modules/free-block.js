@@ -1,4 +1,4 @@
-import registerModule from '~/utils/module';
+import createModule from '~/utils/module';
 
 import { waitForLoad } from '~/utils/dom';
 import { addDayChangeListeners } from '~/shared/schedule';
@@ -125,4 +125,4 @@ function freeBlock() {
   addDayChangeListeners(insertFreeBlock);
 }
 
-export default registerModule('Show Free Blocks in Schedule', freeBlock);
+export default createModule('Show Free Blocks in Schedule', freeBlock);

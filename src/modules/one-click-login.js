@@ -1,4 +1,4 @@
-import registerModule from '~/utils/module';
+import createModule from '~/utils/module';
 import { waitForLoad } from '~/utils/dom';
 
 const getPasswordDiv = () => document.getElementById('divPassword');
@@ -17,7 +17,7 @@ async function oneClickLogin() {
   });
 }
 
-export default registerModule('One Click Login', oneClickLogin, {
+export default createModule('One Click Login', oneClickLogin, {
   description: (`
     Restore login screen before the summer of 2018 update, 
      with only one login button (as opposed to post-2018 version, 
