@@ -1,6 +1,8 @@
+import classNames from 'classnames';
+
 import registerModule from '~/utils/module';
 
-import { waitForLoad, insertCss } from '~/utils/dom';
+import { createElement, waitForLoad, insertCss } from '~/utils/dom';
 import { coursesListLoaded } from '~/shared/progress';
 
 import style from './style.css';
@@ -9,6 +11,8 @@ const CHECKED_ATTR = 'data-gocp-courses_filter-checked';
 
 const selectors = {
   hidden: style.locals.hidden,
+  filterInput: style.locals['filter-input'],
+  dropdownButton: style.locals['dropdown-button'],
 };
 
 let courses;
@@ -45,19 +49,14 @@ filters.push(handleSearch);
 
 function generateDropdown(items) {
 
-  const wrap = document.createElement('ul');
-  wrap.className = 'dropdown-menu';
-  wrap.setAttribute('role', 'menu');
+  const wrap = <ul className="dropdown-menu" role="menu" />;
 
   items.forEach(item => {
-    const li = document.createElement('li');
-    const a = document.createElement('a');
+    const a = <a href="#">{ item.name }</a>;
+    const li = <li>{ a } </li>;
 
     li.setAttribute(CHECKED_ATTR, 'false');
-    a.href = '#';
-    a.textContent = item.name;
 
-    li.appendChild(a);
     wrap.appendChild(li);
 
     a.addEventListener('click', e => {
@@ -68,7 +67,7 @@ function generateDropdown(items) {
       runFilter();
 
       const anyChecked = document.querySelectorAll(`li[${CHECKED_ATTR}="true"]`).length > 0;
-      const filterButton = document.getElementById('gocp-courses_filter-button');
+      const filterButton = document.getElementById('gocp_courses-filter_button');
       filterButton.style.background = anyChecked ? '#1ab394' : 'white';
       filterButton.children[0].style.color = anyChecked ? 'white' : 'black';
     });
@@ -82,60 +81,51 @@ function generateDropdown(items) {
   return wrap;
 }
 
+function toggleDropdownMenu() {
+  const menu = document.getElementById('gocp_courses-filter_button').parentNode.children[0];
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+}
+
 function renderFilterBar() {
 
-  // wrap
-  const wrap = document.createElement('div');
-  wrap.style.display = 'inline';
-  wrap.className = 'btn-group';
-
-  // search bar
-  const input = document.createElement('input');
-  input.id = 'gocp_courses-search_searchbar';
-  input.className = 'form-control';
-  input.size = '16';
-  input.type = 'search';
-  input.style.width = '234px';
-  input.style.height = '29.6px';
-  input.style.display = 'inline';
-  input.autocomplete = 'off';
-  input.placeholder = 'Search Courses';
-  input.oninput = runFilter;
-
-  // dropdown
-  const dropdownButton = document.createElement('button');
-  const dropdownCaret = document.createElement('i');
-  dropdownButton.style.height = '29.6px';
-  dropdownButton.style.display = 'inline';
-  dropdownButton.style.marginBottom = '3px';
-  dropdownButton.style.borderBottomRightRadius = 0;
-  dropdownButton.style.borderTopRightRadius = 0;
-  dropdownButton.style.boxShadow = 'inset 0 1px 1px rgba(0,0,0,0.075)';
-  dropdownButton.style.borderLeft = 'none';
-  dropdownButton.style.background = 'white';
-  dropdownButton.style.border = '1px solid #e5e6e7';
-  dropdownButton.className = 'btn btn-default btn-sm dropdown-toggle';
-  dropdownButton.id = 'gocp-courses_filter-button';
-  dropdownCaret.className = 'fa fa-ellipsis-h';
-  dropdownButton.setAttribute('data-toggle', 'dropdown');
-  dropdownButton.setAttribute('area-expanded', false);
-
-  dropdownButton.addEventListener('click', () => {
-    const menu = document.getElementById('gocp-courses_filter-button').parentNode.children[0];
-    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-  });
-
-  const dropdownMenu = generateDropdown([
+  const dropdownFilters = [
     {
       name: 'Hide Ungraded Courses',
       filter: course => course.grade !== '--',
     },
-  ]);
+  ];
 
-  dropdownButton.appendChild(dropdownCaret);
-  wrap.appendChild(dropdownMenu);
-  wrap.appendChild(input);
-  wrap.appendChild(dropdownButton);
+  // TODO: confirm size prop is needed
+  const input = (
+    <input
+      id="gocp_courses-search_searchbar"
+      className={ classNames('form-control', selectors.filterInput) }
+      type="search"
+      placeholder="Search Courses"
+      size="16"
+      autocomplete="off"
+      onInput={runFilter}
+    />
+  );
+
+  const dropdownButton = (
+    <button
+      id="gocp_courses-filter_button"
+      className={ classNames('btn btn-default btn-sm dropdown-toggle', selectors.dropdownButton) }
+      dataset={{ toggle: 'dropdown' }}
+      onClick={ toggleDropdownMenu }
+    >
+      <i className="fa fa-ellipsis-h" />
+    </button>
+  );
+
+  const wrap = (
+    <div className="btn-group" style={{ display: 'inline' }}>
+      { generateDropdown(dropdownFilters) }
+      { input }
+      { dropdownButton }
+    </div>
+  );
 
   document.getElementById('showHideGrade').after(wrap);
   document.getElementById('showHideGrade').style.marginRight = '15px';
