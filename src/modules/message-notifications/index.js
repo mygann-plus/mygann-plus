@@ -24,17 +24,16 @@ const formatBodyText = text => {
     .replace(/<br>/g, ' ')
     .trim();
 };
-const isOnMessagesInbox = () => window.location.hash === '#message/inbox';
-
 
 class MessageNotification {
 
-  constructor(message, disappearTime) {
+  constructor(message, disappearTime, onRemove) {
     const bodyText = formatBodyText(message.body);
 
     this.urls = getUrls(bodyText);
     this.message = message;
     this.disappearTime = disappearTime;
+    this.onRemove = onRemove;
 
     this.messageElem = (
       <a
@@ -89,26 +88,19 @@ class MessageNotification {
   removeMessage() {
     this.messageElem.children[0].style.opacity = '0';
     setTimeout(() => {
-      if (this.messageElem.parentNode) {
-        this.messageElem.remove();
-      }
+      this.messageElem.remove();
+      this.onRemove();
     }, TRANSITION_TIME);
   }
 
   archiveMessage() {
-    if (isOnMessagesInbox()) {
-      document
-        .querySelector(`tr[data-messageid="${this.message.id}"] button[title="Archive"]`)
-        .click();
-    } else {
-      fetchApi(`/api/message/conversationarchive/${this.message.id}?format=json`, {
-        method: 'PUT',
-        body: JSON.stringify({
-          id: this.message.id,
-          unarchive: false,
-        }),
-      });
-    }
+    fetchApi(`/api/message/conversationarchive/${this.message.id}?format=json`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        id: this.message.id,
+        unarchive: false,
+      }),
+    });
   }
 
   fadeOut() {
@@ -136,14 +128,29 @@ function createWrapper() {
   return wrap;
 }
 
+const activeNotifications = [];
+
 function generateNotifications(messages, disappearTime) {
+  if (window.location.hash.startsWith('#message')) {
+    // activeNotifications is spliced when .removeMessage is called
+    const currentActiveNotifications = [...activeNotifications];
+    for (const notification of currentActiveNotifications) {
+      notification.removeMessage();
+    }
+    return;
+  }
+
   for (const message of messages) {
     if (!displayedMessages.has(message.id)) {
       displayedMessages.add(message.id);
-      const notification = new MessageNotification(message, disappearTime);
+      const notification = new MessageNotification(message, disappearTime, () => {
+        activeNotifications.splice(activeNotifications.indexOf(notification), 1);
+      });
       wrapperElem.appendChild(notification.messageElem);
+      activeNotifications.push(notification);
     }
   }
+  return activeNotifications;
 }
 
 async function getMessages() {
