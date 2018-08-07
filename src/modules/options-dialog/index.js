@@ -9,7 +9,7 @@ import {
 import Dialog from '~/utils/dialog';
 
 import { MODULE_MAP, SECTION_MAP } from '~/module-map';
-import { getOptionsFor, setOptionsFor, getFlattenedOptions, setFlattenedOptions } from '~/options';
+import { getFlattenedOptions, setFlattenedOptions } from '~/options';
 
 import style from './style.css';
 
