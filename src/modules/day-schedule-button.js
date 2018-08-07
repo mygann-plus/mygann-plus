@@ -28,6 +28,8 @@ async function dayScheduleButton() {
   monthButton.before(dayButton);
 }
 
-export default createModule('Day Schedule Button', dayScheduleButton, {
+export default createModule('{0ae24306-a117-447f-94e1-9a296d2b8a7d}', {
+  name: 'Day Schedule Button',
+  main: dayScheduleButton,
   description: 'Button to return to day view',
 });

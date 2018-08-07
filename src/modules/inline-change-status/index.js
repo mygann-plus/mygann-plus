@@ -87,5 +87,8 @@ async function inlineChangeStatus() {
   addMutationObserver();
 }
 
-export default createModule('Inline Change Status', inlineChangeStatus);
+export default createModule('{4155f319-a10b-4e4e-8a10-999a43ef9d19}', {
+  name: 'Inline Change Status',
+  main: inlineChangeStatus,
+});
 

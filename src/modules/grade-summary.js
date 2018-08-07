@@ -79,4 +79,7 @@ async function gradeSummary() {
   getCoursesBar().appendChild(button);
 }
 
-export default createModule('Grade Summary', gradeSummary);
+export default createModule('{d320791b-772e-47c4-a058-15156faea88e}', {
+  name: 'Grade Summary',
+  main: gradeSummary,
+});

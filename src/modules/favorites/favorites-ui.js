@@ -34,7 +34,7 @@ export async function createMenu(favorites) {
   const starIconUrl = getAssetUrl('star_icon.png');
 
   return (
-    <li className="oneline parentitem" id={selectors.menu}>
+    <li className="oneline parentitem">
       <a href="#" className="subnavtrigger black-fgc">
         <img src={starIconUrl} />
         <span className="desc">

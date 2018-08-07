@@ -158,12 +158,7 @@ const domQuery = {
   ),
 };
 
-let moduleLoaded = false;
-
 function searchClassesMenu() {
-  if (moduleLoaded) return;
-  moduleLoaded = true;
-
   insertCss(style.toString());
 
   waitForLoad(domQuery.desktop).then(() => {
@@ -185,4 +180,7 @@ function searchClassesMenu() {
   });
 }
 
-export default createModule('Search Classes Menu', searchClassesMenu);
+export default createModule('{3eb98c28-475a-43d7-ae80-721fffcdda11}', {
+  name: 'Search Classes Menu',
+  init: searchClassesMenu,
+});

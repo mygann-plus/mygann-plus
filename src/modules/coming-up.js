@@ -84,4 +84,7 @@ function comingUp() {
   });
 }
 
-export default createModule('Coming Up', comingUp);
+export default createModule('{2b337dae-cb2f-4627-b3d6-bde7a5f2dc06}', {
+  name: 'Coming Up',
+  main: comingUp,
+});

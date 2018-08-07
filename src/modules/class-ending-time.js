@@ -109,5 +109,8 @@ function classEndingTime() {
   addDayChangeListeners(testForClass);
 }
 
-export default createModule('Class Ending Time', classEndingTime);
+export default createModule('{c8a3ea86-ae06-4155-be84-1a91283fe826}', {
+  name: 'Class Ending Time',
+  main: classEndingTime,
+});
 

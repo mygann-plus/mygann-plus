@@ -142,4 +142,7 @@ function coursesFilter() {
   waitForLoad(domQuery).then(renderFilterBar);
 }
 
-export default createModule('Courses Filter', coursesFilter);
+export default createModule('{e2c18d75-5264-4177-97b0-5c6d65fb1496}', {
+  name: 'Courses Filter',
+  main: coursesFilter,
+});

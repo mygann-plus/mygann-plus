@@ -86,6 +86,8 @@ async function improveGrades() {
 
 }
 
-export default createModule('Improve Grades', improveGrades, {
+export default createModule('{ce6f095c-08e3-4dd5-a079-baab95b03fa4}', {
+  name: 'Improve Grades',
+  main: improveGrades,
   showInOptions: false,
 });

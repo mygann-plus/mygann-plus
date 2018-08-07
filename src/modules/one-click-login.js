@@ -17,10 +17,12 @@ async function oneClickLogin() {
   });
 }
 
-export default createModule('One Click Login', oneClickLogin, {
-  description: (`
+export default createModule('{6ca82534-e670-490a-8ce1-1d87f48c7c32}', {
+  name: 'One Click Login',
+  description: `
     Restore login screen before the summer of 2018 update, 
-     with only one login button (as opposed to post-2018 version, 
+    with only one login button (as opposed to post-2018 version, 
     which requires two button clicks: "next", then "login")
-  `),
+  `,
+  main: oneClickLogin,
 });

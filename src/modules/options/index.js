@@ -282,9 +282,7 @@ async function showDialog() {
   optionsDialog.open();
 }
 
-function appendNavLink() {
-  if (document.querySelector('#gocp_options_navlink')) return;
-
+function appendDesktopNavLink() {
   const menu = document.querySelector('.oneline.parentitem.last > :nth-child(3) > :first-child');
   const nativeSettingsLink = menu.children[2];
 
@@ -294,7 +292,7 @@ function appendNavLink() {
   };
 
   const link = (
-    <li id="gocp_options_navlink">
+    <li>
       <a href="#" className="pri-75-bgc-hover black-fgc white-fgc-hover active" onClick={showDialogDesktop}>
         <span className="desc">
           <span className="title">OnCampus+ Options</span>
@@ -308,8 +306,6 @@ function appendNavLink() {
 }
 
 function appendMobileNavLink() {
-  if (document.querySelector('#gocp_options_mobilenavlink')) return;
-
   const showDialogMobile = e => {
     e.preventDefault();
     document.body.click(); // hide mobile nav
@@ -318,7 +314,7 @@ function appendMobileNavLink() {
 
   const mobileNavLink = (
     <li>
-      <a href="#" id="gocp_options_mobilenavlink" onClick={ showDialogMobile }>OnCampus+ Options</a>
+      <a href="#" onClick={ showDialogMobile }>OnCampus+ Options</a>
     </li>
   );
 
@@ -332,7 +328,7 @@ const domQuery = {
 };
 
 function options() {
-  waitForLoad(domQuery.header).then(appendNavLink);
+  waitForLoad(domQuery.header).then(appendDesktopNavLink);
 
   waitForLoad(domQuery.mobileMenu).then(() => {
     document.querySelector('#mobile-account-nav').addEventListener('click', async () => {
@@ -347,6 +343,8 @@ function options() {
   insertCss(style.toString());
 }
 
-export default createModule('Options', options, {
+export default createModule('{6f84183e-607b-4c90-9161-3451b002b541}', {
+  name: 'Options',
+  init: options,
   showInOptions: false,
 });

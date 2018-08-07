@@ -55,4 +55,7 @@ async function archiveAll() {
   document.getElementById('button-bar').children[0].appendChild(archivingMessage);
 }
 
-export default createModule('Archive All', archiveAll);
+export default createModule('{ca448b9b-1d12-487e-8afd-1be45ad520b8}', {
+  name: 'Archive All',
+  main: archiveAll,
+});

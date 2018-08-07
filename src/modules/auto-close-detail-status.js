@@ -27,4 +27,7 @@ function autoCloseDetailStatus() {
   waitForLoad(getDropdownButton).then(attachListeners);
 }
 
-export default createModule('Auto Close Detail Status', autoCloseDetailStatus);
+export default createModule('{1020164f-8a6e-4bb0-aac8-d5acf0e5ad72}', {
+  name: 'Auto Close Detail Status',
+  main: autoCloseDetailStatus,
+});

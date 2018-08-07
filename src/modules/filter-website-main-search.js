@@ -27,8 +27,10 @@ async function filterWebsiteMainSearch(options) {
 
 }
 
-export default createModule('Filter Website from Search', filterWebsiteMainSearch, {
+export default createModule('{d560bad4-1073-4452-ac11-f4466dc19184}', {
+  name: 'Filter Website from Search',
   description: 'Hide results from the Gann Website in OnCampus searches',
+  main: filterWebsiteMainSearch,
   defaultEnabled: false,
   options: {
     hidingType: {

@@ -175,17 +175,21 @@ function addStyles() {
   insertCss(style.toString());
 }
 
-async function messageNotifications(options) {
-  if (!wrapperElem) {
-    addStyles();
-    wrapperElem = createWrapper();
-    document.body.appendChild(wrapperElem);
-  }
+async function messageNotificationsMain(options) {
   const messages = (await getMessages()).slice(0, options.maxMessages);
   generateNotifications(messages, options.disappearTime);
 }
 
-export default createModule('Message Notifications', messageNotifications, {
+function messageNotificationsInit() {
+  addStyles();
+  wrapperElem = createWrapper();
+  document.body.appendChild(wrapperElem);
+}
+
+export default createModule('{edf80057-becd-42f9-9117-995657904a91}', {
+  name: 'Message Notifications',
+  init: messageNotificationsInit,
+  main: messageNotificationsMain,
   options: {
     maxMessages: {
       type: 'number',

@@ -125,4 +125,7 @@ function freeBlock() {
   addDayChangeListeners(insertFreeBlock);
 }
 
-export default createModule('Show Free Blocks in Schedule', freeBlock);
+export default createModule('{5a1befbf-8fed-481d-8184-8db72ba22ad1}', {
+  name: 'Show Free Blocks in Schedule',
+  main: freeBlock,
+});

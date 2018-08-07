@@ -17,6 +17,8 @@ function exitCompose() {
   });
 }
 
-export default createModule('Exit Compose', exitCompose, {
+export default createModule('{53b77a69-c31b-4f9f-b17d-4f22c445bd5e}', {
+  name: 'Exit Compose',
+  main: exitCompose,
   showInOptions: false,
 });

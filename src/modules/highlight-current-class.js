@@ -80,4 +80,7 @@ function highlightCurrentClass() {
   addDayChangeListeners(highlightClass);
 }
 
-export default createModule('Highlight Current Class in Schedule', highlightCurrentClass);
+export default createModule('{c9550c66-5dc8-4132-a359-459486a8ab08}', {
+  name: 'Highlight Current Class in Schedule',
+  main: highlightCurrentClass,
+});

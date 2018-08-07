@@ -60,5 +60,8 @@ async function nextGradedCourse() {
   }
 }
 
-export default createModule('Next Graded Course', nextGradedCourse);
+export default createModule('{82a191dc-db60-475e-ada5-3c966dd36af5}', {
+  name: 'Next Graded Course',
+  main: nextGradedCourse,
+});
 
