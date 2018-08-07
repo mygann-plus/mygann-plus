@@ -21,9 +21,11 @@ export async function setOptionsFor(guid, options) {
   await setStoredOptions(optionsState);
 }
 
-export function getFlattenedOptions() {
+export async function getFlattenedOptions() {
   // currently, options is stored in flat format, so conversion is not required
-  return getStoredOptions();
+  const options = await getStoredOptions();
+  Object.setPrototypeOf(options, null);
+  return options;
 }
 
 export async function setFlattenedOptions(options) {
