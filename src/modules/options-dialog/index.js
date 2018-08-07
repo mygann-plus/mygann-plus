@@ -299,7 +299,7 @@ function appendDesktopNavLink() {
 
   const link = (
     <li>
-      <a href="#" className="pri-75-bgc-hover black-fgc white-fgc-hover active" onClick={showDialogDesktop}>
+      <a href="#" className="pri-75-bgc-hover black-fgc white-fgc-hover sky-nav" onClick={showDialogDesktop}>
         <span className="desc">
           <span className="title">OnCampus+ Options</span>
         </span>
