@@ -34,7 +34,7 @@ export async function loadModule(module) {
 
 export function softUnloadModule(module) {
   if (!isModuleLoaded(module)) {
-    return false;
+    return true;
   }
   if (!module.config.affectsGlobalState) {
     loadedModules.delete(module);
@@ -44,8 +44,11 @@ export function softUnloadModule(module) {
 }
 
 export function hardUnloadModule(module) {
-  if (!isModuleLoaded(module) || !module.unload) {
-    return false;
+  if (!isModuleLoaded(module)) {
+    return true;
+  }
+  if (!module.unload) {
+    return !module.config.affectsGlobalState;
   }
   if (tryRunFunction(() => module.unload(loadedModules.get(module)))) {
     loadedModules.delete(module);
