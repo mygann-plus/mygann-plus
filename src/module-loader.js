@@ -48,7 +48,7 @@ export function hardUnloadModule(module) {
     return true;
   }
   if (!module.unload) {
-    return !module.config.affectsGlobalState;
+    return false;
   }
   if (tryRunFunction(() => module.unload(loadedModules.get(module)))) {
     loadedModules.delete(module);
