@@ -1,4 +1,6 @@
 import classNames from 'classnames';
+import cloneDeep from 'lodash.clonedeep';
+import { diff as deepDiff } from 'deep-object-diff';
 
 import createModule from '~/utils/module';
 import {
@@ -8,7 +10,8 @@ import {
 } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
 
-import { MODULE_MAP, SECTION_MAP } from '~/module-map';
+import { MODULE_MAP, SECTION_MAP, GUID_MAP, modulesForHash } from '~/module-map';
+import { hardUnloadModule, isModuleLoaded, loadModule } from '~/module-loader';
 import { getFlattenedOptions, setFlattenedOptions, mergeDefaultOptions } from '~/options';
 
 import style from './style.css';
@@ -245,12 +248,43 @@ class OptionsDialog {
 
 }
 
+function hardUnloadOrRefreshPage(module) {
+  if (!hardUnloadModule(module)) {
+    return window.location.reload();
+  }
+}
+
+async function saveOptions(oldOptions, newOptions) {
+  await setFlattenedOptions(newOptions);
+  const diff = deepDiff(oldOptions, newOptions);
+
+  for (const moduleGuid in diff) {
+    const module = GUID_MAP[moduleGuid];
+    if ('enabled' in diff[moduleGuid]) {
+      if (diff[moduleGuid].enabled) {
+        if (modulesForHash(window.location.hash).has(module)) {
+          loadModule(module);
+        }
+      } else {
+        hardUnloadOrRefreshPage(module);
+      }
+    } else if (isModuleLoaded(module)) {
+      hardUnloadOrRefreshPage(module);
+      loadModule(module);
+    }
+  }
+}
+
 function getDefaultOptions() {
   return mergeDefaultOptions({});
 }
+
 async function showDialog() {
   const optionsData = await getFlattenedOptions();
-  const dialog = new OptionsDialog(optionsData, setFlattenedOptions, getDefaultOptions);
+  const originalOptionsData = cloneDeep(optionsData);
+  const dialog = new OptionsDialog(optionsData, newOptionsData => {
+    saveOptions(originalOptionsData, newOptionsData);
+  }, getDefaultOptions);
   dialog.open();
 }
 
