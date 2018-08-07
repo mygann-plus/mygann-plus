@@ -156,7 +156,7 @@ class OptionsDialog {
             />
             <span className="bb-check-checkbox"></span>
             <span className={selectors.module.caption}>
-              {formatModuleName(module.name)}
+              {formatModuleName(module.config.name)}
               {
                 module.config.description &&
                 <span className={selectors.module.description}>
