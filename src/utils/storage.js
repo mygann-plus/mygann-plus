@@ -1,24 +1,69 @@
 // Promise-based wrappers for chrome storage API
 
-const storage = {
-  get: function get(property, doSync = true) {
-    return new Promise(resolve => {
-      const handleGet = value => resolve(value[property]);
-      if (doSync) {
-        chrome.storage.sync.get(property, handleGet);
-      } else {
-        chrome.storage.local.set(property, handleGet);
+const SCHEMA_VERSION_KEY = '$schemaVersion';
+const DATA_KEY = 'data';
+
+function doGet(property) {
+  return new Promise((resolve, reject) => {
+    chrome.storage.sync.get(property, data => {
+      if (chrome.runtime.lastError) {
+        return reject(chrome.runtime.lastError);
       }
+      resolve(data[property]);
     });
+  });
+}
+function doSet(data) {
+  return new Promise((resolve, reject) => {
+    chrome.storage.sync.set(data, () => {
+      if (chrome.runtime.lastError) {
+        return reject(chrome.runtime.lastError);
+      }
+      resolve();
+    });
+  });
+}
+
+function doDelete(property) {
+  return new Promise((resolve, reject) => {
+    chrome.storage.sync.remove(property, () => {
+      if (chrome.runtime.lastError) {
+        return reject(chrome.runtime.lastError);
+      }
+      resolve();
+    });
+  });
+}
+
+const storage = {
+  async get(property, schemaVersion, migrate) {
+    const storedData = await doGet(property);
+    let object = storedData[property];
+
+    const savedSchemaVersion = object[SCHEMA_VERSION_KEY];
+    const savedData = object[DATA_KEY];
+    if (schemaVersion !== savedSchemaVersion) {
+      if (migrate) {
+        object = {
+          [SCHEMA_VERSION_KEY]: schemaVersion,
+          [DATA_KEY]: migrate(savedSchemaVersion, savedData),
+        };
+        await doSet({ [property]: object });
+      } else {
+        await doDelete(property);
+        return null;
+      }
+    }
+
+    return object[DATA_KEY];
   },
 
-  set: function set(property, doSync = true) {
-    return new Promise(resolve => {
-      if (doSync) {
-        chrome.storage.sync.set(property, resolve);
-      } else {
-        chrome.storage.local.set(property, resolve);
-      }
+  set(key, value, schemaVersion) {
+    return doSet({
+      [key]: {
+        [SCHEMA_VERSION_KEY]: schemaVersion,
+        [DATA_KEY]: value,
+      },
     });
   },
 };
@@ -31,7 +76,7 @@ function warnType(id) {
   }
 }
 
-export function reduceArray(data, id, reducer) {
+function reduceArray(data, id, reducer) {
   return data.map(item => {
     if (item.id === id) {
       return reducer(item);
@@ -47,36 +92,27 @@ function generateID() {
 /**
  * @returns Added item's ID
  */
-export async function addItem(key, newItem) {
-  const array = await storage.get(key);
+export async function addItem(key, newItem, schemaVersion) {
+  const array = (await storage.get(key)) || [];
   newItem.id = generateID();
   array.push(newItem);
-  storage.set({ [key]: array });
+  storage.set(key, array, schemaVersion);
   return newItem.id;
 }
 
-export async function changeItem(key, id, reducer) {
+export async function changeItem(key, id, reducer, schemaVersion) {
   warnType(id);
   // TODO: warn if item doesn't exist
-  const array = await storage.get(key) || [];
+  const array = (await storage.get(key)) || [];
   const newArray = reduceArray(array, id, reducer);
-  storage.set({ [key]: newArray });
+  storage.set(key, newArray, schemaVersion);
 }
 
-export async function addOrChangeItem(key, id, reducer) {
+export async function deleteItem(key, id, schemaVersion) {
   warnType(id);
-  const array = await storage.get(key) || [];
-  if (!array.find(e => e.id === id)) {
-    return addItem(key, reducer());
-  }
-  return changeItem(key, id, reducer);
-}
-
-export async function deleteItem(key, id) {
-  warnType(id);
-  const array = await storage.get(key) || [];
+  const array = (await storage.get(key)) || [];
   const newArray = array.filter(assignment => (
     assignment.id !== id
   ));
-  storage.set({ [key]: newArray });
+  storage.set(key, newArray, schemaVersion);
 }
