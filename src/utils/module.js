@@ -4,6 +4,7 @@ export default function createModule(guid, module) {
     showInOptions: true, // used for enabler modules
     description: '',
     defaultEnabled: true,
+    affectsGlobalState: !!module.init, // modules with init fn are assumed to be global
     options: [],
     __proto__: null, // use as map
   };
