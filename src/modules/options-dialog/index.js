@@ -278,8 +278,8 @@ function getDefaultOptions() {
 
 async function showDialog() {
   const optionsData = await getOptions();
-  const optionsDialog = new OptionsDialog(optionsData, saveOptions, getDefaultOptions);
-  optionsDialog.open();
+  const dialog = new OptionsDialog(optionsData, saveOptions, getDefaultOptions);
+  dialog.open();
 }
 
 function appendDesktopNavLink() {
