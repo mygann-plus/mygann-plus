@@ -1,3 +1,5 @@
+import log from '~/utils/log';
+
 // Promise-based wrappers for chrome storage API
 
 const SCHEMA_VERSION_KEY = '$schemaVersion';
@@ -40,7 +42,7 @@ function doDelete(property) {
 
 function warnType(id) {
   if (typeof id !== 'string') {
-    console.warn(`ID should be a string, not a ${typeof id}`); // eslint-disable-line no-console
+    log('warn', `ID should be a string, not a ${typeof id}`); // eslint-disable-line no-console
   }
 }
 
