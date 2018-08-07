@@ -37,8 +37,10 @@ function doDelete(property) {
 
 const storage = {
   async get(property, schemaVersion, migrate) {
-    const storedData = await doGet(property);
-    let object = storedData[property];
+    let object = await doGet(property);
+    if (!object) {
+      return null;
+    }
 
     const savedSchemaVersion = object[SCHEMA_VERSION_KEY];
     const savedData = object[DATA_KEY];
