@@ -32,7 +32,7 @@ export default createModule('{d560bad4-1073-4452-ac11-f4466dc19184}', {
   description: 'Hide results from the Gann Website in OnCampus searches',
   main: filterWebsiteMainSearch,
   defaultEnabled: false,
-  options: {
+  suboptions: {
     hidingType: {
       name: 'Hiding Type',
       type: 'enum',

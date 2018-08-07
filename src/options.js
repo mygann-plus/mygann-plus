@@ -40,21 +40,21 @@ export function mergeDefaultOptions(options) {
 
       options[guid] = {
         enabled: module.config.defaultEnabled,
-        options: {},
+        suboptions: {},
         ...options[guid],
       };
 
       const newSuboptions = {};
-      for (const subopt in module.config.options) {
+      for (const subopt in module.config.suboptions) {
         // suboption doesn't exist
-        if (!(subopt in options[guid].options)) {
-          const { defaultValue } = module.config.options[subopt];
+        if (!(subopt in options[guid].suboptions)) {
+          const { defaultValue } = module.config.suboptions[subopt];
           newSuboptions[subopt] = defaultValue;
         } else {
-          newSuboptions[subopt] = options[guid].options[subopt];
+          newSuboptions[subopt] = options[guid].suboptions[subopt];
         }
       }
-      options[guid].options = newSuboptions;
+      options[guid].suboptions = newSuboptions;
     }
   }
   return options;

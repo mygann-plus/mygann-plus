@@ -23,12 +23,12 @@ export async function loadModule(module) {
     return false;
   }
   if (!isModuleLoaded(module) && module.init) {
-    tryRunFunction(() => module.init(options.options));
+    tryRunFunction(() => module.init(options.suboptions));
   }
   if (module.main) {
-    tryRunFunction(() => module.main(options.options));
+    tryRunFunction(() => module.main(options.suboptions));
   }
-  loadedModules.set(module, options.options);
+  loadedModules.set(module, options.suboptions);
   return true;
 }
 

@@ -190,7 +190,7 @@ export default createModule('{edf80057-becd-42f9-9117-995657904a91}', {
   name: 'Message Notifications',
   init: messageNotificationsInit,
   main: messageNotificationsMain,
-  options: {
+  suboptions: {
     maxMessages: {
       type: 'number',
       name: 'Maximum Messages to Display',

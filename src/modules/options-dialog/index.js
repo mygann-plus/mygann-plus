@@ -169,11 +169,11 @@ class OptionsDialog {
       </div>
     );
 
-    if (Object.keys(module.config.options).length) {
+    if (Object.keys(module.config.suboptions).length) {
       const extraOptions = (
         <div className={selectors.module.extraOptions}>
           {
-            Object.keys(module.config.options).map(suboptName => (
+            Object.keys(module.config.suboptions).map(suboptName => (
               this.createSuboptionView(module, suboptName)
             ))
           }
@@ -199,8 +199,8 @@ class OptionsDialog {
   }
 
   createSuboptionView(module, key) {
-    const suboption = module.config.options[key];
-    const value = this.state[module.guid].options[key];
+    const suboption = module.config.suboptions[key];
+    const value = this.state[module.guid].suboptions[key];
     let input;
 
     switch (suboption.type) {
@@ -227,7 +227,7 @@ class OptionsDialog {
     let oldValue = value;
     input.addEventListener('change', () => {
       if (validateSuboption(input, suboption)) {
-        this.state[module.guid].options[key] = input.value;
+        this.state[module.guid].suboptions[key] = input.value;
       } else {
         input.value = oldValue;
       }

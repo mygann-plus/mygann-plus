@@ -5,7 +5,7 @@ export default function createModule(guid, module) {
     description: '',
     defaultEnabled: true,
     affectsGlobalState: !!module.init, // modules with init fn are assumed to be global
-    options: [],
+    suboptions: [],
     __proto__: null, // use as map
   };
 
