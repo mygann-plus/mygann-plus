@@ -1,25 +1,29 @@
-import { MODULE_MAP } from '~/module-map';
-import { loadModule, unloadModule } from '~/module-loader';
+import { modulesForHash } from '~/module-map';
+import { loadModule, softUnloadModule, hardUnloadModule } from '~/module-loader';
 
 import setCssVars from '~/utils/css-vars';
 import { getFlattenedOptions, setFlattenedOptions, mergeDefaultOptions } from '~/options';
+import log from '~/utils/log';
 
-function forModules(hash, fn) {
-  for (const section in MODULE_MAP) {
-    if (hash.startsWith(section)) {
-      for (const module of MODULE_MAP[section]) {
-        fn(module);
-      }
-    }
+function loadModules(hash) {
+  for (const module of modulesForHash(hash)) {
+    loadModule(module);
   }
 }
 
-function loadModules(hash) {
-  forModules(hash, loadModule);
-}
+function unloadModules(oldHash, newHash) {
+  const oldModules = modulesForHash(oldHash);
+  const newModules = modulesForHash(newHash);
 
-function unloadModules(oldHash) {
-  forModules(oldHash, unloadModule);
+  const unloadedModules = new Set([...oldModules].filter(m => !newModules.has(m)));
+
+  for (const module of unloadedModules) {
+    if (!softUnloadModule(module)) { // module affects global state
+      if (!hardUnloadModule(module)) {
+        log('warn', `Failed to hard unload module '${module.config.name}'`);
+      }
+    }
+  }
 }
 
 async function initializeOptions() {
@@ -34,8 +38,10 @@ async function runExtension() {
   setCssVars();
   loadModules(window.location.hash);
   window.addEventListener('hashchange', e => {
-    unloadModules(new URL(e.oldURL).hash);
-    loadModules(new URL(e.newURL).hash);
+    const newHash = new URL(e.newURL).hash;
+    const oldHash = new URL(e.oldURL).hash;
+    unloadModules(oldHash, newHash);
+    loadModules(newHash);
   });
 }
 
