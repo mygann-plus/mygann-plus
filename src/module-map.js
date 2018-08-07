@@ -10,7 +10,7 @@ import improveGrades from './modules/improve-grades';
 import inlineChangeStatus from './modules/inline-change-status';
 import messageNotifications from './modules/message-notifications';
 import nextGradedCourse from './modules/next-graded-course';
-import options from './modules/options';
+import optionsDialog from './modules/options-dialog';
 import searchClassesMenu from './modules/search-classes-menu';
 import hideCompleted from './modules/hide-completed';
 import comingUp from './modules/coming-up';
@@ -21,7 +21,7 @@ import oneClickLogin from './modules/one-click-login';
 import exitCompose from './modules/exit-compose';
 
 const MODULE_MAP = {
-  '#': [searchClassesMenu, messageNotifications, options, favorites], // universal modules
+  '#': [searchClassesMenu, messageNotifications, optionsDialog, favorites], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus],
   '#studentmyday/assignment-center': [

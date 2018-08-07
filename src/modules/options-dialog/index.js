@@ -327,7 +327,7 @@ const domQuery = {
   mobileMenu: () => document.querySelector('#mobile-account-nav'),
 };
 
-function options() {
+function optionsDialog() {
   waitForLoad(domQuery.header).then(appendDesktopNavLink);
 
   waitForLoad(domQuery.mobileMenu).then(() => {
@@ -345,6 +345,6 @@ function options() {
 
 export default createModule('{6f84183e-607b-4c90-9161-3451b002b541}', {
   name: 'Options',
-  init: options,
+  init: optionsDialog,
   showInOptions: false,
 });
