@@ -17,7 +17,7 @@ export default function createModule(guid, module) {
   if (!config.name.trim()) {
     throw new Error('Module must be created with name');
   }
-  if (!config.main && !config.init) {
+  if (!main && !init) {
     throw new Error('Module must be created with function');
   }
 
