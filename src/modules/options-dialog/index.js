@@ -1,15 +1,15 @@
 import classNames from 'classnames';
 
 import createModule from '~/utils/module';
-import storage from '~/utils/storage';
 import {
   createElement,
   waitForLoad,
   insertCss,
 } from '~/utils/dom';
+import Dialog from '~/utils/dialog';
 
 import { MODULE_MAP, SECTION_MAP } from '~/module-map';
-import Dialog from '~/utils/dialog';
+import { getOptionsFor, setOptionsFor, getFlattenedOptions, setFlattenedOptions } from '~/options';
 
 import style from './style.css';
 
@@ -103,7 +103,6 @@ class OptionsDialog {
     for (const sectionName in MODULE_MAP) {
       const section = this.createSectionView(
         SECTION_MAP[sectionName],
-        sectionName,
         MODULE_MAP[sectionName],
       );
       if (section) {
@@ -113,8 +112,8 @@ class OptionsDialog {
     return sectionWrap;
   }
 
-  createSectionView(publicName, hash, modules) {
-    const moduleViews = modules.map(module => this.createModuleView(hash, module));
+  createSectionView(publicName, modules) {
+    const moduleViews = modules.map(module => this.createModuleView(module));
     if (moduleViews.every(x => !x)) {
       // all modules are null, therefore hidden in options
       return null;
@@ -136,8 +135,8 @@ class OptionsDialog {
     return sectionView;
   }
 
-  createModuleView(sectionHash, module) {
-    const moduleState = this.state[sectionHash][module.name];
+  createModuleView(module) {
+    const moduleState = this.state[module.guid];
 
     if (!module.config.showInOptions) return null;
 
@@ -146,13 +145,13 @@ class OptionsDialog {
         <div className={selectors.module.top}>
           <label
             className={ classNames('bb-check-wrapper', selectors.module.label) }
-            htmlFor={module.name}
+            htmlFor={module.guid}
           >
             <input
               type="checkbox"
               checked={moduleState.enabled}
               className={selectors.module.input}
-              name={module.name}
+              name={module.guid}
               onChange={ ({ target }) => { moduleState.enabled = target.checked; } }
             />
             <span className="bb-check-checkbox"></span>
@@ -175,7 +174,7 @@ class OptionsDialog {
         <div className={selectors.module.extraOptions}>
           {
             Object.keys(module.config.options).map(suboptName => (
-              this.createSuboptionView(sectionHash, module, suboptName)
+              this.createSuboptionView(module, suboptName)
             ))
           }
         </div>
@@ -199,9 +198,9 @@ class OptionsDialog {
     return moduleView;
   }
 
-  createSuboptionView(sectionHash, module, key) {
+  createSuboptionView(module, key) {
     const suboption = module.config.options[key];
-    const value = this.state[sectionHash][module.name].options[key];
+    const value = this.state[module.guid].options[key];
     let input;
 
     switch (suboption.type) {
@@ -228,7 +227,7 @@ class OptionsDialog {
     let oldValue = value;
     input.addEventListener('change', () => {
       if (validateSuboption(input, suboption)) {
-        this.state[sectionHash][module.name].options[key] = input.value;
+        this.state[module.guid].options[key] = input.value;
       } else {
         input.value = oldValue;
       }
@@ -246,12 +245,6 @@ class OptionsDialog {
 
 }
 
-function getOptions() {
-  return storage.get('options');
-}
-function saveOptions(optionState) {
-  return storage.set({ options: optionState });
-}
 function getDefaultOptions() {
   const opts = {};
 
@@ -277,8 +270,8 @@ function getDefaultOptions() {
 
 
 async function showDialog() {
-  const optionsData = await getOptions();
-  const dialog = new OptionsDialog(optionsData, saveOptions, getDefaultOptions);
+  const optionsData = await getFlattenedOptions();
+  const dialog = new OptionsDialog(optionsData, setFlattenedOptions, getDefaultOptions);
   dialog.open();
 }
 
