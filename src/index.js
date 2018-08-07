@@ -1,64 +1,30 @@
-import storage from '~/utils/storage';
 import { MODULE_MAP } from '~/module-map';
+import { tryLoadModule, tryUnloadModule } from '~/module-loader';
 
 import setCssVars from '~/utils/css-vars';
+import { getFlattenedOptions, setFlattenedOptions, mergeDefaultOptions } from '~/options';
 
-async function loadModules() {
-  const optsData = await storage.get('options');
-  for (const section in optsData) {
-    if (window.location.hash.startsWith(section)) {
-      for (const module in optsData[section]) {
-        if (optsData[section][module].enabled) {
-          const moduleFunc = (
-            MODULE_MAP[section] &&
-            MODULE_MAP[section].find(s => s.name === module)
-          );
-          if (moduleFunc) {
-            // invoke module function with options data
-            try {
-              moduleFunc.fn(optsData[section][module].options);
-            } catch (e) {
-              if (process.env.NODE_ENV !== 'production') {
-                console.error(e); // eslint-disable-line no-console
-              }
-            }
-          }
-        }
+function forModules(hash, fn) {
+  for (const section in MODULE_MAP) {
+    if (hash.startsWith(section)) {
+      for (const module of MODULE_MAP[section]) {
+        fn(module);
       }
     }
   }
 }
 
+function loadModules(hash) {
+  forModules(hash, tryLoadModule);
+}
+
+function unloadModules(oldHash) {
+  forModules(oldHash, tryUnloadModule);
+}
+
 async function initializeOptions() {
-  const optsObj = await storage.get('options') || {};
-  Object.setPrototypeOf(optsObj, null); // use as map
-
-  for (const section in MODULE_MAP) {
-    if (!optsObj[section]) {
-      optsObj[section] = {};
-    }
-    for (const module in MODULE_MAP[section]) {
-      const { name: moduleName } = MODULE_MAP[section][module];
-
-      if (optsObj[section][moduleName] === undefined) {
-        optsObj[section][moduleName] = {
-          enabled: MODULE_MAP[section][module].config.defaultEnabled,
-          options: {},
-        };
-      } else if (optsObj[section][moduleName].options === undefined) {
-        optsObj[section][moduleName].options = {};
-      }
-
-      for (const subopt in MODULE_MAP[section][module].config.options) {
-        // option doesn't exist
-        if (!optsObj[section][moduleName].options[subopt]) {
-          const { defaultValue } = MODULE_MAP[section][module].config.options[subopt];
-          optsObj[section][moduleName].options[subopt] = defaultValue;
-        }
-      }
-    }
-  }
-  await storage.set({ options: optsObj });
+  const optsObj = await getFlattenedOptions();
+  await setFlattenedOptions(mergeDefaultOptions(optsObj));
 }
 
 async function runExtension() {
@@ -66,8 +32,11 @@ async function runExtension() {
   // (plus dev feature to force initialization)
   await initializeOptions();
   setCssVars();
-  loadModules();
-  window.addEventListener('hashchange', loadModules);
+  loadModules(window.location.hash);
+  window.addEventListener('hashchange', e => {
+    unloadModules(new URL(e.oldURL).hash);
+    loadModules(new URL(e.newURL).hash);
+  });
 }
 
 runExtension();
