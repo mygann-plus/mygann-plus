@@ -182,13 +182,13 @@ async function handleEdit(event) {
 function handleAdd(event) {
   event.preventDefault();
 
-  const handleDialogSave = () => {
+  const handleDialogSave = async () => {
     const favorite = getInputtedFavorite();
     if (!favorite) {
       return false;
     } else {
-      saveNewFavorite(favorite);
-      insertFavoriteNode(favorite);
+      const newFavorite = await saveNewFavorite(favorite);
+      insertFavoriteNode(newFavorite);
     }
   };
 
