@@ -9,7 +9,7 @@ import {
 import Dialog from '~/utils/dialog';
 
 import { MODULE_MAP, SECTION_MAP } from '~/module-map';
-import { getFlattenedOptions, setFlattenedOptions } from '~/options';
+import { getFlattenedOptions, setFlattenedOptions, mergeDefaultOptions } from '~/options';
 
 import style from './style.css';
 
@@ -246,29 +246,8 @@ class OptionsDialog {
 }
 
 function getDefaultOptions() {
-  const opts = {};
-
-  for (const section in MODULE_MAP) {
-    opts[section] = {};
-    for (const module in MODULE_MAP[section]) {
-      const { name: moduleName } = MODULE_MAP[section][module];
-
-      opts[section][moduleName] = {
-        enabled: MODULE_MAP[section][module].config.defaultEnabled,
-        options: {},
-      };
-
-      for (const subopt in MODULE_MAP[section][module].config.options) {
-        const { defaultValue } = MODULE_MAP[section][module].config.options[subopt];
-        opts[section][moduleName].options[subopt] = defaultValue;
-      }
-    }
-  }
-
-  return opts;
+  return mergeDefaultOptions({});
 }
-
-
 async function showDialog() {
   const optionsData = await getFlattenedOptions();
   const dialog = new OptionsDialog(optionsData, setFlattenedOptions, getDefaultOptions);
