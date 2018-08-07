@@ -3,6 +3,8 @@
 const SCHEMA_VERSION_KEY = '$schemaVersion';
 const DATA_KEY = 'data';
 
+// INTERNAL UTILITIES
+
 function doGet(property) {
   return new Promise((resolve, reject) => {
     chrome.storage.sync.get(property, data => {
@@ -13,6 +15,7 @@ function doGet(property) {
     });
   });
 }
+
 function doSet(data) {
   return new Promise((resolve, reject) => {
     chrome.storage.sync.set(data, () => {
@@ -35,43 +38,6 @@ function doDelete(property) {
   });
 }
 
-const storage = {
-  async get(property, schemaVersion, migrate) {
-    let object = await doGet(property);
-    if (!object) {
-      return null;
-    }
-
-    const savedSchemaVersion = object[SCHEMA_VERSION_KEY];
-    const savedData = object[DATA_KEY];
-    if (schemaVersion !== savedSchemaVersion) {
-      if (migrate) {
-        object = {
-          [SCHEMA_VERSION_KEY]: schemaVersion,
-          [DATA_KEY]: migrate(savedSchemaVersion, savedData),
-        };
-        await doSet({ [property]: object });
-      } else {
-        await doDelete(property);
-        return null;
-      }
-    }
-
-    return object[DATA_KEY];
-  },
-
-  set(key, value, schemaVersion) {
-    return doSet({
-      [key]: {
-        [SCHEMA_VERSION_KEY]: schemaVersion,
-        [DATA_KEY]: value,
-      },
-    });
-  },
-};
-
-export default storage;
-
 function warnType(id) {
   if (typeof id !== 'string') {
     console.warn(`ID should be a string, not a ${typeof id}`); // eslint-disable-line no-console
@@ -91,30 +57,81 @@ function generateID() {
   return String(Math.floor(Math.random() * 1000000));
 }
 
+// PUBLIC API
+
+async function get(property, schemaVersion, migrate) {
+  let object = await doGet(property);
+  if (!object) {
+    return null;
+  }
+
+  const savedSchemaVersion = object[SCHEMA_VERSION_KEY];
+  const savedData = object[DATA_KEY];
+  if (schemaVersion !== savedSchemaVersion) {
+    if (migrate) {
+      object = {
+        [SCHEMA_VERSION_KEY]: schemaVersion,
+        [DATA_KEY]: migrate(savedSchemaVersion, savedData),
+      };
+      await doSet({ [property]: object });
+    } else {
+      await doDelete(property);
+      return null;
+    }
+  }
+
+  return object[DATA_KEY];
+}
+
+function set(key, value, schemaVersion) {
+  return doSet({
+    [key]: {
+      [SCHEMA_VERSION_KEY]: schemaVersion,
+      [DATA_KEY]: value,
+    },
+  });
+}
+
+async function getArray(key, schemaVersion, migrateItem) {
+  const migrate = (oldSchema, oldData) => oldData.map(d => migrateItem(oldSchema, d));
+  return (await get(key, schemaVersion, migrateItem && migrate)) || [];
+}
+
 /**
  * @returns Added item's ID
  */
-export async function addItem(key, newItem, schemaVersion) {
-  const array = (await storage.get(key)) || [];
-  newItem.id = generateID();
-  array.push(newItem);
-  storage.set(key, array, schemaVersion);
-  return newItem.id;
+async function addArrayItem(key, newItem, schemaVersion, migrateItem) {
+  const array = await getArray(key, schemaVersion, migrateItem);
+  const item = { ...newItem, id: generateID() };
+  array.push(item);
+  await set(key, array, schemaVersion);
+  return item;
 }
 
-export async function changeItem(key, id, reducer, schemaVersion) {
+async function changeArrayItem(key, id, reducer, schemaVersion, migrateItem) {
   warnType(id);
   // TODO: warn if item doesn't exist
-  const array = (await storage.get(key)) || [];
+  const array = await getArray(key, schemaVersion, migrateItem);
   const newArray = reduceArray(array, id, reducer);
-  storage.set(key, newArray, schemaVersion);
+  await set(key, newArray, schemaVersion);
 }
 
-export async function deleteItem(key, id, schemaVersion) {
+async function deleteArrayItem(key, id, schemaVersion, migrateItem) {
   warnType(id);
-  const array = (await storage.get(key)) || [];
+  const array = await getArray(key, schemaVersion, migrateItem);
   const newArray = array.filter(assignment => (
     assignment.id !== id
   ));
-  storage.set(key, newArray, schemaVersion);
+  await set(key, newArray, schemaVersion);
 }
+
+export default {
+  get,
+  set,
+
+  getArray,
+  addArrayItem,
+  changeArrayItem,
+  deleteArrayItem,
+};
+
