@@ -16,8 +16,8 @@ export function isModuleLoaded(module) {
   return loadedModules.has(module);
 }
 
-export function tryLoadModule(module) {
-  const options = getOptionsFor(module.guid);
+export async function tryLoadModule(module) {
+  const options = await getOptionsFor(module.guid);
   if (!options.enabled) {
     return false;
   }
