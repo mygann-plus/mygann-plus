@@ -22,9 +22,13 @@
   - Small look & feel tweaks, including font size, spacing, colors, and backdrop
   - More detailed descriptions for certain modules
   - Ability to reset options to default values
-- Use native dialog instead of alert for Grade Summary
+  - Most modules can be enabled and disabled without reloading the page
+- Grade Summary improvements
+  - Use native dialog instead of alert
+  - Notify user if they have no graded classes
 - Dialogs respond to escape key and are more consistent with native dialogs
 - Message Preview is now significantly faster and does not slow down the rest of the page while loading
+- 
 
 ### Fixed
 - Fix all schedule modules (Free Block, Highlight Current Class, and Class Ending Time) not working with "today" button
