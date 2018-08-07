@@ -29,6 +29,6 @@ export async function getFlattenedOptions() {
 }
 
 export async function setFlattenedOptions(options) {
-  const optionsState = getStoredOptions();
+  const optionsState = await getStoredOptions();
   return setStoredOptions(Object.assign(optionsState, options));
 }
