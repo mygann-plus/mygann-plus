@@ -34,7 +34,7 @@ export async function createMenu(favorites) {
   const starIconUrl = getAssetUrl('star_icon.png');
 
   return (
-    <li className="oneline parentitem">
+    <li className="oneline parentitem" id={selectors.menu}>
       <a href="#" className="subnavtrigger black-fgc">
         <img src={starIconUrl} />
         <span className="desc">
@@ -61,6 +61,10 @@ export async function createMenu(favorites) {
       </div>
     </li>
   );
+}
+
+export function removeMenu() {
+  document.querySelector(`#${selectors.menu}`).remove();
 }
 
 export function createDialogBody(favorite = {}) {

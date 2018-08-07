@@ -15,6 +15,7 @@ const selectors = {
     link: locals['menu-link'],
     title: 'gocp_favorites_menu-title',
   },
+  menu: 'gocp_favorites_menu',
   dropdown: 'gocp_favorites_dropdown',
   form: 'gocp_favorites_form',
 };
