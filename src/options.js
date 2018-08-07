@@ -3,11 +3,11 @@ import storage from '~/utils/storage';
 const SCHEMA_VERSION = 1;
 const OPTIONS_STORAGE_KEY = 'options';
 
-function getStoredOptions() {
-  return storage.get(OPTIONS_STORAGE_KEY);
+async function getStoredOptions() {
+  return (await storage.get(OPTIONS_STORAGE_KEY, SCHEMA_VERSION)) || {};
 }
 function setStoredOptions(options) {
-  return storage.set({ [OPTIONS_STORAGE_KEY]: options });
+  return storage.set(OPTIONS_STORAGE_KEY, options, SCHEMA_VERSION);
 }
 
 export async function getOptionsFor(guid) {
