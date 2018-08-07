@@ -8,8 +8,10 @@ import style from './style.css';
 
 const TRANSITION_TIME = 300; // milliseconds for fade in/out animations
 
+// all vars are initialized in init to support dynamic reloading
 let wrapperElem;
-const displayedMessages = new Set();
+let styles;
+let displayedMessages;
 
 const identifiers = {
   wrap: style.locals.wrap,
@@ -172,7 +174,7 @@ async function getMessages() {
 function addStyles() {
   const transitionPropertyName = '--message-notifications--transition-time';
   document.documentElement.style.setProperty(transitionPropertyName, `${TRANSITION_TIME}ms`);
-  insertCss(style.toString());
+  return insertCss(style.toString());
 }
 
 async function messageNotificationsMain(options) {
@@ -181,15 +183,22 @@ async function messageNotificationsMain(options) {
 }
 
 function messageNotificationsInit() {
-  addStyles();
+  displayedMessages = new Set();
+  styles = addStyles();
   wrapperElem = createWrapper();
   document.body.appendChild(wrapperElem);
+}
+
+function messageNotificationUnload() {
+  wrapperElem.remove();
+  styles.remove();
 }
 
 export default createModule('{edf80057-becd-42f9-9117-995657904a91}', {
   name: 'Message Notifications',
   init: messageNotificationsInit,
   main: messageNotificationsMain,
+  unload: messageNotificationUnload,
   suboptions: {
     maxMessages: {
       type: 'number',
