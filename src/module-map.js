@@ -59,4 +59,16 @@ const SECTION_MAP = {
   __proto__: null,
 };
 
+export function modulesForHash(hash) {
+  const modules = new Set();
+  for (const section in MODULE_MAP) {
+    if (hash.startsWith(section)) {
+      for (const module of MODULE_MAP[section]) {
+        modules.add(module);
+      }
+    }
+  }
+  return modules;
+}
+
 export { MODULE_MAP, SECTION_MAP };
