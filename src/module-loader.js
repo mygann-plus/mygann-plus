@@ -1,14 +1,15 @@
 import { getOptionsFor } from '~/options';
+import log from '~/utils/log';
 
-const loadedModules = new Set();
+const loadedModules = new Map();
 
 function tryRunFunction(fn) {
   try {
     fn();
+    return true;
   } catch (e) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.error(e); // eslint-disable-line no-console
-    }
+    log('error', e);
+    return false;
   }
 }
 
@@ -22,20 +23,31 @@ export async function loadModule(module) {
     return false;
   }
   if (!isModuleLoaded(module) && module.init) {
-    tryRunFunction(() => module.init(options));
+    tryRunFunction(() => module.init(options.options));
   }
   if (module.main) {
-    tryRunFunction(() => module.main(options));
+    tryRunFunction(() => module.main(options.options));
   }
-  loadedModules.add(module);
+  loadedModules.set(module, options.options);
   return true;
 }
 
-export function unloadModule(module) {
+export function softUnloadModule(module) {
   if (!isModuleLoaded(module)) {
     return false;
   }
   if (!module.config.affectsGlobalState) {
+    loadedModules.delete(module);
+    return true;
+  }
+  return false;
+}
+
+export function hardUnloadModule(module) {
+  if (!isModuleLoaded(module) || !module.unload) {
+    return false;
+  }
+  if (tryRunFunction(() => module.unload(loadedModules.get(module)))) {
     loadedModules.delete(module);
     return true;
   }
