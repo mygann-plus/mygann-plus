@@ -1,10 +1,4 @@
-/**
- *
- * @param {string} name Module name to be displayed in options
- * @param {function} fn Main function to be run
- * @param {object} config Extra configuration object
- */
-export default function createModule(name, fn, config = {}) {
+export default function createModule(guid, module) {
 
   const defaultConfig = {
     showInOptions: true, // used for enabler modules
@@ -14,18 +8,24 @@ export default function createModule(name, fn, config = {}) {
     __proto__: null, // use as map
   };
 
-  if (!name.trim()) {
-    throw new Error('Module must be registered with name');
+  const { init, main, ...rest } = module;
+  const config = { ...defaultConfig, ...rest };
+
+  if (!guid) {
+    throw new Error('Module must be created with GUID');
   }
-  if (!fn) {
-    throw new Error('Module must be registered with function');
+  if (!config.name.trim()) {
+    throw new Error('Module must be created with name');
+  }
+  if (!config.main && !config.init) {
+    throw new Error('Module must be created with function');
   }
 
   return {
-    name,
-    fn,
-    config: Object.assign(defaultConfig, config),
-
+    guid,
+    init,
+    main,
+    config,
     __proto__: null,
   };
 }
