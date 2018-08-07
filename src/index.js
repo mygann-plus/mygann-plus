@@ -1,5 +1,5 @@
 import { MODULE_MAP } from '~/module-map';
-import { tryLoadModule, tryUnloadModule } from '~/module-loader';
+import { loadModule, unloadModule } from '~/module-loader';
 
 import setCssVars from '~/utils/css-vars';
 import { getFlattenedOptions, setFlattenedOptions, mergeDefaultOptions } from '~/options';
@@ -15,11 +15,11 @@ function forModules(hash, fn) {
 }
 
 function loadModules(hash) {
-  forModules(hash, tryLoadModule);
+  forModules(hash, loadModule);
 }
 
 function unloadModules(oldHash) {
-  forModules(oldHash, tryUnloadModule);
+  forModules(oldHash, unloadModule);
 }
 
 async function initializeOptions() {

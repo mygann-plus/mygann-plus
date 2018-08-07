@@ -16,7 +16,7 @@ export function isModuleLoaded(module) {
   return loadedModules.has(module);
 }
 
-export async function tryLoadModule(module) {
+export async function loadModule(module) {
   const options = await getOptionsFor(module.guid);
   if (!options.enabled) {
     return false;
@@ -31,7 +31,7 @@ export async function tryLoadModule(module) {
   return true;
 }
 
-export function tryUnloadModule(module) {
+export function unloadModule(module) {
   if (!isModuleLoaded(module)) {
     return false;
   }
