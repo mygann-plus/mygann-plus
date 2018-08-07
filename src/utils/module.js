@@ -9,7 +9,9 @@ export default function createModule(guid, module) {
     __proto__: null, // use as map
   };
 
-  const { init, main, ...rest } = module;
+  const {
+    init, main, unload, ...rest
+  } = module;
   const config = { ...defaultConfig, ...rest };
 
   if (!guid) {
@@ -26,6 +28,7 @@ export default function createModule(guid, module) {
     guid,
     init,
     main,
+    unload,
     config,
     __proto__: null,
   };
