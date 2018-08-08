@@ -1,5 +1,5 @@
 import storage from '~/utils/storage';
-import { MODULE_MAP } from '~/module-map';
+import { GUID_MAP } from '~/module-map';
 
 const SCHEMA_VERSION = 1;
 const OPTIONS_STORAGE_KEY = 'options';
@@ -34,28 +34,26 @@ export async function setFlattenedOptions(options) {
 }
 
 export function mergeDefaultOptions(options) {
-  for (const section in MODULE_MAP) {
-    for (const module of MODULE_MAP[section]) {
-      const { guid } = module;
+  for (const guid in GUID_MAP) {
+    const module = GUID_MAP[guid];
 
-      options[guid] = {
-        enabled: module.config.defaultEnabled,
-        suboptions: {},
-        ...options[guid],
-      };
+    options[guid] = {
+      enabled: module.config.defaultEnabled,
+      suboptions: {},
+      ...options[guid],
+    };
 
-      const newSuboptions = {};
-      for (const subopt in module.config.suboptions) {
-        // suboption doesn't exist
-        if (!(subopt in options[guid].suboptions)) {
-          const { defaultValue } = module.config.suboptions[subopt];
-          newSuboptions[subopt] = defaultValue;
-        } else {
-          newSuboptions[subopt] = options[guid].suboptions[subopt];
-        }
+    const newSuboptions = {};
+    for (const subopt in module.config.suboptions) {
+      // suboption doesn't exist
+      if (!(subopt in options[guid].suboptions)) {
+        const { defaultValue } = module.config.suboptions[subopt];
+        newSuboptions[subopt] = defaultValue;
+      } else {
+        newSuboptions[subopt] = options[guid].suboptions[subopt];
       }
-      options[guid].suboptions = newSuboptions;
     }
+    options[guid].suboptions = newSuboptions;
   }
   return options;
 }
