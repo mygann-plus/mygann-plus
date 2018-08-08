@@ -1,6 +1,6 @@
 import createModule from '~/utils/module';
 
-import { waitForLoad, insertCss, createElement } from '~/utils/dom';
+import { createElement, waitForLoad, insertCss, addEventListener } from '~/utils/dom';
 
 import style from './style.css';
 
@@ -118,6 +118,9 @@ class DesktopClassFilter extends ClassFilter {
   mountInput(node) {
     node.prepend(this.input);
   }
+  remove() {
+    this.input.remove();
+  }
 }
 
 class MobileClassFilter extends ClassFilter {
@@ -139,12 +142,15 @@ class MobileClassFilter extends ClassFilter {
       }));
   }
   mountInput(node) {
-    const wrap = (
+    this.wrap = (
       <li id={selectors.mobileSearchbarWrap}>
         <a className="mobile-group-page-link-1">{ this.input }</a>
       </li>
     );
-    node.prepend(wrap);
+    node.prepend(this.wrap);
+  }
+  remove() {
+    this.wrap.remove();
   }
 }
 
@@ -158,7 +164,7 @@ const domQuery = {
   ),
 };
 
-function searchClassesMenu() {
+function searchClassesMenu(opts, unloaderContext) {
   insertCss(style.toString());
 
   waitForLoad(domQuery.desktop).then(() => {
@@ -166,17 +172,25 @@ function searchClassesMenu() {
     classFilter.mountInput(getDesktopMenu());
 
     const classesMenu = document.querySelector('#group-header-Classes').parentNode;
-    classesMenu.addEventListener('mouseenter', () => {
+    const showListener = addEventListener(classesMenu, 'mouseenter', () => {
       classFilter.showSearchbar();
     });
+
+    unloaderContext.addRemovable(classFilter);
+    unloaderContext.addRemovable(showListener);
   });
 
   waitForLoad(domQuery.mobile).then(() => {
     const classFilter = new MobileClassFilter();
     classFilter.mountInput(domQuery.mobile());
-    document.querySelector('#mobile-group-header-Classes').addEventListener('click', () => {
+
+    const classesMenu = document.querySelector('#mobile-group-header-Classes');
+    const showListener = addEventListener(classesMenu, 'click', () => {
       classFilter.showSearchbar();
     });
+
+    unloaderContext.addRemovable(classFilter);
+    unloaderContext.addRemovable(showListener);
   });
 }
 
