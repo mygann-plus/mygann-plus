@@ -10,7 +10,6 @@ const TRANSITION_TIME = 300; // milliseconds for fade in/out animations
 
 // all vars are initialized in init to support dynamic reloading
 let wrapperElem;
-let styles;
 let displayedMessages;
 
 const identifiers = {
@@ -182,23 +181,20 @@ async function messageNotificationsMain(options) {
   generateNotifications(messages, options.disappearTime);
 }
 
-function messageNotificationsInit() {
+function messageNotificationsInit(opts, unloaderContext) {
   displayedMessages = new Set();
-  styles = addStyles();
+  const styles = addStyles();
   wrapperElem = createWrapper();
   document.body.appendChild(wrapperElem);
-}
 
-function messageNotificationUnload() {
-  wrapperElem.remove();
-  styles.remove();
+  unloaderContext.addRemovable(wrapperElem);
+  unloaderContext.addRemovable(styles);
 }
 
 export default createModule('{edf80057-becd-42f9-9117-995657904a91}', {
   name: 'Message Notifications',
   init: messageNotificationsInit,
   main: messageNotificationsMain,
-  unload: messageNotificationUnload,
   suboptions: {
     maxMessages: {
       type: 'number',
