@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+
 import createModule from '~/utils/module';
 import { waitForLoad, insertCss, createElement } from '~/utils/dom';
 
@@ -7,6 +9,7 @@ const TASKS_ASSIGNMENT_TYPE = 'My tasks';
 
 const selectors = {
   inlined: style.locals.inlined,
+  dropdown: 'gocp_inline-change-status_dropdown',
 };
 
 function simulateDropdownChange(elemIndex, index) {
@@ -48,7 +51,10 @@ function createDropdown(parentNode, controller, index, preVal) {
   };
 
   const selectElem = (
-    <select onChange={handleSelectChange} className="form-control">
+    <select
+      onChange={handleSelectChange}
+      className={ classNames('form-control', selectors.dropdown) }
+    >
       { optionElems }
     </select>
   );
@@ -63,7 +69,7 @@ function replaceLinks() {
     const assignmentType = assignmentRow.querySelector('[data-heading="Type"]').textContent;
     if (assignmentType === TASKS_ASSIGNMENT_TYPE) {
       // [audit] confirm this does not target regular assignments
-      return; // tasks also have an "edit" link, which needs to be available from the popover
+      // return; // tasks also have an "edit" link, which needs to be available from the popover
     }
     assignmentRow.classList.add(selectors.inlined);
     createDropdown(button.parentNode, button, i);
@@ -76,19 +82,35 @@ function addMutationObserver() {
   observer.observe(table, {
     childList: true,
   });
+  return {
+    remove() { observer.disconnect(); },
+  };
 }
 
 const domQuery = () => document.querySelector('#assignment-center-assignment-items *');
 
-async function inlineChangeStatus() {
-  insertCss(style.toString());
+async function inlineChangeStatus(opts, unloaderContext) {
+  const styles = insertCss(style.toString());
   await waitForLoad(domQuery);
   replaceLinks();
-  addMutationObserver();
+  const observer = addMutationObserver();
+
+  unloaderContext.addRemovable(styles);
+  unloaderContext.addRemovable(observer);
+}
+
+function unloadInlineChangeStatus() {
+  for (const inlineLink of document.querySelectorAll(`.${selectors.inline}`)) {
+    inlineLink.classList.remove(selectors.inline);
+  }
+  for (const dropdown of document.querySelectorAll(`.${selectors.dropdown}`)) {
+    dropdown.remove();
+  }
 }
 
 export default createModule('{4155f319-a10b-4e4e-8a10-999a43ef9d19}', {
   name: 'Inline Change Status',
   main: inlineChangeStatus,
+  unload: unloadInlineChangeStatus,
 });
 
