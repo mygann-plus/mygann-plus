@@ -6,7 +6,6 @@ import filterWebsiteMainSearch from './modules/filter-website-main-search';
 import freeBlock from './modules/free-block';
 import gradeSummary from './modules/grade-summary';
 import highlightCurrentClass from './modules/highlight-current-class';
-import improveGrades from './modules/improve-grades';
 import inlineChangeStatus from './modules/inline-change-status';
 import messageNotifications from './modules/message-notifications';
 import nextGradedCourse from './modules/next-graded-course';
@@ -33,7 +32,6 @@ const MODULE_MAP = {
   '#studentmyday/progress': [
     gradeSummary,
     coursesFilter,
-    improveGrades,
     nextGradedCourse,
   ],
   '#message': [archiveAll],
