@@ -216,7 +216,9 @@ class OptionsDialog {
       case 'enum':
         input = (
           <select>
-            {suboption.enumValues.map(val => <option value={val}>{val}</option>)}
+            {Object.keys(suboption.enumValues).map(enumKey => (
+              <option value={enumKey}>{suboption.enumValues[enumKey]}</option>
+            ))}
           </select>
         );
         break;
