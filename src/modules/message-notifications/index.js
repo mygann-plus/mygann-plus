@@ -170,9 +170,9 @@ async function getMessages() {
   }
 }
 
-function addStyles() {
-  const transitionPropertyName = '--message-notifications--transition-time';
-  document.documentElement.style.setProperty(transitionPropertyName, `${TRANSITION_TIME}ms`);
+function addStyles(wrap) {
+  const transitionPropertyName = '--transition-time';
+  wrap.style.setProperty(transitionPropertyName, `${TRANSITION_TIME}ms`);
   return insertCss(style.toString());
 }
 
@@ -183,8 +183,8 @@ async function messageNotificationsMain(options) {
 
 function messageNotificationsInit(opts, unloaderContext) {
   displayedMessages = new Set();
-  const styles = addStyles();
   wrapperElem = createWrapper();
+  const styles = addStyles(wrapperElem);
   document.body.appendChild(wrapperElem);
 
   unloaderContext.addRemovable(wrapperElem);

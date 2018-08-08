@@ -15,7 +15,7 @@
   color: white;
   text-decoration: none;
   opacity: 0;
-  transition: opacity var(--message-notifications--transition-time);
+  transition: opacity var(--transition-time);
   display: flex;
   padding-right: 40px;
 }
