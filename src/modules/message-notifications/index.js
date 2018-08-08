@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import getUrls from 'get-urls-to-array';
 
 import createModule from '~/utils/module';
@@ -16,6 +17,7 @@ const identifiers = {
   wrap: style.locals.wrap,
   messageMain: style.locals['message-main'],
   controls: style.locals.controls,
+  control: style.locals.control,
   messageText: style.locals['message-text'],
 };
 
@@ -50,14 +52,17 @@ class MessageNotification {
             </span>
           </div>
           <div className={identifiers.controls}>
-            <i className="fa fa-archive" onClick={e => this.onArchiveClick(e)}></i>
+            <button
+              className={classNames('fa fa-archive', identifiers.control)}
+              onClick={e => this.onArchiveClick(e)}>
+            </button>
             {
               this.urls.length ?
-              <i
-                className="fa fa-link"
+              <button
+                className={classNames('fa fa-link', identifiers.control)}
                 style={{ marginLeft: '50%', marginTop: '1px' }}
                 onClick={ () => this.removeMessage() }
-              ></i> :
+              ></button> :
               null
             }
           </div>
