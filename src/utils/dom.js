@@ -92,6 +92,15 @@ export function insertCss(css) {
   };
 }
 
+export function addEventListener(elem, ...params) {
+  elem.addEventListener(...params);
+  return {
+    remove() {
+      elem.removeEventListener(...params);
+    },
+  };
+}
+
 export function addEventListeners(nodes, event, callback) {
   for (const node of nodes) {
     node.addEventListener(event, callback);
