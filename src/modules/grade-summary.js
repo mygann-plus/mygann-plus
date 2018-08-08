@@ -66,7 +66,7 @@ const getCoursesBar = () => (
     > :first-child > :first-child > :first-child`)
 );
 
-async function gradeSummary() {
+async function gradeSummary(opts, unloaderContext) {
   await waitForLoad(coursesListLoaded);
 
   const button = constructButton(
@@ -77,6 +77,7 @@ async function gradeSummary() {
   );
   button.className += ' pull-right';
   getCoursesBar().appendChild(button);
+  unloaderContext.addRemovable(button);
 }
 
 export default createModule('{d320791b-772e-47c4-a058-15156faea88e}', {
