@@ -1,6 +1,6 @@
 import createModule from '~/utils/module';
 
-import { waitForLoad, constructButton, insertCss } from '~/utils/dom';
+import { waitForLoad, constructButton, insertCss, addEventListener } from '~/utils/dom';
 
 import style from './style.css';
 
@@ -70,13 +70,22 @@ async function toggleHidden({ target: button }) {
 
 const domQuery = () => document.querySelector('#filter-status');
 
-async function hideCompleted() {
-  insertCss(style.toString());
+async function hideCompleted(opts, unloaderContext) {
+  const styles = insertCss(style.toString());
   const filterStatusButton = await waitForLoad(domQuery);
 
   const button = constructButton('Hide Completed', '', 'fa fa-check', toggleHidden);
   filterStatusButton.parentNode.appendChild(button);
-  filterStatusButton.addEventListener('click', () => onFilterStatusClick(button));
+
+  const filterStatusListener = addEventListener(
+    filterStatusButton,
+    'click',
+    () => onFilterStatusClick(button),
+  );
+
+  unloaderContext.addRemovable(button);
+  unloaderContext.addRemovable(filterStatusListener);
+  unloaderContext.addRemovable(styles);
 
   // open and apply dialog, which updates button to current filter
   // used for dynamic loading
