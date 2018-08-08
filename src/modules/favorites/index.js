@@ -6,7 +6,7 @@ import { getSavedFavorites } from './favorites-model';
 
 import style from './style.css';
 
-async function initFavorites() {
+async function initFavorites(opts, unloaderContext) {
   await waitForLoad(() => document.querySelector('.topnav > .twoline.parentitem.last'));
 
   const menu = await createMenu(await getSavedFavorites());
@@ -14,15 +14,13 @@ async function initFavorites() {
 
   directoriesMenu.before(menu);
   addListeners();
-  insertCss(style.toString());
-}
+  const styles = insertCss(style.toString());
 
-function unloadFavorites() {
-  removeMenu();
+  unloaderContext.addRemovable(menu);
+  unloaderContext.addRemovable(styles);
 }
 
 export default createModule('{a98c8f19-a6fc-449a-bc03-ca9dc0cc7550}', {
   name: 'Favorites',
   init: initFavorites,
-  unload: unloadFavorites,
 });
