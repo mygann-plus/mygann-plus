@@ -12,10 +12,23 @@
 
 .module-extra-options {
   display: none;
+  padding: 8px 0;
 }
 
 .module-extra-options.module-expanded {
   display: block;
+}
+
+.module-extra-options.module-expanded::before {
+  content: '';
+  display: block;
+  border-top: 1px solid #bbbbbb;
+  width: 95%;
+  margin: 0 auto;
+}
+
+.module-extra-options > :first-child {
+  margin-top: 10px;
 }
 
 .module-wrap {
