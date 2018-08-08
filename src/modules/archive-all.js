@@ -32,7 +32,7 @@ function handleButtonClick(e) {
   }
 }
 
-async function archiveAll() {
+async function archiveAll(opts, unloaderContext) {
 
   const BUTTON_TEXT = window.location.hash === '#message/inbox' ? 'Archive All' : 'Unarchive All';
   const ARCHIVING_TEXT = window.location.hash === '#message/inbox' ? 'Archiving' : 'Unarchiving';
@@ -53,6 +53,9 @@ async function archiveAll() {
 
   document.getElementById('button-bar').children[0].appendChild(button);
   document.getElementById('button-bar').children[0].appendChild(archivingMessage);
+
+  unloaderContext.addRemovable(button);
+  unloaderContext.addRemovable(archivingMessage);
 }
 
 export default createModule('{ca448b9b-1d12-487e-8afd-1be45ad520b8}', {
