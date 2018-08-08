@@ -2,6 +2,7 @@ import createModule from '~/utils/module';
 import {
   waitForLoad,
   constructButton,
+  addEventListener,
 } from '~/utils/dom';
 import { coursesListLoaded } from '~/shared/progress';
 
@@ -30,7 +31,7 @@ const domQuery = () => (
   document.querySelector('.btn.btn-default.btn-sm.bold')
 );
 
-async function nextGradedCourse() {
+async function nextGradedCourse(opts, unloaderContext) {
   await waitForLoad(domQuery);
 
   const gradeElemToObject = e => ({
@@ -43,20 +44,24 @@ async function nextGradedCourse() {
     .map(gradeElemToObject);
 
   for (const course of courses) {
-    course.elem.parentNode
-      .querySelector('.btn.btn-default')
-      .addEventListener('click', async () => {
-        await waitForLoad(() => document.querySelectorAll('button[data-analysis="next"]').length);
-        const nextCourses = getNextCourse(courses, course);
-        const prevCourses = getPreviousCourse(courses, course);
-        const nextGradedButton = generateButton(nextCourses, 'forward');
-        const prevGradedButton = generateButton(prevCourses, 'backward');
+    const gradeDetailButton = course.elem.parentNode.querySelector('.btn.btn-default');
+    const gradeDetailListener = addEventListener(gradeDetailButton, 'click', async () => {
+      await waitForLoad(() => document.querySelectorAll('button[data-analysis="next"]').length);
+      const nextCourses = getNextCourse(courses, course);
+      const prevCourses = getPreviousCourse(courses, course);
+      const nextGradedButton = generateButton(nextCourses, 'forward');
+      const prevGradedButton = generateButton(prevCourses, 'backward');
 
-        const nextButton = document.querySelectorAll('button[data-analysis="next"]')[0];
-        const prevButton = document.querySelectorAll('button[data-analysis="prev"]')[0];
-        nextButton.after(nextGradedButton);
-        prevButton.before(prevGradedButton);
-      });
+      const nextButton = document.querySelectorAll('button[data-analysis="next"]')[0];
+      const prevButton = document.querySelectorAll('button[data-analysis="prev"]')[0];
+      nextButton.after(nextGradedButton);
+      prevButton.before(prevGradedButton);
+
+      unloaderContext.addRemovable(nextGradedButton);
+      unloaderContext.addRemovable(prevGradedButton);
+    });
+
+    unloaderContext.addRemovable(gradeDetailListener);
   }
 }
 
