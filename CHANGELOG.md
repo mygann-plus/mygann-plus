@@ -1,4 +1,4 @@
-## 0.6.0 (UNRELEASED) [must clear stored options]
+## 0.6.0 (UNRELEASED)
 ### Added
 - "Coming Up" module, which shows a preview of the next day's events in the schedule
 - "Favorites" module
@@ -9,7 +9,9 @@
 - Support for mobile menu in Search Classes Menu
 - Three options for Filter Website in Main Search: collapse, move to bottom, and remove
 - Maximum messages to preview and dissapear time in message preview is now configurable
-- New button in Message Preview to go to the first link found in the body of the message
+- New buttons in Message Notifications 
+  - Button to go to the first link found in the body of the message
+  - Button to dismiss notification and mark message as read
 - Added fix for native OnCampus bug where pressing escape in a compose message window causes unexpected quirks
 
 ### Changed
@@ -19,7 +21,7 @@
 - Options moved into desktop and mobile main dropdown
 - Option dialog improvements
   - Popup box no longer appears after saving
-  - Small look & feel tweaks, including font size, spacing, colors, and backdrop
+  - Small look & feel tweaks, including sizing, colors, and toggles
   - More detailed descriptions for certain modules
   - Ability to reset options to default values
   - Most modules can be enabled and disabled without reloading the page
@@ -27,8 +29,11 @@
   - Use native dialog instead of alert
   - Notify user if they have no graded classes
 - Dialogs respond to escape key and are more consistent with native dialogs
-- Message Preview is now significantly faster and does not slow down the rest of the page while loading
-- 
+- Message Preview renamed to "Message Notifications"
+- Message Notifications improvements
+  - It is now significantly faster and does not slow down the rest of the page while loading
+  - Small look & feel tweaks to match native site theme and make buttons easier to locate
+ 
 
 ### Fixed
 - Fix all schedule modules (Free Block, Highlight Current Class, and Class Ending Time) not working with "today" button
