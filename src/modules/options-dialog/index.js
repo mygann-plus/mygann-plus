@@ -36,6 +36,7 @@ const selectors = {
   suboption: {
     input: style.locals['suboption-input'],
     label: style.locals['suboption-label'],
+    name: style.locals['suboption-name'],
   },
 };
 
@@ -58,6 +59,24 @@ function validateSuboption(input, suboption) {
       if (suboption.validator && !suboption.validator(input.value)) return false;
   }
   return true;
+}
+
+function getSuboptionValue(suboptElem, suboption) {
+  switch (suboption.type) {
+    case 'boolean':
+      return suboptElem.querySelector('input').checked;
+    default:
+      return suboptElem.value;
+  }
+}
+function setSuboptionValue(suboptElem, suboption, value) {
+  switch (suboption.type) {
+    case 'boolean':
+      suboptElem.querySelector('input').checked = value;
+      break;
+    default:
+      suboptElem.value = value;
+  }
 }
 
 class OptionsDialog {
@@ -222,26 +241,38 @@ class OptionsDialog {
           </select>
         );
         break;
+      case 'boolean':
+        input = (
+          <label className="bb-check-wrapper">
+            <input type="checkbox" />
+            <span className="bb-check-checkbox"></span>
+          </label>
+        );
+        break;
       default:
         break;
     }
 
-    input.className = selectors.suboption.input;
-    input.value = value;
+    input.classList.add(selectors.suboption.input);
+    setSuboptionValue(input, suboption, value);
 
     let oldValue = value;
     input.addEventListener('change', () => {
       if (validateSuboption(input, suboption)) {
-        this.state[module.guid].suboptions[key] = input.value;
+        this.state[module.guid].suboptions[key] = getSuboptionValue(input, suboption);
       } else {
-        input.value = oldValue;
+        setSuboptionValue(input, suboption, oldValue);
       }
     });
 
+    const nameWrap = <span className={selectors.suboption.name}>{ suboption.name }</span>;
     const label = (
       <label className={selectors.suboption.label}>
-        {suboption.name}:
-        { input }
+        {
+          suboption.type === 'boolean' ?
+          [input, nameWrap] :
+          [nameWrap, input]
+        }
       </label>
     );
 
