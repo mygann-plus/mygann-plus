@@ -15,11 +15,11 @@
   padding: 8px 0;
 }
 
-.module-extra-options.module-expanded {
+.module-expanded .module-extra-options {
   display: block;
 }
 
-.module-extra-options.module-expanded::before {
+.module-expanded .module-extra-options::before {
   content: '';
   display: block;
   border-top: 1px solid #bbbbbb;
@@ -54,6 +54,10 @@
 
 .module-chevron {
   font-size: 17px;
+}
+
+.module-expanded .module-chevron {
+  transform: rotate(180deg);
 }
 
 .module-description {

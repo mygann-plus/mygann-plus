@@ -207,7 +207,7 @@ class OptionsDialog {
 
       const onExpandLinkClick = e => {
         e.preventDefault();
-        extraOptions.classList.toggle(selectors.module.expanded);
+        moduleView.classList.toggle(selectors.module.expanded);
       };
 
       const expandLink = (
