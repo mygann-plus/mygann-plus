@@ -1,16 +1,24 @@
 import createModule from '~/utils/module';
 
-import { createElement, waitForLoad, constructButton } from '~/utils/dom';
+import { createElement, waitForLoad, constructButton, insertCss } from '~/utils/dom';
+import Flyout from '~/utils/flyout';
+
+import style from './style.css';
+
+const selectors = {
+  flyoutMessage: style.locals['flyout-message'],
+};
 
 const MESSAGE = `
 This may take a few moments or temporarily slow down the website. 
-Please do not use OnCampus until the operation is complete. Continue?
+Please do not use OnCampus until the operation is complete.
 `.trim();
 
 
 function archive() {
   const buttonClassName = 'conv-archive';
   let buttons = document.getElementsByClassName(buttonClassName);
+
   document.getElementById('archivingMessage').style.display = 'inline-block';
   for (const button of buttons) {
     button.click();
@@ -27,12 +35,24 @@ function archive() {
 
 function handleButtonClick(e) {
   e.preventDefault();
-  if (confirm(MESSAGE)) { // eslint-disable-line
-    archive();
-  }
+  const flyout = new Flyout((
+    <div>
+      <div className={selectors.flyoutMessage}>
+        { MESSAGE }
+      </div>
+      {
+        constructButton('Continue', '', '', () => {
+          flyout.hide();
+          archive();
+        })
+      }
+    </div>
+  ));
+  flyout.showAtElem(e.target);
 }
 
 async function archiveAll(opts, unloaderContext) {
+  const styles = insertCss(style.toString());
 
   const BUTTON_TEXT = window.location.hash === '#message/inbox' ? 'Archive All' : 'Unarchive All';
   const ARCHIVING_TEXT = window.location.hash === '#message/inbox' ? 'Archiving' : 'Unarchiving';
@@ -56,6 +76,7 @@ async function archiveAll(opts, unloaderContext) {
 
   unloaderContext.addRemovable(button);
   unloaderContext.addRemovable(archivingMessage);
+  unloaderContext.addRemovable(styles);
 }
 
 export default createModule('{ca448b9b-1d12-487e-8afd-1be45ad520b8}', {
