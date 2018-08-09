@@ -54,20 +54,23 @@ class MessageNotification {
           <div className={identifiers.controls}>
             <button
               className={classNames('fa fa-archive', identifiers.control)}
-              onClick={e => this.onArchiveClick(e)}>
-            </button>
+              onClick={e => this.onArchiveClick(e)}
+              title="Archive"
+            />
             {
               this.urls.length && showLinkButton ?
               <button
                 className={classNames('fa fa-link', identifiers.control)}
                 onClick={e => this.onLinkClick(e)}
-              ></button> :
+                title={`Open Link: ${new URL(this.urls[0]).hostname}`}
+              /> :
               null
             }
             <button
               className={classNames('fa fa-times', identifiers.control)}
-              onClick={e => this.onDimissClick(e)}>
-            </button>
+              onClick={e => this.onDimissClick(e)}
+              title="Dismiss"
+            />
           </div>
         </div>
       </a>
