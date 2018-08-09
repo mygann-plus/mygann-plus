@@ -2,7 +2,8 @@ import classNames from 'classnames';
 
 import { getAssetUrl } from '~/utils/assets';
 import Dialog from '~/utils/dialog';
-import { createElement, addEventListeners } from '~/utils/dom';
+import Flyout from '~/utils/flyout';
+import { createElement, addEventListeners, constructButton } from '~/utils/dom';
 
 import {
   editSavedFavorite,
@@ -43,7 +44,9 @@ export async function createMenu(favorites) {
         </span>
         <span className="caret"></span>
       </a>
-      <div className="subnavtop sec-75-bordercolor white-bgc"></div>
+      <div className="subnavtop sec-75-bordercolor white-bgc">
+        { /* This div is the arrow on top of the menu */ }
+      </div>
       <div className="subnav sec-75-bordercolor white-bgc" id={selectors.dropdown}>
         <ul>
           { favorites.map(createLink) }
@@ -216,12 +219,25 @@ function handleDelete(event) {
   event.stopPropagation();
 
   const id = idFromEvent(event);
+  const favoritesMenu = event.target.closest('.subnav');
+  favoritesMenu.classList.add(selectors.visibleMenu);
 
-  if (window.confirm('Are you sure you want to delete this favorite?')) { // eslint-disable-line no-alert, max-len
+  const flyout = new Flyout(constructButton('Delete', '', '', () => {
     deleteSavedFavorite(id);
     deleteFavoriteNode(id);
-  }
+    flyout.hide();
+  }), {
+    onHide: () => {
+      favoritesMenu.classList.remove(selectors.visibleMenu);
+    },
+  });
 
+  const menuTitle = event.target
+    .closest(`.${selectors.menuItem.link}`)
+    .querySelector(`.${selectors.menuItem.title}`);
+
+  flyout.showAtElem(menuTitle);
+  flyout.getBody().querySelector('button').focus();
 }
 
 export function addListeners() {

@@ -17,3 +17,6 @@
 .menu-link:hover .controls > i {
   display: inline;
 }
+.visible-menu {
+  display: block !important;
+}

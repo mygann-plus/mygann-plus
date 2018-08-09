@@ -16,6 +16,7 @@ const selectors = {
     title: 'gocp_favorites_menu-title',
   },
   menu: 'gocp_favorites_menu',
+  visibleMenu: locals['visible-menu'],
   dropdown: 'gocp_favorites_dropdown',
   form: 'gocp_favorites_form',
 };
