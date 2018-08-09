@@ -34,10 +34,12 @@ export async function setFlattenedOptions(options) {
 }
 
 export function mergeDefaultOptions(options) {
+  const newOptions = {};
+
   for (const guid in GUID_MAP) {
     const module = GUID_MAP[guid];
 
-    options[guid] = {
+    newOptions[guid] = {
       enabled: module.config.defaultEnabled,
       suboptions: {},
       ...options[guid],
@@ -46,14 +48,14 @@ export function mergeDefaultOptions(options) {
     const newSuboptions = {};
     for (const subopt in module.config.suboptions) {
       // suboption doesn't exist
-      if (!(subopt in options[guid].suboptions)) {
+      if (!(subopt in newOptions[guid].suboptions)) {
         const { defaultValue } = module.config.suboptions[subopt];
         newSuboptions[subopt] = defaultValue;
       } else {
-        newSuboptions[subopt] = options[guid].suboptions[subopt];
+        newSuboptions[subopt] = newOptions[guid].suboptions[subopt];
       }
     }
-    options[guid].suboptions = newSuboptions;
+    newOptions[guid].suboptions = newSuboptions;
   }
-  return options;
+  return newOptions;
 }
