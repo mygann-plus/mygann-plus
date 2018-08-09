@@ -69,7 +69,7 @@ function replaceLinks() {
     const assignmentType = assignmentRow.querySelector('[data-heading="Type"]').textContent;
     if (assignmentType === TASKS_ASSIGNMENT_TYPE) {
       // [audit] confirm this does not target regular assignments
-      // return; // tasks also have an "edit" link, which needs to be available from the popover
+      return; // tasks also have an "edit" link, which needs to be available from the popover
     }
     assignmentRow.classList.add(selectors.inlined);
     createDropdown(button.parentNode, button, i);
