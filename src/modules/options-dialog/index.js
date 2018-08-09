@@ -25,13 +25,17 @@ const selectors = {
     wrap: style.locals['module-wrap'],
     top: style.locals['module-top'],
     label: style.locals['module-label'],
-    input: style.locals['module-input'],
     caption: style.locals['module-caption'],
     description: style.locals['module-description'],
     expandLink: style.locals['module-expand-link'],
     chevron: style.locals['module-chevron'],
     extraOptions: style.locals['module-extra-options'],
     expanded: style.locals['module-expanded'],
+  },
+  toggle: {
+    wrap: style.locals['toggle-wrap'],
+    track: style.locals['toggle-track'],
+    pill: style.locals['toggle-pill'],
   },
   suboption: {
     input: style.locals['suboption-input'],
@@ -166,17 +170,16 @@ class OptionsDialog {
       <div className={selectors.module.wrap}>
         <div className={selectors.module.top}>
           <label
-            className={ classNames('bb-check-wrapper', selectors.module.label) }
-            htmlFor={module.guid}
+            className={ classNames(selectors.toggle.wrap, selectors.module.label) }
           >
             <input
               type="checkbox"
               checked={moduleState.enabled}
-              className={selectors.module.input}
-              name={module.guid}
               onChange={ ({ target }) => { moduleState.enabled = target.checked; } }
             />
-            <span className="bb-check-checkbox"></span>
+            <span className={selectors.toggle.track}>
+              <span className={selectors.toggle.pill} />
+            </span>
             <span className={selectors.module.caption}>
               {formatModuleName(module.config.name)}
               {
