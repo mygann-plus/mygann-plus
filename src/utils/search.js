@@ -1,5 +1,5 @@
 function splitString(string) {
-  return new Set(string.trim().toLowerCase().split(/\s+/));
+  return new Set(string.trim().toLowerCase().split(/\W+/));
 }
 
 export default function fuzzyMatch(query, text) {
