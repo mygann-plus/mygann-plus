@@ -9,7 +9,7 @@ export default function fuzzyMatch(query, text) {
 
   for (const textPart of textParts) {
     for (const queryPart of queryParts) {
-      if (textPart.includes(queryPart)) {
+      if (textPart.startsWith(queryPart)) {
         matchedQueryParts.add(queryPart);
       }
     }
