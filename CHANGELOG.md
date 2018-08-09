@@ -28,7 +28,10 @@
 - Grade Summary improvements
   - Use native dialog instead of alert
   - Notify user if they have no graded classes
-- Dialogs respond to escape key and are more consistent with native dialogs
+- Dialogs are more consistent with native dialogs
+  - Respond to escape key
+  - Handle small window sizes
+  - Small look & feel tweaks to match native appearence
 - Message Preview renamed to "Message Notifications"
 - Message Notifications improvements
   - It is now significantly faster and does not slow down the rest of the page while loading
