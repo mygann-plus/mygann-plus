@@ -18,11 +18,9 @@
   opacity: 0;
   transition: opacity var(--transition-time);
   display: flex;
-  padding-right: 40px;
 }
 
 .message-text {
-  margin-right: 4%;
   overflow: hidden;
   white-space: nowrap;
   display: inline-block;
@@ -49,6 +47,7 @@
   padding: var(--control-padding);
   transition: background 100ms;
   border-radius: 3px;
+  margin-left: 10px;
 }
 .control:hover, .control:focus {
   background: rgba(0, 0, 0, 0.4)

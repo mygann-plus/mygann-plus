@@ -60,7 +60,6 @@ class MessageNotification {
               this.urls.length ?
               <button
                 className={classNames('fa fa-link', identifiers.control)}
-                style={{ marginLeft: '50%', marginTop: '1px' }}
                 onClick={ () => this.removeMessage() }
               ></button> :
               null
