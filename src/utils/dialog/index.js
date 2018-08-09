@@ -1,12 +1,11 @@
 import classNames from 'classnames';
 
-import { createElement, insertCss } from '../dom';
+import { createElement, insertCss, addEventListener } from '../dom';
 
 import style from './style.css';
 
 const selectors = {
   modalWrap: style.locals['modal-wrap'],
-  modalBody: style.locals['custom-modal-body'],
   modalFooterRight: style.locals['modal-footer-right'],
 };
 
@@ -46,8 +45,11 @@ export default class Dialog {
       document.body.appendChild(this.backdropElem);
     }
     this.outerElem.focus();
+    this._resizeDialog();
+    this._resizeListener = addEventListener(window, 'resize', () => this._resizeDialog());
   }
   close() {
+    this._resizeListener.remove();
     if (this.opts.backdrop) {
       this.backdropElem.remove();
     }
@@ -106,7 +108,7 @@ export default class Dialog {
                 <a className="close fa fa-times" onClick={ () => this.close() }></a>
                 <h1 className="bb-dialog-header">{this.title}</h1>
               </div>
-              <div className={ classNames('modal-body', selectors.modalBody) }></div>
+              <div className="modal-body"></div>
 
               <div className="modal-footer">
                 { this.leftButtons }
@@ -131,6 +133,24 @@ export default class Dialog {
     if (key === 'Escape') {
       this.close();
     }
+  }
+
+  _resizeDialog() {
+    const viewportHeight = window.innerHeight;
+
+    const modalDialog = this.outerElem.querySelector('.modal-dialog');
+    const modalDialogComputedStyle = window.getComputedStyle(modalDialog);
+    const marginTop = parseInt(modalDialogComputedStyle.marginTop, 10);
+    const marginBottom = parseInt(modalDialogComputedStyle.marginBottom, 10);
+
+    const header = this.outerElem.querySelector('.modal-header');
+    const footer = this.outerElem.querySelector('.modal-footer');
+    const headerHeight = header.getBoundingClientRect().height;
+    const footerHeight = footer.getBoundingClientRect().height;
+
+    const bodyHeight = viewportHeight - marginTop - marginBottom - headerHeight - footerHeight;
+    this.outerElem.querySelector('.modal-body').style.maxHeight = `${bodyHeight}px`;
+
   }
 
 }

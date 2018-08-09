@@ -1,9 +1,6 @@
 .modal-wrap {
   display: block !important;
 }
-.custom-modal-body {
-  max-height: 465px;
-}
 
 .modal-footer-right {
   float: right;
