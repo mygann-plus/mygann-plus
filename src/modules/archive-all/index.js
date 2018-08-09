@@ -19,18 +19,22 @@ function archive() {
   const buttonClassName = 'conv-archive';
   let buttons = document.getElementsByClassName(buttonClassName);
 
+  if (!buttons.length) {
+    return false;
+  }
+
   document.getElementById('archivingMessage').style.display = 'inline-block';
   for (const button of buttons) {
     button.click();
   }
   setTimeout(() => {
     buttons = document.getElementsByClassName(buttonClassName);
-    if (buttons.length > 0) {
-      archive();
-    } else {
+    if (!archive()) {
       document.getElementById('archivingMessage').style.display = 'none';
     }
   }, 5000);
+
+  return true;
 }
 
 function handleButtonClick(e) {
