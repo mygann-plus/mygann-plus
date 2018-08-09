@@ -60,10 +60,14 @@ class MessageNotification {
               this.urls.length && showLinkButton ?
               <button
                 className={classNames('fa fa-link', identifiers.control)}
-                onClick={ e => this.onLinkClick(e) }
+                onClick={e => this.onLinkClick(e)}
               ></button> :
               null
             }
+            <button
+              className={classNames('fa fa-times', identifiers.control)}
+              onClick={e => this.onDimissClick(e)}>
+            </button>
           </div>
         </div>
       </a>
@@ -88,6 +92,12 @@ class MessageNotification {
     e.stopPropagation();
     window.open(this.urls[0]);
   }
+  onDimissClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.markMessageAsRead();
+    this.removeMessage();
+  }
 
   removeMessage() {
     this.messageElem.children[0].style.opacity = '0';
@@ -105,6 +115,10 @@ class MessageNotification {
         unarchive: false,
       }),
     });
+  }
+
+  markMessageAsRead() {
+    fetchApi(`/api/message/conversation/${this.message.id}?markAsRead=true&format=json`);
   }
 
   fadeOut() {
