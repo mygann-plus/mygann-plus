@@ -46,6 +46,7 @@
 - Fix Inline Change Status not always appearing and flashing dropdown
 - Fix Hide Completed causing background flickering and behaving inconsistently
 - Fix "view more classes" being included in Search Classes Menu result
+- Fix Courses Filter bar and Grade Summary button disappearing when native courses bar buttons are clicked
 - Under the hood fixes and performance improvements
 
 ### Known Issues
