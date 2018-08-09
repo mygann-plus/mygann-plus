@@ -26,7 +26,7 @@
   - Ability to reset options to default values
   - Most modules can be enabled and disabled without reloading the page
 - Grade Summary improvements
-  - Use native dialog instead of alert
+  - Use native dialog instead of popup
   - Notify user if they have no graded classes
 - Dialogs are more consistent with native dialogs
   - Respond to escape key
