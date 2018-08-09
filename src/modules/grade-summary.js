@@ -1,7 +1,7 @@
 import createModule from '~/utils/module';
 import { waitForLoad, constructButton, createElement } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
-import { coursesListLoaded } from '~/shared/progress';
+import { coursesListLoaded, observeCoursesBar } from '~/shared/progress';
 
 function letterGradeFromNumber(num) {
   const number = Number(num.split('%')[0]);
@@ -66,7 +66,7 @@ const getCoursesBar = () => (
     > :first-child > :first-child > :first-child`)
 );
 
-async function gradeSummary(opts, unloaderContext) {
+async function addGradeButton() {
   await waitForLoad(coursesListLoaded);
 
   const button = constructButton(
@@ -77,7 +77,16 @@ async function gradeSummary(opts, unloaderContext) {
   );
   button.className += ' pull-right';
   getCoursesBar().appendChild(button);
-  unloaderContext.addRemovable(button);
+  return button;
+}
+
+async function gradeSummary(opts, unloaderContext) {
+  let gradeButtonUnloader = unloaderContext.addRemovable(await addGradeButton());
+  const coursesBarObserver = observeCoursesBar(async () => {
+    gradeButtonUnloader.remove();
+    gradeButtonUnloader = unloaderContext.addRemovable(await addGradeButton());
+  });
+  unloaderContext.addRemovable(coursesBarObserver);
 }
 
 export default createModule('{d320791b-772e-47c4-a058-15156faea88e}', {

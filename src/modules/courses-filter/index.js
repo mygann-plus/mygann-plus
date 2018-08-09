@@ -5,7 +5,7 @@ import createModule from '~/utils/module';
 import fuzzyMatch from '~/utils/search';
 import colors from '~/utils/colors';
 import { createElement, waitForLoad, insertCss, addEventListener } from '~/utils/dom';
-import { coursesListLoaded } from '~/shared/progress';
+import { coursesListLoaded, observeCoursesBar } from '~/shared/progress';
 
 import style from './style.css';
 
@@ -157,12 +157,21 @@ const domQuery = () => (
   document.getElementById('showHideGrade')
 );
 
-async function coursesFilter(opts, unloaderContext) {
+async function addCoursesFilterBar() {
   await waitForLoad(domQuery);
-  const filterBar = renderFilterBar();
-  const styles = insertCss(style.toString());
+  return renderFilterBar();
+}
 
-  unloaderContext.addRemovable(filterBar);
+async function coursesFilter(opts, unloaderContext) {
+  const styles = insertCss(style.toString());
+  let coursesFilterBarUnloader = unloaderContext.addRemovable(await addCoursesFilterBar());
+
+  const coursesBarObserver = observeCoursesBar(async () => {
+    coursesFilterBarUnloader.remove();
+    coursesFilterBarUnloader = unloaderContext.addRemovable(await addCoursesFilterBar());
+  });
+
+  unloaderContext.addRemovable(coursesBarObserver);
   unloaderContext.addRemovable(styles);
 }
 
