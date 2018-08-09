@@ -4,7 +4,7 @@ import createModule from '~/utils/module';
 
 import fuzzyMatch from '~/utils/search';
 import colors from '~/utils/colors';
-import { createElement, waitForLoad, insertCss } from '~/utils/dom';
+import { createElement, waitForLoad, insertCss, addEventListener } from '~/utils/dom';
 import { coursesListLoaded } from '~/shared/progress';
 
 import style from './style.css';
@@ -83,9 +83,25 @@ function generateDropdown(items) {
   return wrap;
 }
 
+function getDropdownMenu() {
+  return document.getElementById('gocp_courses-filter_button').parentNode.children[0];
+}
+function hideDropdownMenu() {
+  getDropdownMenu().style.display = 'none';
+}
+function showDropdownMenu() {
+  getDropdownMenu().style.display = 'block';
+  document.addEventListener('mousedown', hideDropdownMenu, {
+    once: true,
+  });
+}
 function toggleDropdownMenu() {
-  const menu = document.getElementById('gocp_courses-filter_button').parentNode.children[0];
-  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  const wasShown = getDropdownMenu().style.display === 'block';
+  if (wasShown) {
+    hideDropdownMenu();
+  } else {
+    showDropdownMenu();
+  }
 }
 
 function renderFilterBar() {
@@ -116,6 +132,7 @@ function renderFilterBar() {
       className={ classNames('btn btn-default btn-sm dropdown-toggle', selectors.dropdownButton) }
       dataset={{ toggle: 'dropdown' }}
       onClick={ toggleDropdownMenu }
+      onMouseDown={ e => e.stopPropagation() }
     >
       <i className="fa fa-ellipsis-h" />
     </button>
