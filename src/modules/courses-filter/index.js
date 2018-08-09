@@ -1,8 +1,9 @@
 import classNames from 'classnames';
 
 import createModule from '~/utils/module';
-import fuzzyMatch from '~/utils/search';
 
+import fuzzyMatch from '~/utils/search';
+import colors from '~/utils/colors';
 import { createElement, waitForLoad, insertCss } from '~/utils/dom';
 import { coursesListLoaded } from '~/shared/progress';
 
@@ -69,7 +70,7 @@ function generateDropdown(items) {
 
       const anyChecked = document.querySelectorAll(`li[${CHECKED_ATTR}="true"]`).length > 0;
       const filterButton = document.getElementById('gocp_courses-filter_button');
-      filterButton.style.background = anyChecked ? '#71bf43' : 'white';
+      filterButton.style.background = anyChecked ? colors.successGreen : 'white';
       filterButton.children[0].style.color = anyChecked ? 'white' : 'black';
     });
 
