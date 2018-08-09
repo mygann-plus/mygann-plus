@@ -82,5 +82,6 @@ async function gradeSummary(opts, unloaderContext) {
 
 export default createModule('{d320791b-772e-47c4-a058-15156faea88e}', {
   name: 'Grade Summary',
+  description: 'Button to show list of cumulative grades across all courses',
   main: gradeSummary,
 });

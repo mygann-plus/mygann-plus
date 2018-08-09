@@ -60,5 +60,6 @@ async function archiveAll(opts, unloaderContext) {
 
 export default createModule('{ca448b9b-1d12-487e-8afd-1be45ad520b8}', {
   name: 'Archive All',
+  description: 'Button to archive and unarchive all messages',
   main: archiveAll,
 });

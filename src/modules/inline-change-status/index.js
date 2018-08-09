@@ -109,7 +109,8 @@ function unloadInlineChangeStatus() {
 }
 
 export default createModule('{4155f319-a10b-4e4e-8a10-999a43ef9d19}', {
-  name: 'Inline Change Status',
+  name: 'Improved Status Dropdown',
+  description: 'Show status dropdown directly in assignment, without having to click on "Change Status" link.',
   main: inlineChangeStatus,
   unload: unloadInlineChangeStatus,
 });

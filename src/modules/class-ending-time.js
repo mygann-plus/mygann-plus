@@ -111,6 +111,7 @@ function classEndingTime() {
 
 export default createModule('{c8a3ea86-ae06-4155-be84-1a91283fe826}', {
   name: 'Class Ending Time',
+  description: 'Show how much time is left until the current class ends',
   main: classEndingTime,
 });
 

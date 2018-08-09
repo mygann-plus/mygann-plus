@@ -55,5 +55,5 @@ async function inlineAssignmentGrade() {
 export default createModule('{0540d147-af76-4f44-a23d-415506e8e777}', {
   name: 'Inline Assignment Grade',
   main: inlineAssignmentGrade,
-  description: 'Show grade of graded assignments in main assignments list',
+  description: 'Button to preview grade of graded assignments in main assignments list',
 });

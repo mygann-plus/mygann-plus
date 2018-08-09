@@ -67,6 +67,7 @@ async function nextGradedCourse(opts, unloaderContext) {
 
 export default createModule('{82a191dc-db60-475e-ada5-3c966dd36af5}', {
   name: 'Next Graded Course',
+  description: 'Button in grade detail to jump to next and previous graded course',
   main: nextGradedCourse,
 });
 
