@@ -1,10 +1,18 @@
+function splitString(string) {
+  return new Set(string.trim().toLowerCase().split(/\s+/));
+}
+
 export default function fuzzyMatch(query, text) {
-  const queryParts = query.toLowerCase().split(/\s+/);
-  const textParts = text.toLowerCase().split(/\s+/);
-  for (const queryPart of queryParts) {
-    if (textParts.some(textPart => textPart.includes(queryPart))) {
-      return true;
+  const queryParts = splitString(query);
+  const textParts = splitString(text);
+  const matchedQueryParts = new Set();
+
+  for (const textPart of textParts) {
+    for (const queryPart of queryParts) {
+      if (textPart.includes(queryPart)) {
+        matchedQueryParts.add(queryPart);
+      }
     }
   }
-  return false;
+  return matchedQueryParts.size === queryParts.size;
 }
