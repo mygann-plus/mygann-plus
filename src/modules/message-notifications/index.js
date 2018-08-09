@@ -50,11 +50,6 @@ class MessageNotification {
             </span>
           </div>
           <div className={identifiers.controls}>
-            <button
-              className={classNames('fa fa-archive', identifiers.control)}
-              onClick={e => this.onArchiveClick(e)}
-              title="Archive"
-            />
             {
               this.urls.length && showLinkButton ?
               <button
@@ -64,6 +59,11 @@ class MessageNotification {
               /> :
               null
             }
+            <button
+              className={classNames('fa fa-archive', identifiers.control)}
+              onClick={e => this.onArchiveClick(e)}
+              title="Archive"
+            />
             <button
               className={classNames('fa fa-times', identifiers.control)}
               onClick={e => this.onDimissClick(e)}
@@ -82,16 +82,16 @@ class MessageNotification {
     setTimeout(() => this.fadeOut(), this.disappearTime * 1000);
   }
 
+  onLinkClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    window.open(this.urls[0]);
+  }
   onArchiveClick(e) {
     e.preventDefault();
     e.stopPropagation();
     this.archiveMessage();
     this.removeMessage();
-  }
-  onLinkClick(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    window.open(this.urls[0]);
   }
   onDimissClick(e) {
     e.preventDefault();
@@ -231,7 +231,7 @@ export default createModule('{edf80057-becd-42f9-9117-995657904a91}', {
     },
     showLinkButton: {
       type: 'boolean',
-      name: 'Show Link Button',
+      name: 'Shortcut to First Link in Message',
       defaultValue: false,
     },
   },
