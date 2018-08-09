@@ -60,7 +60,7 @@ class MessageNotification {
               this.urls.length ?
               <button
                 className={classNames('fa fa-link', identifiers.control)}
-                onClick={ () => this.removeMessage() }
+                onClick={ e => this.onLinkClick(e) }
               ></button> :
               null
             }
@@ -80,15 +80,14 @@ class MessageNotification {
 
   onArchiveClick(e) {
     e.preventDefault();
-    e.stopImmediatePropagation();
+    e.stopPropagation();
     this.archiveMessage();
     this.removeMessage();
   }
   onLinkClick(e) {
     e.preventDefault();
-    e.stopImmediatePropagation();
+    e.stopPropagation();
     window.open(this.urls[0]);
-    this.removeMessage();
   }
 
   removeMessage() {
