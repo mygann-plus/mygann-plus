@@ -1,0 +1,8 @@
+.flyout {
+  display: block !important;
+  margin-top: 15px !important;
+  transform: translate(-50%); /* Makes arrow be at center */
+}
+.arrow {
+  left: 50%;
+}
