@@ -132,7 +132,7 @@ function renderFilterBar() {
   document.getElementById('showHideGrade').after(wrap);
   document.getElementById('showHideGrade').style.marginRight = '15px';
 
-  insertCss(style.toString());
+  return wrap;
 }
 
 const domQuery = () => (
@@ -140,12 +140,25 @@ const domQuery = () => (
   document.getElementById('showHideGrade')
 );
 
-function coursesFilter() {
-  waitForLoad(domQuery).then(renderFilterBar);
+async function coursesFilter(opts, unloaderContext) {
+  await waitForLoad(domQuery);
+  const filterBar = renderFilterBar();
+  const styles = insertCss(style.toString());
+
+  unloaderContext.addRemovable(filterBar);
+  unloaderContext.addRemovable(styles);
+}
+
+function unloadCoursesFilter() {
+  const hiddenCourses = document.querySelectorAll(`#courseCollapse .${selectors.hidden}`);
+  for (const course of hiddenCourses) {
+    course.classList.remove(selectors.hidden);
+  }
 }
 
 export default createModule('{e2c18d75-5264-4177-97b0-5c6d65fb1496}', {
   name: 'Courses Filter',
   description: 'Search courses and hide ungraded ones.',
   main: coursesFilter,
+  unload: unloadCoursesFilter,
 });
