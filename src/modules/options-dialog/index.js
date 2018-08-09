@@ -110,6 +110,8 @@ class OptionsDialog {
         },
       }],
     });
+
+    this.disableSaveButton();
   }
 
   open() {
@@ -123,6 +125,7 @@ class OptionsDialog {
     const newBodyElement = this.renderBody();
     this.bodyElement.replaceWith(newBodyElement);
     this.bodyElement = newBodyElement;
+    this.enableSaveButton();
   }
 
   renderBody() {
@@ -164,8 +167,12 @@ class OptionsDialog {
 
   createModuleView(module) {
     const moduleState = this.state[module.guid];
-
     if (!module.config.showInOptions) return null;
+
+    const onToggleChange = ({ target }) => {
+      moduleState.enabled = target.checked;
+      this.enableSaveButton();
+    };
 
     const moduleView = (
       <div className={selectors.module.wrap}>
@@ -176,7 +183,7 @@ class OptionsDialog {
             <input
               type="checkbox"
               checked={moduleState.enabled}
-              onChange={ ({ target }) => { moduleState.enabled = target.checked; } }
+              onChange={onToggleChange}
             />
             <span className={selectors.toggle.track}>
               <span className={selectors.toggle.pill} />
@@ -265,6 +272,7 @@ class OptionsDialog {
     input.addEventListener('change', () => {
       if (validateSuboption(input, suboption)) {
         this.state[module.guid].suboptions[key] = getSuboptionValue(input, suboption);
+        this.enableSaveButton();
       } else {
         setSuboptionValue(input, suboption, oldValue);
       }
@@ -282,6 +290,13 @@ class OptionsDialog {
     );
 
     return label;
+  }
+
+  disableSaveButton() {
+    this.dialog.getLeftButton(0).disabled = true;
+  }
+  enableSaveButton() {
+    this.dialog.getLeftButton(0).disabled = false;
   }
 
 }
