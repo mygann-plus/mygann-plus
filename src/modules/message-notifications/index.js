@@ -70,11 +70,10 @@ class MessageNotification {
     );
 
     this.main = this.messageElem.children[0]; // eslint-disable-line prefer-destructuring
-    this.show();
   }
 
   show() {
-    this.fadeIn();
+    setTimeout(() => this.fadeIn(), 0);
     setTimeout(() => this.fadeOut(), this.disappearTime * 1000);
   }
 
@@ -147,6 +146,7 @@ function generateNotifications(messages, disappearTime, showLinkButton) {
         activeNotifications.splice(activeNotifications.indexOf(notification), 1);
       }, showLinkButton);
       wrapperElem.appendChild(notification.messageElem);
+      notification.show();
       activeNotifications.push(notification);
     }
   }
