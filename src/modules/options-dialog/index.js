@@ -15,6 +15,7 @@ import { hardUnloadModule, isModuleLoaded, loadModule } from '~/module-loader';
 import { getFlattenedOptions, setFlattenedOptions, mergeDefaultOptions } from '~/options';
 
 import style from './style.css';
+import log from '~/utils/log';
 
 const selectors = {
   section: {
@@ -253,6 +254,7 @@ class OptionsDialog {
         );
         break;
       default:
+        log('warn', `Unknown suboption type ${suboption.type}`);
         break;
     }
 
