@@ -6,6 +6,7 @@ import { createElement, waitForLoad, insertCss } from '~/utils/dom';
 import { coursesListLoaded } from '~/shared/progress';
 
 import style from './style.css';
+import fuzzyMatch from '~/utils/search';
 
 const CHECKED_ATTR = 'data-gocp-courses_filter-checked';
 
@@ -43,7 +44,7 @@ function runFilter() {
 
 function handleSearch(course) {
   const query = document.getElementById('gocp_courses-search_searchbar').value;
-  return course.name.toLowerCase().startsWith(query.toLowerCase());
+  return fuzzyMatch(query, course.name);
 }
 filters.push(handleSearch);
 

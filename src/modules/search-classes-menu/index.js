@@ -1,4 +1,5 @@
 import createModule from '~/utils/module';
+import fuzzyMatch from '~/utils/search';
 
 import { createElement, waitForLoad, insertCss, addEventListener } from '~/utils/dom';
 
@@ -57,7 +58,7 @@ class ClassFilter {
   handleSearch() {
     const matches = [];
     for (const course of this.courses) {
-      const isMatched = course.title.includes(this.getCurrentSearch());
+      const isMatched = fuzzyMatch(this.getCurrentSearch(), course.title);
       if (isMatched) {
         matches.push(course);
       }
