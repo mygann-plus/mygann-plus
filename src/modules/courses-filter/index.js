@@ -113,14 +113,12 @@ function renderFilterBar() {
     },
   ];
 
-  // TODO: confirm size prop is needed
   const input = (
     <input
       id="gocp_courses-search_searchbar"
       className={ classNames('form-control', selectors.filterInput) }
       type="search"
       placeholder="Search Courses"
-      size="16"
       autocomplete="off"
       onInput={runFilter}
     />
