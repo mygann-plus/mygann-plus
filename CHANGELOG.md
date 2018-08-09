@@ -44,6 +44,9 @@
 - Fix "view more classes" being included in Search Classes Menu result
 - Under the hood fixes and performance improvements
 
+### Known Issues
+- Due to internal changes, options will be reset when upgrading to this version.
+
 ## 0.5.0 (2018-04-15)
 ### Added
 - "Filter Website Main Search" module
