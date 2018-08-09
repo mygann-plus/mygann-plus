@@ -237,7 +237,7 @@ function handleDelete(event) {
     .querySelector(`.${selectors.menuItem.title}`);
 
   flyout.showAtElem(menuTitle);
-  flyout.getBody().querySelector('button').focus();
+  flyout.getBody().focus();
 }
 
 export function addListeners() {

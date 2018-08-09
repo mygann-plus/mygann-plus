@@ -55,7 +55,7 @@ export default class Flyout {
   }
 
   getBody() {
-    return this.outerElem.querySelector('.popover-content > :first-child');
+    return this.innerElem;
   }
 
   _generateOuterElem() {
@@ -67,9 +67,7 @@ export default class Flyout {
       >
         <div className={classNames('arrow', selectors.arrow)}></div>
         <div className="popover-content">
-          <div>
-            { this.innerElem }
-          </div>
+          { this.innerElem }
         </div>
       </div>
     );
