@@ -57,6 +57,12 @@ export default class Dialog {
   getBody() {
     return this.innerElem;
   }
+  getLeftButton(index) {
+    return this.leftButtons[index];
+  }
+  getRightButton(index) {
+    return this.rightButtons[index];
+  }
 
   _constructButton(buttonConfig) {
     buttonConfig = Object.assign({}, defaultButtonConfig, buttonConfig);
@@ -83,6 +89,9 @@ export default class Dialog {
   }
 
   _generateOuterElem() {
+    this.leftButtons = this.opts.leftButtons.map(btn => this._constructButton(btn));
+    this.rightButtons = this.opts.rightButtons.map(btn => this._constructButton(btn));
+
     this.outerElem = (
       <div
         id="site-modal"
@@ -100,9 +109,9 @@ export default class Dialog {
               <div className={ classNames('modal-body', selectors.modalBody) }></div>
 
               <div className="modal-footer">
-                { this.opts.leftButtons.map(btn => this._constructButton(btn)) }
+                { this.leftButtons }
                 <div className={selectors.modalFooterRight}>
-                  { this.opts.rightButtons.map(btn => this._constructButton(btn)) }
+                  { this.rightButtons }
                 </div>
               </div>
 
