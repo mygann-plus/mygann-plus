@@ -31,7 +31,7 @@ const formatBodyText = text => {
 
 class MessageNotification {
 
-  constructor(message, disappearTime, onRemove) {
+  constructor(message, disappearTime, onRemove, showLinkButton) {
     const bodyText = formatBodyText(message.body);
 
     this.urls = getUrls(bodyText);
@@ -57,7 +57,7 @@ class MessageNotification {
               onClick={e => this.onArchiveClick(e)}>
             </button>
             {
-              this.urls.length ?
+              this.urls.length && showLinkButton ?
               <button
                 className={classNames('fa fa-link', identifiers.control)}
                 onClick={ e => this.onLinkClick(e) }
@@ -130,7 +130,7 @@ function createWrapper() {
 
 const activeNotifications = [];
 
-function generateNotifications(messages, disappearTime) {
+function generateNotifications(messages, disappearTime, showLinkButton) {
   if (window.location.hash.startsWith('#message')) {
     // activeNotifications is spliced when .removeMessage is called
     const currentActiveNotifications = [...activeNotifications];
@@ -145,7 +145,7 @@ function generateNotifications(messages, disappearTime) {
       displayedMessages.add(message.id);
       const notification = new MessageNotification(message, disappearTime, () => {
         activeNotifications.splice(activeNotifications.indexOf(notification), 1);
-      });
+      }, showLinkButton);
       wrapperElem.appendChild(notification.messageElem);
       activeNotifications.push(notification);
     }
@@ -181,7 +181,7 @@ function addStyles(wrap) {
 
 async function messageNotificationsMain(options) {
   const messages = (await getMessages()).slice(0, options.maxMessages);
-  generateNotifications(messages, options.disappearTime);
+  generateNotifications(messages, options.disappearTime, options.showLinkButton);
 }
 
 function messageNotificationsInit(opts, unloaderContext) {
@@ -213,6 +213,11 @@ export default createModule('{edf80057-becd-42f9-9117-995657904a91}', {
       name: 'Disappear Time (seconds)',
       defaultValue: 10,
       min: 0,
+    },
+    showLinkButton: {
+      type: 'boolean',
+      name: 'Show Link Button',
+      defaultValue: false,
     },
   },
 });
