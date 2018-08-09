@@ -75,7 +75,7 @@ async function addGradeButton() {
     '',
     generateReport,
   );
-  button.className += ' pull-right';
+  button.classList.add('pull-right');
   getCoursesBar().appendChild(button);
   return button;
 }
