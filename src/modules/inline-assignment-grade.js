@@ -3,6 +3,8 @@ import createModule from '~/utils/module';
 import { waitForLoad, constructButton } from '~/utils/dom';
 import { fetchApi } from '~/utils/fetch';
 import { getUserId } from '~/utils/user';
+import { loadModule } from '~/module-loader';
+import resizeAssignmentsToolbar from '~/modules/resize-assignments-toolbar';
 
 const filterUngraded = label => {
   return label.textContent === 'Graded';
@@ -33,23 +35,19 @@ async function showGrades() {
   });
 }
 
-function resizeToolbars() {
-  const datebar = document.getElementsByClassName('col-md-4')[1];
-  const buttonbar = document.getElementsByClassName('col-md-8')[0];
-  datebar.classList.remove('col-md-4');
-  datebar.classList.add('col-md-3');
-  buttonbar.classList.remove('col-md-8');
-  buttonbar.classList.add('col-md-9');
+const domQuery = () => document.querySelector('#filter-status');
 
-}
+async function inlineAssignmentGrade(opts, unloaderContext) {
+  const filterStatusButton = await waitForLoad(domQuery);
 
-async function inlineAssignmentGrade() {
-  await waitForLoad(() => document.getElementById('gocp-toggle-completed'));
-
-  const toggleCompletedBtn = document.getElementById('gocp-toggle-completed');
-  const showGradesBtn = constructButton('Show Grades', 'gocp_inline-assignment-grade_button', 'fa fa-eye', showGrades);
-  toggleCompletedBtn.after(showGradesBtn);
-  resizeToolbars();
+  const showGradesBtn = constructButton(
+    'Show Grades',
+    'gocp_inline-assignment-grade_button',
+    'fa fa-eye',
+    showGrades,
+  );
+  filterStatusButton.parentNode.appendChild(showGradesBtn);
+  unloaderContext.addRemovable(showGradesBtn);
 }
 
 export default createModule('{0540d147-af76-4f44-a23d-415506e8e777}', {
