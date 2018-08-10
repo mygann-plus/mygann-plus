@@ -5,6 +5,10 @@ import setCssVars from '~/utils/css-vars';
 import { getFlattenedOptions, setFlattenedOptions, mergeDefaultOptions } from '~/options';
 import log from '~/utils/log';
 
+function getHash(url) {
+  return new URL(url).hash || '#';
+}
+
 function loadModules(hash) {
   for (const module of modulesForHash(hash)) {
     loadModule(module);
@@ -38,8 +42,8 @@ async function runExtension() {
   setCssVars();
   loadModules(window.location.hash);
   window.addEventListener('hashchange', e => {
-    const newHash = new URL(e.newURL).hash;
-    const oldHash = new URL(e.oldURL).hash;
+    const newHash = getHash(e.newURL);
+    const oldHash = getHash(e.oldURL);
     unloadModules(oldHash, newHash);
     loadModules(newHash);
   });
