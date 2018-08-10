@@ -3,6 +3,8 @@ import createModule from '~/utils/module';
 import { waitForLoad, constructButton, insertCss, addEventListener } from '~/utils/dom';
 
 import style from './style.css';
+import { loadModule } from '~/module-loader';
+import resizeAssignmentsToolbar from '~/modules/resize-assignments-toolbar';
 
 const selectors = {
   activeButton: style.locals['active-button'],

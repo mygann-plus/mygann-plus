@@ -18,6 +18,7 @@ import favorites from './modules/favorites';
 import inlineAssignmentGrade from './modules/inline-assignment-grade';
 import oneClickLogin from './modules/one-click-login';
 import exitCompose from './modules/exit-compose';
+import resizeAssignmentsToolbar from '~/modules/resize-assignments-toolbar';
 
 const MODULE_MAP = {
   '#': [searchClassesMenu, messageNotifications, optionsDialog, favorites], // universal modules
@@ -27,6 +28,7 @@ const MODULE_MAP = {
     inlineChangeStatus,
     hideCompleted,
     inlineAssignmentGrade,
+    resizeAssignmentsToolbar,
   ],
   '#studentmyday/schedule': [highlightCurrentClass, freeBlock, classEndingTime, comingUp],
   '#studentmyday/progress': [
