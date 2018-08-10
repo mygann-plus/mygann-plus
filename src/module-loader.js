@@ -8,8 +8,18 @@ module: {
 }
  */
 const loadedModules = new Map();
+const loadingModules = new Set();
 
-function tryRunFunction(fn) {
+async function tryRunFunctionAsync(fn) {
+  try {
+    await fn();
+    return true;
+  } catch (e) {
+    log('error', e);
+    return false;
+  }
+}
+function tryRunFunctionSync(fn) {
   try {
     fn();
     return true;
@@ -52,16 +62,28 @@ export async function loadModule(module) {
   if (!options.enabled) {
     return false;
   }
-  if (!isModuleLoaded(module) && module.init) {
-    tryRunFunction(() => module.init(options.suboptions, unloaderContext));
-  }
-  if (module.main) {
-    tryRunFunction(() => module.main(options.suboptions, unloaderContext));
-  }
-  loadedModules.set(module, {
-    suboptions: options.suboptions,
-    unloaderContext,
-  });
+  // nested async function to prevent this from delaying other module loading
+  (async () => {
+    if (!loadingModules.has(module)) {
+      loadingModules.add(module);
+      if (!isModuleLoaded(module) && module.init) {
+        if (!await tryRunFunctionAsync(() => module.init(options.suboptions, unloaderContext))) {
+          // if init fails, run unloader context, and don't run main.
+          loadingModules.delete(module);
+          runUnloaderContext(unloaderContext);
+          return;
+        }
+      }
+      if (module.main) {
+        await tryRunFunctionAsync(() => module.main(options.suboptions, unloaderContext));
+      }
+      loadedModules.set(module, {
+        suboptions: options.suboptions,
+        unloaderContext,
+      });
+      loadingModules.delete(module);
+    }
+  })();
   return true;
 }
 
@@ -77,14 +99,14 @@ export function softUnloadModule(module) {
 }
 
 export function hardUnloadModule(module) {
-  const { suboptions, unloaderContext } = loadedModules.get(module);
   if (!isModuleLoaded(module)) {
     return true;
   }
+  const { suboptions, unloaderContext } = loadedModules.get(module);
   if (!unloaderContext.removables.length && !module.unload) {
     return false;
   }
-  const unloaded = tryRunFunction(() => {
+  const unloaded = tryRunFunctionSync(() => {
     runUnloaderContext(unloaderContext);
     if (module.unload) {
       module.unload(suboptions);
