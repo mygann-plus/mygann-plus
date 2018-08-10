@@ -91,11 +91,12 @@ const domQuery = () => document.querySelector('#assignment-center-assignment-ite
 
 async function inlineChangeStatus(opts, unloaderContext) {
   const styles = insertCss(style.toString());
+  unloaderContext.addRemovable(styles);
+
   await waitForLoad(domQuery);
   replaceLinks();
-  const observer = addMutationObserver();
 
-  unloaderContext.addRemovable(styles);
+  const observer = addMutationObserver();
   unloaderContext.addRemovable(observer);
 }
 

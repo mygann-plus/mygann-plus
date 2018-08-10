@@ -202,10 +202,10 @@ async function messageNotificationsMain(options) {
 function messageNotificationsInit(opts, unloaderContext) {
   displayedMessages = new Set();
   wrapperElem = createWrapper();
-  const styles = addStyles(wrapperElem);
   document.body.appendChild(wrapperElem);
-
   unloaderContext.addRemovable(wrapperElem);
+
+  const styles = addStyles(wrapperElem);
   unloaderContext.addRemovable(styles);
 }
 

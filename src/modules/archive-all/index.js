@@ -57,6 +57,7 @@ function handleButtonClick(e) {
 
 async function archiveAll(opts, unloaderContext) {
   const styles = insertCss(style.toString());
+  unloaderContext.addRemovable(styles);
 
   const BUTTON_TEXT = window.location.hash === '#message/inbox' ? 'Archive All' : 'Unarchive All';
   const ARCHIVING_TEXT = window.location.hash === '#message/inbox' ? 'Archiving' : 'Unarchiving';
@@ -68,8 +69,8 @@ async function archiveAll(opts, unloaderContext) {
 
   const archivingMessage = (
     <span
-      id="archivingMessage"
-      style={{ display: 'none', marginLeft: '10px' }}
+    id="archivingMessage"
+    style={{ display: 'none', marginLeft: '10px' }}
     >
       {ARCHIVING_TEXT} in progress... Please wait.
     </span>
@@ -80,7 +81,6 @@ async function archiveAll(opts, unloaderContext) {
 
   unloaderContext.addRemovable(button);
   unloaderContext.addRemovable(archivingMessage);
-  unloaderContext.addRemovable(styles);
 }
 
 export default createModule('{ca448b9b-1d12-487e-8afd-1be45ad520b8}', {

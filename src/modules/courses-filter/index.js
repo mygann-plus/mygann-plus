@@ -162,15 +162,16 @@ async function addCoursesFilterBar() {
 
 async function coursesFilter(opts, unloaderContext) {
   const styles = insertCss(style.toString());
+  unloaderContext.addRemovable(styles);
+
   let coursesFilterBarUnloader = unloaderContext.addRemovable(await addCoursesFilterBar());
 
   const coursesBarObserver = observeCoursesBar(async () => {
     coursesFilterBarUnloader.remove();
     coursesFilterBarUnloader = unloaderContext.addRemovable(await addCoursesFilterBar());
   });
-
   unloaderContext.addRemovable(coursesBarObserver);
-  unloaderContext.addRemovable(styles);
+
 }
 
 function unloadCoursesFilter() {

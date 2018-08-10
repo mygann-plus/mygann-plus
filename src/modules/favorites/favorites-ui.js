@@ -66,10 +66,6 @@ export async function createMenu(favorites) {
   );
 }
 
-export function removeMenu() {
-  document.querySelector(`#${selectors.menu}`).remove();
-}
-
 export function createDialogBody(favorite = {}) {
   const hash = favorite.hash || window.location.hash.split('#')[1] || '';
   const title = favorite.title || '';

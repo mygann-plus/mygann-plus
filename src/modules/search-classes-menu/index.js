@@ -171,26 +171,24 @@ function searchClassesMenu(opts, unloaderContext) {
   waitForLoad(domQuery.desktop).then(() => {
     const classFilter = new DesktopClassFilter();
     classFilter.mountInput(getDesktopMenu());
+    unloaderContext.addRemovable(classFilter);
 
     const classesMenu = document.querySelector('#group-header-Classes').parentNode;
     const showListener = addEventListener(classesMenu, 'mouseenter', () => {
       classFilter.showSearchbar();
     });
-
-    unloaderContext.addRemovable(classFilter);
     unloaderContext.addRemovable(showListener);
   });
 
   waitForLoad(domQuery.mobile).then(() => {
     const classFilter = new MobileClassFilter();
     classFilter.mountInput(domQuery.mobile());
+    unloaderContext.addRemovable(classFilter);
 
     const classesMenu = document.querySelector('#mobile-group-header-Classes');
     const showListener = addEventListener(classesMenu, 'click', () => {
       classFilter.showSearchbar();
     });
-
-    unloaderContext.addRemovable(classFilter);
     unloaderContext.addRemovable(showListener);
   });
 }
