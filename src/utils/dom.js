@@ -1,6 +1,6 @@
 import flatten from 'array-flatten';
 
-export function waitForLoad(condition) {
+export function waitForLoad(condition, root = document.body) {
 
   return new Promise(res => {
 
@@ -17,7 +17,7 @@ export function waitForLoad(condition) {
       }
     });
 
-    observer.observe(document.body, {
+    observer.observe(root, {
       childList: true,
       subtree: true,
     });
