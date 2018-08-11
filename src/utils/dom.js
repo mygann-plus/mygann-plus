@@ -101,8 +101,8 @@ export function addEventListener(elem, ...params) {
   };
 }
 
-export function addEventListeners(nodes, event, callback) {
-  for (const node of nodes) {
-    node.addEventListener(event, callback);
+export function clearNode(node) {
+  while (node.firstChild) {
+    node.removeChild(node.firstChild);
   }
 }
