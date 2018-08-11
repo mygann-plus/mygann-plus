@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import getUrls from 'get-urls-to-array';
+import { find as findLinks } from 'linkifyjs';
 
 import createModule from '~/utils/module';
 import { fetchApi } from '~/utils/fetch';
@@ -32,7 +32,7 @@ class MessageNotification {
   constructor(message, disappearTime, onRemove, showLinkButton) {
     const bodyText = formatBodyText(message.body);
 
-    this.urls = getUrls(bodyText);
+    this.urls = findLinks(bodyText).map(x => x.href);
     this.message = message;
     this.disappearTime = disappearTime;
     this.onRemove = onRemove;
