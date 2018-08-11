@@ -1,3 +1,5 @@
+import cloneDeep from 'lodash.clonedeep';
+
 import log from '~/utils/log';
 
 // Promise-based wrappers for chrome storage API
@@ -58,6 +60,24 @@ function reduceArray(data, id, reducer) {
 function generateID() {
   return String(Math.floor(Math.random() * 1000000));
 }
+
+const listeners = new Map();
+chrome.storage.onChanged.addListener(changes => {
+  for (const key in changes) {
+    const keyListeners = listeners.get(key) || [];
+    if (!keyListeners.length) {
+      continue;
+    }
+    const change = changes[key];
+    const data = {
+      newValue: change.newValue[DATA_KEY],
+      oldValue: change.oldValue[SCHEMA_VERSION_KEY] !== change.newValue[SCHEMA_VERSION_KEY] ?
+        null :
+        change.oldValue[DATA_KEY],
+    };
+    keyListeners.forEach(listener => listener(cloneDeep(data)));
+  }
+});
 
 // PUBLIC API
 
@@ -127,6 +147,17 @@ async function deleteArrayItem(key, id, schemaVersion, migrateItem) {
   await set(key, newArray, schemaVersion);
 }
 
+function addChangeListener(key, listener) {
+  if (!listeners.get(key)) {
+    listeners.set(key, []);
+  }
+  const keyListeners = listeners.get(key);
+  keyListeners.push(listener);
+  return {
+    remove: () => keyListeners.splice(keyListeners.indexOf(listener), 1),
+  };
+}
+
 export default {
   get,
   set,
@@ -135,5 +166,7 @@ export default {
   addArrayItem,
   changeArrayItem,
   deleteArrayItem,
+
+  addChangeListener,
 };
 
