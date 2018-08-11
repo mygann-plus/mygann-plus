@@ -97,7 +97,7 @@ export default class Dialog {
     this.outerElem = (
       <div
         id="site-modal"
-        tabIndex="-1"
+        tabIndex={-1}
         className={ classNames('modal bb-modal in', selectors.modalWrap) }
         onKeyDown={ e => this._onKeyDown(e) }
       >
