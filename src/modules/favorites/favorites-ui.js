@@ -13,11 +13,11 @@ import {
 } from './favorites-model';
 import selectors from './selectors';
 
-export function createDialogBody(favorite = {}) {
+function createDialogBody(favorite) {
   const hash = favorite.hash || window.location.hash.split('#')[1] || '';
   const title = favorite.title || '';
   return (
-    <form id={selectors.form}>
+    <form>
       <div className="row">
         <div className="form-group col-md-12">
           <label className="control-label" htmlFor={selectors.dialog.title}>Title</label>
@@ -25,6 +25,7 @@ export function createDialogBody(favorite = {}) {
             <input
               type="text"
               className="form-control col-md-8"
+              name={selectors.dialog.title}
               id={selectors.dialog.title}
               value={title}
               required
@@ -40,6 +41,7 @@ export function createDialogBody(favorite = {}) {
             <input
               type="text"
               className="form-control col-md-8"
+              name={selectors.dialog.hash}
               id={selectors.dialog.hash}
               value={hash}
               required
@@ -51,44 +53,44 @@ export function createDialogBody(favorite = {}) {
   );
 }
 
-
-function getInputtedFavorite() {
-  const form = document.getElementById(selectors.form);
-  if (!form.reportValidity()) {
-    // prevent dialog from closing
-    return null;
-  }
-
-  const title = document.getElementById(selectors.dialog.title).value;
-  const hash = document.getElementById(selectors.dialog.hash).value;
-  return { title, hash };
+function showDialog(dialogTitle, primaryButtonName, state = {}) {
+  return new Promise(res => {
+    const form = createDialogBody(state);
+    const dialog = new Dialog(dialogTitle, form, {
+      leftButtons: [
+        {
+          name: primaryButtonName,
+          primary: true,
+          onClick() {
+            if (!form.reportValidity()) {
+              // prevent dialog from closin
+              return false;
+            }
+            const title = form.elements[selectors.dialog.title].value;
+            const hash = form.elements[selectors.dialog.hash].value;
+            res({ title, hash });
+          },
+        },
+        {
+          type: Dialog.buttonTypes.LINK,
+          name: 'Cancel',
+          onClick() { res(null); },
+        },
+      ],
+    });
+    dialog.open();
+    form.elements[selectors.dialog.title].focus();
+  });
 }
 
-function handleAdd(event) {
+async function handleAdd(event) {
   event.preventDefault();
 
-  const handleDialogSave = async () => {
-    const favorite = getInputtedFavorite();
-    if (!favorite) {
-      return false;
-    } else {
-      await saveNewFavorite(favorite);
-    }
-  };
-
-  const addDialog = new Dialog('Add Favorite', createDialogBody(), {
-    leftButtons: [
-      {
-        name: 'Add',
-        primary: true,
-        onClick: handleDialogSave,
-      },
-      Dialog.buttons.CANCEL,
-    ],
-  });
-  addDialog.open();
-  addDialog.getBody().querySelector(`#${selectors.dialog.title}`).focus();
-
+  const newFavorite = await showDialog('Add Favorite', 'Add');
+  if (!newFavorite) {
+    return;
+  }
+  await saveNewFavorite(newFavorite);
 }
 
 
@@ -97,30 +99,14 @@ async function handleEdit(event, id) {
   event.stopPropagation();
 
   const oldFavorite = await getFavorite(id);
-
-  const handleSave = () => {
-    const newFavorite = getInputtedFavorite();
-    if (!newFavorite) {
-      return false;
-    } else {
-      newFavorite.id = id;
-      editSavedFavorite(id, newFavorite);
-    }
-  };
-
-  const dialog = new Dialog('Edit Favorite', createDialogBody(oldFavorite), {
-    leftButtons: [
-      {
-        name: 'Save',
-        primary: true,
-        onClick: handleSave,
-      },
-      Dialog.buttons.CANCEL,
-    ],
+  const newFavorite = await showDialog('Edit Favorite', 'Save', oldFavorite);
+  if (!newFavorite) {
+    return;
+  }
+  await editSavedFavorite(id, {
+    ...newFavorite,
+    id,
   });
-  dialog.open();
-  dialog.getBody().querySelector(`#${selectors.dialog.title}`).focus();
-
 }
 
 function handleDelete(event, id) {

@@ -18,7 +18,6 @@ const selectors = {
   menu: 'gocp_favorites_menu',
   visibleMenu: locals['visible-menu'],
   dropdown: 'gocp_favorites_dropdown',
-  form: 'gocp_favorites_form',
 };
 
 export default selectors;
