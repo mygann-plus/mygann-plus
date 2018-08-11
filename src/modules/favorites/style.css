@@ -2,20 +2,24 @@
   position: absolute;
   display: inline;
   right: 10px;
-  bottom: 6px;
-  background: rgba(255, 242, 192, 1);
+  bottom: 2px;
   padding: 0 5px;
+  opacity: 0;
 }
-.controls > i {
+
+.controls button {
+  border: none;
   font-size: 15px;
   margin-right: 4px;
-  background: #fff2c0;
+  background: transparent;
   padding: 3px;
   color: black;
-  display: none;
 }
-.menu-link:hover .controls > i {
-  display: inline;
+.menu-link:hover, .menu-link:focus-within {
+  background: #fff2c0;
+}
+.menu-link:hover .controls, .menu-link:focus-within .controls {
+  opacity: unset;
 }
 .visible-menu {
   display: block !important;

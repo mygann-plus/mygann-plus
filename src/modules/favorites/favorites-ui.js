@@ -137,24 +137,22 @@ function handleDelete(event, id) {
 
 function createLink(favorite) {
   return (
-    <li className={selectors.menuItem.link} dataset={{ gocp_favorites_id: favorite.id }}>
+    <li className={selectors.menuItem.link}>
       <a href={`#${favorite.hash}`} className="sec-25-bgc-hover">
         <span className="desc">
           <span className={classNames(selectors.menuItem.title, 'title black-fgc')}>
             {favorite.title}
           </span>
-          <div className={selectors.control.wrap}>
-            <i
-              className={classNames('fa fa-edit', selectors.control.edit)}
-              onClick={e => handleEdit(e, favorite.id)}
-            />
-            <i
-              className={classNames('fa fa-trash', selectors.control.delete)}
-              onClick={e => handleDelete(e, favorite.id)}
-            />
-          </div>
         </span>
       </a>
+      <span className={selectors.controls}>
+        <button onClick={e => handleEdit(e, favorite.id)}>
+          <i className="fa fa-edit" />
+        </button>
+        <button onClick={e => handleDelete(e, favorite.id)}>
+          <i className="fa fa-trash"/>
+        </button>
+      </span>
     </li>
   );
 }

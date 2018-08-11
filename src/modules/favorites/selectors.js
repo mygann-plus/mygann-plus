@@ -5,11 +5,7 @@ const selectors = {
     title: 'gocp_favorites_form-title',
     hash: 'gocp_favorites_form-hash',
   },
-  control: {
-    wrap: locals.controls,
-    delete: 'gocp_favorites_delete-control',
-    edit: 'gocp_favorites_edit-control',
-  },
+  controls: locals.controls,
   addButton: 'gocp_favorites_addbutton',
   menuItem: {
     link: locals['menu-link'],
