@@ -1,20 +1,24 @@
 import createModule from '~/utils/module';
 import { waitForLoad, insertCss } from '~/utils/dom';
 
-import { createMenu, addListeners } from './favorites-ui';
-import { getSavedFavorites } from './favorites-model';
+import { createMenu, setMenuList } from './favorites-ui';
+import { getSavedFavorites, addFavoritesChangeListener } from './favorites-model';
 
 import style from './style.css';
 
 async function initFavorites(opts, unloaderContext) {
   await waitForLoad(() => document.querySelector('.topnav > .twoline.parentitem.last'));
-  const menu = await createMenu(await getSavedFavorites());
+  const menu = await createMenu();
   const directoriesMenu = document.querySelector('.topnav > .twoline.parentitem.last');
 
   directoriesMenu.before(menu);
   unloaderContext.addRemovable(menu);
 
-  addListeners();
+  setMenuList(menu, await getSavedFavorites());
+  const favoritesChangeListener = addFavoritesChangeListener(({ newValue }) => {
+    setMenuList(menu, newValue);
+  });
+  unloaderContext.addRemovable(favoritesChangeListener);
 
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);

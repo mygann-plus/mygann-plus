@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { getAssetUrl } from '~/utils/assets';
 import Dialog from '~/utils/dialog';
 import Flyout from '~/utils/flyout';
-import { createElement, addEventListeners, constructButton } from '~/utils/dom';
+import { createElement, constructButton, clearNode } from '~/utils/dom';
 
 import {
   editSavedFavorite,
@@ -12,59 +12,6 @@ import {
   saveNewFavorite,
 } from './favorites-model';
 import selectors from './selectors';
-
-function createLink(favorite) {
-  return (
-    <li className={selectors.menuItem.link} dataset={{ gocp_favorites_id: favorite.id }}>
-      <a href={`#${favorite.hash}`} className="sec-25-bgc-hover">
-        <span className="desc">
-          <span className={classNames(selectors.menuItem.title, 'title black-fgc')}>
-            {favorite.title}
-          </span>
-          <div className={selectors.control.wrap}>
-            <i className={classNames('fa fa-edit', selectors.control.edit)}></i>
-            <i className={classNames('fa fa-trash', selectors.control.delete)}></i>
-          </div>
-        </span>
-      </a>
-    </li>
-  );
-}
-
-export async function createMenu(favorites) {
-  const starIconUrl = getAssetUrl('star_icon.png');
-
-  return (
-    <li className="oneline parentitem" id={selectors.menu}>
-      <a href="#" className="subnavtrigger black-fgc">
-        <img src={starIconUrl} />
-        <span className="desc">
-          <span className="title pri-100-fgc sky-nav">Favorites
-          </span>
-        </span>
-        <span className="caret"></span>
-      </a>
-      <div className="subnavtop sec-75-bordercolor white-bgc">
-        { /* This div is the arrow on top of the menu */ }
-      </div>
-      <div className="subnav sec-75-bordercolor white-bgc" id={selectors.dropdown}>
-        <ul>
-          { favorites.map(createLink) }
-          <li className="">
-            <a href="#" className="sec-25-bgc-hover" id={selectors.addButton}>
-              <span className="desc">
-                <span className="title black-fgc">
-                 <i className="fa fa-plus"></i>
-                 &nbsp;Add Page
-                </span>
-              </span>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </li>
-  );
-}
 
 export function createDialogBody(favorite = {}) {
   const hash = favorite.hash || window.location.hash.split('#')[1] || '';
@@ -104,38 +51,6 @@ export function createDialogBody(favorite = {}) {
   );
 }
 
-/* DOM MANIPULATORS */
-
-function insertFavoriteNode(favorite) {
-  const addPageLi = document.getElementById(selectors.addButton).parentNode;
-  addPageLi.before(createLink(favorite));
-  const favoriteLi = document.querySelector(`li[data-gocp_favorites_id="${favorite.id}"]`);
-
-  /* editFavoriteNode needs to be before handleEdit, so fixing this issue would require having node
-     manipulators in different places */
-  /* eslint-disable no-use-before-define */
-  favoriteLi.querySelector(`.${selectors.control.edit}`).addEventListener('click', handleEdit);
-  favoriteLi.querySelector(`.${selectors.control.delete}`).addEventListener('click', handleDelete);
-  /* eslint-enable no-use-before-define */
-}
-
-function editFavoriteNode(id, newFavorite) {
-  const link = document.querySelector(`li[data-gocp_favorites_id="${id}"] > :first-child`);
-  link.querySelector(`.${selectors.menuItem.title}`).textContent = newFavorite.title;
-  link.href = `#${newFavorite.hash}`;
-}
-
-function deleteFavoriteNode(id) {
-  const link = document.querySelector(`li[data-gocp_favorites_id="${id}"]`);
-  link.parentNode.removeChild(link);
-}
-
-/* EVENT LISTENERS */
-
-const idFromEvent = event => {
-  const li = event.target.parentNode.parentNode.parentNode.parentNode;
-  return li.getAttribute('data-gocp_favorites_id');
-};
 
 function getInputtedFavorite() {
   const form = document.getElementById(selectors.form);
@@ -149,39 +64,6 @@ function getInputtedFavorite() {
   return { title, hash };
 }
 
-async function handleEdit(event) {
-  event.preventDefault();
-  event.stopPropagation();
-
-  const id = idFromEvent(event);
-  const oldFavorite = await getFavorite(id);
-
-  const handleSave = () => {
-    const newFavorite = getInputtedFavorite();
-    if (!newFavorite) {
-      return false;
-    } else {
-      newFavorite.id = id;
-      editSavedFavorite(id, newFavorite);
-      editFavoriteNode(id, newFavorite);
-    }
-  };
-
-  const dialog = new Dialog('Edit Favorite', createDialogBody(oldFavorite), {
-    leftButtons: [
-      {
-        name: 'Save',
-        primary: true,
-        onClick: handleSave,
-      },
-      Dialog.buttons.CANCEL,
-    ],
-  });
-  dialog.open();
-  dialog.getBody().querySelector(`#${selectors.dialog.title}`).focus();
-
-}
-
 function handleAdd(event) {
   event.preventDefault();
 
@@ -190,8 +72,7 @@ function handleAdd(event) {
     if (!favorite) {
       return false;
     } else {
-      const newFavorite = await saveNewFavorite(favorite);
-      insertFavoriteNode(newFavorite);
+      await saveNewFavorite(favorite);
     }
   };
 
@@ -210,17 +91,47 @@ function handleAdd(event) {
 
 }
 
-function handleDelete(event) {
+
+async function handleEdit(event, id) {
   event.preventDefault();
   event.stopPropagation();
 
-  const id = idFromEvent(event);
+  const oldFavorite = await getFavorite(id);
+
+  const handleSave = () => {
+    const newFavorite = getInputtedFavorite();
+    if (!newFavorite) {
+      return false;
+    } else {
+      newFavorite.id = id;
+      editSavedFavorite(id, newFavorite);
+    }
+  };
+
+  const dialog = new Dialog('Edit Favorite', createDialogBody(oldFavorite), {
+    leftButtons: [
+      {
+        name: 'Save',
+        primary: true,
+        onClick: handleSave,
+      },
+      Dialog.buttons.CANCEL,
+    ],
+  });
+  dialog.open();
+  dialog.getBody().querySelector(`#${selectors.dialog.title}`).focus();
+
+}
+
+function handleDelete(event, id) {
+  event.preventDefault();
+  event.stopPropagation();
+
   const favoritesMenu = event.target.closest('.subnav');
   favoritesMenu.classList.add(selectors.visibleMenu);
 
   const flyout = new Flyout(constructButton('Delete', '', '', () => {
     deleteSavedFavorite(id);
-    deleteFavoriteNode(id);
     flyout.hide();
   }), {
     onHide: () => {
@@ -236,10 +147,70 @@ function handleDelete(event) {
   flyout.getBody().focus();
 }
 
-export function addListeners() {
-  /* eslint-disable max-len */
-  document.getElementById(selectors.addButton).addEventListener('click', handleAdd);
-  addEventListeners(document.getElementsByClassName(selectors.control.edit), 'click', handleEdit);
-  addEventListeners(document.getElementsByClassName(selectors.control.delete), 'click', handleDelete);
-  /* eslint-enable max-len */
+function createLink(favorite) {
+  return (
+    <li className={selectors.menuItem.link} dataset={{ gocp_favorites_id: favorite.id }}>
+      <a href={`#${favorite.hash}`} className="sec-25-bgc-hover">
+        <span className="desc">
+          <span className={classNames(selectors.menuItem.title, 'title black-fgc')}>
+            {favorite.title}
+          </span>
+          <div className={selectors.control.wrap}>
+            <i
+              className={classNames('fa fa-edit', selectors.control.edit)}
+              onClick={e => handleEdit(e, favorite.id)}
+            />
+            <i
+              className={classNames('fa fa-trash', selectors.control.delete)}
+              onClick={e => handleDelete(e, favorite.id)}
+            />
+          </div>
+        </span>
+      </a>
+    </li>
+  );
+}
+
+
+export function createMenu() {
+  const starIconUrl = getAssetUrl('star_icon.png');
+
+  return (
+    <li className="oneline parentitem" id={selectors.menu}>
+      <a href="#" className="subnavtrigger black-fgc">
+        <img src={starIconUrl} />
+        <span className="desc">
+          <span className="title pri-100-fgc sky-nav">
+            Favorites
+          </span>
+        </span>
+        <span className="caret" />
+      </a>
+      <div className="subnavtop sec-75-bordercolor white-bgc">
+        { /* This div is the arrow on top of the menu */ }
+      </div>
+      <div className="subnav sec-75-bordercolor white-bgc" id={selectors.dropdown} />
+    </li>
+  );
+}
+
+export function setMenuList(menu, favorites) {
+  const listWrap = menu.querySelector(`#${selectors.dropdown}`);
+  const list = (
+    <ul>
+      { favorites.map(createLink) }
+      <li>
+        <a href="#" className="sec-25-bgc-hover" id={selectors.addButton} onClick={handleAdd}>
+          <span className="desc">
+            <span className="title black-fgc">
+              <i className="fa fa-plus" />
+              &nbsp;Add Page
+            </span>
+          </span>
+        </a>
+      </li>
+    </ul>
+  );
+  clearNode(listWrap);
+  listWrap.appendChild(list);
 }
