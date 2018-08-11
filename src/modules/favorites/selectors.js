@@ -10,6 +10,7 @@ const selectors = {
   menuItem: {
     link: locals['menu-link'],
     title: 'gocp_favorites_menu-title',
+    highlight: locals['menu-highlight'],
   },
   menu: 'gocp_favorites_menu',
   visibleMenu: locals['visible-menu'],

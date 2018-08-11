@@ -116,7 +116,9 @@ function handleDelete(event, id) {
   event.stopPropagation();
 
   const favoritesMenu = event.target.closest('.subnav');
+  const li = event.target.closest('li');
   favoritesMenu.classList.add(selectors.visibleMenu);
+  li.classList.add(selectors.menuItem.highlight);
 
   const flyout = new Flyout(constructButton('Delete', '', '', () => {
     deleteSavedFavorite(id);
@@ -124,14 +126,11 @@ function handleDelete(event, id) {
   }), {
     onHide: () => {
       favoritesMenu.classList.remove(selectors.visibleMenu);
+      li.classList.remove(selectors.menuItem.highlight);
     },
   });
 
-  const menuTitle = event.target
-    .closest(`.${selectors.menuItem.link}`)
-    .querySelector(`.${selectors.menuItem.title}`);
-
-  flyout.showAtElem(menuTitle);
+  flyout.showAtElem(event.target);
   flyout.getBody().focus();
 }
 
