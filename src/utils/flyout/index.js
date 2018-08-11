@@ -34,6 +34,7 @@ export default class Flyout {
     this.outerElem.style.left = `${x}px`;
     this.outerElem.style.top = `${y}px`;
     document.body.appendChild(this.outerElem);
+    this.outerElem.focus();
 
     setTimeout(() => {
       this.outerElem.classList.add('in');
@@ -64,6 +65,8 @@ export default class Flyout {
         className={classNames('popover fade bottom', selectors.flyout)}
         role="tooltip"
         onMouseDown={e => e.stopPropagation()}
+        onKeyDown={e => this._onKeyDown(e)}
+        tabIndex={-1}
       >
         <div className={classNames('arrow', selectors.arrow)}></div>
         <div className="popover-content">
@@ -71,6 +74,12 @@ export default class Flyout {
         </div>
       </div>
     );
+  }
+
+  _onKeyDown(e) {
+    if (this.opts.autoHide && e.key === 'Escape') {
+      this.hide();
+    }
   }
 
 }
