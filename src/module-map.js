@@ -18,7 +18,8 @@ import favorites from './modules/favorites';
 import inlineAssignmentGrade from './modules/inline-assignment-grade';
 import oneClickLogin from './modules/one-click-login';
 import exitCompose from './modules/exit-compose';
-import resizeAssignmentsToolbar from '~/modules/resize-assignments-toolbar';
+import resizeAssignmentsToolbar from './modules/resize-assignments-toolbar';
+import linkifyMessageText from './modules/linkify-message-text';
 
 const MODULE_MAP = {
   '#': [searchClassesMenu, messageNotifications, optionsDialog, favorites], // universal modules
@@ -38,6 +39,7 @@ const MODULE_MAP = {
   ],
   '#message': [archiveAll],
   '#message/compose': [exitCompose],
+  '#message/conversation': [linkifyMessageText],
   '#searchresults/summary': [filterWebsiteMainSearch],
   '#myschedule': [dayScheduleButton],
 
@@ -53,6 +55,7 @@ const SECTION_MAP = {
   '#studentmyday/progress': 'Progress',
   '#message': 'Messages',
   '#message/compose': 'Message Compose',
+  '#message/conversation': 'Message Conversation',
   '#searchresults/summary': 'Search Results Summary',
   '#myschedule': 'Month & Week Schedule',
 
