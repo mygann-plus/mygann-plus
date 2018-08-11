@@ -13,9 +13,11 @@ import {
 } from './favorites-model';
 import selectors from './selectors';
 
-function createDialogBody(favorite) {
-  const hash = favorite.hash || window.location.hash.split('#')[1] || '';
-  const title = favorite.title || '';
+function getHash() {
+  return window.location.hash.split('#')[1] || '';
+}
+
+function createDialogBody({ hash = getHash(), title = '' }) {
   return (
     <form>
       <div className="row">
