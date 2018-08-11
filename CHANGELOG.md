@@ -17,6 +17,7 @@
 ### Changed
 - Extension renamed to "Gann OnCampus+"
 - Courses Search module renamed to "Courses Filter"
+- Inline Assignment Grade module renamed to "Preview Assignment Grade"
 - Toggle Completed module tweaked visually and renamed to "Hide Completed"
 - Options moved into desktop and mobile main dropdown
 - Option dialog improvements
