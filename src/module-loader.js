@@ -47,7 +47,7 @@ class UnloaderContext {
 }
 
 function runUnloaderContext(context) {
-  for (const removable of context.removables) {
+  for (const removable of context.removables.reverse()) {
     removable.remove();
   }
 }
@@ -107,10 +107,10 @@ export function hardUnloadModule(module) {
     return false;
   }
   const unloaded = tryRunFunctionSync(() => {
-    runUnloaderContext(unloaderContext);
     if (module.unload) {
       module.unload(suboptions);
     }
+    runUnloaderContext(unloaderContext);
   });
   if (unloaded) {
     loadedModules.delete(module);
