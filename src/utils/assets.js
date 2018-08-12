@@ -6,5 +6,5 @@
  * @returns {string} Full URL of asset
  */
 export function getAssetUrl(assetName) {
-  return chrome.runtime.getURL(`assets/${assetName}`);
+  return chrome.runtime.getURL(assetName);
 }

@@ -21,6 +21,13 @@ module.exports = {
           modules: true,
         },
       },
+      {
+        test: /\.png|\.jpe?g$/,
+        loader: 'file-loader',
+        options: {
+          outputPath: '/assets',
+        }
+      },
     ],
   },
   resolve: {
