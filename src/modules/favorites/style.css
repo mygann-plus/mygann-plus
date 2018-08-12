@@ -1,10 +1,11 @@
 .controls {
   position: absolute;
-  display: inline;
+  display: inline-block;
   right: 10px;
   bottom: 0;
   padding: 0 5px;
   opacity: 0;
+  height: 100%;
 }
 
 .controls button {
@@ -12,7 +13,7 @@
   font-size: 15px;
   margin-right: 4px;
   background: transparent;
-  padding: 5px;
+  height: 100%;
 }
 
 .menu-desktop-link .controls {
@@ -23,7 +24,6 @@
   position: relative;
 }
 .menu-mobile-link .controls {
-  bottom: 5px;
   color: white;
 }
 
