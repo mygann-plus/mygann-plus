@@ -1,4 +1,4 @@
-import createModule from '~/utils/module';
+import createModule from '~/module';
 import { waitForLoad } from '~/utils/dom';
 
 const getPasswordDiv = () => document.getElementById('divPassword');

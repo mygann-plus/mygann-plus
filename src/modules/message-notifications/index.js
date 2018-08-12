@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { find as findLinks } from 'linkifyjs';
 
-import createModule from '~/utils/module';
+import createModule from '~/module';
 import { fetchApi } from '~/utils/fetch';
 import { createElement, insertCss } from '~/utils/dom';
 

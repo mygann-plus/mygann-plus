@@ -1,4 +1,4 @@
-import createModule from '~/utils/module';
+import createModule from '~/module';
 import { waitForLoad, constructButton, createElement } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
 import { coursesListLoaded, observeCoursesBar } from '~/shared/progress';

@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 
-import createModule from '~/utils/module';
+import createModule from '~/module';
 
 import fuzzyMatch from '~/utils/search';
 import colors from '~/utils/colors';

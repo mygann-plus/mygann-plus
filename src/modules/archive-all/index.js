@@ -1,4 +1,4 @@
-import createModule from '~/utils/module';
+import createModule from '~/module';
 
 import { createElement, waitForLoad, constructButton, insertCss } from '~/utils/dom';
 import Flyout from '~/utils/flyout';

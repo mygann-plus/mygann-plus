@@ -1,6 +1,6 @@
 import linkifyHtml from 'linkifyjs/html';
 
-import createModule from '~/utils/module';
+import createModule from '~/module';
 import { waitForLoad } from '~/utils/dom';
 
 const selectors = {

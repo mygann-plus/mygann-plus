@@ -1,6 +1,6 @@
 // This is a utility module that resizes in the assignment center toolbar
 
-import createModule from '~/utils/module';
+import createModule from '~/module';
 import { waitForLoad } from '~/utils/dom';
 
 async function resizeToolbar() {

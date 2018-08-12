@@ -1,4 +1,4 @@
-import createModule from '~/utils/module';
+import createModule from '~/module';
 import { waitForLoad, insertCss } from '~/utils/dom';
 
 import { createDesktopMenu, setDesktopMenuList } from './favorites-desktop';

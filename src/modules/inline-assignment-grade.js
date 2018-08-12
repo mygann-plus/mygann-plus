@@ -1,4 +1,4 @@
-import createModule from '~/utils/module';
+import createModule from '~/module';
 
 import { waitForLoad, constructButton } from '~/utils/dom';
 import { fetchApi } from '~/utils/fetch';

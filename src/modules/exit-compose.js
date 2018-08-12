@@ -1,6 +1,6 @@
 // fixes native bug with unhandled escape
 
-import createModule from '~/utils/module';
+import createModule from '~/module';
 
 function exitCompose() {
   const siteModal = document.querySelector('#site-modal');

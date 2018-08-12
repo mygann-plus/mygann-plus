@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import cloneDeep from 'lodash.clonedeep';
 import { diff as deepDiff } from 'deep-object-diff';
 
-import createModule from '~/utils/module';
+import createModule from '~/module';
 import {
   createElement,
   waitForLoad,

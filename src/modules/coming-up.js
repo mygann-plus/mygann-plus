@@ -1,4 +1,4 @@
-import createModule from '~/utils/module';
+import createModule from '~/module';
 
 import { fetchApi } from '~/utils/fetch';
 import { waitForLoad } from '~/utils/dom';

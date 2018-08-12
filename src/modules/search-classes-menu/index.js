@@ -1,4 +1,4 @@
-import createModule from '~/utils/module';
+import createModule from '~/module';
 import fuzzyMatch from '~/utils/search';
 
 import { createElement, waitForLoad, insertCss, addEventListener } from '~/utils/dom';

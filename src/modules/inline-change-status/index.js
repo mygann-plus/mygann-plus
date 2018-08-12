@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 
-import createModule from '~/utils/module';
+import createModule from '~/module';
 import { waitForLoad, insertCss, createElement } from '~/utils/dom';
 
 import style from './style.css';
