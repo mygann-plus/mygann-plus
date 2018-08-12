@@ -71,7 +71,8 @@ chrome.storage.onChanged.addListener(changes => {
     const change = changes[key];
     const data = {
       newValue: change.newValue[DATA_KEY],
-      oldValue: change.oldValue[SCHEMA_VERSION_KEY] !== change.newValue[SCHEMA_VERSION_KEY] ?
+      oldValue: change.oldValue &&
+        change.oldValue[SCHEMA_VERSION_KEY] !== change.newValue[SCHEMA_VERSION_KEY] ?
         null :
         change.oldValue[DATA_KEY],
     };

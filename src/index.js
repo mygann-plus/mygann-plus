@@ -1,9 +1,12 @@
+import { diff as deepDiff } from 'deep-object-diff';
+
 import { modulesForHash } from '~/module-map';
-import { loadModule, softUnloadModule, hardUnloadModule } from '~/module-loader';
+import { loadModule, softUnloadModule, hardUnloadModule, isModuleLoaded } from '~/module-loader';
 
 import setCssVars from '~/utils/css-vars';
-import { getFlattenedOptions, setFlattenedOptions, mergeDefaultOptions } from '~/options';
+import { getFlattenedOptions, setFlattenedOptions, mergeDefaultOptions, addOptionsChangeListener } from '~/options';
 import log from '~/utils/log';
+import { getRegisteredModules } from '~/module';
 
 function getHash(url) {
   return new URL(url).hash || '#';
@@ -35,11 +38,39 @@ async function initializeOptions() {
   await setFlattenedOptions(mergeDefaultOptions(optsObj));
 }
 
+function hardUnloadOrRefreshPage(module) {
+  if (!hardUnloadModule(module)) {
+    return window.location.reload();
+  }
+}
+
+async function applyNewOptions({ oldValue: oldOptions, newValue: newOptions }) {
+  const GUID_MAP = getRegisteredModules();
+  const diff = deepDiff(oldOptions, newOptions);
+
+  for (const moduleGuid in diff) {
+    const module = GUID_MAP[moduleGuid];
+    if ('enabled' in diff[moduleGuid]) {
+      if (diff[moduleGuid].enabled) {
+        if (modulesForHash(window.location.hash).has(module)) {
+          loadModule(module);
+        }
+      } else {
+        hardUnloadOrRefreshPage(module);
+      }
+    } else if (isModuleLoaded(module)) {
+      hardUnloadOrRefreshPage(module);
+      loadModule(module);
+    }
+  }
+}
+
 async function runExtension() {
   // TODO: only call initializeOptions on install and update
   // (plus dev feature to force initialization)
   await initializeOptions();
   setCssVars();
+  addOptionsChangeListener(applyNewOptions);
   loadModules(getHash(window.location.href));
   window.addEventListener('hashchange', e => {
     const newHash = getHash(e.newURL);

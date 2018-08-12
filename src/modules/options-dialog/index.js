@@ -1,8 +1,6 @@
 import classNames from 'classnames';
-import cloneDeep from 'lodash.clonedeep';
-import { diff as deepDiff } from 'deep-object-diff';
 
-import registerModule, { getRegisteredModules } from '~/module';
+import registerModule from '~/module';
 import {
   createElement,
   waitForLoad,
@@ -11,8 +9,7 @@ import {
 import Dialog from '~/utils/dialog';
 import log from '~/utils/log';
 
-import { MODULE_MAP, SECTION_MAP, modulesForHash } from '~/module-map';
-import { hardUnloadModule, isModuleLoaded, loadModule } from '~/module-loader';
+import { MODULE_MAP, SECTION_MAP } from '~/module-map';
 import { getFlattenedOptions, setFlattenedOptions, mergeDefaultOptions } from '~/options';
 
 import style from './style.css';
@@ -301,45 +298,16 @@ class OptionsDialog {
 
 }
 
-function hardUnloadOrRefreshPage(module) {
-  if (!hardUnloadModule(module)) {
-    return window.location.reload();
-  }
+async function saveOptions(newOptions) {
+  return setFlattenedOptions(newOptions);
 }
-
-async function saveOptions(oldOptions, newOptions) {
-  const GUID_MAP = getRegisteredModules();
-  console.log(GUID_MAP);
-  await setFlattenedOptions(newOptions);
-  const diff = deepDiff(oldOptions, newOptions);
-
-  for (const moduleGuid in diff) {
-    const module = GUID_MAP[moduleGuid];
-    if ('enabled' in diff[moduleGuid]) {
-      if (diff[moduleGuid].enabled) {
-        if (modulesForHash(window.location.hash).has(module)) {
-          loadModule(module);
-        }
-      } else {
-        hardUnloadOrRefreshPage(module);
-      }
-    } else if (isModuleLoaded(module)) {
-      hardUnloadOrRefreshPage(module);
-      loadModule(module);
-    }
-  }
-}
-
 function getDefaultOptions() {
   return mergeDefaultOptions({});
 }
 
 async function showDialog() {
   const optionsData = await getFlattenedOptions();
-  const originalOptionsData = cloneDeep(optionsData);
-  const dialog = new OptionsDialog(optionsData, newOptionsData => {
-    saveOptions(originalOptionsData, newOptionsData);
-  }, getDefaultOptions);
+  const dialog = new OptionsDialog(optionsData, saveOptions, getDefaultOptions);
   dialog.open();
 }
 
@@ -405,7 +373,7 @@ function optionsDialog() {
 }
 
 export default registerModule('{6f84183e-607b-4c90-9161-3451b002b541}', {
-  name: 'Options',
+  name: 'internal.optionsDialog',
   init: optionsDialog,
   showInOptions: false,
 });

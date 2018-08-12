@@ -27,6 +27,7 @@
   - More detailed descriptions for certain modules
   - Ability to reset options to default values
   - Most modules can be enabled and disabled without reloading the page
+  - Option changes are applied across all open tabs
 - Grade Summary improvements
   - Use native dialog instead of popup
   - Notify user if they have no graded classes

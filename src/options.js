@@ -60,3 +60,7 @@ export function mergeDefaultOptions(options) {
   }
   return newOptions;
 }
+
+export function addOptionsChangeListener(listener) {
+  storage.addChangeListener(OPTIONS_STORAGE_KEY, listener);
+}
