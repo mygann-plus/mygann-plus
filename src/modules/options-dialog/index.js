@@ -359,14 +359,12 @@ const domQuery = {
 function optionsDialog() {
   waitForLoad(domQuery.header).then(appendDesktopNavLink);
 
-  waitForLoad(domQuery.mobileMenu).then(() => {
-    document.querySelector('#mobile-account-nav').addEventListener('click', async () => {
-      await waitForLoad(() => (
-        document.querySelector('.app-mobile-level') &&
-        document.querySelector('#mobile-settings-link')
-      ));
-      appendMobileNavLink();
-    });
+  waitForLoad(domQuery.mobileMenu).then(async () => {
+    await waitForLoad(() => (
+      document.querySelector('.app-mobile-level') &&
+      document.querySelector('#mobile-settings-link')
+    ));
+    appendMobileNavLink();
   });
 
   insertCss(style.toString());
