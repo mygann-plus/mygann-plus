@@ -1,9 +1,24 @@
+#desktop-search-bar {
+  display: block;
+  border: none;
+  outline: none;
+  padding: 5px 15px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid var(--seperator-gray);
+}
+#desktop-search-bar::placeholder {
+  color: rgba(0, 0, 0, 0.4s)
+}
+
 #mobile-search-bar {
   background: #880d2f;
   color: white;
   border: none;
   outline: none;
   font-size: 1.2em;
+}
+#mobile-search-bar-wrap {
+
 }
 
 .hidden-course-desktop, .hidden-course-mobile {
@@ -19,21 +34,4 @@
   text-shadow: none !important;
   color: black !important;
   background: rgb(234, 215, 104);
-}
-
-.desktop-input, .mobile-input {
-}
-.desktop-input {
-  display: block;
-  border: none;
-  outline: none;
-  padding: 5px 15px;
-  margin-bottom: 5px;
-  border-bottom: 1px solid var(--seperator-gray);
-}
-.desktop-input::placeholder {
-  color: rgba(0, 0, 0, 0.4s)
-}
-.mobile-input {
-
 }

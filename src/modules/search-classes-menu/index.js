@@ -6,9 +6,9 @@ import { createElement, waitForLoad, insertCss, addEventListener } from '~/utils
 import style from './style.css';
 
 const selectors = {
-  desktopSearchbar: 'gocp_search-classes-menu_searchbar',
-  mobileSearchbarWrap: 'gocp_search-classes-menu_mobile-searchbar-wrap',
+  desktopSearchbar: style.locals['desktop-search-bar'],
   mobileSearchbar: style.locals['mobile-search-bar'],
+  mobileSearchbarWrap: style.locals['mobile-search-bar-wrap'],
   hiddenCourse: {
     desktop: style.locals['hidden-course-desktop'],
     mobile: style.locals['hidden-course-mobile'],
@@ -16,10 +16,6 @@ const selectors = {
   highlightedCourse: {
     desktop: style.locals['highlighted-course-desktop'],
     mobile: style.locals['highlighted-course-mobile'],
-  },
-  input: {
-    desktop: style.locals['desktop-input'],
-    mobile: style.locals['mobile-input'],
   },
   desktopClassesMenu: 'subnav',
 };
@@ -33,10 +29,9 @@ const getDesktopMenu = () => (
 
 class ClassFilter {
 
-  constructor(inputId, hiddenClassName, highlightedClassName, inputClassName) {
+  constructor(inputId, hiddenClassName, highlightedClassName) {
     this.input = <input
         id={inputId}
-        className={inputClassName}
         type="search"
         autocomplete="off"
         placeholder="Search Classes"
@@ -100,7 +95,6 @@ class DesktopClassFilter extends ClassFilter {
       selectors.desktopSearchbar,
       selectors.hiddenCourse.desktop,
       selectors.highlightedCourse.desktop,
-      selectors.input.desktop,
     );
   }
 
@@ -135,7 +129,6 @@ class MobileClassFilter extends ClassFilter {
       selectors.mobileSearchbar,
       selectors.hiddenCourse.mobile,
       selectors.highlightedCourse.mobile,
-      selectors.input.mobile,
     );
   }
   getCourses() {
@@ -151,7 +144,7 @@ class MobileClassFilter extends ClassFilter {
   mountInput(node) {
     this.wrap = (
       <li id={selectors.mobileSearchbarWrap}>
-        <a className="mobile-group-page-link-1">{ this.input }</a>
+        <span className="mobile-group-page-link-1">{ this.input }</span>
       </li>
     );
     node.prepend(this.wrap);
