@@ -28,7 +28,7 @@
 }
 
 .menu-desktop-link:hover, .menu-desktop-link:focus-within, .menu-desktop-link.menu-highlight {
-  background: #fff2c0;
+  background: var(--nav-menu-highlight);
 }
 .menu-link:hover .controls, .menu-link:focus-within .controls, .menu-highlight .controls {
   opacity: unset;
