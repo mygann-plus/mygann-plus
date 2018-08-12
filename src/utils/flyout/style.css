@@ -3,6 +3,7 @@
   margin-top: 15px !important;
   transform: translate(-50%); /* Makes arrow be at center */
   outline: none;
+  z-index: 1000000000;
 }
 .arrow {
   left: 50%;
