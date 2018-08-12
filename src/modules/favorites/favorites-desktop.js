@@ -8,6 +8,8 @@ import selectors from './selectors';
 import { showAddDialog, showEditDialog } from './favorites-dialogs';
 import { deleteSavedFavorite } from './favorites-model';
 
+import starIcon from './star_icon.png';
+
 function handleDelete(event, id) {
   const favoritesMenu = event.target.closest('.subnav');
   const li = event.target.closest('li');
@@ -52,7 +54,7 @@ function createLink(favorite) {
 }
 
 export function createDesktopMenu() {
-  const starIconUrl = getAssetUrl('star_icon.png');
+  const starIconUrl = getAssetUrl(starIcon);
 
   return (
     <li className="oneline parentitem" id={selectors.menu}>

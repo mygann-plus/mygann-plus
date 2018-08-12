@@ -8,6 +8,8 @@ import selectors from './selectors';
 import { showAddDialog, showEditDialog } from './favorites-dialogs';
 import { deleteSavedFavorite } from './favorites-model';
 
+import starIcon from './star_icon.png';
+
 function hideMenu() {
   document.querySelector('#app').click();
 }
@@ -79,7 +81,7 @@ function handleBackLinkClick(e) {
 }
 
 export function createMobileMenu() {
-  const starIconUrl = getAssetUrl('star_icon.png');
+  const starIconUrl = getAssetUrl(starIcon);
 
   return (
     <li className="clearfix">
