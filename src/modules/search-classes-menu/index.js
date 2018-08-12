@@ -17,6 +17,10 @@ const selectors = {
     desktop: style.locals['highlighted-course-desktop'],
     mobile: style.locals['highlighted-course-mobile'],
   },
+  input: {
+    desktop: style.locals['desktop-input'],
+    mobile: style.locals['mobile-input'],
+  },
   desktopClassesMenu: 'subnav',
 };
 
@@ -29,13 +33,13 @@ const getDesktopMenu = () => (
 
 class ClassFilter {
 
-  constructor(inputId, hiddenClassName, highlightedClassName) {
+  constructor(inputId, hiddenClassName, highlightedClassName, inputClassName) {
     this.input = <input
         id={inputId}
-        className="form-control"
+        className={inputClassName}
         type="search"
         autocomplete="off"
-        placeholder="Filter Classes"
+        placeholder="Search Classes"
       />;
 
     this.input.addEventListener('input', () => this.handleSearch());
@@ -96,6 +100,7 @@ class DesktopClassFilter extends ClassFilter {
       selectors.desktopSearchbar,
       selectors.hiddenCourse.desktop,
       selectors.highlightedCourse.desktop,
+      selectors.input.desktop,
     );
   }
 
@@ -130,6 +135,7 @@ class MobileClassFilter extends ClassFilter {
       selectors.mobileSearchbar,
       selectors.hiddenCourse.mobile,
       selectors.highlightedCourse.mobile,
+      selectors.input.mobile,
     );
   }
   getCourses() {

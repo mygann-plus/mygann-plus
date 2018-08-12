@@ -16,7 +16,7 @@
 }
 
 .highlighted-course-desktop a {
-  background: var(--light-blue);
+  background: var(--nav-menu-highlight);
 }
 
 .highlighted-course-mobile a {
@@ -24,4 +24,21 @@
   text-shadow: none !important;
   color: black !important;
   background: rgb(234, 215, 104);
+}
+
+.desktop-input, .mobile-input {
+}
+.desktop-input {
+  display: block;
+  border: none;
+  outline: none;
+  padding: 5px 15px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid var(--seperator-gray);
+}
+.desktop-input::placeholder {
+  color: rgba(0, 0, 0, 0.4s)
+}
+.mobile-input {
+
 }
