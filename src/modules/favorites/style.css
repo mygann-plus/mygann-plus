@@ -13,9 +13,21 @@
   margin-right: 4px;
   background: transparent;
   padding: 5px;
+}
+
+.menu-desktop-link .controls {
   color: black;
 }
-.menu-link:hover, .menu-link:focus-within, .menu-highlight {
+
+.menu-mobile-link {
+  position: relative;
+}
+.menu-mobile-link .controls {
+  bottom: 5px;
+  color: white;
+}
+
+.menu-desktop-link:hover, .menu-desktop-link:focus-within, .menu-desktop-link.menu-highlight {
   background: #fff2c0;
 }
 .menu-link:hover .controls, .menu-link:focus-within .controls, .menu-highlight .controls {
@@ -23,4 +35,7 @@
 }
 .visible-menu {
   display: block !important;
+}
+.mobile-menu-arrow {
+  margin: 10px 12px 12px 12px;
 }

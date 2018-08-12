@@ -1,22 +1,35 @@
 import createModule from '~/utils/module';
 import { waitForLoad, insertCss } from '~/utils/dom';
 
-import { createMenu, setMenuList } from './favorites-ui';
+import { createDesktopMenu, setDesktopMenuList } from './favorites-desktop';
+import { createMobileMenu, setMobileMenuList } from './favorites-mobile';
 import { getSavedFavorites, addFavoritesChangeListener } from './favorites-model';
 
 import style from './style.css';
 
+const domQueries = {
+  desktop: () => document.querySelector('.topnav > .twoline.parentitem.last'),
+  mobile: () => document.querySelector('#site-mobile-sitenav .clearfix:nth-child(7)'),
+};
+
 async function initFavorites(opts, unloaderContext) {
-  await waitForLoad(() => document.querySelector('.topnav > .twoline.parentitem.last'));
-  const menu = await createMenu();
-  const directoriesMenu = document.querySelector('.topnav > .twoline.parentitem.last');
+  await waitForLoad(() => domQueries.desktop() && domQueries.mobile());
 
-  directoriesMenu.before(menu);
-  unloaderContext.addRemovable(menu);
+  const desktopMenu = createDesktopMenu();
+  const desktopDirectoriesMenu = domQueries.desktop();
+  desktopDirectoriesMenu.before(desktopMenu);
+  unloaderContext.addRemovable(desktopMenu);
+  setDesktopMenuList(desktopMenu, await getSavedFavorites());
 
-  setMenuList(menu, await getSavedFavorites());
+  const mobileMenu = createMobileMenu();
+  const mobileDirectoriesMenu = domQueries.mobile();
+  mobileDirectoriesMenu.before(mobileMenu);
+  unloaderContext.addRemovable(mobileMenu);
+  setMobileMenuList(mobileMenu, await getSavedFavorites());
+
   const favoritesChangeListener = addFavoritesChangeListener(({ newValue }) => {
-    setMenuList(menu, newValue);
+    setDesktopMenuList(desktopMenu, newValue);
+    setMobileMenuList(mobileMenu, newValue);
   });
   unloaderContext.addRemovable(favoritesChangeListener);
 

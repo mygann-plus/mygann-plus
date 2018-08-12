@@ -81,9 +81,7 @@ function showDialog(dialogTitle, primaryButtonName, state = {}) {
   });
 }
 
-export async function handleAdd(event) {
-  event.preventDefault();
-
+export async function showAddDialog() {
   const newFavorite = await showDialog('Add Favorite', 'Add');
   if (!newFavorite) {
     return;
@@ -92,10 +90,7 @@ export async function handleAdd(event) {
 }
 
 
-export async function handleEdit(event, id) {
-  event.preventDefault();
-  event.stopPropagation();
-
+export async function showEditDialog(id) {
   const oldFavorite = await getFavorite(id);
   const newFavorite = await showDialog('Edit Favorite', 'Save', oldFavorite);
   if (!newFavorite) {

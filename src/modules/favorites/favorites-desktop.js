@@ -5,13 +5,10 @@ import Flyout from '~/utils/flyout';
 import { createElement, clearNode, constructButton } from '~/utils/dom';
 
 import selectors from './selectors';
-import { handleAdd, handleEdit } from './favorites-dialogs';
+import { showAddDialog, showEditDialog } from './favorites-dialogs';
 import { deleteSavedFavorite } from './favorites-model';
 
 function handleDelete(event, id) {
-  event.preventDefault();
-  event.stopPropagation();
-
   const favoritesMenu = event.target.closest('.subnav');
   const li = event.target.closest('li');
   favoritesMenu.classList.add(selectors.visibleMenu);
@@ -34,7 +31,7 @@ function handleDelete(event, id) {
 
 function createLink(favorite) {
   return (
-    <li className={selectors.menuItem.link}>
+    <li className={classNames(selectors.menuItem.link, selectors.menuItem.desktopLink)}>
       <a href={`#${favorite.hash}`} className="sec-25-bgc-hover">
         <span className="desc">
           <span className={classNames(selectors.menuItem.title, 'title black-fgc')}>
@@ -43,7 +40,7 @@ function createLink(favorite) {
         </span>
       </a>
       <span className={selectors.controls}>
-        <button onClick={e => handleEdit(e, favorite.id)}>
+        <button onClick={() => showEditDialog(favorite.id)}>
           <i className="fa fa-edit" />
         </button>
         <button onClick={e => handleDelete(e, favorite.id)}>
@@ -54,7 +51,7 @@ function createLink(favorite) {
   );
 }
 
-export function createMenu() {
+export function createDesktopMenu() {
   const starIconUrl = getAssetUrl('star_icon.png');
 
   return (
@@ -76,13 +73,13 @@ export function createMenu() {
   );
 }
 
-export function setMenuList(menu, favorites) {
+export function setDesktopMenuList(menu, favorites) {
   const listWrap = menu.querySelector(`#${selectors.dropdown}`);
   const list = (
     <ul>
       { favorites.map(createLink) }
       <li>
-        <a href="#" className="sec-25-bgc-hover" id={selectors.addButton} onClick={handleAdd}>
+        <a href="#" className="sec-25-bgc-hover" id={selectors.addButton} onClick={showAddDialog}>
           <span className="desc">
             <span className="title black-fgc">
               <i className="fa fa-plus" />
