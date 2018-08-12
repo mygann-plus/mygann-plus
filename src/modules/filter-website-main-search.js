@@ -11,6 +11,10 @@ const hidingTypes = {
   remove: 'remove',
 };
 
+function isCollapsed(resultsElem) {
+  return !!resultsElem.querySelector('.collapsed');
+}
+
 async function filterWebsiteMainSearch(options) {
   await waitForLoad(() => document.querySelector('.bb-tile-title'));
 
@@ -26,8 +30,10 @@ async function filterWebsiteMainSearch(options) {
   switch (options.hidingType) {
     case hidingTypes.collapse:
     default:
-      elem.children[1].style.height = '0px'; // prevents closing animation
-      title.click();
+      if (!isCollapsed(elem)) {
+        elem.children[1].style.height = '0px'; // prevents closing animation
+        title.click();
+      }
       break;
     case hidingTypes.moveToBottom:
       parent.appendChild(elem);
@@ -48,7 +54,9 @@ function unloadFilterWebsiteMainSearch(options) {
 
   switch (options.hidingType) {
     case hidingTypes.collapse:
-      document.querySelector('.bb-tile-title').click();
+      if (isCollapsed(elem)) {
+        document.querySelector('.bb-tile-title').click();
+      }
       break;
     case hidingTypes.moveToBottom:
       parent.prepend(elem);
