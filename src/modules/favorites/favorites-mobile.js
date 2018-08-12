@@ -8,8 +8,11 @@ import selectors from './selectors';
 import { showAddDialog, showEditDialog } from './favorites-dialogs';
 import { deleteSavedFavorite } from './favorites-model';
 
+function hideMenu() {
+  document.querySelector('#app').click();
+}
 function handleEdit(id) {
-  document.querySelector('#app').click(); // hide menu
+  hideMenu();
   showEditDialog(id);
 }
 
@@ -34,7 +37,7 @@ function handleDelete(event, id) {
 function createLink(favorite) {
   return (
     <li className={classNames(selectors.menuItem.link, selectors.menuItem.mobileLink)}>
-      <a href={`#${favorite.hash}`}>
+      <a href={`#${favorite.hash}`} onClick={hideMenu}>
         {favorite.title}
       </a>
       <span className={selectors.controls}>
