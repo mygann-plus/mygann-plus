@@ -1,4 +1,4 @@
-import createModule from '~/module';
+import registerModule from '~/module';
 
 import { waitForLoad } from '~/utils/dom';
 import { isCurrentDay, addDayChangeListeners } from '~/shared/schedule';
@@ -109,7 +109,7 @@ function classEndingTime() {
   addDayChangeListeners(testForClass);
 }
 
-export default createModule('{c8a3ea86-ae06-4155-be84-1a91283fe826}', {
+export default registerModule('{c8a3ea86-ae06-4155-be84-1a91283fe826}', {
   name: 'Class Ending Time',
   description: 'Show how much time is left until the current class ends',
   main: classEndingTime,

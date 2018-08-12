@@ -1,4 +1,4 @@
-import createModule from '~/module';
+import registerModule from '~/module';
 import { waitForLoad } from '~/utils/dom';
 
 const getPasswordDiv = () => document.getElementById('divPassword');
@@ -17,7 +17,7 @@ async function oneClickLogin() {
   });
 }
 
-export default createModule('{6ca82534-e670-490a-8ce1-1d87f48c7c32}', {
+export default registerModule('{6ca82534-e670-490a-8ce1-1d87f48c7c32}', {
   name: 'One Click Login',
   description: `
     Restore login screen before the summer of 2018 update, 

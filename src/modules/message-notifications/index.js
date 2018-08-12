@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { find as findLinks } from 'linkifyjs';
 
-import createModule from '~/module';
+import registerModule from '~/module';
 import { fetchApi } from '~/utils/fetch';
 import { createElement, insertCss } from '~/utils/dom';
 
@@ -209,7 +209,7 @@ function messageNotificationsInit(opts, unloaderContext) {
   unloaderContext.addRemovable(styles);
 }
 
-export default createModule('{edf80057-becd-42f9-9117-995657904a91}', {
+export default registerModule('{edf80057-becd-42f9-9117-995657904a91}', {
   name: 'Message Notifications',
   init: messageNotificationsInit,
   main: messageNotificationsMain,

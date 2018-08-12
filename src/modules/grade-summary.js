@@ -1,4 +1,4 @@
-import createModule from '~/module';
+import registerModule from '~/module';
 import { waitForLoad, constructButton, createElement } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
 import { coursesListLoaded, observeCoursesBar } from '~/shared/progress';
@@ -89,7 +89,7 @@ async function gradeSummary(opts, unloaderContext) {
   unloaderContext.addRemovable(coursesBarObserver);
 }
 
-export default createModule('{d320791b-772e-47c4-a058-15156faea88e}', {
+export default registerModule('{d320791b-772e-47c4-a058-15156faea88e}', {
   name: 'Grade Summary',
   description: 'Button to show list of cumulative grades across all courses',
   main: gradeSummary,

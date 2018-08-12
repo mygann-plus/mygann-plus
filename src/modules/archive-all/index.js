@@ -1,4 +1,4 @@
-import createModule from '~/module';
+import registerModule from '~/module';
 
 import { createElement, waitForLoad, constructButton, insertCss } from '~/utils/dom';
 import Flyout from '~/utils/flyout';
@@ -99,7 +99,7 @@ async function archiveAll(opts, unloaderContext) {
   unloaderContext.addRemovable(archivingMessage);
 }
 
-export default createModule('{ca448b9b-1d12-487e-8afd-1be45ad520b8}', {
+export default registerModule('{ca448b9b-1d12-487e-8afd-1be45ad520b8}', {
   name: 'Archive All',
   description: 'Button to archive and unarchive all messages',
   main: archiveAll,

@@ -1,4 +1,4 @@
-import createModule from '~/module';
+import registerModule from '~/module';
 import { waitForLoad, createElement } from '~/utils/dom';
 
 const getMonthButton = () => (
@@ -33,7 +33,7 @@ function unloadDayScheduleButton() {
   getMonthButton().classList.add('fc-corner-left');
 }
 
-export default createModule('{0ae24306-a117-447f-94e1-9a296d2b8a7d}', {
+export default registerModule('{0ae24306-a117-447f-94e1-9a296d2b8a7d}', {
   name: 'Day Schedule Button',
   main: dayScheduleButton,
   unload: unloadDayScheduleButton,

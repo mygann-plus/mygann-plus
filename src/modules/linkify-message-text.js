@@ -1,6 +1,6 @@
 import linkifyHtml from 'linkifyjs/html';
 
-import createModule from '~/module';
+import registerModule from '~/module';
 import { waitForLoad } from '~/utils/dom';
 
 const selectors = {
@@ -34,7 +34,7 @@ function unloadLinkifyMessageText() {
   }
 }
 
-export default createModule('{a0bcd3b0-2b61-4cf9-8435-ee988bd2c95e}', {
+export default registerModule('{a0bcd3b0-2b61-4cf9-8435-ee988bd2c95e}', {
   name: 'Message Links',
   description: 'Make links in messages clickable',
   main: linkifyMessageText,

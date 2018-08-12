@@ -1,4 +1,4 @@
-import createModule from '~/module';
+import registerModule from '~/module';
 
 import { waitForLoad, constructButton } from '~/utils/dom';
 import { fetchApi } from '~/utils/fetch';
@@ -50,7 +50,7 @@ async function inlineAssignmentGrade(opts, unloaderContext) {
   unloaderContext.addRemovable(showGradesBtn);
 }
 
-export default createModule('{0540d147-af76-4f44-a23d-415506e8e777}', {
+export default registerModule('{0540d147-af76-4f44-a23d-415506e8e777}', {
   name: 'Preview Assignment Grade',
   main: inlineAssignmentGrade,
   description: 'Button to preview grade of graded assignments in main assignments list',

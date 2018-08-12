@@ -1,4 +1,4 @@
-import createModule from '~/module';
+import registerModule from '~/module';
 import { waitForLoad } from '~/utils/dom';
 
 const selectors = {
@@ -61,7 +61,7 @@ function unloadFilterWebsiteMainSearch(options) {
   }
 }
 
-export default createModule('{d560bad4-1073-4452-ac11-f4466dc19184}', {
+export default registerModule('{d560bad4-1073-4452-ac11-f4466dc19184}', {
   name: 'Filter Website from Search',
   description: 'Hide results from the Gann Website in OnCampus searches',
   main: filterWebsiteMainSearch,

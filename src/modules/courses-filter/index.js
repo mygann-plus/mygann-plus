@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 
-import createModule from '~/module';
+import registerModule from '~/module';
 
 import fuzzyMatch from '~/utils/search';
 import colors from '~/utils/colors';
@@ -181,7 +181,7 @@ function unloadCoursesFilter() {
   }
 }
 
-export default createModule('{e2c18d75-5264-4177-97b0-5c6d65fb1496}', {
+export default registerModule('{e2c18d75-5264-4177-97b0-5c6d65fb1496}', {
   name: 'Courses Filter',
   description: 'Search courses and hide ungraded ones.',
   main: coursesFilter,

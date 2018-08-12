@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import cloneDeep from 'lodash.clonedeep';
 import { diff as deepDiff } from 'deep-object-diff';
 
-import createModule from '~/module';
+import registerModule from '~/module';
 import {
   createElement,
   waitForLoad,
@@ -402,7 +402,7 @@ function optionsDialog() {
   insertCss(style.toString());
 }
 
-export default createModule('{6f84183e-607b-4c90-9161-3451b002b541}', {
+export default registerModule('{6f84183e-607b-4c90-9161-3451b002b541}', {
   name: 'Options',
   init: optionsDialog,
   showInOptions: false,

@@ -1,5 +1,5 @@
 import { waitForLoad } from '~/utils/dom';
-import createModule from '~/module';
+import registerModule from '~/module';
 import { isCurrentDay, addDayChangeListeners } from '~/shared/schedule';
 
 // TIME & DATE CHECKERS
@@ -80,7 +80,7 @@ function highlightCurrentClass() {
   addDayChangeListeners(highlightClass);
 }
 
-export default createModule('{c9550c66-5dc8-4132-a359-459486a8ab08}', {
+export default registerModule('{c9550c66-5dc8-4132-a359-459486a8ab08}', {
   name: 'Highlight Current Class in Schedule',
   main: highlightCurrentClass,
 });

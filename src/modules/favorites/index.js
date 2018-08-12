@@ -1,4 +1,4 @@
-import createModule from '~/module';
+import registerModule from '~/module';
 import { waitForLoad, insertCss } from '~/utils/dom';
 
 import { createDesktopMenu, setDesktopMenuList } from './favorites-desktop';
@@ -37,7 +37,7 @@ async function initFavorites(opts, unloaderContext) {
   unloaderContext.addRemovable(styles);
 }
 
-export default createModule('{a98c8f19-a6fc-449a-bc03-ca9dc0cc7550}', {
+export default registerModule('{a98c8f19-a6fc-449a-bc03-ca9dc0cc7550}', {
   name: 'Favorites',
   init: initFavorites,
 });

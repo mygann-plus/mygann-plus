@@ -1,4 +1,4 @@
-import createModule from '~/module';
+import registerModule from '~/module';
 import fuzzyMatch from '~/utils/search';
 
 import { createElement, waitForLoad, insertCss, addEventListener } from '~/utils/dom';
@@ -193,7 +193,7 @@ function searchClassesMenu(opts, unloaderContext) {
   });
 }
 
-export default createModule('{3eb98c28-475a-43d7-ae80-721fffcdda11}', {
+export default registerModule('{3eb98c28-475a-43d7-ae80-721fffcdda11}', {
   name: 'Search Classes Menu',
   init: searchClassesMenu,
 });

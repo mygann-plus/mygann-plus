@@ -1,4 +1,4 @@
-import createModule from '~/module';
+import registerModule from '~/module';
 
 import { waitForLoad, constructButton, insertCss, addEventListener } from '~/utils/dom';
 
@@ -94,7 +94,7 @@ async function hideCompleted(opts, unloaderContext) {
   runFilterDialog(() => {});
 }
 
-export default createModule('{6394e18f-5b51-44f4-bb3c-1144ab97945a}', {
+export default registerModule('{6394e18f-5b51-44f4-bb3c-1144ab97945a}', {
   name: 'Hide Completed Assignments',
   description: 'Button to quickly show or hide completed and graded assignments',
   main: hideCompleted,

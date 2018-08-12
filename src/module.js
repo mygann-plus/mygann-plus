@@ -1,4 +1,4 @@
-export default function createModule(guid, module) {
+export default function registerModule(guid, module) {
 
   const defaultConfig = {
     showInOptions: true, // used for enabler modules
