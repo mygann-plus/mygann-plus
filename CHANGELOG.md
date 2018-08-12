@@ -40,7 +40,7 @@
   - Small look & feel tweaks to match native site theme and make buttons easier to locate
 - Search Classes Menu and Courses Filter will search all words in course name, not just first, and ignores punctuation
  
-
+ 
 ### Fixed
 - Fix all schedule modules (Free Block, Highlight Current Class, and Class Ending Time) not working with "today" button
 - Fix multiple class ending times appearing
@@ -49,6 +49,7 @@
 - Fix Hide Completed causing background flickering and behaving inconsistently
 - Fix "view more classes" being included in Search Classes Menu result
 - Fix Courses Filter bar and Grade Summary button disappearing when native courses bar buttons are clicked
+- Fix Search Classes Menu occasionally going to class page when menu is closed and enter is pressed
 - Under the hood fixes and performance improvements
 
 ### Known Issues
