@@ -9,7 +9,6 @@ import highlightCurrentClass from './modules/highlight-current-class';
 import inlineChangeStatus from './modules/inline-change-status';
 import messageNotifications from './modules/message-notifications';
 import nextGradedCourse from './modules/next-graded-course';
-import optionsDialog from './modules/options-dialog';
 import searchClassesMenu from './modules/search-classes-menu';
 import hideCompleted from './modules/hide-completed';
 import comingUp from './modules/coming-up';
@@ -20,9 +19,17 @@ import oneClickLogin from './modules/one-click-login';
 import exitCompose from './modules/exit-compose';
 import resizeAssignmentsToolbar from './modules/resize-assignments-toolbar';
 import linkifyMessageText from './modules/linkify-message-text';
+import userMenuLinks from './modules/user-menu-links';
+import fixDividers from './modules/fix-dividers';
 
 const MODULE_MAP = {
-  '#': [searchClassesMenu, messageNotifications, optionsDialog, favorites], // universal modules
+  '#': [
+    searchClassesMenu,
+    messageNotifications,
+    userMenuLinks, // options dialog and about
+    fixDividers,
+    favorites,
+  ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus],
   '#studentmyday/assignment-center': [

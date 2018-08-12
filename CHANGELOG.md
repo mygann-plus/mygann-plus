@@ -14,6 +14,7 @@
   - Button to go to the first link found in the body of the message
   - Button to dismiss notification and mark message as read
 - Added fix for native OnCampus bug where pressing escape in a compose message window causes unexpected quirks
+- Added fix for native OnCampus bug where menu dividers (including in the directories menu and main dropdown) are not always visible
 
 ### Changed
 - Extension renamed to "Gann OnCampus+"

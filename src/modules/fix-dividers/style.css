@@ -1,0 +1,4 @@
+:global .divider {
+  border-top: 1px solid #e5e5e5 !important;
+  background: unset !important;
+}
