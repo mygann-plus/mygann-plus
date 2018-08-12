@@ -8,7 +8,7 @@ import selectors from './selectors';
 import { showAddDialog, showEditDialog } from './favorites-dialogs';
 import { deleteSavedFavorite } from './favorites-model';
 
-import starIcon from './star_icon.png';
+import starIcon from './star-icon.png';
 
 function handleDelete(event, id) {
   const favoritesMenu = event.target.closest('.subnav');
