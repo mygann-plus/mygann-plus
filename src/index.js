@@ -40,7 +40,7 @@ async function runExtension() {
   // (plus dev feature to force initialization)
   await initializeOptions();
   setCssVars();
-  loadModules(window.location.hash);
+  loadModules(getHash(window.location.href));
   window.addEventListener('hashchange', e => {
     const newHash = getHash(e.newURL);
     const oldHash = getHash(e.oldURL);
