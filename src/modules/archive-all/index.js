@@ -14,6 +14,16 @@ This may take a few moments or temporarily slow down the website.
 Please do not use OnCampus until the operation is complete.
 `.trim();
 
+const textMap = {
+  '#message/inbox': {
+    button: 'Archive All',
+    message: 'Archiving',
+  },
+  '#message/archive': {
+    button: 'Unarchive All',
+    message: 'Unarchiving',
+  },
+};
 
 function archive() {
   const buttonClassName = 'conv-archive';
@@ -56,6 +66,12 @@ function handleButtonClick(e) {
 }
 
 async function archiveAll(opts, unloaderContext) {
+  const text = textMap[window.location.hash];
+  if (!text) {
+    // keep previous button on page, but don't add a new one.
+    return;
+  }
+
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
