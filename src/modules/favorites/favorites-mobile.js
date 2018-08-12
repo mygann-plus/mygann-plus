@@ -11,6 +11,11 @@ import { deleteSavedFavorite } from './favorites-model';
 function hideMenu() {
   document.querySelector('#app').click();
 }
+function handleAdd(event) {
+  event.preventDefault();
+  hideMenu();
+  showAddDialog(event);
+}
 function handleEdit(id) {
   hideMenu();
   showEditDialog(id);
@@ -52,6 +57,27 @@ function createLink(favorite) {
   );
 }
 
+/**
+ * OnCampus's native mobile menu listeners are applied after createMobileMenu is called
+ * However, it is neccessary to duplicate those listeners to support dynamic reloading
+ */
+
+function handleMenuLinkClick(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  e.stopImmediatePropagation();
+  const menu = e.target.closest('.clearfix').querySelector('.app-mobile-level');
+  menu.style.left = '0';
+  menu.classList.add('open');
+}
+function handleBackLinkClick(e) {
+  e.stopPropagation();
+  e.stopImmediatePropagation();
+  const menu = e.target.closest('.clearfix').querySelector('.app-mobile-level');
+  menu.style.left = '-300px';
+  menu.classList.remove('open');
+}
+
 export function createMobileMenu() {
   const starIconUrl = getAssetUrl('star_icon.png');
 
@@ -60,7 +86,7 @@ export function createMobileMenu() {
       <i className={
         classNames('p3icon-thinArrowLeft p3formWhite pull-left', selectors.mobileMenu.arrow)
       }/>
-      <a href="#" data-taskid="-5" id="mobile-group-header-News">
+      <a href="#" data-taskid="-5" onClick={handleMenuLinkClick}>
         <span className="iHolder pull-left ddd">
           <img src={starIconUrl} />
         </span>
@@ -68,7 +94,7 @@ export function createMobileMenu() {
       </a>
       <div className="app-mobile-level">
         <h2>Favorites</h2>
-        <div className="app-mobile-back" href="#">
+        <div className="app-mobile-back" href="#" onClick={handleBackLinkClick}>
         <i className="p3icon-sideArrow pull-right"></i> back</div>
         <div id={selectors.mobileMenu.dropdown}>
           <ul />
@@ -84,7 +110,7 @@ export function setMobileMenuList(menu, favorites) {
     <ul>
       { favorites.map(createLink) }
       <li>
-        <a href="#" onClick={showAddDialog}>
+        <a href="#" onClick={handleAdd}>
           <span className="iHolder pull-left">
             <i className="fa fa-plus"></i>
           </span>
