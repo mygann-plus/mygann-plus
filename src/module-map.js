@@ -62,16 +62,6 @@ const SECTION_MAP = {
   __proto__: null,
 };
 
-export const GUID_MAP = (function makeGuidMap() {
-  const map = Object.create(null); // use as map
-  for (const section in MODULE_MAP) {
-    for (const module of MODULE_MAP[section]) {
-      map[module.guid] = module;
-    }
-  }
-  return map;
-}());
-
 export function modulesForHash(hash) {
   const modules = new Set();
   for (const section in MODULE_MAP) {

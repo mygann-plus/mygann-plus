@@ -1,3 +1,7 @@
+import cloneDeep from 'lodash.clonedeep';
+
+const GUID_MAP = Object.create(null); // use as map
+
 export default function registerModule(guid, module) {
 
   const defaultConfig = {
@@ -24,7 +28,7 @@ export default function registerModule(guid, module) {
     throw new Error('Module must be created with function');
   }
 
-  return {
+  const moduleData = {
     guid,
     init,
     main,
@@ -32,4 +36,10 @@ export default function registerModule(guid, module) {
     config,
     __proto__: null,
   };
+  GUID_MAP[guid] = moduleData;
+  return moduleData;
+}
+
+export function getRegisteredModules() {
+  return { ...GUID_MAP };
 }

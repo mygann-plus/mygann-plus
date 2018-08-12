@@ -2,20 +2,20 @@ import classNames from 'classnames';
 import cloneDeep from 'lodash.clonedeep';
 import { diff as deepDiff } from 'deep-object-diff';
 
-import registerModule from '~/module';
+import registerModule, { getRegisteredModules } from '~/module';
 import {
   createElement,
   waitForLoad,
   insertCss,
 } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
+import log from '~/utils/log';
 
-import { MODULE_MAP, SECTION_MAP, GUID_MAP, modulesForHash } from '~/module-map';
+import { MODULE_MAP, SECTION_MAP, modulesForHash } from '~/module-map';
 import { hardUnloadModule, isModuleLoaded, loadModule } from '~/module-loader';
 import { getFlattenedOptions, setFlattenedOptions, mergeDefaultOptions } from '~/options';
 
 import style from './style.css';
-import log from '~/utils/log';
 
 const selectors = {
   section: {
@@ -308,6 +308,8 @@ function hardUnloadOrRefreshPage(module) {
 }
 
 async function saveOptions(oldOptions, newOptions) {
+  const GUID_MAP = getRegisteredModules();
+  console.log(GUID_MAP);
   await setFlattenedOptions(newOptions);
   const diff = deepDiff(oldOptions, newOptions);
 

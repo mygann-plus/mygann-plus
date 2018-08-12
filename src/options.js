@@ -1,5 +1,5 @@
+import { getRegisteredModules } from '~/module';
 import storage from '~/utils/storage';
-import { GUID_MAP } from '~/module-map';
 
 const SCHEMA_VERSION = 1;
 const OPTIONS_STORAGE_KEY = 'options';
@@ -34,6 +34,7 @@ export async function setFlattenedOptions(options) {
 }
 
 export function mergeDefaultOptions(options) {
+  const GUID_MAP = getRegisteredModules();
   const newOptions = {};
 
   for (const guid in GUID_MAP) {
