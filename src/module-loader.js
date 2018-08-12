@@ -56,14 +56,14 @@ export function isModuleLoaded(module) {
   return loadedModules.has(module);
 }
 
-export async function loadModule(module) {
+export async function loadModule(module, waitUntilLoaded = false) {
   const options = await getOptionsFor(module.guid);
   const unloaderContext = new UnloaderContext();
   if (!options.enabled) {
     return false;
   }
   // nested async function to prevent this from delaying other module loading
-  (async () => {
+  const loadedPromise = (async () => {
     if (!loadingModules.has(module)) {
       loadingModules.add(module);
       if (!isModuleLoaded(module) && module.init) {
@@ -84,6 +84,9 @@ export async function loadModule(module) {
       loadingModules.delete(module);
     }
   })();
+  if (waitUntilLoaded) {
+    await loadedPromise;
+  }
   return true;
 }
 
