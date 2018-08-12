@@ -50,6 +50,7 @@
 - Fix "view more classes" being included in Search Classes Menu result
 - Fix Courses Filter bar and Grade Summary button disappearing when native courses bar buttons are clicked
 - Fix Search Classes Menu occasionally going to class page when menu is closed and enter is pressed
+- Fix Archive All button duplicating when opening compose and message threads
 - Under the hood fixes and performance improvements
 
 ### Known Issues
