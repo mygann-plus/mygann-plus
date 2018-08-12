@@ -3,12 +3,12 @@ import classNames from 'classnames';
 import registerModule from '~/module';
 import {
   createElement,
-  waitForLoad,
   insertCss,
 } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
 import log from '~/utils/log';
 
+import { appendDesktopUserMenuLink, appendMobileUserMenuLink } from '~/shared/user-menu';
 import { MODULE_MAP, SECTION_MAP } from '~/module-map';
 import { getFlattenedOptions, setFlattenedOptions, mergeDefaultOptions } from '~/options';
 
@@ -311,62 +311,9 @@ async function showDialog() {
   dialog.open();
 }
 
-function appendDesktopNavLink() {
-  const menu = document.querySelector('.oneline.parentitem.last > :nth-child(3) > :first-child');
-  const nativeSettingsLink = menu.children[2];
-
-  const showDialogDesktop = e => {
-    e.preventDefault();
-    showDialog();
-  };
-
-  const link = (
-    <li>
-      <a href="#" className="pri-75-bgc-hover black-fgc white-fgc-hover sky-nav" onClick={showDialogDesktop}>
-        <span className="desc">
-          <span className="title">OnCampus+ Options</span>
-        </span>
-      </a>
-    </li>
-  );
-
-  nativeSettingsLink.after(link);
-
-}
-
-function appendMobileNavLink() {
-  const showDialogMobile = e => {
-    e.preventDefault();
-    document.body.click(); // hide mobile nav
-    showDialog();
-  };
-
-  const mobileNavLink = (
-    <li>
-      <a href="#" onClick={ showDialogMobile }>OnCampus+ Options</a>
-    </li>
-  );
-
-  const nativeSettingsLink = document.getElementById('mobile-settings-link');
-  nativeSettingsLink.after(mobileNavLink);
-}
-
-const domQuery = {
-  header: () => document.querySelector('.oneline.parentitem.last .subnavtop'),
-  mobileMenu: () => document.querySelector('#mobile-account-nav'),
-};
-
 function optionsDialog() {
-  waitForLoad(domQuery.header).then(appendDesktopNavLink);
-
-  waitForLoad(domQuery.mobileMenu).then(async () => {
-    await waitForLoad(() => (
-      document.querySelector('.app-mobile-level') &&
-      document.querySelector('#mobile-settings-link')
-    ));
-    appendMobileNavLink();
-  });
-
+  appendDesktopUserMenuLink('OnCampus+ Options', showDialog);
+  appendMobileUserMenuLink('OnCampus+ Options', showDialog);
   insertCss(style.toString());
 }
 
