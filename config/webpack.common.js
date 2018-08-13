@@ -1,10 +1,12 @@
 const path = require('path');
 
 module.exports = {
-  entry: path.resolve(__dirname, '../src/index.js'),
+  entry: {
+    'content-script': path.resolve(__dirname, '../src/index.js'),
+    'install-watch': path.resolve(__dirname, '../src/install-watch.js'),
+  },
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: 'index.js',
     publicPath: '/dist',
   },
   module: {
@@ -26,7 +28,7 @@ module.exports = {
         loader: 'file-loader',
         options: {
           outputPath: '/assets',
-        }
+        },
       },
     ],
   },

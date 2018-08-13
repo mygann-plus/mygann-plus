@@ -3,7 +3,7 @@ import registerModule from '~/module';
 import { createElement, insertCss } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
 import { appendDesktopUserMenuLink, appendMobileUserMenuLink, getHeader } from '~/shared/user-menu';
-import { hasUpdated, addUpdateChangeListener, clearUpdate } from '~/update';
+import { hasUpdated, addInstallStateChangeListener, clearInstallState } from '~/install';
 import Flyout from '~/utils/flyout';
 
 import style from './style.css';
@@ -31,7 +31,7 @@ function getReleaseNotesUrl() {
 function showUpdateFlyout(aboutBody) {
   const releaseNotesLink = aboutBody.querySelector(`#${selectors.releaseNotesLink}`);
   const flyout = new Flyout('New version of Gann OnCampus+ Check out what\'s new!', {
-    onHide: clearUpdate,
+    onHide: clearInstallState,
   });
   flyout.showAtElem(releaseNotesLink);
 }
@@ -95,7 +95,7 @@ async function about() {
     const linkBadge = <span className={selectors.updateBadge} id={selectors.desktopLinkBadge} />;
     desktopMenuLink.appendChild(linkBadge);
 
-    const changeListener = addUpdateChangeListener(({ newValue }) => {
+    const changeListener = addInstallStateChangeListener(({ newValue }) => {
       if (!newValue) {
         avatarBadge.remove();
         linkBadge.remove();
