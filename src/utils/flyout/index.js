@@ -25,9 +25,7 @@ export default class Flyout {
 
   showAtElem(targetElem, parentElem = targetElem.parentNode) {
     const { bottom, left, width } = targetElem.getBoundingClientRect();
-    const offsetBottom = window.scrollY + bottom;
-    const offsetLeft = window.scrollX + left;
-    this.showAt(offsetLeft + (width / 2), offsetBottom, parentElem);
+    this.showAt(left + (width / 2), bottom, parentElem);
   }
 
   showAt(x, y, parentElem = document.body) {
@@ -81,10 +79,8 @@ export default class Flyout {
   _position(x, y) {
     const { offsetParent } = this.outerElem;
     const { top, left } = offsetParent.getBoundingClientRect();
-    const offsetTop = top + window.scrollY;
-    const offsetLeft = left + window.scrollX;
-    this.outerElem.style.left = `${x - offsetLeft}px`;
-    this.outerElem.style.top = `${y - offsetTop}px`;
+    this.outerElem.style.left = `${x - left}px`;
+    this.outerElem.style.top = `${y - top}px`;
   }
 
   _onKeyDown(e) {
