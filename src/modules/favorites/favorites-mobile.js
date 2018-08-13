@@ -94,7 +94,7 @@ export function createMobileMenu() {
         </span>
         <span className="title">Favorites</span>
       </a>
-      <div className="app-mobile-level">
+      <div className={classNames('app-mobile-level', selectors.mobileMenu.submenu)}>
         <h2>Favorites</h2>
         <div className="app-mobile-back" href="#" onClick={handleBackLinkClick}>
         <i className="p3icon-sideArrow pull-right"></i> back</div>

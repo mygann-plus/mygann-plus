@@ -19,6 +19,7 @@ const selectors = {
   visibleMenu: locals['visible-menu'],
   dropdown: 'gocp_favorites_dropdown',
   mobileMenu: {
+    submenu: locals['mobile-menu-submenu'],
     arrow: locals['mobile-menu-arrow'],
     dropdown: 'gocp_favorites_mobile-dropdown',
   },
