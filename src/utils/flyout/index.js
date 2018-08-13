@@ -23,28 +23,16 @@ export default class Flyout {
     this._generateOuterElem();
   }
 
-  showAtElem(targetElem) {
+  showAtElem(targetElem, parentElem = targetElem.parentNode) {
     const { bottom, left, width } = targetElem.getBoundingClientRect();
     const offsetBottom = window.scrollY + bottom;
     const offsetLeft = window.scrollX + left;
-    this.showAt(offsetLeft + (width / 2), offsetBottom);
+    this.showAt(offsetLeft + (width / 2), offsetBottom, parentElem);
   }
 
-  showAt(x, y) {
-    this.outerElem.style.left = `${x}px`;
-    this.outerElem.style.top = `${y}px`;
-    document.body.appendChild(this.outerElem);
-    this.outerElem.focus();
-
-    setTimeout(() => {
-      this.outerElem.classList.add('in');
-    }, 0);
-
-    if (this.opts.autoHide) {
-      document.addEventListener('mousedown', () => this.hide(), {
-        once: true,
-      });
-    }
+  showAt(x, y, parentElem = document.body) {
+    this._show(parentElem);
+    this._position(x, y);
   }
 
   hide() {
@@ -74,6 +62,29 @@ export default class Flyout {
         </div>
       </div>
     );
+  }
+
+  _show(parentElem) {
+    parentElem.appendChild(this.outerElem);
+    this.outerElem.focus();
+    setTimeout(() => {
+      this.outerElem.classList.add('in');
+    }, 0);
+
+    if (this.opts.autoHide) {
+      document.addEventListener('mousedown', () => this.hide(), {
+        once: true,
+      });
+    }
+  }
+
+  _position(x, y) {
+    const { offsetParent } = this.outerElem;
+    const { top, left } = offsetParent.getBoundingClientRect();
+    const offsetTop = top + window.scrollY;
+    const offsetLeft = left + window.scrollX;
+    this.outerElem.style.left = `${x - offsetLeft}px`;
+    this.outerElem.style.top = `${y - offsetTop}px`;
   }
 
   _onKeyDown(e) {
