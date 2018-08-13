@@ -4,7 +4,7 @@
   "name": "Gann OnCampus+",
   "version": "0.5.0",
   
-  "description": "A suite of modules that enhance your Gann OnCampus experience",
+  "description": "A collection of modules that improve your Gann OnCampus experience",
   
   "content_scripts": [
     {
