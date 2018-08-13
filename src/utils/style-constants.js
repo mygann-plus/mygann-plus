@@ -5,6 +5,7 @@ const constants = {
   subduedText: 'rgb(66, 66, 66)',
   seperatorGray: '#e5e5e5',
   navMenuHighlight: '#fff2c0',
+  badgeRed: '#ff3633',
 
   maxMobileWidth: '978px',
 };

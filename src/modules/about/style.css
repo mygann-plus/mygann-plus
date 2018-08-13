@@ -19,3 +19,24 @@
   margin-bottom: 10.5px;
   font-size: 16px;
 }
+
+.update-badge {
+  display: inline-block;
+  background: var(--badge-red);
+  height: var(--badge-size);
+  width: var(--badge-size);
+  border-radius: 50%;
+  pointer-events: none;
+}
+#desktop-avatar-badge {
+  position: absolute;
+  left: 30px;
+  top: 10px;
+  --badge-size: 10px;
+}
+#desktop-link-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 5px;
+  --badge-size: 8px;
+}

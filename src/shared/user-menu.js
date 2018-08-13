@@ -33,6 +33,7 @@ export function appendDesktopUserMenuLink(title, onClick) {
     </li>
   );
   appendDesktopUserMenuElem(link);
+  return link;
 }
 export function appendMobileUserMenuLink(title, onClick) {
   const handleClick = e => {
@@ -49,4 +50,5 @@ export function appendMobileUserMenuLink(title, onClick) {
     #mobile-account-nav + .app-mobile-level ul li:last-child
   `);
   lastMobileLink.before(link);
+  return link;
 }
