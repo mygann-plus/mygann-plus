@@ -10,6 +10,10 @@ import { deleteSavedFavorite } from './favorites-model';
 
 import starIcon from './star-icon.png';
 
+function handleAdd(event) {
+  event.preventDefault();
+  showAddDialog();
+}
 function handleDelete(event, id) {
   const favoritesMenu = event.target.closest('.subnav');
   const li = event.target.closest('li');
@@ -81,7 +85,7 @@ export function setDesktopMenuList(menu, favorites) {
     <ul>
       { favorites.map(createLink) }
       <li>
-        <a href="#" className="sec-25-bgc-hover" id={selectors.addButton} onClick={showAddDialog}>
+        <a href="#" className="sec-25-bgc-hover" id={selectors.addButton} onClick={handleAdd}>
           <span className="desc">
             <span className="title black-fgc">
               <i className="fa fa-plus" />
