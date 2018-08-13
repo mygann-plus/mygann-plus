@@ -2,12 +2,15 @@ import { createElement } from '~/utils/dom';
 
 export const getHeader = () => document.querySelector('.oneline.parentitem.last .subnavtop');
 export const getMobileSettingsLink = () => document.querySelector('#mobile-settings-link');
+export const getDividers = () => (
+  document.querySelectorAll('.oneline.parentitem.last > :nth-child(3) > :first-child > .divider')
+);
 
 export function appendDesktopUserMenuElem(elem) {
   const dividers = document.querySelectorAll(`
     .oneline.parentitem.last > :nth-child(3) > :first-child > .divider
   `);
-  const nativeDivider = dividers[dividers.length - 2];
+  const nativeDivider = dividers[dividers.length - 1];
   nativeDivider.before(elem);
 }
 
