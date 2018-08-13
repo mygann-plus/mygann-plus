@@ -1,0 +1,34 @@
+import registerModule from '~/module';
+
+import { createElement, waitForLoad } from '~/utils/dom';
+import Flyout from '~/utils/flyout';
+import { getHeader } from '~/shared/user-menu';
+
+import { hasInstalled, clearInstallState } from '~/install';
+
+function createFlyoutBody() {
+  return (
+    <span>
+      Thanks for installing <b>Gann OnCampus+</b>!
+      You can find options in this menu.
+    </span>
+  );
+}
+
+async function installNotification() {
+  if (await hasInstalled()) {
+    const headerLink = await waitForLoad(() => (
+      getHeader() && getHeader().parentNode.querySelector('a')
+    ));
+    const flyout = new Flyout(createFlyoutBody(), {
+      onHide: clearInstallState,
+    });
+    flyout.showAtElem(headerLink);
+  }
+}
+
+export default registerModule('{826e61a8-06b8-458d-825f-e8b8f8ac3a0f}', {
+  name: 'internal.installNotification',
+  init: installNotification,
+  showInOptions: false,
+});

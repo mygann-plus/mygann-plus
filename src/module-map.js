@@ -21,14 +21,16 @@ import resizeAssignmentsToolbar from './modules/resize-assignments-toolbar';
 import linkifyMessageText from './modules/linkify-message-text';
 import userMenuLinks from './modules/user-menu-links';
 import fixDividers from './modules/fix-dividers';
+import installNotification from './modules/install-notification';
 
 const MODULE_MAP = {
   '#': [
     searchClassesMenu,
     messageNotifications,
     userMenuLinks, // options dialog and about
-    fixDividers,
     favorites,
+    fixDividers,
+    installNotification,
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus],

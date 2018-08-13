@@ -7,12 +7,12 @@ export function markInstallState(reason) {
   return storage.set(INSTALL_KEY, reason, SCHEMA_VERSION);
 }
 export async function hasInstalled() {
-  const updated = await storage.get(INSTALL_KEY, SCHEMA_VERSION);
-  return updated === 'install';
+  const installState = await storage.get(INSTALL_KEY, SCHEMA_VERSION);
+  return installState === 'install';
 }
 export async function hasUpdated() {
-  const updated = await storage.get(INSTALL_KEY, SCHEMA_VERSION);
-  return updated === 'update';
+  const installState = await storage.get(INSTALL_KEY, SCHEMA_VERSION);
+  return installState === 'update';
 }
 export function clearInstallState() {
   return markInstallState('');
