@@ -23,7 +23,8 @@ async function installNotification() {
     const flyout = new Flyout(createFlyoutBody(), {
       onHide: clearInstallState,
     });
-    flyout.showAtElem(headerLink);
+    // site-header-container is nearest ancestor that doesn't restrict width
+    flyout.showAtElem(headerLink, headerLink.closest('#site-header-container'));
   }
 }
 
