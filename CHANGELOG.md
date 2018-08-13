@@ -8,6 +8,9 @@
 - Previous graded course button added to Next Graded Course module
 - Hide ungraded courses feature in Filter Courses module
 - Support for mobile menu in Search Classes Menu
+- About dialog
+- Notification when extension updates
+- Welcome message when extension first installs
 - Three options for Filter Website in Main Search: collapse, move to bottom, and remove
 - Maximum messages to preview and dissapear time in message preview is now configurable
 - New buttons in Message Notifications 
