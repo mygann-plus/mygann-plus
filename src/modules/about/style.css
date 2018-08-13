@@ -1,0 +1,21 @@
+.wrap p {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.wrap a {
+  cursor: pointer;
+}
+
+.section-title {
+  margin-top: 20px;
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: normal;
+}
+
+.main-description {
+  font-weight: normal;
+  margin-bottom: 10.5px;
+  font-size: 16px;
+}

@@ -23,6 +23,7 @@ async function userMenuLinks() {
 
   appendDivider();
   await loadModule(optionsDialog, true);
+  await loadModule(about, true);
 }
 
 export default registerModule('{be1f2b48-87d7-4067-adc4-f68fb9f95d3b}', {
