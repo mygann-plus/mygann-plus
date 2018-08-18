@@ -3,7 +3,7 @@
     [
       "env", {
         "targets": {
-          "browsers": "last 2 Chrome versions"
+          "browsers": "Chrome >= 60"
         },
         "modules": false
       }
