@@ -11,6 +11,7 @@ import style from './style.css';
 
 const selectors = {
   flyoutMessage: style.locals['flyout-message'],
+  archivingMessage: style.locals['archiving-message'],
 };
 
 const MESSAGE = `
@@ -71,7 +72,7 @@ function handleButtonClick(e) {
       </div>
       {
         constructButton('Continue', '', '', () => {
-          document.getElementById('archivingMessage').style.display = 'block';
+          document.querySelector(`#${selectors.archivingMessage}`).style.display = 'inline-block';
           flyout.hide();
           archive();
         })
@@ -101,15 +102,15 @@ async function archiveAll(opts, unloaderContext) {
 
   const archivingMessage = (
     <span
-    id="archivingMessage"
-    style={{ display: 'none', marginLeft: '10px' }}
+      id={selectors.archivingMessage}
     >
       {ARCHIVING_TEXT} in progress... Please wait.
     </span>
   );
 
-  document.getElementById('button-bar').children[0].appendChild(button);
-  document.getElementById('button-bar').children[0].appendChild(archivingMessage);
+  const buttonBar = document.querySelector('#button-bar > :first-child');
+  buttonBar.appendChild(button);
+  buttonBar.appendChild(archivingMessage);
 
   unloaderContext.addRemovable(button);
   unloaderContext.addRemovable(archivingMessage);
