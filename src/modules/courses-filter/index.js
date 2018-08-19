@@ -4,7 +4,7 @@ import registerModule from '~/module';
 
 import fuzzyMatch from '~/utils/search';
 import constants from '~/utils/style-constants';
-import { createElement, waitForLoad, insertCss, addEventListener } from '~/utils/dom';
+import { createElement, waitForLoad, insertCss } from '~/utils/dom';
 import { coursesListLoaded, observeCoursesBar } from '~/shared/progress';
 
 import style from './style.css';
@@ -61,8 +61,9 @@ function generateDropdown(items) {
 
     wrap.appendChild(li);
 
-    a.addEventListener('click', e => {
+    a.addEventListener('mousedown', e => {
       e.preventDefault();
+      e.stopPropagation();
       const newChecked = li.getAttribute(CHECKED_ATTR) !== 'true';
       li.setAttribute(CHECKED_ATTR, String(newChecked));
       li.className = newChecked ? 'active' : '';
@@ -73,6 +74,8 @@ function generateDropdown(items) {
       filterButton.style.background = anyChecked ? constants.successGreen : 'white';
       filterButton.children[0].style.color = anyChecked ? 'white' : 'black';
     });
+
+    a.addEventListener('click', e => e.preventDefault());
 
     filters.push(course => {
       const checked = li.getAttribute(CHECKED_ATTR) === 'true';
