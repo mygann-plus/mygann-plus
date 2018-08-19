@@ -58,7 +58,10 @@ export function isModuleLoaded(module) {
 
 export async function loadModule(module, waitUntilLoaded = false) {
   const options = await getOptionsFor(module.guid);
-  const unloaderContext = new UnloaderContext();
+  const unloaderContext = isModuleLoaded(module) ?
+    loadedModules.get(module).unloaderContext
+    : new UnloaderContext();
+
   if (!options.enabled) {
     return false;
   }
