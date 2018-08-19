@@ -5,6 +5,8 @@ import registerModule from '~/module';
 import { fetchApi } from '~/utils/fetch';
 import { createElement, insertCss } from '~/utils/dom';
 
+import archiveMessage from '~/shared/archive';
+
 import style from './style.css';
 
 const TRANSITION_TIME = 300; // milliseconds for fade in/out animations
@@ -90,7 +92,7 @@ class MessageNotification {
   onArchiveClick(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.archiveMessage();
+    archiveMessage(this.message.id);
     this.removeMessage();
   }
   onDimissClick(e) {
@@ -106,16 +108,6 @@ class MessageNotification {
       this.messageElem.remove();
       this.onRemove();
     }, TRANSITION_TIME);
-  }
-
-  archiveMessage() {
-    fetchApi(`/api/message/conversationarchive/${this.message.id}?format=json`, {
-      method: 'PUT',
-      body: JSON.stringify({
-        id: this.message.id,
-        unarchive: false,
-      }),
-    });
   }
 
   markMessageAsRead() {
