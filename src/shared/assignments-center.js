@@ -2,9 +2,13 @@ import { createElement } from '~/utils/dom';
 
 /* eslint-disable import/prefer-default-export */
 export function appendMobileAssignmentCenterMenuLink(textContent, onClick, sectionIndex) {
+  const handleClick = e => {
+    e.preventDefault();
+    onClick(e);
+  };
   const link = (
     <li>
-      <a className="sec-75-bgc-hover" href="#" onClick={onClick}>
+      <a className="sec-75-bgc-hover" href="#" onClick={handleClick}>
         { textContent }
       </a>
     </li>

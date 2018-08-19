@@ -62,10 +62,7 @@ async function onFilterStatusClick(hideCompletedButtons) {
   });
 }
 
-async function toggleHidden(e) {
-  e.preventDefault();
-
-  const button = e.target;
+async function toggleHidden({ target: button }) {
   button.disabled = true;
   await runFilterDialog(dialog => {
     const checkboxes = dialog.querySelectorAll('.status-button');
