@@ -45,6 +45,7 @@
   - Small look & feel tweaks to match native site theme and make buttons easier to locate
 - Search Classes Menu and Courses Filter will search all words in course name, not just first, and ignore punctuation
 - Search Classes Menu tweaks to make it appear more native
+- Archive all is now significantly faster and does not slow down the rest of the page
  
  
 ### Fixed
