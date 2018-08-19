@@ -22,6 +22,7 @@ import linkifyMessageText from './modules/linkify-message-text';
 import userMenuLinks from './modules/user-menu-links';
 import fixDividers from './modules/fix-dividers';
 import installNotification from './modules/install-notification';
+import fixArchiveHighlight from './modules/fix-archive-highlight';
 
 const MODULE_MAP = {
   '#': [
@@ -46,7 +47,7 @@ const MODULE_MAP = {
     coursesFilter,
     nextGradedCourse,
   ],
-  '#message': [archiveAll],
+  '#message': [archiveAll, fixArchiveHighlight],
   '#message/compose': [exitCompose],
   '#message/conversation': [linkifyMessageText],
   '#searchresults/summary': [filterWebsiteMainSearch],
