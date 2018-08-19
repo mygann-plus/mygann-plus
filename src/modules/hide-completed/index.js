@@ -9,6 +9,7 @@ import {
 } from '~/utils/dom';
 
 import style from './style.css';
+import { appendMobileAssignmentCenterMenuLink } from '~/shared/assignments-center';
 
 const selectors = {
   activeButton: style.locals['active-button'],
@@ -96,14 +97,7 @@ async function hideCompleted(opts, unloaderContext) {
   filterStatusButton.parentNode.appendChild(button);
   unloaderContext.addRemovable(button);
 
-  const mobileLink = (
-    <li>
-      <a className="sec-75-bgc-hover" href="#" onClick={toggleHidden}>
-        Hide Completed
-      </a>
-    </li>
-  );
-  document.querySelectorAll('#optionsMenu .divider')[0].before(mobileLink);
+  const mobileLink = appendMobileAssignmentCenterMenuLink('Hide Completed', toggleHidden, 0);
   unloaderContext.addRemovable(mobileLink);
 
   const handleFilterStatus = () => onFilterStatusClick([button, mobileLink]);
