@@ -1,7 +1,11 @@
 import registerModule from '~/module';
 
 import { createElement, waitForLoad, constructButton, insertCss } from '~/utils/dom';
+import { fetchApi } from '~/utils/fetch';
 import Flyout from '~/utils/flyout';
+import tick from '~/utils/tick';
+
+import archiveMessage from '~/shared/archive';
 
 import style from './style.css';
 
@@ -25,26 +29,37 @@ const textMap = {
   },
 };
 
-function archive() {
-  const buttonClassName = 'conv-archive';
-  let buttons = document.getElementsByClassName(buttonClassName);
+const isOnInbox = () => window.location.hash === '#message/inbox';
 
-  if (!buttons.length) {
-    return false;
+// switches hashes, then goes back, which refreshes message list
+async function reloadHash() {
+  const oldHash = window.location.hash;
+  window.location.hash = '#message/officialnotes';
+  await tick();
+  window.location.hash = oldHash;
+}
+
+function getMessagePage(index) {
+  let query = `?format=json&pageNumber=${index}`;
+  if (!isOnInbox()) {
+    query += '&archiveStatus=1';
+  }
+  return fetchApi(`/api/message/inbox/${query}`);
+}
+
+async function archive(page = 0, messages = []) {
+  const pageMessages = await getMessagePage(page);
+
+  if (pageMessages.length > 0) {
+    messages.push(...pageMessages);
+    return archive(page + 1, messages);
   }
 
-  document.getElementById('archivingMessage').style.display = 'inline-block';
-  for (const button of buttons) {
-    button.click();
-  }
-  setTimeout(() => {
-    buttons = document.getElementsByClassName(buttonClassName);
-    if (!archive()) {
-      document.getElementById('archivingMessage').style.display = 'none';
-    }
-  }, 5000);
-
-  return true;
+  // messages must be archived all at once, or OnCampus returns incorrect data
+  await Promise.all(messages.map(m => {
+    return archiveMessage(m.ConversationId, !isOnInbox());
+  }));
+  reloadHash();
 }
 
 function handleButtonClick(e) {
@@ -56,6 +71,7 @@ function handleButtonClick(e) {
       </div>
       {
         constructButton('Continue', '', '', () => {
+          document.getElementById('archivingMessage').style.display = 'block';
           flyout.hide();
           archive();
         })
