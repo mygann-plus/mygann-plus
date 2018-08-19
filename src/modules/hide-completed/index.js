@@ -1,6 +1,12 @@
 import registerModule from '~/module';
 
-import { waitForLoad, constructButton, insertCss, addEventListener } from '~/utils/dom';
+import {
+  createElement,
+  waitForLoad,
+  constructButton,
+  insertCss,
+  addEventListener,
+} from '~/utils/dom';
 
 import style from './style.css';
 
@@ -38,7 +44,7 @@ async function runFilterDialog(fn) {
   }
 }
 
-async function onFilterStatusClick(hideCompletedButton) {
+async function onFilterStatusClick(hideCompletedButtons) {
   const applyButton = await waitForLoad(() => document.querySelector('#btn-filter-apply'));
   const dialog = applyButton.closest('.modal-dialog');
 
@@ -48,13 +54,17 @@ async function onFilterStatusClick(hideCompletedButton) {
     for (const index of completedStatusIndices) {
       allUnchecked = allUnchecked && !isChecked(checkboxes[index]);
     }
-    hideCompletedButton.classList.toggle(selectors.activeButton, allUnchecked);
-    hideCompletedButton.disabled = false;
+    for (const button of hideCompletedButtons) {
+      button.classList.toggle(selectors.activeButton, allUnchecked);
+      button.disabled = false;
+    }
   });
 }
 
-async function toggleHidden({ target: button }) {
+async function toggleHidden(e) {
+  e.preventDefault();
 
+  const button = e.target;
   button.disabled = true;
   await runFilterDialog(dialog => {
     const checkboxes = dialog.querySelectorAll('.status-button');
@@ -68,24 +78,47 @@ async function toggleHidden({ target: button }) {
   });
 }
 
-const domQuery = () => document.querySelector('#filter-status');
+const domQuery = {
+  desktop: () => document.querySelector('#filter-status'),
+  mobile: () => document.querySelector('#filter-status-menu'),
+};
 
 async function hideCompleted(opts, unloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
-  const filterStatusButton = await waitForLoad(domQuery);
+  await waitForLoad(() => domQuery.desktop() && domQuery.mobile());
+
+  const filterStatusButton = domQuery.desktop();
+  const filterStatusLink = domQuery.mobile();
 
   const button = constructButton('Hide Completed', '', 'fa fa-check', toggleHidden);
   filterStatusButton.parentNode.appendChild(button);
   unloaderContext.addRemovable(button);
 
-  const filterStatusListener = addEventListener(
+  const mobileLink = (
+    <li>
+      <a className="sec-75-bgc-hover" href="#" onClick={toggleHidden}>
+        Hide Completed
+      </a>
+    </li>
+  );
+  document.querySelectorAll('#optionsMenu .divider')[0].before(mobileLink);
+  unloaderContext.addRemovable(mobileLink);
+
+  const handleFilterStatus = () => onFilterStatusClick([button, mobileLink]);
+  const desktopFilterStatusListener = addEventListener(
     filterStatusButton,
     'click',
-    () => onFilterStatusClick(button),
+    handleFilterStatus,
   );
-  unloaderContext.addRemovable(filterStatusListener);
+  const mobileFilterStatusListener = addEventListener(
+    filterStatusLink,
+    'click',
+    handleFilterStatus,
+  );
+  unloaderContext.addRemovable(desktopFilterStatusListener);
+  unloaderContext.addRemovable(mobileFilterStatusListener);
 
   // open and apply dialog, which updates button to current filter
   // used for dynamic loading
