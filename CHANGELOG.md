@@ -16,8 +16,10 @@
 - New buttons in Message Notifications 
   - Button to go to the first link found in the body of the message
   - Button to dismiss notification and mark message as read
-- Added fix for native OnCampus bug where pressing escape in a compose message window causes unexpected quirks
-- Added fix for native OnCampus bug where menu dividers (including in the directories menu and main dropdown) are not always visible
+- Added fixes for native OnCampus bugs:
+  - Fix for pressing escape in a compose message window causing unexpected quirks
+  - Fix for menu dividers (including in the directories menu and main dropdown) not always being visible
+  - Fix for Archived Inbox page highlighting "Official Notes" instead of "Messages" in the top navigation bar
 
 ### Changed
 - Extension renamed to "Gann OnCampus+"
