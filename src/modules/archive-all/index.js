@@ -15,8 +15,7 @@ const selectors = {
 };
 
 const MESSAGE = `
-This may take a few moments or temporarily slow down the website. 
-Please do not use OnCampus until the operation is complete.
+This may take a few moments. Please do not use OnCampus until the operation finishes.
 `.trim();
 
 const textMap = {
