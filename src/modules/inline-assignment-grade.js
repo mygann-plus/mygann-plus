@@ -3,8 +3,7 @@ import registerModule from '~/module';
 import { waitForLoad, constructButton } from '~/utils/dom';
 import { fetchApi } from '~/utils/fetch';
 import { getUserId } from '~/utils/user';
-import { loadModule } from '~/module-loader';
-import resizeAssignmentsToolbar from '~/modules/resize-assignments-toolbar';
+import { appendMobileAssignmentCenterMenuLink } from '~/shared/assignments-center';
 
 const filterUngraded = label => {
   return label.textContent === 'Graded';
@@ -47,7 +46,10 @@ async function inlineAssignmentGrade(opts, unloaderContext) {
     showGrades,
   );
   filterStatusButton.parentNode.appendChild(showGradesBtn);
+  const showGradesLink = appendMobileAssignmentCenterMenuLink('Show Grades', showGrades, 0);
+
   unloaderContext.addRemovable(showGradesBtn);
+  unloaderContext.addRemovable(showGradesLink);
 }
 
 export default registerModule('{0540d147-af76-4f44-a23d-415506e8e777}', {
