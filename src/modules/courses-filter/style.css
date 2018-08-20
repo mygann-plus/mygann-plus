@@ -19,3 +19,9 @@
   background: 'white';
   border: '1px solid #e5e6e7';
 }
+
+@media (max-width: 978px) {
+  .filter-input, .dropdown-button {
+    margin-top: 10px;
+  }
+}

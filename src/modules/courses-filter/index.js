@@ -44,7 +44,7 @@ function runFilter() {
 }
 
 function handleSearch(course) {
-  const query = document.getElementById('gocp_courses-search_searchbar').value;
+  const query = document.querySelector(`.${selectors.filterInput}`).value;
   return fuzzyMatch(query, course.name);
 }
 filters.push(handleSearch);
@@ -70,7 +70,7 @@ function generateDropdown(items) {
       runFilter();
 
       const anyChecked = document.querySelectorAll(`li[${CHECKED_ATTR}="true"]`).length > 0;
-      const filterButton = document.getElementById('gocp_courses-filter_button');
+      const filterButton = document.querySelector(`.${selectors.dropdownButton}`);
       filterButton.style.background = anyChecked ? constants.successGreen : 'white';
       filterButton.children[0].style.color = anyChecked ? 'white' : 'black';
     });
@@ -87,7 +87,7 @@ function generateDropdown(items) {
 }
 
 function getDropdownMenu() {
-  return document.getElementById('gocp_courses-filter_button').parentNode.children[0];
+  return document.querySelector(`.${selectors.dropdownButton}`).parentNode.children[0];
 }
 function hideDropdownMenu() {
   getDropdownMenu().style.display = 'none';
@@ -118,7 +118,6 @@ function renderFilterBar() {
 
   const input = (
     <input
-      id="gocp_courses-search_searchbar"
       className={ classNames('form-control', selectors.filterInput) }
       type="search"
       placeholder="Search Courses"
@@ -129,7 +128,6 @@ function renderFilterBar() {
 
   const dropdownButton = (
     <button
-      id="gocp_courses-filter_button"
       className={ classNames('btn btn-default btn-sm dropdown-toggle', selectors.dropdownButton) }
       dataset={{ toggle: 'dropdown' }}
       onClick={ toggleDropdownMenu }

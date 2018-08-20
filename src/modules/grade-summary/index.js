@@ -1,7 +1,13 @@
 import registerModule from '~/module';
-import { waitForLoad, constructButton, createElement } from '~/utils/dom';
+import { waitForLoad, constructButton, createElement, insertCss } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
 import { coursesListLoaded, observeCoursesBar } from '~/shared/progress';
+
+import style from './style.css';
+
+const selectors = {
+  button: style.locals.button,
+};
 
 function letterGradeFromNumber(num) {
   const number = Number(num.split('%')[0]);
@@ -75,12 +81,16 @@ async function addGradeButton() {
     '',
     generateReport,
   );
+  button.classList.add(selectors.button);
   button.classList.add('pull-right');
   getCoursesBar().appendChild(button);
   return button;
 }
 
 async function gradeSummary(opts, unloaderContext) {
+  const styles = insertCss(style.toString());
+  unloaderContext.addRemovable(styles);
+
   let gradeButtonUnloader = unloaderContext.addRemovable(await addGradeButton());
   const coursesBarObserver = observeCoursesBar(async () => {
     gradeButtonUnloader.remove();
