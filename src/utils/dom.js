@@ -1,4 +1,5 @@
 import flatten from 'array-flatten';
+import classNames from 'classnames';
 
 export function waitForLoad(condition, root = document.body) {
 
@@ -69,13 +70,18 @@ export function createElement(tagName, props, ...children) {
   return elem;
 }
 
-export function constructButton(textContent, id, iClassName, onClick) {
+export function constructButton(textContent, id, iClassName, onClick, classnames = '') {
   const styles = {
     button: { color: 'black' },
     icon: { visibility: 'visible', marginRight: '5px' },
   };
   return (
-    <button id={id} className="btn btn-sm btn-default" onClick={onClick} style={{ color: 'black' }}>
+    <button
+      id={id}
+      className={classNames('btn btn-sm btn-default', classnames)}
+      onClick={onClick}
+      style={{ color: 'black' }}
+    >
       { iClassName && <i className={iClassName} style={styles.icon} /> }
       { textContent }
     </button>
