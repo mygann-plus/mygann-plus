@@ -51,6 +51,7 @@ export default class Flyout {
         className={classNames('popover fade bottom', selectors.flyout)}
         role="tooltip"
         onMouseDown={e => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
         onKeyDown={e => this._onKeyDown(e)}
         tabIndex={-1}
       >
