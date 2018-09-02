@@ -35,9 +35,9 @@ function getTommorowDateString() {
 
 }
 
-function fetchData() {
+async function fetchData() {
 
-  const id = getUserId();
+  const id = await getUserId();
 
   const query = `mydayDate=${getTommorowDateString()}&viewerId=${id}&viewerPersonaId=2`;
   const endpoint = `/api/schedule/ScheduleCurrentDayAnnouncmentParentStudent/?${query}`;

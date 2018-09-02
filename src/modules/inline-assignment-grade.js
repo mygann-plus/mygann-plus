@@ -18,7 +18,7 @@ const calculateGrade = data => {
 };
 
 async function getGrade(id) {
-  const studentId = getUserId();
+  const studentId = await getUserId();
   const endpoint = '/api/datadirect/AssignmentStudentDetail';
   const query = `?format=json&studentId=${studentId}&AssignmentIndexId=${id}`;
   return fetchApi(endpoint + query);
