@@ -1,5 +1,3 @@
-import cloneDeep from 'lodash.clonedeep';
-
 const GUID_MAP = Object.create(null); // use as map
 
 export default function registerModule(guid, module) {
