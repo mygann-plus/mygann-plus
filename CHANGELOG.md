@@ -4,7 +4,9 @@
 - "Favorites" module
 - "Day Schedule Button" module, which adds a button to return to the day view in the month & week schedule view
 - "One Click Login" module, which restores the login page to before the summer of 2018 update with only one login button (as opposed to post-2018 version, which requires two button clicks: "next", then "login")
-- "Message Links" module, which makes links in messages clickable.
+- "Hide Tasks After Due" module, which hides "My Tasks" after their due date, or based on the selected date(s) in the assignment center
+- "Message Links" module, which makes links in messages clickable
+- "Mark As Read" module for messages
 - Previous graded course button added to Next Graded Course module
 - Hide ungraded courses feature in Filter Courses module
 - Support for mobile menu in Search Classes Menu
