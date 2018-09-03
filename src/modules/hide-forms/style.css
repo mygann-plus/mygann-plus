@@ -1,7 +1,0 @@
-.hide-button {
-  margin-left: 10px;
-}
-.hide-button.active {
-  color: white !important;
-  background: var(--success-green);
-}
