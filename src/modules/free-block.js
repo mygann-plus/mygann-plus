@@ -2,6 +2,7 @@ import registerModule from '~/module';
 
 import { createElement, waitForLoad } from '~/utils/dom';
 import { addDayChangeListeners, to24Hr } from '~/shared/schedule';
+import { compareDate, timeStringToDate } from '~/utils/date';
 
 // start and end must be 24HR format
 function isConsecutive(start, end) {
@@ -44,16 +45,16 @@ function insertBlock(elemBefore, startTime, endTime) {
   const createCell = (heading, content) => <td dataset={{ heading }}>{ content }</td>;
 
   const activity = <h4><a href="#studentmyday/schedule">Free</a></h4>;
-  const contact = <span><span>N/A</span></span>;
+  const attendance = <span><span>N/A</span></span>;
 
   const tr = (
     <tr>
       { createCell('Time', `${addMinutes(startTime, 5)} - ${addMinutes(endTime, -5)}`) }
       { createCell('Block', 'Free Block') }
       { createCell('Activity', activity) }
-      { createCell('Contact', contact)}
+      { createCell('Contact', '')}
       { createCell('Details', '') }
-      { createCell('Attendance', '') }
+      { createCell('Attendance', attendance) }
     </tr>
   );
 
@@ -74,7 +75,15 @@ async function insertFreeBlock() {
       const nextTime = blocks[i + 1].children[0].childNodes[0].data.trim();
       const nextStartTime = nextTime.split('-')[0].trim();
 
-      if (!(isConsecutive(to24Hr(endTime), to24Hr(nextStartTime)))) {
+      const fullEndTime = to24Hr(endTime);
+      const fullNextStartTime = to24Hr(nextStartTime);
+      const endDate = timeStringToDate(fullEndTime);
+      const nextStartDate = timeStringToDate(fullNextStartTime);
+
+      // this catches two blocks overlapping, e.g. during Tuesday advisory lunch
+      const isOverlap = compareDate(endDate, nextStartDate) > 0;
+
+      if (!isConsecutive(fullEndTime, fullNextStartTime) && !isOverlap) {
         insertBlock(elem, endTime, nextStartTime);
         setTimeout(() => {
           if (document.getElementsByClassName('oes_freeblock_block') === 0) {

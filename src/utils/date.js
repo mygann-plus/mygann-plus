@@ -68,3 +68,14 @@ export function getDaysInMonth (month, year) {
 export function getMonthFromString(monthString) {
   return new Date(Date.parse(`${monthString} 1, 2000`)).getMonth();
 }
+
+/**
+ * Converts a 24-hour time string to a Date object
+*/
+export function timeStringToDate(timeString) {
+  const date = new Date();
+  date.setHours(timeString.split(':')[0]);
+  date.setMinutes(timeString.split(':')[1]);
+  date.setSeconds(timeString.split(':')[2]);
+  return date;
+}
