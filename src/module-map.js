@@ -23,6 +23,7 @@ import userMenuLinks from './modules/user-menu-links';
 import fixDividers from './modules/fix-dividers';
 import installNotification from './modules/install-notification';
 import fixArchiveHighlight from './modules/fix-archive-highlight';
+import markAsRead from './modules/mark-as-read';
 import hideTasksAfterDue from './modules/hide-tasks-after-due';
 
 const MODULE_MAP = {
@@ -50,6 +51,7 @@ const MODULE_MAP = {
     nextGradedCourse,
   ],
   '#message': [archiveAll, fixArchiveHighlight],
+  '#message/inbox': [markAsRead],
   '#message/compose': [exitCompose],
   '#message/conversation': [linkifyMessageText],
   '#searchresults/summary': [filterWebsiteMainSearch],
@@ -66,6 +68,7 @@ const SECTION_MAP = {
   '#studentmyday/schedule': 'Schedule',
   '#studentmyday/progress': 'Progress',
   '#message': 'Messages',
+  '#message/inbox': 'Messages Inbox',
   '#message/compose': 'Message Compose',
   '#message/conversation': 'Message Conversation',
   '#searchresults/summary': 'Search Results Summary',
