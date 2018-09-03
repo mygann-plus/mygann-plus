@@ -1,0 +1,8 @@
+:global #schedule-header .alert.alert-info {
+  position: relative;
+}
+
+.label {
+  position: absolute;
+  right: 10px;
+}

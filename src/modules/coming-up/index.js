@@ -1,10 +1,16 @@
 import registerModule from '~/module';
 
 import { fetchApi } from '~/utils/fetch';
-import { waitForLoad } from '~/utils/dom';
+import { createElement, waitForLoad, insertCss } from '~/utils/dom';
 import { isLeapYear } from '~/utils/date';
 import { getUserId } from '~/utils/user';
 import { isCurrentDay, addDayChangeListeners } from '~/shared/schedule';
+
+import style from './style.css';
+
+const selectors = {
+  label: style.locals.label,
+};
 
 function getTommorowDateString() {
   const dateObj = new Date();
@@ -44,7 +50,7 @@ async function fetchData() {
 
   return fetchApi(endpoint)
     .then(d => (
-      d.filter(m => m.Announcement !== '')[0].Announcement
+      d.filter(m => m.Announcement !== '').map(m => m.Announcement)
     ));
 }
 
@@ -70,13 +76,19 @@ function showComingUp() {
           createAlertBox();
         }
         if (announcements.length) {
-          document.getElementsByClassName('alert alert-info')[0].innerHTML += `<div>- <i>Tommorow: ${announcements}</i></div>`;
+          const label = (
+            <div className={selectors.label}><i>Tommorow: { announcements.join('; ') }</i></div>
+          );
+          document.getElementsByClassName('alert alert-info')[0].appendChild(label);
         }
       }
     });
 }
 
-function comingUp() {
+function comingUp(opts, unloaderContext) {
+  const styles = insertCss(style.toString());
+  unloaderContext.addRemovable(styles);
+
   showComingUp();
   addDayChangeListeners(() => {
     // there's a small delay between button click and date change in dom
