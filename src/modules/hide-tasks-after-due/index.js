@@ -192,7 +192,7 @@ function unloadHideTasksAfterDue() {
 
 export default registerModule('{3928713d-1837-4f0a-a0c8-e5d9b1388fd9}', {
   name: 'Hide Tasks After Due',
-  description: 'Hide "My Tasks" after their due date, or based on the selected date(s) in the assignment center',
+  description: 'Hide "My Tasks" after their due date, or based on the selected date(s) in the assignment center', // eslint-disable-line max-len
   main: hideTasksAfterDue,
   unload: unloadHideTasksAfterDue,
   suboptions: {

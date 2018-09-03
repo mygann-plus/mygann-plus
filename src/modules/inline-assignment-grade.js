@@ -25,7 +25,8 @@ async function getGrade(id) {
 }
 
 async function showGrades() {
-  const gradedLabels = Array.from(document.getElementsByClassName('label-success')).filter(filterUngraded);
+  const gradedLabels = Array.from(document.querySelectorAll('.label-success'))
+    .filter(filterUngraded);
   const ids = gradedLabels.map(getIdFromLabel);
   const data = await Promise.all(ids.map(getGrade));
   const grades = data.map(([d]) => calculateGrade(d));

@@ -30,7 +30,12 @@ function createOptionElem(name, val) {
 }
 
 function createDropdown(parentNode, controller, index, preVal) {
-  const existingValue = preVal || document.querySelectorAll('.assignment-status-update')[index].parentNode.parentNode.children[5].textContent.trim();
+  const existingValue = (
+    preVal ||
+    document
+      .querySelectorAll('.assignment-status-update')[index]
+      .parentNode.parentNode.children[5].textContent.trim()
+  );
   // oncampus natively uses non breaking spaces for ONLY in progress labels
   const optionNames = ['To Do', 'In\u00a0Progress', 'Completed'];
   optionNames.splice(optionNames.indexOf(existingValue), 1);
@@ -99,7 +104,7 @@ function unloadInlineChangeStatus() {
 
 export default registerModule('{4155f319-a10b-4e4e-8a10-999a43ef9d19}', {
   name: 'Improved Status Dropdown',
-  description: 'Show status dropdown directly in assignment, without having to click on "Change Status" link',
+  description: 'Show status dropdown directly in assignment, without having to click on "Change Status" link', // eslint-disable-line max-len
   main: inlineChangeStatus,
   unload: unloadInlineChangeStatus,
 });

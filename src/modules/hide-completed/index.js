@@ -1,15 +1,15 @@
 import registerModule from '~/module';
 
 import {
-  createElement,
   waitForLoad,
   constructButton,
   insertCss,
   addEventListener,
 } from '~/utils/dom';
 
-import style from './style.css';
 import { appendMobileAssignmentCenterMenuLink } from '~/shared/assignments-center';
+
+import style from './style.css';
 
 const selectors = {
   activeButton: style.locals['active-button'],
