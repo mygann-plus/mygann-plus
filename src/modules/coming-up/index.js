@@ -2,7 +2,6 @@ import registerModule from '~/module';
 
 import { fetchApi } from '~/utils/fetch';
 import { createElement, waitForLoad, insertCss } from '~/utils/dom';
-import { isLeapYear } from '~/utils/date';
 import { getUserId } from '~/utils/user';
 import { isCurrentDay, addDayChangeListeners } from '~/shared/schedule';
 
@@ -13,32 +12,13 @@ const selectors = {
 };
 
 function getTommorowDateString() {
-  const dateObj = new Date();
-  let date = dateObj.getDate();
-  let month = dateObj.getMonth();
+  const date = new Date();
+  date.setDate(date.getDate() + 1);
+  return [date.getMonth() + 1, date.getDate(), date.getFullYear()].join('%2F');
+}
 
-  // calculate the month rollover
-  const thirtyDayMonths = [3, 5, 7, 10];
-  if (thirtyDayMonths.indexOf(month) > -1 && date + 1 > 30) {
-    month++;
-    date = 1;
-  } else if (month === 1) {
-    if (isLeapYear() && date + 1 > 29) {
-      month++;
-      date = 1;
-    } else if (date + 1 > 28) {
-      month++;
-      date = 1;
-    }
-  } else if (date + 1 > 31) {
-    month++;
-    date = 0;
-  } else {
-    date++;
-  }
-
-  return [month + 1, date, dateObj.getFullYear()].join('%2F');
-
+function getAnnouncementWrap() {
+  return document.querySelector('#schedule-header .alert.alert-info');
 }
 
 async function fetchData() {
@@ -55,34 +35,39 @@ async function fetchData() {
 }
 
 function createAlertBox() {
-  const html = `
-    <div class="alert alert-info" style="margin-top:10px;">
+  const alertBox = (
+    <div className="alert alert-info" style="margin-top:10px;">
     </div>
-  `;
-  document.getElementsByClassName('col-md-12')[3].children[1].innerHTML += html;
+  );
+  document.getElementsByClassName('col-md-12')[3].children[1].appendChild(alertBox);
 }
 
 const domQuery = () => (
-  document.getElementsByClassName('alert alert-info').length ||
+  getAnnouncementWrap() ||
   (document.getElementsByClassName('pl-10')[0] &&
   document.getElementsByClassName('pl-10')[0].textContent === 'There is nothing scheduled for this date.') // eslint-disable-line max-len
 );
-function showComingUp() {
-  waitForLoad(domQuery)
-    .then(async () => {
-      if (isCurrentDay()) {
-        const announcements = await fetchData();
-        if (!document.getElementsByClassName('alert alert-info').length) {
-          createAlertBox();
-        }
-        if (announcements.length) {
-          const label = (
-            <div className={selectors.label}><i>Tommorow: { announcements.join('; ') }</i></div>
-          );
-          document.getElementsByClassName('alert alert-info')[0].appendChild(label);
-        }
-      }
-    });
+
+async function showComingUp() {
+  await waitForLoad(domQuery);
+
+  if (!isCurrentDay()) {
+    return;
+  }
+
+  const announcements = await fetchData();
+  if (!getAnnouncementWrap()) {
+    createAlertBox();
+  }
+  if (announcements.length) {
+    const label = (
+      <div className={selectors.label}>
+        <i>Tommorow: { announcements.join('; ') }</i>
+      </div>
+    );
+    getAnnouncementWrap().appendChild(label);
+  }
+
 }
 
 function comingUp(opts, unloaderContext) {
