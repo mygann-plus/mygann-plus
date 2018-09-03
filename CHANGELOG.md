@@ -62,6 +62,7 @@
 - Fix Courses Filter bar and Grade Summary button disappearing when native courses bar buttons are clicked
 - Fix Search Classes Menu occasionally going to class page when menu is closed and enter is pressed
 - Fix Archive All button duplicating when opening compose and message threads
+- Fix Free Block incorrectly showing when two blocks overlap
 - Under the hood fixes and performance improvements
 
 ### Known Issues
