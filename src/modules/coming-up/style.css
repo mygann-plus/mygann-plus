@@ -1,8 +1,13 @@
-:global #schedule-header .alert.alert-info {
-  position: relative;
-}
+/* desktop */
+@media (min-width: 1200px) {
 
-.label {
-  position: absolute;
-  right: 10px;
+  :global #schedule-header .alert.alert-info {
+    position: relative;
+  }
+
+  .label {
+    position: absolute;
+    right: 10px;
+  }
+
 }
