@@ -24,6 +24,7 @@ import fixDividers from './modules/fix-dividers';
 import installNotification from './modules/install-notification';
 import fixArchiveHighlight from './modules/fix-archive-highlight';
 import markAsRead from './modules/mark-as-read';
+import hideForms from './modules/hide-forms';
 import hideTasksAfterDue from './modules/hide-tasks-after-due';
 
 const MODULE_MAP = {
@@ -34,6 +35,7 @@ const MODULE_MAP = {
     favorites,
     fixDividers,
     installNotification,
+    hideForms,
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus],
