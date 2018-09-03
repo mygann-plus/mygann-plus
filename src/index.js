@@ -1,12 +1,17 @@
 import { diff as deepDiff } from 'deep-object-diff';
 
+import setCssVars from '~/utils/css-vars';
+import log from '~/utils/log';
+
+import { getRegisteredModules } from '~/module';
 import { modulesForHash } from '~/module-map';
 import { loadModule, softUnloadModule, hardUnloadModule, isModuleLoaded } from '~/module-loader';
-
-import setCssVars from '~/utils/css-vars';
-import { getFlattenedOptions, setFlattenedOptions, mergeDefaultOptions, addOptionsChangeListener } from '~/options';
-import log from '~/utils/log';
-import { getRegisteredModules } from '~/module';
+import {
+  getFlattenedOptions,
+  setFlattenedOptions,
+  mergeDefaultOptions,
+  addOptionsChangeListener,
+} from '~/options';
 
 function getHash(url) {
   return new URL(url).hash || '#';
