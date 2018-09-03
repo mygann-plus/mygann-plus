@@ -59,12 +59,12 @@ function insertBlock(elemBefore, startTime, endTime) {
   );
 
   elemBefore.after(tr);
-
+  return tr;
 }
 
 const domQuery = () => document.querySelector('#accordionSchedules > :first-child > *');
 
-async function insertFreeBlock() {
+async function insertFreeBlock(unloaderContext) {
   await waitForLoad(domQuery);
   const blocks = Array.from(document.getElementById('accordionSchedules').children);
   blocks.forEach((elem, i) => {
@@ -84,10 +84,12 @@ async function insertFreeBlock() {
       const isOverlap = compareDate(endDate, nextStartDate) > 0;
 
       if (!isConsecutive(fullEndTime, fullNextStartTime) && !isOverlap) {
-        insertBlock(elem, endTime, nextStartTime);
+        const block = insertBlock(elem, endTime, nextStartTime);
+        unloaderContext.addRemovable(block);
+
         setTimeout(() => {
           if (document.getElementsByClassName('oes_freeblock_block') === 0) {
-            insertFreeBlock();
+            insertFreeBlock(unloaderContext);
           }
         }, 100);
       }
@@ -95,9 +97,11 @@ async function insertFreeBlock() {
   });
 }
 
-function freeBlock() {
-  insertFreeBlock();
-  addDayChangeListeners(insertFreeBlock);
+function freeBlock(opts, unloaderContext) {
+  insertFreeBlock(unloaderContext);
+
+  const dayChangeListener = addDayChangeListeners(() => insertFreeBlock(unloaderContext));
+  unloaderContext.addRemovable(dayChangeListener);
 }
 
 export default registerModule('{5a1befbf-8fed-481d-8184-8db72ba22ad1}', {

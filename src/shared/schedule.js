@@ -1,3 +1,5 @@
+import { addEventListener } from '~/utils/dom';
+
 /* eslint-disable import/prefer-default-export */
 
 function formatDay(dayString) {
@@ -24,13 +26,14 @@ export function isCurrentDay() {
 }
 
 export function addDayChangeListeners(callback) {
-  document.body.addEventListener('click', e => {
+  const listener = e => {
     if (hasParentWithClassName(e.target, [
       'chCal-button-next', 'chCal-button-prev', 'chCal-button-today', 'chCal-button-today',
     ])) {
       callback();
     }
-  });
+  };
+  return addEventListener(document.body, 'click', listener);
 }
 
 export function to24Hr(t) {
