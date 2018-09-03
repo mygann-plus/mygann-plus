@@ -1,8 +1,10 @@
 import registerModule from '~/module';
 
 import { createElement, waitForLoad } from '~/utils/dom';
-import { addDayChangeListeners, to24Hr } from '~/shared/schedule';
 import { compareDate, timeStringToDate } from '~/utils/date';
+
+import { addDayChangeListeners, to24Hr } from '~/shared/schedule';
+import { getTableRowColumnContent } from '~/shared/table';
 
 // start and end must be 24HR format
 function isConsecutive(start, end) {
@@ -41,7 +43,7 @@ function addMinutes(time, mins) {
   return `${hours}:${padNumber(Number(minutes) + mins)} ${time.split(' ')[1]}`;
 }
 
-function insertBlock(elemBefore, startTime, endTime) {
+function insertBlock(elemBefore, startTime, endTime, blockText) {
   const createCell = (heading, content) => <td dataset={{ heading }}>{ content }</td>;
 
   const activity = <h4><a href="#studentmyday/schedule">Free</a></h4>;
@@ -50,7 +52,7 @@ function insertBlock(elemBefore, startTime, endTime) {
   const tr = (
     <tr>
       { createCell('Time', `${addMinutes(startTime, 5)} - ${addMinutes(endTime, -5)}`) }
-      { createCell('Block', 'Free Block') }
+      { createCell('Block', blockText) }
       { createCell('Activity', activity) }
       { createCell('Contact', '')}
       { createCell('Details', '') }
@@ -62,9 +64,19 @@ function insertBlock(elemBefore, startTime, endTime) {
   return tr;
 }
 
+// returns "A" or "B" depending on day of week
+function getEndBlock() {
+  const day = document.querySelector('.chCal-header-space + h2').textContent.trim();
+  if (day === 'Monday' || day === 'Wednesday') {
+    return 'A';
+  } else {
+    return 'B';
+  }
+}
+
 const domQuery = () => document.querySelector('#accordionSchedules > :first-child > *');
 
-async function insertFreeBlock(unloaderContext) {
+async function insertFreeBlock(options, unloaderContext) {
   await waitForLoad(domQuery);
   const blocks = Array.from(document.getElementById('accordionSchedules').children);
   blocks.forEach((elem, i) => {
@@ -84,27 +96,41 @@ async function insertFreeBlock(unloaderContext) {
       const isOverlap = compareDate(endDate, nextStartDate) > 0;
 
       if (!isConsecutive(fullEndTime, fullNextStartTime) && !isOverlap) {
-        const block = insertBlock(elem, endTime, nextStartTime);
+        const block = insertBlock(elem, endTime, nextStartTime, 'Free Block');
         unloaderContext.addRemovable(block);
 
         setTimeout(() => {
           if (document.getElementsByClassName('oes_freeblock_block') === 0) {
-            insertFreeBlock(unloaderContext);
+            insertFreeBlock(options, unloaderContext);
           }
         }, 100);
+      }
+    } else if (options.showEndBlocks) {
+      // special case for A/B block
+      const blockText = getTableRowColumnContent(blocks[i], 'Block');
+      if (blockText === 'Mincha') {
+        const insertedBlock = insertBlock(elem, '3:55 PM', '5:05 PM', `${getEndBlock()} Block`);
+        unloaderContext.addRemovable(insertedBlock);
       }
     }
   });
 }
 
-function freeBlock(opts, unloaderContext) {
-  insertFreeBlock(unloaderContext);
+function freeBlock(options, unloaderContext) {
+  insertFreeBlock(options, unloaderContext);
 
-  const dayChangeListener = addDayChangeListeners(() => insertFreeBlock(unloaderContext));
+  const dayChangeListener = addDayChangeListeners(() => insertFreeBlock(options, unloaderContext));
   unloaderContext.addRemovable(dayChangeListener);
 }
 
 export default registerModule('{5a1befbf-8fed-481d-8184-8db72ba22ad1}', {
   name: 'Show Free Blocks in Schedule',
   main: freeBlock,
+  suboptions: {
+    showEndBlocks: {
+      name: 'Show Free A/B Blocks',
+      type: 'boolean',
+      defaultValue: true,
+    },
+  },
 });
