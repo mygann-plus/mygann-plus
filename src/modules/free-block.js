@@ -1,28 +1,7 @@
 import registerModule from '~/module';
 
-import { waitForLoad } from '~/utils/dom';
-import { addDayChangeListeners } from '~/shared/schedule';
-
-const DOM_QUERY = () => {
-  return document.getElementById('accordionSchedules')
-        && document.getElementById('accordionSchedules').children[0]
-        && document.getElementById('accordionSchedules').children[0].children
-        && document.getElementById('accordionSchedules').children[0].children.length;
-};
-
-function to24Hr(t) {
-  let time = t;
-  let hours = Number(time.match(/^(\d+)/)[1]);
-  let minutes = Number(time.match(/:(\d+)/)[1]);
-  let AMPM = time.match(/\s(.*)$/)[1];
-  if (AMPM == 'PM' && hours < 12) hours += 12; // eslint-disable-line eqeqeq
-  if (AMPM == 'AM' && hours == 12) hours -= 12; // eslint-disable-line eqeqeq
-  let sHours = hours.toString();
-  let sMinutes = minutes.toString();
-  if (hours < 10) sHours = `0${sHours}`;
-  if (minutes < 10) sMinutes = `0${sMinutes}`;
-  return `${sHours}:${sMinutes}:00`;
-}
+import { createElement, waitForLoad } from '~/utils/dom';
+import { addDayChangeListeners, to24Hr } from '~/shared/schedule';
 
 // start and end must be 24HR format
 function isConsecutive(start, end) {
@@ -45,7 +24,6 @@ function isConsecutive(start, end) {
   }
   return false;
 }
-window.isConsecutive = isConsecutive;
 
 function addMinutes(time, mins) {
   const padNumber = m => (String(m).length === 1 ? `0${m}` : m);
@@ -63,61 +41,49 @@ function addMinutes(time, mins) {
 }
 
 function insertBlock(elemBefore, startTime, endTime) {
-  const tr = document.createElement('tr');
-  const time = document.createElement('td');
-  const block = document.createElement('td');
-  const activity = document.createElement('td');
-  const contact = document.createElement('td');
-  const details = document.createElement('td');
-  const attendance = document.createElement('td');
+  const createCell = (heading, content) => <td dataset={{ heading }}>{ content }</td>;
 
-  tr.setAttribute('data-index', 0);
-  time.setAttribute('data-heading', 'Time');
-  block.setAttribute('data-heading', 'Block');
-  activity.setAttribute('data-heading', 'Activity');
-  contact.setAttribute('data-heading', 'Contact');
-  details.setAttribute('data-heading', 'Details');
-  attendance.setAttribute('data-heading', 'Attendance');
+  const activity = <h4><a href="#studentmyday/schedule">Free</a></h4>;
+  const contact = <span><span>N/A</span></span>;
 
-  tr.className = 'oes_freeblock_block';
-  time.innerHTML = `${addMinutes(startTime, 5)} - ${addMinutes(endTime, -5)}`;
-  block.innerHTML = 'Free Block';
-  activity.innerHTML = '<h4><a href="#studentmyday/schedule">Free</a></h4>';
-  attendance.innerHTML = '<span><span class="">N/A</span></span>';
-
-  tr.appendChild(time);
-  tr.appendChild(block);
-  tr.appendChild(activity);
-  tr.appendChild(contact);
-  tr.appendChild(details);
-  tr.appendChild(attendance);
+  const tr = (
+    <tr>
+      { createCell('Time', `${addMinutes(startTime, 5)} - ${addMinutes(endTime, -5)}`) }
+      { createCell('Block', 'Free Block') }
+      { createCell('Activity', activity) }
+      { createCell('Contact', contact)}
+      { createCell('Details', '') }
+      { createCell('Attendance', '') }
+    </tr>
+  );
 
   elemBefore.after(tr);
+
 }
 
-function insertFreeBlock() {
-  waitForLoad(DOM_QUERY)
-    .then(() => {
-      const blocks = Array.from(document.getElementById('accordionSchedules').children);
-      blocks.forEach((elem, i) => {
-        const time = elem.children[0].childNodes[0].data.trim();
-        const endTime = time.split('-')[1].trim();
+const domQuery = () => document.querySelector('#accordionSchedules > :first-child > *');
 
-        if (blocks[i + 1]) {
-          const nextTime = blocks[i + 1].children[0].childNodes[0].data.trim();
-          const nextStartTime = nextTime.split('-')[0].trim();
+async function insertFreeBlock() {
+  await waitForLoad(domQuery);
+  const blocks = Array.from(document.getElementById('accordionSchedules').children);
+  blocks.forEach((elem, i) => {
+    const time = elem.children[0].childNodes[0].data.trim();
+    const endTime = time.split('-')[1].trim();
 
-          if (!(isConsecutive(to24Hr(endTime), to24Hr(nextStartTime)))) {
-            insertBlock(elem, endTime, nextStartTime);
-            setTimeout(() => {
-              if (document.getElementsByClassName('oes_freeblock_block') === 0) {
-                insertFreeBlock();
-              }
-            }, 100);
+    if (blocks[i + 1]) {
+      const nextTime = blocks[i + 1].children[0].childNodes[0].data.trim();
+      const nextStartTime = nextTime.split('-')[0].trim();
+
+      if (!(isConsecutive(to24Hr(endTime), to24Hr(nextStartTime)))) {
+        insertBlock(elem, endTime, nextStartTime);
+        setTimeout(() => {
+          if (document.getElementsByClassName('oes_freeblock_block') === 0) {
+            insertFreeBlock();
           }
-        }
-      });
-    });
+        }, 100);
+      }
+    }
+  });
 }
 
 function freeBlock() {
