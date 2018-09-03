@@ -40,6 +40,7 @@ function createAlertBox() {
     </div>
   );
   document.getElementsByClassName('col-md-12')[3].children[1].appendChild(alertBox);
+  return alertBox;
 }
 
 const domQuery = () => (
@@ -48,37 +49,40 @@ const domQuery = () => (
   document.getElementsByClassName('pl-10')[0].textContent === 'There is nothing scheduled for this date.') // eslint-disable-line max-len
 );
 
-async function showComingUp() {
+async function showComingUp(unloaderContext) {
   await waitForLoad(domQuery);
-
   if (!isCurrentDay()) {
     return;
   }
 
   const announcements = await fetchData();
-  if (!getAnnouncementWrap()) {
-    createAlertBox();
+  if (!announcements.length) {
+    return;
   }
-  if (announcements.length) {
-    const label = (
+
+  if (!getAnnouncementWrap()) {
+    const alertBox = createAlertBox();
+    unloaderContext.addRemovable(alertBox);
+  }
+  const label = (
       <div className={selectors.label}>
         <i>Tommorow: { announcements.join('; ') }</i>
       </div>
-    );
-    getAnnouncementWrap().appendChild(label);
-  }
-
+  );
+  getAnnouncementWrap().appendChild(label);
+  unloaderContext.addRemovable(label);
 }
 
 function comingUp(opts, unloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
-  showComingUp();
-  addDayChangeListeners(() => {
+  showComingUp(unloaderContext);
+  const dayChangeListener = addDayChangeListeners(() => {
     // there's a small delay between button click and date change in dom
-    setTimeout(showComingUp, 100);
+    setTimeout(() => showComingUp(unloaderContext), 100);
   });
+  unloaderContext.addRemovable(dayChangeListener);
 }
 
 export default registerModule('{2b337dae-cb2f-4627-b3d6-bde7a5f2dc06}', {
