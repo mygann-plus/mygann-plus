@@ -23,6 +23,7 @@ import userMenuLinks from './modules/user-menu-links';
 import fixDividers from './modules/fix-dividers';
 import installNotification from './modules/install-notification';
 import fixArchiveHighlight from './modules/fix-archive-highlight';
+import hideTasksAfterDue from './modules/hide-tasks-after-due';
 
 const MODULE_MAP = {
   '#': [
@@ -40,6 +41,7 @@ const MODULE_MAP = {
     hideCompleted,
     inlineAssignmentGrade,
     resizeAssignmentsToolbar,
+    hideTasksAfterDue,
   ],
   '#studentmyday/schedule': [highlightCurrentClass, freeBlock, classEndingTime, comingUp],
   '#studentmyday/progress': [

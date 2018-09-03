@@ -1,6 +1,5 @@
-import { createElement } from '~/utils/dom';
+import { createElement, waitForLoad } from '~/utils/dom';
 
-/* eslint-disable import/prefer-default-export */
 export function appendMobileAssignmentCenterMenuLink(textContent, onClick, sectionIndex) {
   const handleClick = e => {
     e.preventDefault();
@@ -20,4 +19,21 @@ export function appendMobileAssignmentCenterMenuLink(textContent, onClick, secti
     divider.before(link);
   }
   return link;
+}
+
+export async function addAssignmentTableMutationObserver(fn) {
+  const table = await waitForLoad(() => {
+    return document.querySelector('#assignment-center-assignment-items');
+  });
+  const observer = new MutationObserver(fn);
+  observer.observe(table, {
+    childList: true,
+  });
+  return {
+    remove() { observer.disconnect(); },
+  };
+}
+
+export function isTask(assignmentRow) {
+  return assignmentRow.querySelector('[data-heading="Type"]').textContent === 'My tasks';
 }
