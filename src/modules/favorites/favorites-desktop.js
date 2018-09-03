@@ -15,12 +15,14 @@ function handleAdd(event) {
   showAddDialog();
 }
 function handleDelete(event, id) {
+
   const favoritesMenu = event.target.closest('.subnav');
   const li = event.target.closest('li');
   favoritesMenu.classList.add(selectors.visibleMenu);
   li.classList.add(selectors.menuItem.highlight);
 
-  const flyout = new Flyout(constructButton('Delete', '', '', () => {
+  const flyout = new Flyout(constructButton('Delete', '', '', e => {
+    e.stopPropagation(); // prevent delete flyout being shown again
     deleteSavedFavorite(id);
     flyout.hide();
   }), {
