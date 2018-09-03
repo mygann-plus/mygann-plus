@@ -3,9 +3,9 @@ import classNames from 'classnames';
 import registerModule from '~/module';
 import { waitForLoad, insertCss, createElement } from '~/utils/dom';
 
-import style from './style.css';
+import { addAssignmentTableMutationObserver, isTask } from '~/shared/assignments-center';
 
-const TASKS_ASSIGNMENT_TYPE = 'My tasks';
+import style from './style.css';
 
 const selectors = {
   inlined: style.locals.inlined,
@@ -66,25 +66,13 @@ function replaceLinks() {
   const links = Array.from(document.getElementsByClassName('assignment-status-update'));
   links.forEach((button, i) => {
     const assignmentRow = button.parentNode.parentNode;
-    const assignmentType = assignmentRow.querySelector('[data-heading="Type"]').textContent;
-    if (assignmentType === TASKS_ASSIGNMENT_TYPE) {
-      // [audit] confirm this does not target regular assignments
-      return; // tasks also have an "edit" link, which needs to be available from the popover
+    if (isTask(assignmentRow)) {
+      // tasks also have an "edit" link, which needs to be available from the popover
+      return;
     }
     assignmentRow.classList.add(selectors.inlined);
     createDropdown(button.parentNode, button, i);
   });
-}
-
-function addMutationObserver() {
-  const table = document.querySelector('#assignment-center-assignment-items');
-  const observer = new MutationObserver(replaceLinks);
-  observer.observe(table, {
-    childList: true,
-  });
-  return {
-    remove() { observer.disconnect(); },
-  };
 }
 
 const domQuery = () => document.querySelector('#assignment-center-assignment-items *');
@@ -96,7 +84,7 @@ async function inlineChangeStatus(opts, unloaderContext) {
   await waitForLoad(domQuery);
   replaceLinks();
 
-  const observer = addMutationObserver();
+  const observer = await addAssignmentTableMutationObserver(replaceLinks);
   unloaderContext.addRemovable(observer);
 }
 
@@ -111,7 +99,7 @@ function unloadInlineChangeStatus() {
 
 export default registerModule('{4155f319-a10b-4e4e-8a10-999a43ef9d19}', {
   name: 'Improved Status Dropdown',
-  description: 'Show status dropdown directly in assignment, without having to click on "Change Status" link.',
+  description: 'Show status dropdown directly in assignment, without having to click on "Change Status" link',
   main: inlineChangeStatus,
   unload: unloadInlineChangeStatus,
 });
