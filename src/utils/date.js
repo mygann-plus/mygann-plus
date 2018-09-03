@@ -1,28 +1,3 @@
-export function isLeapYear() {
-  const year = (new Date()).getFullYear();
-  return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
-}
-
-/**
- * Formats date mm/dd/yyyy
- * @param {Date} date Date to format
- * @param {string} [divider=/] Character to divide mm/dd/yyy
- * @param {boolean} [addLeadingZeros=false]
- */
-export function formatDate(date, divider = '/', addLeadingZeros) {
-  let d = new Date(date);
-  let month = d.getMonth() + 1;
-  let day = d.getDate();
-  let year = d.getFullYear();
-
-  if (addLeadingZeros) {
-    if (month.toString().length === 1) { month = `0${month}`; }
-    if (day.toString().length === 1) { day = `0${day}`; }
-  }
-
-  return [month, day, year].join(divider);
-}
-
 /**
  * @param {Date} a
  * @param {Date} b
@@ -34,25 +9,6 @@ export function compareDate(a, b) {
   return (aVal > bVal) - (aVal < bVal);
 }
 
-/**
- *
- * @param {HTMLInputElement} input
- * @param {string} dateString Date string in format mm/dd/yyyy
- */
-export function setDateInputValue(input, dateString) {
-  const str = dateString;
-  const value = `${str.substring(6, 10)}-${dateString.substring(0, 2)}-${str.substring(3, 5)}`;
-  input.value = value;
-}
-/**
- * @param {*} input
- * @returns Value of date input in format mm/dd/yyyy
- */
-export function getDateInputValue(input) {
-  const { value } = input;
-  const val = `${value.substring(5, 7)}/${value.substring(8, 10)}/${value.substring(0, 4)}`;
-  return formatDate(val);
-}
 /**
  * @param {number} month
  * @param {number} [year=currentYear]
