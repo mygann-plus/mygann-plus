@@ -4,6 +4,7 @@ import { waitForLoad, insertCss } from '~/utils/dom';
 import { compareDate, getDaysInMonth, getMonthFromString } from '~/utils/date';
 
 import { isTask, addAssignmentTableMutationObserver } from '~/shared/assignments-center';
+import { getTableRowColumnContent } from '~/shared/table';
 
 import style from './style.css';
 
@@ -143,15 +144,11 @@ function filterAssignment(assignment) {
   return getDateFilterFn()(assignment, getAssignmentDisplayTypeFilter());
 }
 
-function getColumnContent(assignmentRow, columnHeading) {
-  return assignmentRow.querySelector(`[data-heading="${columnHeading}"]`).textContent.trim();
-}
-
 function getTaskObject(taskRow) {
   return {
-    assign: getColumnContent(taskRow, 'Assign'),
-    due: getColumnContent(taskRow, 'Due'),
-    status: getColumnContent(taskRow, 'Status'),
+    assign: getTableRowColumnContent(taskRow, 'Assign'),
+    due: getTableRowColumnContent(taskRow, 'Due'),
+    status: getTableRowColumnContent(taskRow, 'Status'),
   };
 }
 
