@@ -44,7 +44,7 @@ const MODULE_MAP = {
     resizeAssignmentsToolbar,
     hideTasksAfterDue,
   ],
-  '#studentmyday/schedule': [highlightCurrentClass, freeBlock, classEndingTime, comingUp],
+  '#studentmyday/schedule': [freeBlock, highlightCurrentClass, classEndingTime, comingUp],
   '#studentmyday/progress': [
     gradeSummary,
     coursesFilter,
