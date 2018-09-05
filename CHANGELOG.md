@@ -29,6 +29,7 @@
 - Inline Assignment Grade module added to mobile menu and renamed to "Preview Assignment Grade"
 - Toggle Completed module tweaked visually, added to mobile menu, and renamed to "Hide Completed"
 - Options moved into desktop and mobile main dropdown
+- Free Block will show free A and B blocks
 - Option dialog improvements
   - Popup box no longer appears after saving
   - Small look & feel tweaks, including sizing, colors, and toggles
@@ -63,6 +64,7 @@
 - Fix Search Classes Menu occasionally going to class page when menu is closed and enter is pressed
 - Fix Archive All button duplicating when opening compose and message threads
 - Fix Free Block incorrectly showing when two blocks overlap
+- Fix Highlight Current Class not highlighting Free Blocks
 - Under the hood fixes and performance improvements
 
 ### Known Issues
