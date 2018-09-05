@@ -99,11 +99,12 @@ async function insertFreeBlock(options, unloaderContext) {
         const block = insertBlock(elem, endTime, nextStartTime, 'Free Block');
         unloaderContext.addRemovable(block);
 
+
         setTimeout(() => {
-          if (document.getElementsByClassName('oes_freeblock_block') === 0) {
+          if (!document.body.contains(block)) {
             insertFreeBlock(options, unloaderContext);
           }
-        }, 100);
+        }, 50);
       }
     } else if (options.showEndBlocks) {
       // special case for A/B block
