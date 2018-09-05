@@ -74,6 +74,11 @@ function addTime(minutes, parent) {
   span.id = 'gocp_class-ending-time_main';
   parent.appendChild(br);
   parent.appendChild(span);
+
+  setInterval(() => {
+    minutes--;
+    span.textContent = `${minutes} minutes left`;
+  }, 60000);
 }
 
 const domQuery = () => {
