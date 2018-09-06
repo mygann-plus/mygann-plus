@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack --config config/webpack.prod.js",
     "start": "webpack --config config/webpack.dev.js",
-    "eslint": "eslint src"
+    "eslint": "eslint src",
+    "deploy-bookmarklet": "sure --question 'Are you sure? (Make the project has been built) [type \"deploy bookmarklet\" to continue]' --yes 'deploy bookmarklet' && cd dist && surge --domain mygann-plus.surge.sh"
   },
   "author": "",
   "license": "ISC",
@@ -33,6 +34,7 @@
     "file-loader": "^1.1.11",
     "linkifyjs": "^2.1.6",
     "lodash.clonedeep": "^4.5.0",
-    "marked": "^0.5.0"
+    "marked": "^0.5.0",
+    "sure": "0.0.3"
   }
 }
