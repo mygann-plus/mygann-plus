@@ -2,6 +2,7 @@ import { diff as deepDiff } from 'deep-object-diff';
 
 import setCssVars from '~/utils/css-vars';
 import log from '~/utils/log';
+import { isBookmarklet, markBookmarkletLoaded, isBookmarletLoaded } from '~/utils/bookmarklet';
 
 import { getRegisteredModules } from '~/module';
 import { modulesForHash } from '~/module-map';
@@ -73,10 +74,19 @@ async function applyNewOptions({ oldValue: oldOptions, newValue: newOptions }) {
 async function runExtension() {
   // TODO: only call initializeOptions on install and update
   // (plus dev feature to force initialization)
+
+  if (isBookmarklet()) {
+    if (isBookmarletLoaded()) {
+      return;
+    }
+    markBookmarkletLoaded();
+  }
+
   await initializeOptions();
   setCssVars();
   addOptionsChangeListener(applyNewOptions);
   loadModules(getHash(window.location.href));
+
   window.addEventListener('hashchange', e => {
     const newHash = getHash(e.newURL);
     const oldHash = getHash(e.oldURL);
