@@ -32,7 +32,7 @@
     "deep-object-diff": "^1.1.0",
     "file-loader": "^1.1.11",
     "linkifyjs": "^2.1.6",
-    "lodash.clonedeep": "^4.5.0"
+    "lodash.clonedeep": "^4.5.0",
     "marked": "^0.5.0"
   }
 }
