@@ -1,21 +1,27 @@
+import marked from 'marked';
+
 import registerModule from '~/module';
+import { hasUpdated, addInstallStateChangeListener, clearInstallState } from '~/install';
 
 import { createElement, insertCss } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
-import { appendDesktopUserMenuLink, appendMobileUserMenuLink, getHeader } from '~/shared/user-menu';
-import { hasUpdated, addInstallStateChangeListener, clearInstallState } from '~/install';
 import Flyout from '~/utils/flyout';
+import { isBookmarklet } from '~/utils/bookmarklet';
+
+import { appendDesktopUserMenuLink, appendMobileUserMenuLink, getHeader } from '~/shared/user-menu';
 
 import style from './style.css';
 
 const selectors = {
   wrap: style.locals.wrap,
+  releaseNotesShown: style.locals['release-notes-shown'], // applies to wrap
   sectionTitle: style.locals['section-title'],
   mainDescription: style.locals['main-description'],
   updateBadge: style.locals['update-badge'],
   desktopAvatarBadge: style.locals['desktop-avatar-badge'],
   desktopLinkBadge: style.locals['desktop-link-badge'],
-  releaseNotesLink: 'gocp_about_release-notes-link',
+  releaseNotesLink: style.locals['release-notes-link'],
+  releaseNotes: style.locals['release-notes'],
 };
 
 function getDescription() {
@@ -24,8 +30,15 @@ function getDescription() {
 function getVersionString() {
   return chrome.runtime.getManifest().version_name;
 }
-function getReleaseNotesUrl() {
-  return `https://github.com/matankb/gann-oncampus-plus/releases/tag/v${getVersionString()}`;
+function toggleReleaseNotes(e) {
+  e.preventDefault();
+  document.querySelector(`.${selectors.wrap}`).classList.toggle(selectors.releaseNotesShown);
+}
+async function insertReleaseNotes(dialogBody) {
+  const releaseNotesWrap = dialogBody.querySelector(`#${selectors.releaseNotes}`);
+  const endpoint = 'https://api.github.com/repos/matankb/gann-oncampus-plus/releases';
+  const [latestRelease] = await fetch(endpoint).then(d => d.json());
+  releaseNotesWrap.innerHTML = marked(latestRelease.body); // parse markdown
 }
 
 function showUpdateFlyout(aboutBody) {
@@ -36,14 +49,17 @@ function showUpdateFlyout(aboutBody) {
   flyout.showAtElem(releaseNotesLink);
 }
 
-function createAboutBody() {
+/* eslint-disable max-len */
+
+async function createAboutBody() {
   return (
     <div className={selectors.wrap}>
       <h4 className={selectors.mainDescription}>{ getDescription() }</h4>
       <p>
         <b>Version: </b>
-        { getVersionString() } (<a href={getReleaseNotesUrl()} target="_blank" rel="noopener noreferrer" id={selectors.releaseNotesLink}>release notes</a>)
+        { getVersionString() } (<a href="#" id={selectors.releaseNotesLink} onClick={toggleReleaseNotes}>release notes</a>)
       </p>
+      <div id={selectors.releaseNotes}>Loading...</div>
       <p><b>Created By:</b> Matan Kotler-Berkowitz</p>
       <hr className="divider" />
 
@@ -72,10 +88,14 @@ function createAboutBody() {
   );
 }
 
+/* eslint-enable max-len */
+
 async function showDialog() {
-  const dialog = new Dialog('About Gann OnCampus+', createAboutBody(), {
+  const body = createAboutBody();
+  const dialog = new Dialog('About Gann OnCampus+', body, {
     leftButtons: [Dialog.buttons.OK],
   });
+  insertReleaseNotes(body);
   dialog.open();
   if (await hasUpdated()) {
     showUpdateFlyout(dialog.getBody());
@@ -89,7 +109,9 @@ async function about() {
 
   if (await hasUpdated()) {
     const avatar = getHeader().parentNode.querySelector('.bb-avatar-wrapper-nav');
-    const avatarBadge = <span className={selectors.updateBadge} id={selectors.desktopAvatarBadge} />;
+    const avatarBadge = (
+      <span className={selectors.updateBadge} id={selectors.desktopAvatarBadge} />
+    );
     avatar.after(avatarBadge);
 
     const linkBadge = <span className={selectors.updateBadge} id={selectors.desktopLinkBadge} />;

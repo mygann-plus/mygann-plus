@@ -40,3 +40,20 @@
   left: 5px;
   --badge-size: 8px;
 }
+#release-notes {
+  display: none;
+  margin-left: 10px;
+  border-left: 1px solid var(--seperator-gray);
+  padding-left: 10px;
+  /* opacity: 0.8; */
+  font-weight: lighter;
+}
+#release-notes h3 {
+  font-weight: lighter;
+}
+.release-notes-shown #release-notes {
+  display: block;
+}
+.release-notes-shown #release-notes-link::before {
+  content: 'hide ';
+}
