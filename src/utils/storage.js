@@ -1,44 +1,89 @@
 import cloneDeep from 'lodash.clonedeep';
 
 import log from '~/utils/log';
+import { isBookmarklet } from '~/utils/bookmarklet';
 
 // Promise-based wrappers for chrome storage API
 
 const SCHEMA_VERSION_KEY = '$schemaVersion';
 const DATA_KEY = 'data';
 
-// INTERNAL UTILITIES
+// INTERNALS
+
+const listeners = new Map();
+
+function callListeners(key, oldValue, newValue) {
+  const keyListeners = listeners.get(key) || [];
+  if (!keyListeners.length) {
+    return;
+  }
+  const data = {
+    newValue: newValue[DATA_KEY],
+    oldValue: oldValue &&
+      oldValue[SCHEMA_VERSION_KEY] !== newValue[SCHEMA_VERSION_KEY] ?
+      null :
+      oldValue[DATA_KEY],
+  };
+  keyListeners.forEach(listener => listener(cloneDeep(data)));
+}
+
+if (!isBookmarklet()) {
+  chrome.storage.onChanged.addListener(changes => {
+    for (const key in changes) {
+      const change = changes[key];
+      callListeners(key, change.oldValue, change.newValue);
+    }
+  });
+}
 
 function doGet(property) {
   return new Promise((resolve, reject) => {
-    chrome.storage.sync.get(property, data => {
-      if (chrome.runtime.lastError) {
-        return reject(chrome.runtime.lastError);
-      }
-      resolve(data[property]);
-    });
+    if (isBookmarklet()) {
+      resolve(JSON.parse(localStorage.getItem(property)));
+    } else {
+      chrome.storage.sync.get(property, data => {
+        if (chrome.runtime.lastError) {
+          return reject(chrome.runtime.lastError);
+        }
+        resolve(data[property]);
+      });
+    }
   });
 }
 
 function doSet(data) {
-  return new Promise((resolve, reject) => {
-    chrome.storage.sync.set(data, () => {
-      if (chrome.runtime.lastError) {
-        return reject(chrome.runtime.lastError);
+  return new Promise(async (resolve, reject) => {
+    if (isBookmarklet()) {
+      for (const key in data) {
+        const oldValue = await doGet(key);
+        localStorage.setItem(key, JSON.stringify(data[key]));
+        callListeners(key, oldValue, data[key]);
+        resolve();
       }
-      resolve();
-    });
+    } else {
+      chrome.storage.sync.set(data, () => {
+        if (chrome.runtime.lastError) {
+          return reject(chrome.runtime.lastError);
+        }
+        resolve();
+      });
+    }
   });
 }
 
 function doDelete(property) {
   return new Promise((resolve, reject) => {
-    chrome.storage.sync.remove(property, () => {
-      if (chrome.runtime.lastError) {
-        return reject(chrome.runtime.lastError);
-      }
+    if (isBookmarklet()) {
+      localStorage.removeItem(property);
       resolve();
-    });
+    } else {
+      chrome.storage.sync.remove(property, () => {
+        if (chrome.runtime.lastError) {
+          return reject(chrome.runtime.lastError);
+        }
+        resolve();
+      });
+    }
   });
 }
 
@@ -60,25 +105,6 @@ function reduceArray(data, id, reducer) {
 function generateID() {
   return String(Math.floor(Math.random() * 1000000));
 }
-
-const listeners = new Map();
-chrome.storage.onChanged.addListener(changes => {
-  for (const key in changes) {
-    const keyListeners = listeners.get(key) || [];
-    if (!keyListeners.length) {
-      continue;
-    }
-    const change = changes[key];
-    const data = {
-      newValue: change.newValue[DATA_KEY],
-      oldValue: change.oldValue &&
-        change.oldValue[SCHEMA_VERSION_KEY] !== change.newValue[SCHEMA_VERSION_KEY] ?
-        null :
-        change.oldValue[DATA_KEY],
-    };
-    keyListeners.forEach(listener => listener(cloneDeep(data)));
-  }
-});
 
 // PUBLIC API
 
