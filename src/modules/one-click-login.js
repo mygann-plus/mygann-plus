@@ -1,5 +1,7 @@
 import registerModule from '~/module';
-import { waitForLoad } from '~/utils/dom';
+import { createElement, waitForLoad } from '~/utils/dom';
+import { isBookmarklet } from '~/utils/bookmarklet';
+import Dialog from '~/utils/dialog';
 
 const getUsernameField = () => document.getElementById('Username');
 const getPasswordDiv = () => document.getElementById('divPassword');
@@ -8,6 +10,34 @@ const getNextbtn = () => document.getElementById('nextBtn');
 async function enableUsernameField() {
   await waitForLoad(() => document.getElementById('site-login-alert').children.length);
   getUsernameField().disabled = false;
+}
+
+function showRerunExplanationDialog(e) {
+  e.preventDefault();
+  const dialogBody = (
+    <span>
+      Because of technical limitations, the OnCampus+ Bookmark cannot continue running when you
+      browse to another website, and has to be run again. Withinn OnCampus, when navigating within
+      pages (for example, from Schedule to Messages), you are not visiting another website,
+      and so OnCampus+ remains running. However, when you login, OnCampus redirects you to another
+      website, so the OnCampus+ Bookmark stops running, and you must run the OnCampus+ Bookmark
+      again once you are logged in.
+    </span>
+  );
+  const dialog = new Dialog('OnCampus+ Bookmark Re-Run Explanation', dialogBody, {
+    leftButtons: [Dialog.buttons.OK],
+  });
+  dialog.open();
+}
+
+function insertRerunNotice() {
+  const notice = (
+    <div style={{ margin: '10px 0' }}>
+      The OnCampus+ bookmark must be run again after
+      logging in (<a href="#" onClick={showRerunExplanationDialog}>why?</a>)
+    </div>
+  );
+  document.querySelector('#areaCancel + .clear').after(notice);
 }
 
 async function oneClickLogin() {
@@ -30,6 +60,10 @@ async function oneClickLogin() {
       enableUsernameField();
     }
   });
+
+  if (isBookmarklet()) {
+    insertRerunNotice();
+  }
 
 }
 
