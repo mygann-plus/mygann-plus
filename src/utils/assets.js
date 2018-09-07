@@ -1,3 +1,5 @@
+import { isBookmarklet } from '~/utils/bookmarklet';
+
 /* eslint-disable import/prefer-default-export */
 
 /**
@@ -6,5 +8,9 @@
  * @returns {string} Full URL of asset
  */
 export function getAssetUrl(assetName) {
-  return chrome.runtime.getURL(assetName);
+  if (isBookmarklet()) {
+    return `https://oncampusplus-bookmarklet.surge.sh/${assetName}`;
+  } else {
+    return chrome.runtime.getURL(assetName);
+  }
 }
