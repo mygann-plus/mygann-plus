@@ -16,15 +16,15 @@ function showRerunExplanationDialog(e) {
   e.preventDefault();
   const dialogBody = (
     <span>
-      Because of technical limitations, the OnCampus+ Bookmark cannot continue running when you
-      browse to another website, and has to be run again. Withinn OnCampus, when navigating within
+      Because of technical limitations, the MyGann+ Bookmark cannot continue running when you
+      browse to another website, and has to be run again. Withinn MyGann, when navigating within
       pages (for example, from Schedule to Messages), you are not visiting another website,
-      and so OnCampus+ remains running. However, when you login, OnCampus redirects you to another
-      website, so the OnCampus+ Bookmark stops running, and you must run the OnCampus+ Bookmark
+      and so MyGann+ remains running. However, when you login, MyGann redirects you to another
+      website, so the MyGann+ Bookmark stops running, and you must run the MyGann+ Bookmark
       again once you are logged in.
     </span>
   );
-  const dialog = new Dialog('OnCampus+ Bookmark Re-Run Explanation', dialogBody, {
+  const dialog = new Dialog('MyGann+ Bookmark Re-Run Explanation', dialogBody, {
     leftButtons: [Dialog.buttons.OK],
   });
   dialog.open();
@@ -33,7 +33,7 @@ function showRerunExplanationDialog(e) {
 function insertRerunNotice() {
   const notice = (
     <div style={{ margin: '10px 0' }}>
-      The OnCampus+ bookmark must be run again after
+      The MyGann+ bookmark must be run again after
       logging in (<a href="#" onClick={showRerunExplanationDialog}>why?</a>)
     </div>
   );

@@ -9,7 +9,7 @@ import { hasInstalled, clearInstallState } from '~/install';
 function createFlyoutBody() {
   return (
     <span>
-      Thanks for installing <b>Gann OnCampus+</b>!
+      Thanks for installing <b>MyGann+</b>!
       You can find options in this menu.
     </span>
   );

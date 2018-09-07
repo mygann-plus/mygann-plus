@@ -15,7 +15,7 @@ const selectors = {
 };
 
 const MESSAGE = `
-This may take a few moments. Please do not use OnCampus until the operation finishes.
+This may take a few moments. Please do not use MyGann until the operation finishes.
 `.trim();
 
 const textMap = {
@@ -55,7 +55,7 @@ async function archive(page = 0, messages = []) {
     return archive(page + 1, messages);
   }
 
-  // messages must be archived all at once, or OnCampus returns incorrect data
+  // messages must be archived all at once, or MyGann returns incorrect data
   await Promise.all(messages.map(m => {
     return archiveMessage(m.ConversationId, !isOnInbox());
   }));

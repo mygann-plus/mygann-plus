@@ -71,7 +71,7 @@ function unloadFilterWebsiteMainSearch(options) {
 
 export default registerModule('{d560bad4-1073-4452-ac11-f4466dc19184}', {
   name: 'Filter Website from Search',
-  description: 'Hide results from the Gann Website in OnCampus searches',
+  description: 'Hide results from the Gann Website in MyGann searches',
   main: filterWebsiteMainSearch,
   unload: unloadFilterWebsiteMainSearch,
   defaultEnabled: false,

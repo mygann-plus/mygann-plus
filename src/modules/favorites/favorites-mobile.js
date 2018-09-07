@@ -60,7 +60,7 @@ function createLink(favorite) {
 }
 
 /**
- * OnCampus's native mobile menu listeners are applied after createMobileMenu is called
+ * MyGann's native mobile menu listeners are applied after createMobileMenu is called
  * However, it is neccessary to duplicate those listeners to support dynamic reloading
  */
 

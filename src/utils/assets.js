@@ -9,7 +9,7 @@ import { isBookmarklet } from '~/utils/bookmarklet';
  */
 export function getAssetUrl(assetName) {
   if (isBookmarklet()) {
-    return `https://oncampusplus-bookmarklet.surge.sh/${assetName}`;
+    return `https://mygann-plus-bookmarklet.surge.sh/${assetName}`;
   } else {
     return chrome.runtime.getURL(assetName);
   }

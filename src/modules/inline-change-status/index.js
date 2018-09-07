@@ -36,7 +36,7 @@ function createDropdown(parentNode, controller, index, preVal) {
       .querySelectorAll('.assignment-status-update')[index]
       .parentNode.parentNode.children[5].textContent.trim()
   );
-  // oncampus natively uses non breaking spaces for ONLY in progress labels
+  // MyGann natively uses non breaking spaces for ONLY in progress labels
   const optionNames = ['To Do', 'In\u00a0Progress', 'Completed'];
   optionNames.splice(optionNames.indexOf(existingValue), 1);
 

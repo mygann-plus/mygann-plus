@@ -21,4 +21,4 @@
 ```
 
 ### Bookmarklet Script
-`javascript:fetch('https://oncampusplus-bookmarklet.surge.sh/dist/content-script.js').then(d=>d.text()).then(eval)`
+`javascript:fetch('https://mygann-plus-bookmarklet.surge.sh/dist/content-script.js').then(d=>d.text()).then(eval)`

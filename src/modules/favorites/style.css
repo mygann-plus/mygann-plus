@@ -41,7 +41,7 @@
 }
 
 .mobile-menu-submenu:global(.open)::after {
-  /* OnCampus uses the after pseudoelement to create the darkened 
+  /* MyGann uses the after pseudoelement to create the darkened 
    * strip between the submenu and the entire mobile menu
    * which blocks the delete flyout because of a high z-index.
   */

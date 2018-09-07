@@ -19,13 +19,14 @@
 - New buttons in Message Notifications 
   - Button to go to the first link found in the body of the message
   - Button to dismiss notification and mark message as read
-- Added fixes for native OnCampus bugs:
+- Added fixes for native MyGann bugs:
   - Fix for pressing escape in a compose message window causing unexpected quirks
   - Fix for menu dividers (including in the directories menu and main dropdown) not always being visible
   - Fix for Archived Inbox page highlighting "Official Notes" instead of "Messages" in the top navigation bar
 
 ### Changed
-- Extension renamed to "Gann OnCampus+"
+- Extension renamed to "MyGann+"
+  - Repository moved to github.com/matankb/mygann-plus
 - Courses Search module renamed to "Courses Filter"
 - Inline Assignment Grade module added to mobile menu and renamed to "Preview Assignment Grade"
 - Toggle Completed module tweaked visually, added to mobile menu, and renamed to "Hide Completed"

@@ -1,4 +1,4 @@
-// Fixes native OnCampus bug where dividers (in user menu, directories dropdown, etc)
+// Fixes native MyGann bug where dividers (in user menu, directories dropdown, etc)
 // do not always appear, particularly in non-WebKit browsers
 
 import registerModule from '~/module';

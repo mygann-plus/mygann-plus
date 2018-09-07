@@ -1,5 +1,5 @@
 /*
- * Fixes native OnCampus bug where "Official Notes" is highlighted on messages archived page
+ * Fixes native MyGann bug where "Official Notes" is highlighted on messages archived page
  *
  * Styles active on all #message page to prevent flashing effect when switching to /archive
  * Flash is still present when not navigating to #message/archive from another page, but this is

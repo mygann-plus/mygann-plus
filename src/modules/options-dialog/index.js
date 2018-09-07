@@ -90,7 +90,7 @@ class OptionsDialog {
 
     this.bodyElement = this.renderBody();
 
-    this.dialog = new Dialog('Gann OnCampus+ Options', this.bodyElement, {
+    this.dialog = new Dialog('MyGann+ Options', this.bodyElement, {
       leftButtons: [{
         name: 'Save',
         primary: true,
@@ -312,8 +312,8 @@ async function showDialog() {
 }
 
 function optionsDialog() {
-  appendDesktopUserMenuLink('OnCampus+ Options', showDialog);
-  appendMobileUserMenuLink('OnCampus+ Options', showDialog);
+  appendDesktopUserMenuLink('MyGann+ Options', showDialog);
+  appendMobileUserMenuLink('MyGann+ Options', showDialog);
   insertCss(style.toString());
 }
 

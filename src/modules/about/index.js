@@ -38,14 +38,14 @@ function toggleReleaseNotes(e) {
 }
 async function insertReleaseNotes(dialogBody) {
   const releaseNotesWrap = dialogBody.querySelector(`#${selectors.releaseNotes}`);
-  const endpoint = 'https://api.github.com/repos/matankb/gann-oncampus-plus/releases';
+  const endpoint = 'https://api.github.com/repos/matankb/mygann-plus/releases';
   const [latestRelease] = await fetch(endpoint).then(d => d.json());
   releaseNotesWrap.innerHTML = marked(latestRelease.body); // parse markdown
 }
 
 function showUpdateFlyout(aboutBody) {
   const releaseNotesLink = aboutBody.querySelector(`#${selectors.releaseNotesLink}`);
-  const flyout = new Flyout('New version of Gann OnCampus+ Check out what\'s new!', {
+  const flyout = new Flyout('New version of MyGann+ Check out what\'s new!', {
     onHide: clearInstallState,
   });
   flyout.showAtElem(releaseNotesLink);
@@ -70,11 +70,11 @@ function createAboutBody() {
         <li>
           Bug Reports: Please check the
           <a
-            href="https://github.com/matankb/gann-oncampus-plus/wiki/Known-Issues"
+            href="https://github.com/matankb/mygann-plus/wiki/Known-Issues"
             target="_blank"
             rel="noopener noreferrer"
           > known issues</a>,
-          then <a href="mailto:20mkotlerberkowitz@gannacademy.org?subject=Gann%20OnCampus+%20Bug%20Report">submit a bug report</a>.
+          then <a href="mailto:20mkotlerberkowitz@gannacademy.org?subject=MyGann+%20Bug%20Report">submit a bug report</a>.
         </li>
         <li>
           Suggestions, Requests, or Other Comments: Please email or talk to <a href="mailto:20mkotlerberkowitz@gannacademy.org">Matan Kotler-Berkowitz</a>.
@@ -94,7 +94,7 @@ function createAboutBody() {
 
 async function showDialog() {
   const body = createAboutBody();
-  const dialog = new Dialog('About Gann OnCampus+', body, {
+  const dialog = new Dialog('About MyGann+', body, {
     leftButtons: [Dialog.buttons.OK],
   });
   insertReleaseNotes(body);
@@ -105,8 +105,8 @@ async function showDialog() {
 }
 
 async function about() {
-  const desktopMenuLink = appendDesktopUserMenuLink('About OnCampus+', showDialog);
-  appendMobileUserMenuLink('About OnCampus+', showDialog);
+  const desktopMenuLink = appendDesktopUserMenuLink('About MyGann+', showDialog);
+  appendMobileUserMenuLink('About MyGann+', showDialog);
   insertCss(style.toString());
 
   if (await hasUpdated()) {
