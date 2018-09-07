@@ -19,3 +19,6 @@
   }
 }
 ```
+
+### Bookmarklet Script
+`javascript:fetch('https://oncampusplus-bookmarklet.surge.sh/dist/content-script.js').then(d=>d.text()).then(eval)`
