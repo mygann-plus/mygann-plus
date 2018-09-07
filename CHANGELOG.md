@@ -11,6 +11,7 @@
 - Hide ungraded courses feature in Filter Courses module
 - Support for mobile menu in Search Classes Menu
 - About dialog
+- Support for mobile or non-Chrome browsers through bookmarklet
 - Notification when extension updates
 - Welcome message when extension first installs
 - Three options for Filter Website in Main Search: collapse, move to bottom, and remove
@@ -51,7 +52,7 @@
 - Search Classes Menu and Courses Filter will search all words in course name, not just first, and ignore punctuation
 - Search Classes Menu tweaks to make it appear more native
 - Archive all is now significantly faster and does not slow down the rest of the page
- 
+- Class Ending time will update time every minute 
  
 ### Fixed
 - Fix all schedule modules (Free Block, Highlight Current Class, and Class Ending Time) not working with "today" button
