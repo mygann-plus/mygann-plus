@@ -1,6 +1,12 @@
-import { waitForLoad } from '~/utils/dom';
+import { waitForLoad, insertCss } from '~/utils/dom';
 import registerModule from '~/module';
 import { isCurrentDay, addDayChangeListeners } from '~/shared/schedule';
+
+import style from './style.css';
+
+const selectors = {
+  currentClass: style.locals['current-class'],
+};
 
 // TIME & DATE CHECKERS
 
@@ -63,7 +69,7 @@ async function highlightClass() {
   for (const block of blocks) {
     const timeString = block.children[0].childNodes[0].data.trim();
     if (isCurrentClass(timeString)) {
-      block.style.background = '#fff38c';
+      block.classList.add(selectors.currentClass);
       // [audit] replace with MutationObserver; extract to shared
       setTimeout(() => {
         if (!document.body.contains(block)) {
@@ -75,12 +81,24 @@ async function highlightClass() {
 
 }
 
-function highlightCurrentClass() {
+function highlightCurrentClass(opts, unloaderContext) {
+  const styles = insertCss(style.toString());
+  unloaderContext.addRemovable(styles);
+
   highlightClass();
   addDayChangeListeners(highlightClass);
+}
+
+function unloadHighlightCurrentClass() {
+  // only one block is supposed to be highlighted, but this is in case a bug causes multiple to be
+  const highlightedBlocks = document.querySelectorAll(`.${selectors.currentClass}`);
+  for (const block of highlightedBlocks) {
+    block.classList.remove(selectors.currentClass);
+  }
 }
 
 export default registerModule('{c9550c66-5dc8-4132-a359-459486a8ab08}', {
   name: 'Highlight Current Class in Schedule',
   main: highlightCurrentClass,
+  unload: unloadHighlightCurrentClass,
 });
