@@ -5,7 +5,7 @@
   "version": "0.5.0",
   "minimum_chrome_version": "60",
   
-  "description": "A collection of modules that improve MyGann experience",
+  "description": "A collection of modules that improve your MyGann experience",
   "version_name": "0.5.0-beta",
   
   "content_scripts": [
