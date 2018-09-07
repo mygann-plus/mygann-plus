@@ -6,7 +6,7 @@ import { hasUpdated, addInstallStateChangeListener, clearInstallState } from '~/
 import { createElement, insertCss } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
 import Flyout from '~/utils/flyout';
-import { isBookmarklet } from '~/utils/bookmarklet';
+import getManifest from '~/utils/manifest';
 
 import { appendDesktopUserMenuLink, appendMobileUserMenuLink, getHeader } from '~/shared/user-menu';
 
@@ -24,12 +24,14 @@ const selectors = {
   releaseNotes: style.locals['release-notes'],
 };
 
+
 function getDescription() {
-  return `${chrome.runtime.getManifest().description}.`;
+  return `${getManifest().description}.`;
 }
 function getVersionString() {
-  return chrome.runtime.getManifest().version_name;
+  return getManifest().version_name;
 }
+
 function toggleReleaseNotes(e) {
   e.preventDefault();
   document.querySelector(`.${selectors.wrap}`).classList.toggle(selectors.releaseNotesShown);
@@ -51,7 +53,7 @@ function showUpdateFlyout(aboutBody) {
 
 /* eslint-disable max-len */
 
-async function createAboutBody() {
+function createAboutBody() {
   return (
     <div className={selectors.wrap}>
       <h4 className={selectors.mainDescription}>{ getDescription() }</h4>
