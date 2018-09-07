@@ -1,23 +1,10 @@
 import registerModule from '~/module';
 
 import { waitForLoad } from '~/utils/dom';
-import { isCurrentDay, addDayChangeListeners } from '~/shared/schedule';
+import { isCurrentDay, addDayChangeListeners, to24Hr } from '~/shared/schedule';
 
 // TIME & DATE CHECKERS
 
-function to24Hr(t) {
-  let time = t;
-  let hours = Number(time.match(/^(\d+)/)[1]);
-  let minutes = Number(time.match(/:(\d+)/)[1]);
-  let AMPM = time.match(/\s(.*)$/)[1];
-  if (AMPM == 'PM' && hours < 12) hours += 12; // eslint-disable-line eqeqeq
-  if (AMPM == 'AM' && hours == 12) hours -= 12; // eslint-disable-line eqeqeq
-  let sHours = hours.toString();
-  let sMinutes = minutes.toString();
-  if (hours < 10) sHours = `0${sHours}`;
-  if (minutes < 10) sMinutes = `0${sMinutes}`;
-  return `${sHours}:${sMinutes}:00`;
-}
 function isBetween(start, end) {
   const startTime = start;
   const endTime = end;
@@ -79,6 +66,8 @@ function addTime(minutes, parent) {
     minutes--;
     span.textContent = `${minutes} minutes left`;
   }, 60000);
+
+  return span;
 }
 
 const domQuery = () => {
@@ -88,7 +77,7 @@ const domQuery = () => {
         && document.getElementById('accordionSchedules').children[0].children.length;
 };
 
-async function testForClass() {
+async function testForClass(unloaderContext) {
 
   await waitForLoad(domQuery);
 
@@ -98,9 +87,11 @@ async function testForClass() {
     const timeString = block.children[0].childNodes[0].data.trim();
     if (isCurrentClass(timeString)) {
       const minutes = minutesTo(timeString.split('-')[1].trim());
-      addTime(minutes, block.children[0]);
+      const time = addTime(minutes, block.children[0]);
+      const timeRemovable = unloaderContext.addRemovable(time);
       setTimeout(() => {
         if (!document.body.contains(block)) {
+          timeRemovable.remove();
           testForClass();
         }
       }, 50);
@@ -109,9 +100,9 @@ async function testForClass() {
 
 }
 
-function classEndingTime() {
-  testForClass();
-  addDayChangeListeners(testForClass);
+function classEndingTime(opts, unloaderContext) {
+  testForClass(unloaderContext);
+  addDayChangeListeners(() => testForClass(unloaderContext));
 }
 
 export default registerModule('{c8a3ea86-ae06-4155-be84-1a91283fe826}', {
