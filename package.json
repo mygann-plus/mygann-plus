@@ -7,7 +7,7 @@
     "build": "webpack --config config/webpack.prod.js",
     "start": "webpack --config config/webpack.dev.js",
     "eslint": "eslint src",
-    "deploy-bookmarklet": "sure --question 'Are you sure? (Make the project has been built) [type \"deploy bookmarklet\" to continue]' --yes 'deploy bookmarklet' && cd dist && surge --domain mygann-plus.surge.sh"
+    "deploy-bookmarklet": "sure --question 'Are you sure? (Make the project has been built) [type \"deploy bookmarklet\" to continue]' --yes 'deploy bookmarklet' && surge --domain mygann-plus-bookmarklet.surge.sh"
   },
   "author": "",
   "license": "ISC",
