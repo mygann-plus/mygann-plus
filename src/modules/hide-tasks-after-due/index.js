@@ -105,7 +105,7 @@ function getAssignmentDisplayTypeFilter() {
   // one of [assigned, active, due]
   // TODO: work with mobile layout
   const activeFilter = document.querySelector('.assignmentDisplayTypeFilter.active');
-  return activeFilter.textContent.toLowerCase();
+  return activeFilter.textContent.toLowerCase().trim();
 }
 
 function getDateFilterFn() {
