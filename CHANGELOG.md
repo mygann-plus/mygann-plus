@@ -1,4 +1,4 @@
-## 0.6.0 (UNRELEASED)
+## 0.6.0
 ### Added
 - "Coming Up" module, which shows a preview of the next day's events in the schedule
 - "Favorites" module
