@@ -92,7 +92,7 @@ async function testForClass(unloaderContext) {
       setTimeout(() => {
         if (!document.body.contains(block)) {
           timeRemovable.remove();
-          testForClass();
+          testForClass(unloaderContext);
         }
       }, 50);
     }
