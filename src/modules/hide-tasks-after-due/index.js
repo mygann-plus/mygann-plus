@@ -174,9 +174,9 @@ async function hideTasksAfterDue(opts, unloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
-  hideTasks();
+  hideTasks(opts);
 
-  const observer = await addAssignmentTableMutationObserver(hideTasks);
+  const observer = await addAssignmentTableMutationObserver(() => hideTasks(opts));
   unloaderContext.addRemovable(observer);
 }
 
