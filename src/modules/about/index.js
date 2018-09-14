@@ -95,7 +95,11 @@ function createAboutBody() {
 async function showDialog() {
   const body = createAboutBody();
   const dialog = new Dialog('About MyGann+', body, {
-    leftButtons: [Dialog.buttons.OK],
+    leftButtons: [{
+      type: Dialog.buttonTypes.BUTTON,
+      name: 'Close',
+      primary: true,
+    }],
   });
   insertReleaseNotes(body);
   dialog.open();
