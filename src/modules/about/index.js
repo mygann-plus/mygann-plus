@@ -84,7 +84,7 @@ function createAboutBody() {
       <h2 className={selectors.sectionTitle}>Special Thanks</h2>
       <ul>
         <li>Noam Raz for helping to create the extension</li>
-        <li>Shai Mann-Robsison and Micah Shire-Plumb for beta testing and suggestions</li>
+        <li>Shai Mann-Robison and Micah Shire-Plumb for beta testing and suggestions</li>
       </ul>
     </div>
   );
