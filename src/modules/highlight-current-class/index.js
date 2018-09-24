@@ -54,6 +54,14 @@ function isCurrentClass(timeString) {
   return isCorrectFormat() && isCurrentTime(timeString) && isCurrentDay();
 }
 
+function removeHighlight() {
+  // only one block is supposed to be highlighted, but this is in case a bug causes multiple to be
+  const highlightedBlocks = document.querySelectorAll(`.${selectors.currentClass}`);
+  for (const block of highlightedBlocks) {
+    block.classList.remove(selectors.currentClass);
+  }
+}
+
 const domQuery = () => (
   document.getElementById('accordionSchedules')
   && document.getElementById('accordionSchedules').children[0]
@@ -62,7 +70,6 @@ const domQuery = () => (
 );
 
 async function highlightClass() {
-
   await waitForLoad(domQuery);
 
   const blocks = document.getElementById('accordionSchedules').children;
@@ -86,19 +93,23 @@ function highlightCurrentClass(opts, unloaderContext) {
   unloaderContext.addRemovable(styles);
 
   highlightClass();
+  const interval = setInterval(() => {
+    removeHighlight();
+    highlightClass();
+  }, 60000);
+
+  unloaderContext.addFunction(() => clearInterval(interval));
+
   addDayChangeListeners(highlightClass);
 }
 
 function unloadHighlightCurrentClass() {
-  // only one block is supposed to be highlighted, but this is in case a bug causes multiple to be
-  const highlightedBlocks = document.querySelectorAll(`.${selectors.currentClass}`);
-  for (const block of highlightedBlocks) {
-    block.classList.remove(selectors.currentClass);
-  }
+  removeHighlight();
 }
 
 export default registerModule('{c9550c66-5dc8-4132-a359-459486a8ab08}', {
   name: 'Highlight Current Class in Schedule',
   main: highlightCurrentClass,
   unload: unloadHighlightCurrentClass,
+  affectsGlobalState: true,
 });
