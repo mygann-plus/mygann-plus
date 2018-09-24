@@ -44,6 +44,16 @@ class UnloaderContext {
       },
     };
   }
+  addFunction(fn) {
+    this.removables.push({
+      remove: fn,
+    });
+    return {
+      remove: () => {
+        this.removables.splice(this.removables.indexOf(fn), 1);
+      },
+    };
+  }
 }
 
 function runUnloaderContext(context) {
