@@ -8,6 +8,10 @@
   "description": "A collection of modules that improve your MyGann experience",
   "version_name": "0.6.0-beta",
   
+  "icons": {
+    "128": "assets/icons/icon128.png"
+  },
+
   "content_scripts": [
     {
       "matches": ["https://gannacademy.myschoolapp.com/app/*"],
