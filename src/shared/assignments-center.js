@@ -35,5 +35,6 @@ export async function addAssignmentTableMutationObserver(fn) {
 }
 
 export function isTask(assignmentRow) {
-  return assignmentRow.querySelector('[data-heading="Type"]').textContent === 'My tasks';
+  const type = assignmentRow.querySelector('[data-heading="Type"]');
+  return type && type.textContent === 'My tasks';
 }
