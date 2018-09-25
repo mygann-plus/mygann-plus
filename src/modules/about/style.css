@@ -57,3 +57,11 @@
 .release-notes-shown #release-notes-link::before {
   content: 'hide ';
 }
+
+#update-notification-buttons {
+  margin-top: 10px;
+}
+#update-notification-buttons button {
+  margin-right: 10px;
+  font-size: 12px;
+}

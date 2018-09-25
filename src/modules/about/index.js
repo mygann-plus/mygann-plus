@@ -3,13 +3,14 @@ import marked from 'marked';
 import registerModule from '~/module';
 import { hasUpdated, addInstallStateChangeListener, clearInstallState } from '~/install';
 
-import { createElement, insertCss } from '~/utils/dom';
+import { createElement, insertCss, constructButton } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
 import Flyout from '~/utils/flyout';
 import getManifest from '~/utils/manifest';
 
 import { appendDesktopUserMenuLink, appendMobileUserMenuLink, getHeader } from '~/shared/user-menu';
 
+import { shouldShowNotification, disableNotification } from './update-notification';
 import style from './style.css';
 
 const selectors = {
@@ -22,6 +23,9 @@ const selectors = {
   desktopLinkBadge: style.locals['desktop-link-badge'],
   releaseNotesLink: style.locals['release-notes-link'],
   releaseNotes: style.locals['release-notes'],
+  updateNotification: {
+    buttons: style.locals['update-notification-buttons'],
+  },
 };
 
 
@@ -45,9 +49,20 @@ async function insertReleaseNotes(dialogBody) {
 
 function showUpdateFlyout(aboutBody) {
   const releaseNotesLink = aboutBody.querySelector(`#${selectors.releaseNotesLink}`);
-  const flyout = new Flyout('New version of MyGann+ Check out what\'s new!', {
-    onHide: clearInstallState,
-  });
+
+  const flyout = new Flyout(
+    (
+      <span>
+        New version of MyGann+ Check out what&apos;s new!<br />
+        <div id={ selectors.updateNotification.buttons }>
+          { constructButton('Don\'t show again', '', '', () => { disableNotification(); flyout.hide(); }) }
+        </div>
+      </span>
+    ),
+    {
+      onHide: clearInstallState,
+    },
+  );
   flyout.showAtElem(releaseNotesLink);
 }
 
@@ -103,7 +118,7 @@ async function showDialog() {
   });
   insertReleaseNotes(body);
   dialog.open();
-  if (await hasUpdated()) {
+  if (await hasUpdated() && await shouldShowNotification()) {
     showUpdateFlyout(dialog.getBody());
   }
 }
@@ -113,7 +128,7 @@ async function about() {
   appendMobileUserMenuLink('About MyGann+', showDialog);
   insertCss(style.toString());
 
-  if (await hasUpdated()) {
+  if (await hasUpdated() && await shouldShowNotification()) {
     const avatar = getHeader().parentNode.querySelector('.bb-avatar-wrapper-nav');
     const avatarBadge = (
       <span className={selectors.updateBadge} id={selectors.desktopAvatarBadge} />
