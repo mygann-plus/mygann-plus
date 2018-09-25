@@ -1,6 +1,7 @@
 import registerModule from '~/module';
 import fuzzyMatch from '~/utils/search';
 
+import { getDesktopMenu, getDesktopCourses, getMobileCourses, getMobileMenu } from '~/shared/classes-menu';
 import { createElement, waitForLoad, insertCss, addEventListener } from '~/utils/dom';
 
 import style from './style.css';
@@ -19,10 +20,6 @@ const selectors = {
   },
   desktopClassesMenu: 'subnav',
 };
-
-const getDesktopMenu = () => (
-  document.querySelector(`#group-header-Classes + * + .${selectors.desktopClassesMenu}`)
-);
 
 // ESLint doesn't recognize that getCourses is an override
 /* eslint-disable class-methods-use-this */
@@ -99,21 +96,8 @@ class DesktopClassFilter extends ClassFilter {
   }
 
   getCourses() {
-    const cols = getDesktopMenu().children;
-    const elems = [];
-    for (const col of cols) {
-      if (col.matches('.subnavfooter')) {
-        continue;
-      }
-      elems.push(...Array.from(col.children).filter(child => {
-        return !child.matches(`.divider, #${selectors.desktopSearchbar}`);
-      }));
-    }
-
-    return elems.map(elem => ({
-      title: elem.textContent.toLowerCase().trim(),
-      elem,
-    }));
+    return getDesktopCourses()
+      .filter(({ elem }) => elem.id !== selectors.desktopSearchbar);
   }
   mountInput(node) {
     node.prepend(this.input);
@@ -132,14 +116,8 @@ class MobileClassFilter extends ClassFilter {
     );
   }
   getCourses() {
-    const elems = Array.from(document.querySelectorAll('.app-mobile-level')[2].children[2].children);
-    elems.splice(elems.length - 1, 1);
-    return Array.from(elems)
-      .filter(e => e.id !== selectors.mobileSearchbarWrap)
-      .map(elem => ({
-        title: elem.firstElementChild.textContent.toLowerCase().trim(),
-        elem,
-      }));
+    return getMobileCourses()
+      .filter(({ elem }) => elem.id !== selectors.mobileSearchbarWrap);
   }
   mountInput(node) {
     this.wrap = (
@@ -158,10 +136,7 @@ class MobileClassFilter extends ClassFilter {
 
 const domQuery = {
   desktop: getDesktopMenu,
-  mobile: () => (
-    document.querySelectorAll('.app-mobile-level')[2] &&
-    document.querySelectorAll('.app-mobile-level')[2].children[2]
-  ),
+  mobile: getMobileMenu,
 };
 
 function searchClassesMenu(opts, unloaderContext) {
