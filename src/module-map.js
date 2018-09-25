@@ -25,9 +25,11 @@ import installNotification from './modules/install-notification';
 import fixArchiveHighlight from './modules/fix-archive-highlight';
 import markAsRead from './modules/mark-as-read';
 import hideTasksAfterDue from './modules/hide-tasks-after-due';
+import hideClassesMenu from './modules/hide-classes-menu';
 
 const MODULE_MAP = {
   '#': [
+    hideClassesMenu,
     searchClassesMenu,
     messageNotifications,
     userMenuLinks, // options dialog and about
