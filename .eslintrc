@@ -65,5 +65,6 @@
     }],
     "react/jsx-key": 0,
     "react/prop-types": 0,
+    "no-loop-func": 0
   }
 }
