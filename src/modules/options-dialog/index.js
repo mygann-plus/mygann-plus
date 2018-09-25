@@ -76,6 +76,7 @@ function setSuboptionValue(suboptElem, suboption, value) {
     case 'boolean':
       suboptElem.querySelector('input').checked = value;
       break;
+
     default:
       suboptElem.value = value;
   }
@@ -256,6 +257,9 @@ class OptionsDialog {
             <span className="bb-check-checkbox"></span>
           </label>
         );
+        break;
+      case 'textarea':
+        input = <textarea />;
         break;
       default:
         log('warn', `Unknown suboption type ${suboption.type}`);

@@ -85,6 +85,11 @@
 input.suboption-input {
   width: 100px;
 }
+textarea.suboption-input {
+  width: 300px;
+  height: 70px;
+  vertical-align: middle;
+}
 
 .suboption-label :global(.bb-check-wrapper) {
   margin-right: 7px;
