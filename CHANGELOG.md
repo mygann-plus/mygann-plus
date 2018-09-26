@@ -59,6 +59,7 @@
 - Fix all schedule modules (Free Block, Highlight Current Class, and Class Ending Time) not working with "today" button
 - Fix multiple class ending times appearing
 - Fix grades being hidden when using Grade Summary and Next Graded Course
+- Fix Next Graded Course not updating when next/previous course button pressed
 - Fix Inline Change Status not always appearing and flashing dropdown
 - Fix Hide Completed causing background flickering and behaving inconsistently
 - Fix "view more classes" being included in Search Classes Menu result
