@@ -26,6 +26,7 @@ const identifiers = {
 const formatBodyText = text => {
   return text
     .replace(/\s+/g, ' ')
+    .replace(/<br>/, ' ')
     .trim();
 };
 
