@@ -10,9 +10,18 @@ function selectCourse({ elem }) {
   elem.parentNode.querySelector('.btn.btn-default').click();
 }
 
-function generateButton(followingCourse, icon) {
-  const button = constructButton('', '', `fa fa-fast-${icon}`, () => selectCourse(followingCourse));
-  button.disabled = !followingCourse;
+function generateButton(followingCourse, text) {
+  const button = constructButton(
+    text, '', '',
+    () => selectCourse(followingCourse),
+  );
+  button.style.color = '';
+
+  if (!followingCourse) {
+    button.disabled = true;
+    button.classList.add('btn-disabled');
+  }
+  button.classList.remove('btn-sm');
   return button;
 }
 
