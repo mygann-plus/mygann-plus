@@ -85,6 +85,12 @@ function insertInlineGrades(unloaderContext) {
   return inlineGrades;
 }
 
+function toggleButtonDisabled(button, inlineGrades) {
+  if (!inlineGrades.length) {
+    button.classList.add('disabled');
+  } else {
+    button.classList.remove('disabled');
+  }
 }
 
 const domQuery = () => document.querySelector('#filter-status');
@@ -109,9 +115,11 @@ async function inlineAssignmentGrade(opts, unloaderContext) {
   );
 
   inlineGrades = insertInlineGrades(unloaderContext);
+  toggleButtonDisabled(showGradesBtn, inlineGrades);
 
   const observer = await addAssignmentTableMutationObserver(() => {
     inlineGrades = insertInlineGrades(unloaderContext);
+    toggleButtonDisabled(showGradesBtn, inlineGrades);
   });
 
   unloaderContext.addRemovable(showGradesBtn);
