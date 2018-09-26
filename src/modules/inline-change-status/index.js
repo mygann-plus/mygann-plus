@@ -36,15 +36,25 @@ function createDropdown(parentNode, controller, index, preVal) {
       .querySelectorAll('.assignment-status-update')[index]
       .parentNode.parentNode.children[5].textContent.trim()
   );
+  const isOverdue = parentNode.querySelector('button.btn-link').dataset.overdue === 'true';
   // MyGann natively uses non breaking spaces for ONLY in progress labels
   const optionNames = ['To Do', 'In\u00a0Progress', 'Completed'];
-  optionNames.splice(optionNames.indexOf(existingValue), 1);
+  if (isOverdue) {
+    optionNames.splice(0, 1);
+    if (existingValue !== 'Overdue') {
+      optionNames.splice(optionNames.indexOf(existingValue), 1);
+    }
+  } else {
+    optionNames.splice(optionNames.indexOf(existingValue), 1);
+  }
 
   const optionElems = [
     createOptionElem('-- Select --', '0'),
     createOptionElem(optionNames[0], '1'),
-    createOptionElem(optionNames[1], '2'),
   ];
+  if (optionNames[1]) {
+    optionElems.push(createOptionElem(optionNames[1], '2'));
+  }
   const handleSelectChange = e => {
     const selectElem = e.target;
     if (selectElem.value === '0') {
