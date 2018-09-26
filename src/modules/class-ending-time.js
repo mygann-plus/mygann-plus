@@ -51,7 +51,6 @@ function minutesTo(date) {
 function addTime(minutes, parent) {
   if (document.getElementById('gocp_class-ending-time_main')) return;
 
-  const br = document.createElement('br');
   const span = document.createElement('span');
 
   span.style.color = 'grey';
@@ -59,7 +58,6 @@ function addTime(minutes, parent) {
   span.style.marginTop = '10px';
   span.textContent = `${minutes} minutes left`;
   span.id = 'gocp_class-ending-time_main';
-  parent.appendChild(br);
   parent.appendChild(span);
 
   return span;
