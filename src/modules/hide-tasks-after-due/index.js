@@ -152,12 +152,15 @@ function getTaskObject(taskRow) {
   };
 }
 
-const domQuery = () => document.querySelectorAll('#assignment-center-assignment-items tr');
+const domQuery = () => (
+  document.querySelector('#assignment-center-assignment-items tr') &&
+  document.querySelector('.views-button > *')
+);
 
 async function hideTasks(options) {
-  await waitForLoad(() => domQuery().length);
+  await waitForLoad(domQuery);
 
-  const assignments = Array.from(domQuery());
+  const assignments = Array.from(document.querySelectorAll('#assignment-center-assignment-items tr'));
   const tasks = assignments.filter(isTask);
   for (const task of tasks) {
     const taskObj = getTaskObject(task);
