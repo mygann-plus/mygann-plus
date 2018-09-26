@@ -62,11 +62,6 @@ function addTime(minutes, parent) {
   parent.appendChild(br);
   parent.appendChild(span);
 
-  setInterval(() => {
-    minutes--;
-    span.textContent = `${minutes} minutes left`;
-  }, 60000);
-
   return span;
 }
 
@@ -102,6 +97,16 @@ async function testForClass(unloaderContext) {
 
 function classEndingTime(opts, unloaderContext) {
   testForClass(unloaderContext);
+
+  const interval = setInterval(() => {
+    const timeLabel = document.getElementById('gocp_class-ending-time_main');
+    if (timeLabel) {
+      timeLabel.remove();
+    }
+    testForClass(unloaderContext);
+  }, 60000);
+  unloaderContext.addFunction(() => clearInterval(interval));
+
   addDayChangeListeners(() => testForClass(unloaderContext));
 }
 
