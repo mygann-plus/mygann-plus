@@ -14,7 +14,7 @@ export function hasParentWithClassName(element, classnames) {
   return element.parentNode && hasParentWithClassName(element.parentNode, classnames);
 }
 
-// tests if the current day on the schedule is set to today + daysFromNow
+// tests if the current day on the schedule is set to today
 export function isCurrentDay() {
   const cur = document.getElementById('schedule-header')
     .children[0].children[0].children[0].children[1].children[0].children[3]
@@ -50,7 +50,7 @@ export function to24Hr(t) {
   return `${sHours}:${sMinutes}:00`;
 }
 
-export function isBetween(start, end) {
+function isBetween(start, end) {
   const startTime = start;
   const endTime = end;
   const currentDate = new Date();
@@ -63,4 +63,13 @@ export function isBetween(start, end) {
   endDate.setMinutes(endTime.split(':')[1]);
   endDate.setSeconds(endTime.split(':')[2]);
   return startDate < currentDate && endDate > currentDate;
+}
+
+export function isCurrentTime(timeString) {
+  const times = timeString.split('-').map(s => s.trim().split()).map(l => l[0]);
+  return isBetween(to24Hr(times[0]), to24Hr(times[1]));
+}
+
+export function isDayView() {
+  return !!document.getElementById('accordionSchedules');
 }

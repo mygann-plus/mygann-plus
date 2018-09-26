@@ -1,41 +1,18 @@
 import registerModule from '~/module';
 
-import { waitForLoad } from '~/utils/dom';
-import { isCurrentDay, addDayChangeListeners, to24Hr } from '~/shared/schedule';
+import { createElement, waitForLoad } from '~/utils/dom';
+import {
+  isCurrentDay,
+  isCurrentTime,
+  isDayView,
+  to24Hr,
+  addDayChangeListeners,
+} from '~/shared/schedule';
 
-// TIME & DATE CHECKERS
-
-function isBetween(start, end) {
-  const startTime = start;
-  const endTime = end;
-
-  const currentDate = new Date();
-
-  const startDate = new Date(currentDate.getTime());
-  startDate.setHours(startTime.split(':')[0]);
-  startDate.setMinutes(startTime.split(':')[1]);
-  startDate.setSeconds(startTime.split(':')[2]);
-
-  const endDate = new Date(currentDate.getTime());
-  endDate.setHours(endTime.split(':')[0]);
-  endDate.setMinutes(endTime.split(':')[1]);
-  endDate.setSeconds(endTime.split(':')[2]);
-
-
-  return startDate < currentDate && endDate > currentDate;
-
-}
-function isCurrentTime(timeString) {
-  const times = timeString.split('-').map(s => s.trim().split()).map(l => l[0]);
-  return isBetween(to24Hr(times[0]), to24Hr(times[1]));
-}
-
-function isCorrectFormat() { // is on day view, not month or week
-  return !!document.getElementById('accordionSchedules');
-}
 function isCurrentClass(timeString) {
-  return isCorrectFormat() && isCurrentTime(timeString) && isCurrentDay();
+  return isDayView() && isCurrentTime(timeString) && isCurrentDay();
 }
+
 function hourStringToDate(time) {
   const endDate = new Date();
   endDate.setHours(time.split(':')[0]);
@@ -51,15 +28,16 @@ function minutesTo(date) {
 function addTime(minutes, parent) {
   if (document.getElementById('gocp_class-ending-time_main')) return;
 
-  const span = document.createElement('span');
+  const span = (
+    <span
+      style={{ color: 'grey', display: 'inline-block', marginTop: '10px' }}
+      id='gocp_class-ending-time_main'
+    >
+      { minutes } minutes left
+    </span>
+  );
 
-  span.style.color = 'grey';
-  span.style.display = 'inline-block';
-  span.style.marginTop = '10px';
-  span.textContent = `${minutes} minutes left`;
-  span.id = 'gocp_class-ending-time_main';
   parent.appendChild(span);
-
   return span;
 }
 
