@@ -51,7 +51,7 @@ function insertBlock(elemBefore, startTime, endTime, blockText) {
 
   const tr = (
     <tr>
-      { createCell('Time', `${addMinutes(startTime, 5)} - ${addMinutes(endTime, -5)}`) }
+      { createCell('Time', `${startTime} - ${endTime}`) }
       { createCell('Block', blockText) }
       { createCell('Activity', activity) }
       { createCell('Contact', '')}
@@ -96,7 +96,12 @@ async function insertFreeBlock(options, unloaderContext) {
       const isOverlap = compareDate(endDate, nextStartDate) > 0;
 
       if (!isConsecutive(fullEndTime, fullNextStartTime) && !isOverlap) {
-        const block = insertBlock(elem, endTime, nextStartTime, 'Free Block');
+        const block = insertBlock(
+          elem,
+          addMinutes(endTime, 5),
+          addMinutes(nextStartTime, -5),
+          'Free Block',
+        );
         unloaderContext.addRemovable(block);
 
 
