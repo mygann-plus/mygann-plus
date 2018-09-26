@@ -31,16 +31,20 @@ async function highlightClass() {
   await waitForLoad(domQuery);
 
   const blocks = document.getElementById('accordionSchedules').children;
+  const recheck = block => {
+    if (!document.body.contains(block)) {
+      highlightClass();
+    }
+  };
+
   for (const block of blocks) {
     const timeString = block.children[0].childNodes[0].data.trim();
     if (isCurrentClass(timeString)) {
       block.classList.add(selectors.currentClass);
       // [audit] replace with MutationObserver; extract to shared
-      setTimeout(() => {
-        if (!document.body.contains(block)) {
-          highlightClass();
-        }
-      }, 50);
+      setTimeout(() => recheck(block), 50);
+      setTimeout(() => recheck(block), 100);
+      setTimeout(() => recheck(block), 200);
     }
   }
 

@@ -54,18 +54,22 @@ async function testForClass(unloaderContext) {
 
   const blocks = document.getElementById('accordionSchedules').children;
 
+  const recheck = (block, removable) => {
+    if (!document.body.contains(block)) {
+      removable.remove();
+      testForClass(unloaderContext);
+    }
+  };
+
   for (const block of blocks) {
     const timeString = block.children[0].childNodes[0].data.trim();
     if (isCurrentClass(timeString)) {
       const minutes = minutesTo(timeString.split('-')[1].trim());
       const time = addTime(minutes, block.children[0]);
       const timeRemovable = unloaderContext.addRemovable(time);
-      setTimeout(() => {
-        if (!document.body.contains(block)) {
-          timeRemovable.remove();
-          testForClass(unloaderContext);
-        }
-      }, 50);
+      setTimeout(() => recheck(block, timeRemovable), 50);
+      setTimeout(() => recheck(block, timeRemovable), 100);
+      setTimeout(() => recheck(block, timeRemovable), 200);
     }
   }
 
