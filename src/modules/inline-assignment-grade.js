@@ -41,7 +41,7 @@ class InlineGrade {
       <i
         className="fa fa-eye"
         onClick={ () => this.show() }
-        style={{ marginLeft: '10px' }}
+        style={{ marginLeft: '10px', cursor: 'pointer' }}
       />
     );
 
@@ -106,7 +106,9 @@ async function inlineAssignmentGrade(opts, unloaderContext) {
     'fa fa-eye',
     () => showGrades(inlineGrades),
   );
-  filterStatusButton.parentNode.appendChild(showGradesBtn);
+  if (opts.showMainbutton) {
+    filterStatusButton.parentNode.appendChild(showGradesBtn);
+  }
 
   const showGradesLink = appendMobileAssignmentCenterMenuLink(
     'Show Grades',
@@ -131,4 +133,11 @@ export default registerModule('{0540d147-af76-4f44-a23d-415506e8e777}', {
   name: 'Preview Assignment Grade',
   main: inlineAssignmentGrade,
   description: 'Button to preview grade of graded assignments in main assignments list',
+  suboptions: {
+    showMainbutton: {
+      type: 'boolean',
+      name: 'Show Main Button',
+      defaultValue: false,
+    },
+  },
 });
