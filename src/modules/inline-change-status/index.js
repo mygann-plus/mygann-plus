@@ -12,17 +12,19 @@ const selectors = {
   dropdown: 'gocp_inline-change-status_dropdown',
 };
 
-function simulateDropdownChange(elemIndex, index) {
+async function simulateDropdownChange(elemIndex, index) {
   document.querySelectorAll('.assignment-status-update')[elemIndex].parentNode.children[0].click();
-  setTimeout(() => {
-    const elem = document.querySelectorAll('.assignment-status-update')[elemIndex].parentNode
+  const elem = await waitForLoad(() => (
+    document.querySelectorAll('.assignment-status-update')[elemIndex].parentNode
       .querySelector(`
         *:nth-child(2) > :nth-child(3) > :first-child > :nth-child(2) > :first-child
-      `);
-    elem.selectedIndex = index;
-    elem.dispatchEvent(new Event('change'));
-  }, 0);
-
+      `)
+  ));
+  if (!elem) {
+    return setTimeout(() => simulateDropdownChange(elemIndex, index));
+  }
+  elem.selectedIndex = index;
+  elem.dispatchEvent(new Event('change'));
 }
 
 function createOptionElem(name, val) {
