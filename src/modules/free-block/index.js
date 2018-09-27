@@ -1,10 +1,16 @@
 import registerModule from '~/module';
 
-import { createElement, waitForLoad } from '~/utils/dom';
+import { createElement, waitForLoad, insertCss } from '~/utils/dom';
 import { compareDate, timeStringToDate } from '~/utils/date';
 
 import { addDayChangeListeners, to24Hr } from '~/shared/schedule';
 import { getTableRowColumnContent } from '~/shared/table';
+
+import style from './style.css';
+
+const selectors = {
+  activity: style.locals.activity,
+};
 
 // start and end must be 24HR format
 function isConsecutive(start, end) {
@@ -46,7 +52,7 @@ function addMinutes(time, mins) {
 function insertBlock(elemBefore, startTime, endTime, blockText) {
   const createCell = (heading, content) => <td dataset={{ heading }}>{ content }</td>;
 
-  const activity = <h4><a href="#studentmyday/schedule">Free</a></h4>;
+  const activity = <h4 className={selectors.activity}>Free</h4>;
   const attendance = <span><span>N/A</span></span>;
 
   const tr = (
@@ -83,10 +89,24 @@ async function insertFreeBlock(options, unloaderContext) {
     const time = elem.children[0].childNodes[0].data.trim();
     const endTime = time.split('-')[1].trim();
 
-    if (blocks[i + 1]) {
+    const getNextStartTime = () => {
       const nextTime = blocks[i + 1].children[0].childNodes[0].data.trim();
-      const nextStartTime = nextTime.split('-')[0].trim();
+      return nextTime.split('-')[0].trim();
+    };
 
+    if (options.showEndBlocks) {
+      // special case for A/B block
+      const blockText = getTableRowColumnContent(blocks[i], 'Block');
+      // accounts for nextStartTime because of after-school sports
+      const endBlockExists = blocks[i + 1] && getNextStartTime() === '3:55 PM';
+      if (blockText === 'Mincha' && !endBlockExists) {
+        const insertedBlock = insertBlock(elem, '3:55 PM', '5:05 PM', `${getEndBlock()} Block`);
+        return unloaderContext.addRemovable(insertedBlock);
+      }
+    }
+
+    if (blocks[i + 1]) {
+      const nextStartTime = getNextStartTime();
       const fullEndTime = to24Hr(endTime);
       const fullNextStartTime = to24Hr(nextStartTime);
       const endDate = timeStringToDate(fullEndTime);
@@ -111,18 +131,14 @@ async function insertFreeBlock(options, unloaderContext) {
           }
         }, 50);
       }
-    } else if (options.showEndBlocks) {
-      // special case for A/B block
-      const blockText = getTableRowColumnContent(blocks[i], 'Block');
-      if (blockText === 'Mincha') {
-        const insertedBlock = insertBlock(elem, '3:55 PM', '5:05 PM', `${getEndBlock()} Block`);
-        unloaderContext.addRemovable(insertedBlock);
-      }
     }
   });
 }
 
 function freeBlock(options, unloaderContext) {
+  const styles = insertCss(style.toString());
+  unloaderContext.addRemovable(styles);
+
   insertFreeBlock(options, unloaderContext);
 
   const dayChangeListener = addDayChangeListeners(() => insertFreeBlock(options, unloaderContext));
