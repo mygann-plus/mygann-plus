@@ -6,6 +6,7 @@ const constants = {
   seperatorGray: '#e5e5e5',
   navMenuHighlight: '#fff2c0',
   badgeRed: '#ff3633',
+  linkBlue: '#007ca6',
 
   maxMobileWidth: '978px',
 };
