@@ -89,4 +89,5 @@ export default registerModule('{2b337dae-cb2f-4627-b3d6-bde7a5f2dc06}', {
   name: 'Coming Up',
   description: 'Show preview of the next day\'s events',
   main: comingUp,
+  defaultEnabled: false,
 });

@@ -40,4 +40,5 @@ async function initFavorites(opts, unloaderContext) {
 export default registerModule('{a98c8f19-a6fc-449a-bc03-ca9dc0cc7550}', {
   name: 'Favorites',
   init: initFavorites,
+  defaultEnabled: false,
 });
