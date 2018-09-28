@@ -1,13 +1,24 @@
-## 0.7.0 (UNRELEASED)
+## 1.0.0
 ## Added
+- "Hide Classes in Menu" module, which hides non-academic "classes" in the classes menu.
 - Highlight Current Class and Class Ending Time will refresh every minute
+- Button to preview assignment grade for individual assignments
+- Extension icon
+- "Don't show again" button for update notification
 
 ## Changed
 - Free A and B blocks correctly start at 3:55
+- Show Grades button is disabled if there are no graded assignments 
+- Next Graded Course buttons have text instead of icons
+- Hide Preview Assignment Grades button by default
+- Disable Coming Up and Favorites by default
 
 ### Fixed
 - Fix Next Graded Course not updating when next/previous course button pressed
 - Fix Highlight Current Class and Class Ending Time inconsistently appearing
+- Fix Message Notification incorrectly displaying new lines
+- Fix Improved Status Dropdown not working with overdue assignments
+- Fix Improved Status Dropdown inconsistently changing status
 
 ## 0.6.0
 ### Added
