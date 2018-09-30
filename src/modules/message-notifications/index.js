@@ -166,9 +166,7 @@ async function getMessages() {
     const data = await fetchApi('/api/message/inbox/?format=json');
     return data
       .map(conversation => {
-        // return conversation.Messages.filter(message => !message.ReadInd)[0];
-        console.log(conversation);
-        return conversation.Messages[0];
+        return conversation.Messages.filter(message => !message.ReadInd)[0];
       })
       .filter(Boolean)
       .map(conversation => ({
