@@ -1,3 +1,7 @@
+## 1.0.1
+### Fixed
+- Fix Message Notification incorrectly displaying multiple new lines
+
 ## 1.0.0
 ## Added
 - "Hide Classes in Menu" module, which hides non-academic "classes" in the classes menu.
