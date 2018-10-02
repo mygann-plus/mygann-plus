@@ -138,7 +138,8 @@ function createWrapper() {
 const activeNotifications = [];
 
 function generateNotifications(messages, disappearTime, showLinkButton) {
-  if (window.location.hash.startsWith('#message')) {
+  const { hash } = window.location;
+  if (hash.startsWith('#message') && !hash.includes('conversation')) {
     // activeNotifications is spliced when .removeMessage is called
     const currentActiveNotifications = [...activeNotifications];
     for (const notification of currentActiveNotifications) {
