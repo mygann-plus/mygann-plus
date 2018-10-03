@@ -1,6 +1,7 @@
-## 1.0.1
+## 1.0.1 (UNRELEASED)
 ### Fixed
 - Fix Message Notification incorrectly displaying multiple new lines
+- Fix Free Block inconsistently appearing and occasionally handling A and B block incorectly
 
 ## 1.0.0
 ## Added
