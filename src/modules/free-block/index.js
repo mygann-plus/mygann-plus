@@ -94,19 +94,9 @@ async function insertFreeBlock(options, unloaderContext) {
       return nextTime.split('-')[0].trim();
     };
 
-    if (options.showEndBlocks) {
-      // special case for A/B block
-      const blockText = getTableRowColumnContent(blocks[i], 'Block');
-      // accounts for nextStartTime because of after-school sports
-      const endBlockExists = blocks[i + 1] && getNextStartTime() === '3:55 PM';
-      if (blockText === 'Mincha' && !endBlockExists) {
-        const insertedBlock = insertBlock(elem, '3:55 PM', '5:05 PM', `${getEndBlock()} Block`);
-        return unloaderContext.addRemovable(insertedBlock);
-      }
-    }
-
     if (blocks[i + 1]) {
-      const nextStartTime = getNextStartTime();
+      const nextTime = blocks[i + 1].children[0].childNodes[0].data.trim();
+      const nextStartTime = nextTime.split('-')[0].trim();
       const fullEndTime = to24Hr(endTime);
       const fullNextStartTime = to24Hr(nextStartTime);
       const endDate = timeStringToDate(fullEndTime);
@@ -130,6 +120,13 @@ async function insertFreeBlock(options, unloaderContext) {
             insertFreeBlock(options, unloaderContext);
           }
         }, 50);
+      }
+    } else if (options.showEndBlocks) {
+      // special case for A/B block
+      const blockText = getTableRowColumnContent(blocks[i], 'Block');
+      if (blockText === 'Mincha') {
+        const insertedBlock = insertBlock(elem, '3:55 PM', '5:05 PM', `${getEndBlock()} Block`);
+        unloaderContext.addRemovable(insertedBlock);
       }
     }
   });
