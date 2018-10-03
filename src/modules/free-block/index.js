@@ -89,9 +89,12 @@ async function insertFreeBlock(options, unloaderContext) {
     const time = elem.children[0].childNodes[0].data.trim();
     const endTime = time.split('-')[1].trim();
 
-    const getNextStartTime = () => {
-      const nextTime = blocks[i + 1].children[0].childNodes[0].data.trim();
-      return nextTime.split('-')[0].trim();
+    const recheck = (block, t) => {
+      setTimeout(() => {
+        if (!document.body.contains(block)) {
+          insertFreeBlock(options, unloaderContext);
+        }
+      }, t);
     };
 
     if (blocks[i + 1]) {
@@ -114,12 +117,11 @@ async function insertFreeBlock(options, unloaderContext) {
         );
         unloaderContext.addRemovable(block);
 
-
-        setTimeout(() => {
-          if (!document.body.contains(block)) {
-            insertFreeBlock(options, unloaderContext);
-          }
-        }, 50);
+        recheck(block, 50);
+        recheck(block, 100);
+        recheck(block, 500);
+        recheck(block, 1000);
+        recheck(block, 3000);
       }
     } else if (options.showEndBlocks) {
       // special case for A/B block
