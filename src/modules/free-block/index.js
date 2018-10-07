@@ -72,7 +72,7 @@ function insertBlock(elemBefore, startTime, endTime, blockText) {
 
 // returns "A" or "B" depending on day of week
 function getEndBlock() {
-  const day = document.querySelector('.chCal-header-space + h2').textContent.trim();
+  const day = document.querySelector('.chCal-header-space + h2').textContent.split(',')[0].trim();
   if (day === 'Monday' || day === 'Wednesday') {
     return 'A';
   } else {
