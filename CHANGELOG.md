@@ -1,4 +1,10 @@
 ## 1.0.1 (UNRELEASED)
+## Added
+- Hide button to Grade Preview labels
+
+## Changed
+- When one message notification is clicked, the other message notifications now stay visible.
+
 ### Fixed
 - Fix Message Notification incorrectly displaying multiple new lines
 - Fix Free Block inconsistently appearing and occasionally handling A and B block incorectly
