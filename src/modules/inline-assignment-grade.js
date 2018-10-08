@@ -35,12 +35,13 @@ class InlineGrade {
     this.label = label;
     this.id = getIdFromLabel(label);
     this.grade = null;
+    this.hidden = true;
 
     this.gradeLabel = <span></span>;
     this.button = (
       <i
         className="fa fa-eye"
-        onClick={ () => this.show() }
+        onClick={ () => this.toggle() }
         style={{ marginLeft: '10px', cursor: 'pointer' }}
       />
     );
@@ -49,13 +50,28 @@ class InlineGrade {
     this.label.appendChild(this.button);
   }
 
+  toggle() {
+    if (this.hidden) {
+      this.show();
+    } else {
+      this.hide();
+    }
+  }
+
   async show() {
+    this.hidden = false;
     if (!this.grade) {
       this.grade = await getGrade(this.id);
       this.gradeLabel.textContent = `: ${this.grade}%`;
     }
     this.gradeLabel.style.display = 'inline-block';
-    this.button.style.display = 'none';
+    this.button.className = 'fa fa-eye-slash';
+  }
+
+  hide() {
+    this.hidden = true;
+    this.gradeLabel.style.display = 'none';
+    this.button.className = 'fa fa-eye';
   }
 
   remove() {
