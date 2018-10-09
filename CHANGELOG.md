@@ -1,4 +1,4 @@
-## 1.0.1 (UNRELEASED)
+## 1.1.0
 ## Added
 - Hide button to Grade Preview labels
 
@@ -7,7 +7,12 @@
 
 ### Fixed
 - Fix Message Notification incorrectly displaying multiple new lines
-- Fix Free Block inconsistently appearing and occasionally handling A and B block incorectly
+- Fix Free Block issues:
+  - Free Blocks inconsistently appearing
+  - Free Blocks always showing B block at the end of the day
+  - Free Blocks not appearing at the end of day on Friday
+  - Free Blocks start time incorrectly handling times over an hour
+- Fix Class Ending Time incorrectly handling times over an hour
 
 ## 1.0.0
 ## Added
