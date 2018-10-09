@@ -35,3 +35,7 @@ export function timeStringToDate(timeString) {
   date.setSeconds(timeString.split(':')[2]);
   return date;
 }
+
+export function getCurrentDay() {
+  return document.querySelector('.chCal-header-space + h2').textContent.split(',')[0].trim();
+}
