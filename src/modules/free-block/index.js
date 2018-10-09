@@ -15,7 +15,7 @@ const selectors = {
 // start and end must be 24HR format
 function isConsecutive(start, end) {
 
-  const DISTANCE = 30;
+  const DISTANCE = 10;
 
   const startHour = start.split(':')[0];
   const endHour = end.split(':')[0];
