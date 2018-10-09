@@ -41,10 +41,10 @@ function addMinutes(time, mins) {
   const minutes = t.split(':')[1];
   if (Number(minutes) + mins >= 60) {
     // seconds will always be 00
-    return `${Number(hours) + Math.floor(mins / 60)}:${padNumber(Math.abs(60 - (Number(minutes) + Number(mins))))} ${time.split(' ')[1]}`;
+    return `${Number(hours) + Math.floor((mins + Number(minutes)) / 60)}:${padNumber(Math.abs(60 - (Number(minutes) + Number(mins))))} ${time.split(' ')[1]}`;
   }
   if ((Number(minutes) + mins) <= 0) {
-    return `${Number(hours) + Math.floor(mins / 60)}:${padNumber(60 + (Number(minutes) + Number(mins)))} ${time.split(' ')[1]}`;
+    return `${Number(hours) + Math.floor((mins + Number(minutes)) / 60)}:${padNumber(60 + (Number(minutes) + Number(mins)))} ${time.split(' ')[1]}`;
   }
   return `${hours}:${padNumber(Number(minutes) + mins)} ${time.split(' ')[1]}`;
 }
