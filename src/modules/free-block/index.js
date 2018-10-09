@@ -89,12 +89,22 @@ async function insertFreeBlock(options, unloaderContext) {
     const time = elem.children[0].childNodes[0].data.trim();
     const endTime = time.split('-')[1].trim();
 
-    const recheck = (block, t) => {
-      setTimeout(() => {
-        if (!document.body.contains(block)) {
-          insertFreeBlock(options, unloaderContext);
-        }
-      }, t);
+    const recheck = async (block, t) => {
+      return new Promise(res => {
+        setTimeout(() => {
+          if (!document.body.contains(block)) {
+            res(insertFreeBlock(options, unloaderContext));
+          }
+        }, t);
+      });
+    };
+    const runRecheck = async block => {
+      let nextBlock = block;
+      nextBlock = await recheck(nextBlock, 50);
+      nextBlock = await recheck(nextBlock, 100);
+      nextBlock = await recheck(nextBlock, 500);
+      nextBlock = await recheck(nextBlock, 1000);
+      nextBlock = await recheck(nextBlock, 3000);
     };
 
     if (blocks[i + 1]) {
@@ -116,12 +126,7 @@ async function insertFreeBlock(options, unloaderContext) {
           'Free Block',
         );
         unloaderContext.addRemovable(block);
-
-        recheck(block, 50);
-        recheck(block, 100);
-        recheck(block, 500);
-        recheck(block, 1000);
-        recheck(block, 3000);
+        runRecheck(block);
       }
     } else {
       if (options.showEndBlocks) {
@@ -130,11 +135,13 @@ async function insertFreeBlock(options, unloaderContext) {
         if (blockText === 'Mincha') {
           const insertedBlock = insertBlock(elem, '3:55 PM', '5:05 PM', `${getEndBlock()} Block`);
           unloaderContext.addRemovable(insertedBlock);
+          runRecheck(insertedBlock);
         }
       }
       if (getCurrentDay() === 'Friday' && endTime !== '2:35 PM') {
         const insertedBlock = insertBlock(elem, addMinutes(endTime, 5), '2:35 PM', 'Free Block');
         unloaderContext.addRemovable(insertedBlock);
+        runRecheck(insertedBlock);
       }
     }
   });
