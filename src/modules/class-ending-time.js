@@ -22,7 +22,7 @@ function hourStringToDate(time) {
 }
 function minutesTo(date) {
   let diffMs = (hourStringToDate(to24Hr(date)) - new Date());
-  return Math.round(((diffMs % 86400000) % 3600000) / 60000);
+  return Math.ceil(diffMs / 60000);
 }
 
 function addTime(minutes, parent) {
