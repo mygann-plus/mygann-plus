@@ -1,7 +1,7 @@
 import registerModule from '~/module';
 
 import { createElement, waitForLoad, insertCss } from '~/utils/dom';
-import { compareDate, timeStringToDate } from '~/utils/date';
+import { compareDate, timeStringToDate, getCurrentDay } from '~/utils/date';
 
 import { addDayChangeListeners, to24Hr } from '~/shared/schedule';
 import { getTableRowColumnContent } from '~/shared/table';
@@ -72,7 +72,7 @@ function insertBlock(elemBefore, startTime, endTime, blockText) {
 
 // returns "A" or "B" depending on day of week
 function getEndBlock() {
-  const day = document.querySelector('.chCal-header-space + h2').textContent.split(',')[0].trim();
+  const day = getCurrentDay();
   if (day === 'Monday' || day === 'Wednesday') {
     return 'A';
   } else {
@@ -123,11 +123,17 @@ async function insertFreeBlock(options, unloaderContext) {
         recheck(block, 1000);
         recheck(block, 3000);
       }
-    } else if (options.showEndBlocks) {
+    } else {
+      if (options.showEndBlocks) {
       // special case for A/B block
-      const blockText = getTableRowColumnContent(blocks[i], 'Block');
-      if (blockText === 'Mincha') {
-        const insertedBlock = insertBlock(elem, '3:55 PM', '5:05 PM', `${getEndBlock()} Block`);
+        const blockText = getTableRowColumnContent(blocks[i], 'Block');
+        if (blockText === 'Mincha') {
+          const insertedBlock = insertBlock(elem, '3:55 PM', '5:05 PM', `${getEndBlock()} Block`);
+          unloaderContext.addRemovable(insertedBlock);
+        }
+      }
+      if (getCurrentDay() === 'Friday' && endTime !== '2:35 PM') {
+        const insertedBlock = insertBlock(elem, addMinutes(endTime, 5), '2:35 PM', 'Free Block');
         unloaderContext.addRemovable(insertedBlock);
       }
     }
