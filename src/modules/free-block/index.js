@@ -14,24 +14,11 @@ const selectors = {
 
 // start and end must be 24HR format
 function isConsecutive(start, end) {
-
-  const DISTANCE = 10;
-
-  const startHour = start.split(':')[0];
-  const endHour = end.split(':')[0];
-  const startMinute = start.split(':')[1];
-  const endMinute = end.split(':')[1];
-
-  if (startHour !== endHour) {
-    if (Number(startMinute) + DISTANCE >= 60) {
-      return ((Number(startMinute) + DISTANCE) - 60) >= Number(endMinute);
-    }
-    return false;
-  }
-  if (Number(startMinute) + DISTANCE >= Number(endMinute)) {
-    return true;
-  }
-  return false;
+  const startTime = new Date(`1/1/2000 ${start}`);
+  const endTime = new Date(`1/1/2000 ${end}`);
+  const difference = endTime.getTime() - startTime.getTime(); // difference in milliseconds
+  const minuteDifference = Math.round(difference / 60000);
+  return minuteDifference >= 0 && minuteDifference < 30;
 }
 
 function addMinutes(time, mins) {
