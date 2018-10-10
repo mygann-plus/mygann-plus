@@ -1,3 +1,10 @@
+##1.1.2
+## Changed
+- Automatically add the version to bug reports
+
+## Fixed
+- Fix inaccuracies in Free Block calculations
+
 ##1.1.1
 ## Fixed
 - Fix installation issue caused by missing icon
