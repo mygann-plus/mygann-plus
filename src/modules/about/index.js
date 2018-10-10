@@ -89,7 +89,7 @@ function createAboutBody() {
             target="_blank"
             rel="noopener noreferrer"
           > known issues</a>,
-          then <a href="mailto:20mkotlerberkowitz@gannacademy.org?subject=MyGann+%20Bug%20Report">submit a bug report</a>.
+          then <a href={`mailto:20mkotlerberkowitz@gannacademy.org?subject=MyGann%2B%20Bug%20Report&body=\n\nMyGann%2B Version: ${getVersionString()}\n`}>submit a bug report</a>.
         </li>
         <li>
           Suggestions, Requests, or Other Comments: Please email or talk to <a href="mailto:20mkotlerberkowitz@gannacademy.org">Matan Kotler-Berkowitz</a>.
