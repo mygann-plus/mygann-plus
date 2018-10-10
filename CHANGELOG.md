@@ -1,3 +1,7 @@
+##1.1.1
+## Fixed
+- Fix installation issue caused by missing icon
+
 ## 1.1.0
 ## Added
 - Hide button to Grade Preview labels
