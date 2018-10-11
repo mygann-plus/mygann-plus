@@ -26,6 +26,7 @@ import fixArchiveHighlight from './modules/fix-archive-highlight';
 import markAsRead from './modules/mark-as-read';
 import hideTasksAfterDue from './modules/hide-tasks-after-due';
 import hideClassesMenu from './modules/hide-classes-menu';
+import teacherOffices from './modules/teacher-offices';
 
 const MODULE_MAP = {
   '#': [
@@ -57,6 +58,7 @@ const MODULE_MAP = {
   '#message/archive': [fixArchiveHighlight],
   '#message/compose': [exitCompose],
   '#message/conversation': [linkifyMessageText],
+  '#directory/800': [teacherOffices],
   '#searchresults/summary': [filterWebsiteMainSearch],
   '#myschedule': [dayScheduleButton],
 
@@ -74,6 +76,7 @@ const SECTION_MAP = {
   '#message/inbox': 'Messages Inbox',
   '#message/compose': 'Message Compose',
   '#message/conversation': 'Message Conversation',
+  '#directory/800': 'Faculty & Staff Directory',
   '#searchresults/summary': 'Search Results Summary',
   '#myschedule': 'Month & Week Schedule',
 
