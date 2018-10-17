@@ -5,7 +5,7 @@ import registerModule from '~/module';
 import { fetchApi } from '~/utils/fetch';
 import { createElement, insertCss } from '~/utils/dom';
 
-import archiveMessage from '~/shared/archive';
+import { archiveMessage } from '~/shared/messages';
 
 import style from './style.css';
 
