@@ -76,22 +76,15 @@ async function insertFreeBlock(options, unloaderContext) {
     const time = elem.children[0].childNodes[0].data.trim();
     const endTime = time.split('-')[1].trim();
 
-    const recheck = async (block, t) => {
-      return new Promise(res => {
-        setTimeout(() => {
-          if (!document.body.contains(block)) {
-            res(insertFreeBlock(options, unloaderContext));
-          }
-        }, t);
-      });
+    const recheck = block => {
+      if (!document.body.contains(block)) {
+        insertFreeBlock(options, unloaderContext);
+      }
     };
-    const runRecheck = async block => {
-      let nextBlock = block;
-      nextBlock = await recheck(nextBlock, 50);
-      nextBlock = await recheck(nextBlock, 100);
-      nextBlock = await recheck(nextBlock, 500);
-      nextBlock = await recheck(nextBlock, 1000);
-      nextBlock = await recheck(nextBlock, 3000);
+    const runRecheck = block => {
+      setTimeout(() => recheck(block), 50);
+      setTimeout(() => recheck(block), 100);
+      setTimeout(() => recheck(block), 200);
     };
 
     if (blocks[i + 1]) {
