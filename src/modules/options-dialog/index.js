@@ -128,10 +128,12 @@ class OptionsDialog {
 
   renderBody() {
     const sectionWrap = <div />;
+    const createdModules = []; // prevent modules listed for two hashes from appearng twice
     for (const sectionName in MODULE_MAP) {
       const section = this.createSectionView(
         SECTION_MAP[sectionName],
         MODULE_MAP[sectionName],
+        createdModules,
       );
       if (section) {
         sectionWrap.appendChild(section);
@@ -140,10 +142,15 @@ class OptionsDialog {
     return sectionWrap;
   }
 
-  createSectionView(publicName, modules) {
-    const moduleViews = modules.map(module => this.createModuleView(module));
+  createSectionView(publicName, modules, createdModules) {
+    const moduleViews = modules.map(module => {
+      if (!createdModules.includes(module)) {
+        createdModules.push(module);
+        return this.createModuleView(module);
+      }
+    });
     if (moduleViews.every(x => !x)) {
-      // all modules are null, therefore hidden in options
+      // all modules are null or already shown, therefore hidden in options
       return null;
     }
 
