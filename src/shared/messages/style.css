@@ -1,11 +1,11 @@
-.flyout-message {
+.warning {
   font-size: 14px;
   margin-bottom: 8px;
   margin-left: 2px;
   color: var(--subdued-text);
 }
 
-#archiving-message {
+.message {
   display: none;
   margin-left: 10px;
 }
