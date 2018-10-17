@@ -117,7 +117,7 @@ async function inlineAssignmentGrade(opts, unloaderContext) {
   let inlineGrades = [];
 
   const showGradesBtn = constructButton(
-    'Show Grades',
+    'Preview All Grades',
     'gocp_inline-assignment-grade_button',
     'fa fa-eye',
     () => showGrades(inlineGrades),
@@ -152,7 +152,7 @@ export default registerModule('{0540d147-af76-4f44-a23d-415506e8e777}', {
   suboptions: {
     showMainbutton: {
       type: 'boolean',
-      name: 'Show Main Button',
+      name: 'Show "Preview All" Button',
       defaultValue: false,
     },
   },
