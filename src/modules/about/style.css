@@ -65,3 +65,35 @@
   margin-right: 10px;
   font-size: 12px;
 }
+
+.bug-report-wrap {
+  padding: 7px 10px;
+  position: relative;
+  background: #f1f1f1;
+  margin: 9px 0;
+  border-radius: 2px;
+  margin-left: -19px;
+}
+.bug-report-hidden {
+  display: none;
+}
+.bug-report-textarea {
+  padding: 5px;
+  display: block;
+  width: 100%;
+  margin-bottom: 5px;
+  height: 90px;
+}
+.bug-report-send-button {
+  float: right;
+}
+.bug-report-file-label {
+  background: buttonface;
+}
+.bug-report-file-input {
+  display: none !important;
+}
+.bug-report-file-name:not(:empty) {
+  display: inline-block;
+  margin-left: 8px;
+}

@@ -11,23 +11,10 @@ import getManifest from '~/utils/manifest';
 import { appendDesktopUserMenuLink, appendMobileUserMenuLink, getHeader } from '~/shared/user-menu';
 
 import { shouldShowNotification, disableNotification } from './update-notification';
+import { createBugReportUi, openBugReport } from './bug-report';
+import selectors from './selectors';
+
 import style from './style.css';
-
-const selectors = {
-  wrap: style.locals.wrap,
-  releaseNotesShown: style.locals['release-notes-shown'], // applies to wrap
-  sectionTitle: style.locals['section-title'],
-  mainDescription: style.locals['main-description'],
-  updateBadge: style.locals['update-badge'],
-  desktopAvatarBadge: style.locals['desktop-avatar-badge'],
-  desktopLinkBadge: style.locals['desktop-link-badge'],
-  releaseNotesLink: style.locals['release-notes-link'],
-  releaseNotes: style.locals['release-notes'],
-  updateNotification: {
-    buttons: style.locals['update-notification-buttons'],
-  },
-};
-
 
 function getDescription() {
   return `${getManifest().description}.`;
@@ -47,6 +34,7 @@ async function insertReleaseNotes(dialogBody) {
   releaseNotesWrap.innerHTML = marked(latestRelease.body); // parse markdown
 }
 
+
 function showUpdateFlyout(aboutBody) {
   const releaseNotesLink = aboutBody.querySelector(`#${selectors.releaseNotesLink}`);
 
@@ -64,6 +52,11 @@ function showUpdateFlyout(aboutBody) {
     },
   );
   flyout.showAtElem(releaseNotesLink);
+}
+
+function handleBugReportClick(e) {
+  e.preventDefault();
+  openBugReport();
 }
 
 /* eslint-disable max-len */
@@ -89,7 +82,8 @@ function createAboutBody() {
             target="_blank"
             rel="noopener noreferrer"
           > known issues</a>,
-          then <a href={`mailto:20mkotlerberkowitz@gannacademy.org?subject=MyGann%2B%20Bug%20Report&body=\n\nMyGann%2B Version: ${getVersionString()}\n`}>submit a bug report</a>.
+          then <a href="#" onClick={handleBugReportClick}>submit a bug report</a>.
+          { createBugReportUi() }
         </li>
         <li>
           Suggestions, Requests, or Other Comments: Please email or talk to <a href="mailto:20mkotlerberkowitz@gannacademy.org">Matan Kotler-Berkowitz</a>.

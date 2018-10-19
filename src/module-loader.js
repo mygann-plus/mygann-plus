@@ -134,3 +134,10 @@ export function hardUnloadModule(module) {
   }
   return false;
 }
+
+export function getLoadedModules() {
+  return loadedModules;
+}
+export function getLoadingModules() {
+  return loadingModules;
+}
