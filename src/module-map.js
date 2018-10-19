@@ -27,6 +27,7 @@ import markAsRead from './modules/mark-as-read';
 import hideTasksAfterDue from './modules/hide-tasks-after-due';
 import hideClassesMenu from './modules/hide-classes-menu';
 import teacherOffices from './modules/teacher-offices';
+import markAllAsRead from './modules/mark-all-as-read';
 
 const MODULE_MAP = {
   '#': [
@@ -54,7 +55,7 @@ const MODULE_MAP = {
     nextGradedCourse,
   ],
   '#message': [archiveAll],
-  '#message/inbox': [markAsRead, fixArchiveHighlight],
+  '#message/inbox': [markAllAsRead, markAsRead, fixArchiveHighlight],
   '#message/archive': [fixArchiveHighlight],
   '#message/compose': [exitCompose],
   '#message/conversation': [linkifyMessageText],
