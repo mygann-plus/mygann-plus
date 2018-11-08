@@ -39,3 +39,12 @@ export function timeStringToDate(timeString) {
 export function getCurrentDay() {
   return document.querySelector('.chCal-header-space + h2').textContent.split(',')[0].trim();
 }
+
+export function isDaylightSavings(date = new Date()) {
+  const year = new Date().getFullYear();
+  const jan = new Date(year, 0, 1);
+  const jul = new Date(year, 6, 1);
+  const standardTimezoneOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+  return !(date.getTimezoneOffset() < standardTimezoneOffset);
+}
+

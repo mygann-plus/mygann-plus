@@ -1,7 +1,7 @@
 import registerModule from '~/module';
 
 import { createElement, waitForLoad, insertCss } from '~/utils/dom';
-import { compareDate, timeStringToDate, getCurrentDay } from '~/utils/date';
+import { compareDate, timeStringToDate, getCurrentDay, isDaylightSavings } from '~/utils/date';
 
 import { addDayChangeListeners, to24Hr } from '~/shared/schedule';
 import { getTableRowColumnContent } from '~/shared/table';
@@ -67,6 +67,11 @@ function getEndBlock() {
   }
 }
 
+function getFridayEndTime() {
+  const date = new Date(document.querySelector('.chCal-header-space + h2').textContent);
+  return isDaylightSavings(date) ? '1:45 PM' : '2:35 PM';
+}
+
 const domQuery = () => document.querySelector('#accordionSchedules > :first-child > *');
 
 async function insertFreeBlock(options, unloaderContext) {
@@ -118,8 +123,9 @@ async function insertFreeBlock(options, unloaderContext) {
           runRecheck(insertedBlock);
         }
       }
-      if (getCurrentDay() === 'Friday' && endTime !== '2:35 PM') {
-        const insertedBlock = insertBlock(elem, addMinutes(endTime, 5), '2:35 PM', 'Free Block');
+      const fridayEndTime = getFridayEndTime();
+      if (getCurrentDay() === 'Friday' && endTime !== fridayEndTime) {
+        const insertedBlock = insertBlock(elem, addMinutes(endTime, 5), fridayEndTime, 'Free Block');
         unloaderContext.addRemovable(insertedBlock);
         runRecheck(insertedBlock);
       }
