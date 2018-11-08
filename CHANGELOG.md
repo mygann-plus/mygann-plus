@@ -1,19 +1,21 @@
 ##1.1.2
 ## Changed
+## 1.1.2 (2018-10-10)
+### Changed
 - Automatically add the version to bug reports
 
-## Fixed
+### Fixed
 - Fix inaccuracies in Free Block calculations
 
-##1.1.1
-## Fixed
+## 1.1.1 (2018-10-10)
+### Fixed
 - Fix installation issue caused by missing icon
 
-## 1.1.0
-## Added
+## 1.1.0 (2018-10-09)
+### Added
 - Hide button to Grade Preview labels
 
-## Changed
+### Changed
 - When one message notification is clicked, the other message notifications now stay visible.
 
 ### Fixed
@@ -25,15 +27,15 @@
   - Free Blocks start time incorrectly handling times over an hour
 - Fix Class Ending Time incorrectly handling times over an hour
 
-## 1.0.0
-## Added
+## 1.0.0 (2018-09-28)
+### Added
 - "Hide Classes in Menu" module, which hides non-academic "classes" in the classes menu.
 - Highlight Current Class and Class Ending Time will refresh every minute
 - Button to preview assignment grade for individual assignments
 - Extension icon
 - "Don't show again" button for update notification
 
-## Changed
+### Changed
 - Free A and B blocks correctly start at 3:55
 - Show Grades button is disabled if there are no graded assignments 
 - Next Graded Course buttons have text instead of icons
@@ -47,7 +49,7 @@
 - Fix Improved Status Dropdown not working with overdue assignments
 - Fix Improved Status Dropdown inconsistently changing status
 
-## 0.6.0
+## 0.6.0 (2018-09-12)
 ### Added
 - "Coming Up" module, which shows a preview of the next day's events in the schedule
 - "Favorites" module
