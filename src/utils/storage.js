@@ -151,7 +151,14 @@ async function getArray(key, schemaVersion, migrateItem) {
  */
 async function addArrayItem(key, newItem, schemaVersion, migrateItem) {
   const array = await getArray(key, schemaVersion, migrateItem);
-  const item = { ...newItem, id: generateID() };
+  let id;
+  if (newItem.id) {
+    warnType(id);
+    id = newItem.id; // eslint-disable-line prefer-destructuring
+  } else {
+    id = generateID();
+  }
+  const item = { ...newItem, id };
   array.push(item);
   await set(key, array, schemaVersion);
   return item;
@@ -163,6 +170,16 @@ async function changeArrayItem(key, id, reducer, schemaVersion, migrateItem) {
   const array = await getArray(key, schemaVersion, migrateItem);
   const newArray = reduceArray(array, id, reducer);
   await set(key, newArray, schemaVersion);
+}
+
+async function addOrChangeArrayItem(key, id, reducer, schemaVersion, migrateItem) {
+  const array = await getArray(key, schemaVersion, migrateItem);
+  const item = array.find(i => i.id === id);
+  if (!item) {
+    return addArrayItem(key, reducer(null), schemaVersion, migrateItem);
+  }
+  warnType(id);
+  return changeArrayItem(key, id, reducer, schemaVersion, migrateItem);
 }
 
 async function deleteArrayItem(key, id, schemaVersion, migrateItem) {
@@ -192,6 +209,7 @@ export default {
   getArray,
   addArrayItem,
   changeArrayItem,
+  addOrChangeArrayItem,
   deleteArrayItem,
 
   addChangeListener,
