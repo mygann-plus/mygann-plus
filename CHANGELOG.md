@@ -1,5 +1,12 @@
-##1.1.2
-## Changed
+## 1.2.0
+### Added
+- "Teacher Offices" module, which shows teacher and faculty office numbers in the directory
+- "Mark All as Read" module
+- Inline bug reports
+
+### Fixed
+- Fix Free Block not handling daylight savings correctly
+
 ## 1.1.2 (2018-10-10)
 ### Changed
 - Automatically add the version to bug reports
