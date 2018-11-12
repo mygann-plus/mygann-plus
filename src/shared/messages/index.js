@@ -40,7 +40,7 @@ function handleButtonClick(e, messageElem, callback) {
 }
 
 export async function addMessageBarButton({
-  buttonText, messageText, icon, onClick,
+  buttonText, messageText, onClick,
 }) {
 
   const styles = insertCss(style.toString());

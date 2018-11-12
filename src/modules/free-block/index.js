@@ -1,6 +1,6 @@
 import registerModule from '~/module';
 
-import { createElement, waitForLoad, insertCss, waitForOne } from '~/utils/dom';
+import { createElement, insertCss, waitForOne } from '~/utils/dom';
 import { compareDate, timeStringToDate, getCurrentDay, isDaylightSavings } from '~/utils/date';
 
 import { addDayChangeListeners, to24Hr } from '~/shared/schedule';

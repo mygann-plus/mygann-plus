@@ -4,9 +4,9 @@ import { getLoadedModules } from '~/module-loader';
 
 import { createElement } from '~/utils/dom';
 import { fetchJson, fetchApi } from '~/utils/fetch';
+import getManifest from '~/utils/manifest';
 
 import selectors from './selectors';
-import getManifest from '~/utils/manifest';
 
 function stringifyModulesData(modules) {
   const obj = {};

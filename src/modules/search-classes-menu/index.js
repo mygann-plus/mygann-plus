@@ -1,8 +1,13 @@
 import registerModule from '~/module';
 import fuzzyMatch from '~/utils/search';
 
-import { getDesktopMenu, getDesktopCourses, getMobileCourses, getMobileMenu } from '~/shared/classes-menu';
 import { createElement, waitForLoad, insertCss, addEventListener } from '~/utils/dom';
+import {
+  getDesktopMenu,
+  getDesktopCourses,
+  getMobileCourses,
+  getMobileMenu,
+} from '~/shared/classes-menu';
 
 import style from './style.css';
 
