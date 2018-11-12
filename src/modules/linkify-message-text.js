@@ -1,7 +1,7 @@
 import linkifyHtml from 'linkifyjs/html';
 
 import registerModule from '~/module';
-import { waitForLoad } from '~/utils/dom';
+import { waitForOne } from '~/utils/dom';
 
 const selectors = {
   link: 'gocp_linkify-message-text_link',
@@ -16,11 +16,10 @@ function linkifyMessageBody(messageBody) {
   });
 }
 
-const domQuery = () => document.querySelector('.modal-dialog .message-list-body');
+const domQuery = () => document.querySelectorAll('.modal-dialog .message-list-body');
 
 async function linkifyMessageText() {
-  await waitForLoad(domQuery);
-  const messageBodies = document.querySelectorAll('.modal-dialog .message-list-body');
+  const messageBodies = await waitForOne(domQuery);
   for (const messageBody of messageBodies) {
     linkifyMessageBody(messageBody);
   }

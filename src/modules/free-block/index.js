@@ -1,6 +1,6 @@
 import registerModule from '~/module';
 
-import { createElement, waitForLoad, insertCss } from '~/utils/dom';
+import { createElement, waitForLoad, insertCss, waitForOne } from '~/utils/dom';
 import { compareDate, timeStringToDate, getCurrentDay, isDaylightSavings } from '~/utils/date';
 
 import { addDayChangeListeners, to24Hr } from '~/shared/schedule';
@@ -72,12 +72,11 @@ function getFridayEndTime() {
   return isDaylightSavings(date) ? '1:45 PM' : '2:35 PM';
 }
 
-const domQuery = () => document.querySelector('#accordionSchedules > :first-child > *');
+const domQuery = () => document.querySelectorAll('#accordionSchedules > *');
 
 async function insertFreeBlock(options, unloaderContext) {
-  await waitForLoad(domQuery);
-  const blocks = Array.from(document.getElementById('accordionSchedules').children);
-  blocks.forEach((elem, i) => {
+  const blocks = await waitForOne(domQuery);
+  Array.from(blocks).forEach((elem, i) => {
     const time = elem.children[0].childNodes[0].data.trim();
     const endTime = time.split('-')[1].trim();
 

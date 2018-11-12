@@ -26,6 +26,16 @@ export function waitForLoad(condition, root = document.body) {
 
 }
 
+// waits for a non-empty array
+export function waitForOne(condition, root = document.body) {
+  return waitForLoad(() => {
+    const resolvedCondition = condition();
+    if (resolvedCondition && resolvedCondition.length) {
+      return resolvedCondition;
+    }
+  }, root);
+}
+
 export function createElement(tagName, props, ...children) {
   const elem = document.createElement(tagName);
 

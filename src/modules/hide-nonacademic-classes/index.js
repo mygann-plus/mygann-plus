@@ -1,6 +1,6 @@
 import registerModule from '~/module';
 
-import { waitForLoad, insertCss } from '~/utils/dom';
+import { waitForLoad, insertCss, waitForOne } from '~/utils/dom';
 import {
   getDesktopMenu,
   getDesktopCourses,
@@ -43,9 +43,8 @@ const domQuery = {
 };
 
 async function hideProgressPage(keywords) {
-  await waitForLoad(() => domQuery.progressCourses().length);
+  const courseElems = await waitForOne(domQuery.progressCourses);
 
-  const courseElems = domQuery.progressCourses();
   const classes = Array.from(courseElems).map(elem => ({
     title: elem.querySelector('h3').textContent.toLowerCase(),
     elem,
