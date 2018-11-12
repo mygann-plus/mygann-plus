@@ -4,7 +4,6 @@ import classEndingTime from './modules/class-ending-time';
 import coursesFilter from './modules/courses-filter';
 import filterWebsiteMainSearch from './modules/filter-website-main-search';
 import freeBlock from './modules/free-block';
-import gradeSummary from './modules/grade-summary';
 import highlightCurrentClass from './modules/highlight-current-class';
 import inlineChangeStatus from './modules/inline-change-status';
 import messageNotifications from './modules/message-notifications';
@@ -48,7 +47,6 @@ const MODULE_MAP = {
   ],
   '#studentmyday/schedule': [freeBlock, highlightCurrentClass, classEndingTime, comingUp],
   '#studentmyday/progress': [
-    gradeSummary,
     coursesFilter,
     nextGradedCourse,
   ],
