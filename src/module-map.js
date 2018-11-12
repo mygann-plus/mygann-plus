@@ -24,14 +24,13 @@ import fixDividers from './modules/fix-dividers';
 import installNotification from './modules/install-notification';
 import fixArchiveHighlight from './modules/fix-archive-highlight';
 import markAsRead from './modules/mark-as-read';
-import hideTasksAfterDue from './modules/hide-tasks-after-due';
-import hideClassesMenu from './modules/hide-classes-menu';
+import hideNonacademicClasses from './modules/hide-nonacademic-classes';
 import teacherOffices from './modules/teacher-offices';
 import markAllAsRead from './modules/mark-all-as-read';
 
 const MODULE_MAP = {
   '#': [
-    hideClassesMenu,
+    hideNonacademicClasses,
     searchClassesMenu,
     messageNotifications,
     userMenuLinks, // options dialog and about
@@ -46,7 +45,6 @@ const MODULE_MAP = {
     hideCompleted,
     inlineAssignmentGrade,
     resizeAssignmentsToolbar,
-    hideTasksAfterDue,
   ],
   '#studentmyday/schedule': [freeBlock, highlightCurrentClass, classEndingTime, comingUp],
   '#studentmyday/progress': [
