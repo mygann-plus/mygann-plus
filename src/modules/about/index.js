@@ -22,6 +22,9 @@ function getDescription() {
 function getVersionString() {
   return getManifest().version_name;
 }
+function isEqualVersion(tag, version) {
+  return tag.substring(1) === version;
+}
 
 function toggleReleaseNotes(e) {
   e.preventDefault();
@@ -30,8 +33,10 @@ function toggleReleaseNotes(e) {
 async function insertReleaseNotes(dialogBody) {
   const releaseNotesWrap = dialogBody.querySelector(`#${selectors.releaseNotes}`);
   const endpoint = 'https://api.github.com/repos/matankb/mygann-plus/releases';
-  const [latestRelease] = await fetch(endpoint).then(d => d.json());
-  releaseNotesWrap.innerHTML = marked(latestRelease.body); // parse markdown
+  const releases = await fetch(endpoint).then(d => d.json());
+  const currentVersion = getVersionString();
+  const release = releases.find(r => isEqualVersion(r.tag_name, currentVersion));
+  releaseNotesWrap.innerHTML = marked(release.body); // parse markdown
 }
 
 
