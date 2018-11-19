@@ -26,6 +26,7 @@ import markAsRead from './modules/mark-as-read';
 import hideNonacademicClasses from './modules/hide-nonacademic-classes';
 import teacherOffices from './modules/teacher-offices';
 import markAllAsRead from './modules/mark-all-as-read';
+import messageConversationControls from './modules/message-conversation-archive';
 
 const MODULE_MAP = {
   '#': [
@@ -54,7 +55,7 @@ const MODULE_MAP = {
   '#message/inbox': [markAllAsRead, markAsRead, fixArchiveHighlight],
   '#message/archive': [fixArchiveHighlight],
   '#message/compose': [exitCompose],
-  '#message/conversation': [linkifyMessageText],
+  '#message/conversation': [linkifyMessageText, messageConversationControls],
   '#directory/800': [teacherOffices],
   '#searchresults/summary': [filterWebsiteMainSearch],
   '#myschedule': [dayScheduleButton],
