@@ -117,7 +117,7 @@ async function hideCompleted(opts, unloaderContext) {
 }
 
 export default registerModule('{6394e18f-5b51-44f4-bb3c-1144ab97945a}', {
-  name: 'Hide Completed Assignments',
+  name: 'Hide Completed Assignments Button',
   description: 'Button to quickly show or hide completed and graded assignments',
   main: hideCompleted,
 });
