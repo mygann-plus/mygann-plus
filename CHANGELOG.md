@@ -1,3 +1,20 @@
+## 1.3.0
+### Added
+- Create Message Conversation Archive module
+- Hide Non-Academic Classes will hide classes in progress page
+
+## Changed
+- Hide Classes in Menu renamed to "Hide Non-Academic Classes" 
+- "Hide Completed" renamed to "Hide Completed Button"
+
+## Fixed
+- Fix incorrect release notes showing in About if extension not updated
+- Fix Next Graded Course not working with new cumulative grade calculation policy
+
+## Removed
+- Grade Summary module removed: it is no longer useful because MyGann does not calculate cumulative grades anymore
+- Hide Tasks After Due module removed: MyGann implemented this functionality natively
+
 ## 1.2.0
 ### Added
 - "Teacher Offices" module, which shows teacher and faculty office numbers in the directory
