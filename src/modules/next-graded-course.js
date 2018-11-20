@@ -1,9 +1,13 @@
 import registerModule from '~/module';
+
 import {
   waitForLoad,
   constructButton,
   addEventListener,
 } from '~/utils/dom';
+import { getUserId } from '~/utils/user';
+import { fetchApi } from '~/utils/fetch';
+
 import { coursesListLoaded } from '~/shared/progress';
 
 const selectors = {
@@ -33,7 +37,7 @@ function generateButton(followingCourse, text) {
 function getNextCourse(courses, course) {
   return courses
     .slice(courses.indexOf(course) + 1, course.length)
-    .find(c => c.grade !== '--');
+    .find(c => c.gradedAssignments.length > 0);
 }
 function getPreviousCourse(courses, course) {
   const reversedCourses = courses.slice().reverse();
@@ -57,22 +61,33 @@ async function addNextGradedCourseButtons(courses, currentCourse, unloaderContex
   unloaderContext.addRemovable(prevGradedButton);
 }
 
+async function getCourseGradedAssignments(gradeElem) {
+  const markingPeriod = document.querySelector('.dropdown-menu .active a').dataset.value;
+  const sectionId = gradeElem.nextElementSibling.dataset.analysis;
+  const userId = await getUserId();
+  const endpoint = '/api/datadirect/GradeBookPerformanceAssignmentStudentList/';
+  const query = `?sectionId=${sectionId}&markingPeriodId=${markingPeriod}&studentUserId=${userId}`;
+  return fetchApi(endpoint + query);
+}
+
 const domQuery = () => (
   coursesListLoaded() &&
-  document.querySelector('.btn.btn-default.btn-sm.bold')
+  document.querySelector('.btn.btn-default.btn-sm.bold') &&
+  document.querySelector('.active')
 );
 
 async function nextGradedCourse(opts, unloaderContext) {
   await waitForLoad(domQuery);
 
-  const gradeElemToObject = e => ({
+  const gradeElemToObject = async e => ({
     grade: e.textContent.trim(),
     class: e.parentNode.parentNode.children[0].children[0].children[0].textContent,
+    gradedAssignments: await getCourseGradedAssignments(e),
     elem: e,
   });
 
-  const courses = Array.from(document.getElementsByClassName('showGrade'))
-    .map(gradeElemToObject);
+  const courses = await Promise.all(Array.from(document.getElementsByClassName('showGrade'))
+    .map(gradeElemToObject));
 
   const reAddButtons = (currentCourse, direction) => {
     const buttons = document.querySelectorAll(`.${selectors.button}`);
