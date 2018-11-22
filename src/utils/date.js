@@ -36,6 +36,20 @@ export function timeStringToDate(timeString) {
   return date;
 }
 
+/**
+ * Converts a Date object to a 12-hour time string
+ * @param {Date} date
+ */
+export function dateTo12HrTimeString(date) {
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  const formattedHours = hours < 12 ? hours : hours - 12;
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+  const period = hours < 12 ? 'AM' : 'PM';
+  return `${formattedHours}:${formattedMinutes} ${period}`;
+}
+
 export function getCurrentDay() {
   return document.querySelector('.chCal-header-space + h2').textContent.split(',')[0].trim();
 }

@@ -1,7 +1,7 @@
 import registerModule from '~/module';
 
 import { createElement, insertCss, waitForOne } from '~/utils/dom';
-import { compareDate, timeStringToDate, getCurrentDay, isDaylightSavings } from '~/utils/date';
+import { compareDate, timeStringToDate, getCurrentDay, isDaylightSavings, dateTo12HrTimeString } from '~/utils/date';
 
 import { addDayChangeListeners, to24Hr } from '~/shared/schedule';
 import { getTableRowColumnContent } from '~/shared/table';
@@ -21,19 +21,14 @@ function isConsecutive(start, end) {
   return minuteDifference >= 0 && minuteDifference < 30;
 }
 
+/**
+ * @param {string} time 24HR time string
+ * @param {number} mins
+ * @returns {string} 12HR time string
+ */
 function addMinutes(time, mins) {
-  const padNumber = m => (String(m).length === 1 ? `0${m}` : m);
-  const t = time.split(' ')[0];
-  const hours = t.split(':')[0];
-  const minutes = t.split(':')[1];
-  if (Number(minutes) + mins >= 60) {
-    // seconds will always be 00
-    return `${Number(hours) + Math.floor((mins + Number(minutes)) / 60)}:${padNumber(Math.abs(60 - (Number(minutes) + Number(mins))))} ${time.split(' ')[1]}`;
-  }
-  if ((Number(minutes) + mins) <= 0) {
-    return `${Number(hours) + Math.floor((mins + Number(minutes)) / 60)}:${padNumber(60 + (Number(minutes) + Number(mins)))} ${time.split(' ')[1]}`;
-  }
-  return `${hours}:${padNumber(Number(minutes) + mins)} ${time.split(' ')[1]}`;
+  const newDate = new Date(timeStringToDate(time).getTime() + (mins * 60000));
+  return dateTo12HrTimeString(newDate);
 }
 
 function insertBlock(elemBefore, startTime, endTime, blockText) {
@@ -79,6 +74,7 @@ async function insertFreeBlock(options, unloaderContext) {
   Array.from(blocks).forEach((elem, i) => {
     const time = elem.children[0].childNodes[0].data.trim();
     const endTime = time.split('-')[1].trim();
+    const fullEndTime = to24Hr(endTime);
 
     const recheck = block => {
       if (!document.body.contains(block)) {
@@ -94,7 +90,6 @@ async function insertFreeBlock(options, unloaderContext) {
     if (blocks[i + 1]) {
       const nextTime = blocks[i + 1].children[0].childNodes[0].data.trim();
       const nextStartTime = nextTime.split('-')[0].trim();
-      const fullEndTime = to24Hr(endTime);
       const fullNextStartTime = to24Hr(nextStartTime);
       const endDate = timeStringToDate(fullEndTime);
       const nextStartDate = timeStringToDate(fullNextStartTime);
@@ -105,8 +100,8 @@ async function insertFreeBlock(options, unloaderContext) {
       if (!isConsecutive(fullEndTime, fullNextStartTime) && !isOverlap) {
         const block = insertBlock(
           elem,
-          addMinutes(endTime, 5),
-          addMinutes(nextStartTime, -5),
+          addMinutes(fullEndTime, 5),
+          addMinutes(fullNextStartTime, -5),
           'Free Block',
         );
         unloaderContext.addRemovable(block);
@@ -124,7 +119,7 @@ async function insertFreeBlock(options, unloaderContext) {
       }
       const fridayEndTime = getFridayEndTime();
       if (getCurrentDay() === 'Friday' && endTime !== fridayEndTime) {
-        const insertedBlock = insertBlock(elem, addMinutes(endTime, 5), fridayEndTime, 'Free Block');
+        const insertedBlock = insertBlock(elem, addMinutes(fullEndTime, 5), fridayEndTime, 'Free Block');
         unloaderContext.addRemovable(insertedBlock);
         runRecheck(insertedBlock);
       }
