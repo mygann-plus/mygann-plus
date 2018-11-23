@@ -5,6 +5,17 @@
   outline: none;
   z-index: 999; /* Below desktop nav */
 }
+
+.direction-left {
+  border-top: none !important;
+  border-left: 10px solid #00b4f1;
+}
+
 .arrow {
   left: 50%;
+}
+
+.direction-left .arrow {
+  transform: rotate(-90deg);
+  left: -15px !important;
 }
