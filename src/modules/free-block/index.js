@@ -10,6 +10,7 @@ import style from './style.css';
 
 const selectors = {
   activity: style.locals.activity,
+  block: 'gocp_free-block_block',
 };
 
 // start and end must be 24HR format
@@ -38,7 +39,7 @@ function insertBlock(elemBefore, startTime, endTime, blockText) {
   const attendance = <span><span>N/A</span></span>;
 
   const tr = (
-    <tr>
+    <tr className={selectors.block}>
       { createCell('Time', `${startTime} - ${endTime}`) }
       { createCell('Block', blockText) }
       { createCell('Activity', activity) }
@@ -67,24 +68,44 @@ function getFridayEndTime() {
   return isDaylightSavings(date) ? '1:45 PM' : '2:35 PM';
 }
 
-const domQuery = () => document.querySelectorAll('#accordionSchedules > *');
+function isEmptySchedule() {
+  return document.getElementsByClassName('pl-10')[0] &&
+  document.getElementsByClassName('pl-10')[0].textContent === 'There is nothing scheduled for this date.';
+}
+
+const domQuery = () => (
+  isEmptySchedule() ?
+    [null] :
+    document.querySelectorAll('#accordionSchedules > *')
+);
 
 async function insertFreeBlock(options, unloaderContext) {
   const blocks = await waitForOne(domQuery);
+  if (isEmptySchedule() || document.querySelector(`.${selectors.block}`)) {
+    return;
+  }
   Array.from(blocks).forEach((elem, i) => {
     const time = elem.children[0].childNodes[0].data.trim();
     const endTime = time.split('-')[1].trim();
     const fullEndTime = to24Hr(endTime);
 
-    const recheck = block => {
-      if (!document.body.contains(block)) {
-        insertFreeBlock(options, unloaderContext);
-      }
+    const recheck = (block, t) => {
+      return new Promise(res => {
+        setTimeout(() => {
+          if (!document.body.contains(block)) {
+            const newBlock = insertFreeBlock(options, unloaderContext);
+            res(newBlock);
+          } else {
+            res(block);
+          }
+        }, t);
+      });
     };
-    const runRecheck = block => {
-      setTimeout(() => recheck(block), 50);
-      setTimeout(() => recheck(block), 100);
-      setTimeout(() => recheck(block), 200);
+    const runRecheck = async block => {
+      let b = block;
+      for (let j = 0; j < 10; j++) {
+        b = await recheck(b, 50);
+      }
     };
 
     if (blocks[i + 1]) {
@@ -105,7 +126,7 @@ async function insertFreeBlock(options, unloaderContext) {
           'Free Block',
         );
         unloaderContext.addRemovable(block);
-        runRecheck(block);
+        runRecheck();
       }
     } else {
       if (options.showEndBlocks) {
