@@ -7,6 +7,10 @@ import style from './style.css';
 const selectors = {
   flyout: style.locals.flyout,
   arrow: style.locals.arrow,
+  direction: {
+    up: style.locals['direction-up'],
+    left: style.locals['direction-left'],
+  },
 };
 
 export default class Flyout {
@@ -15,6 +19,7 @@ export default class Flyout {
     const defaultOpts = {
       autoHide: true,
       onHide: () => {},
+      direction: Flyout.directions.UP,
     };
 
     this.opts = { ...defaultOpts, ...opts };
@@ -25,7 +30,11 @@ export default class Flyout {
 
   showAtElem(targetElem, parentElem = targetElem.parentNode) {
     const { bottom, left, width } = targetElem.getBoundingClientRect();
-    this.showAt(left + (width / 2), bottom, parentElem);
+    if (this.opts.direction === Flyout.directions.UP) {
+      this.showAt(left + (width / 2), bottom, parentElem);
+    } else if (this.opts.direction === Flyout.directions.LEFT) {
+      this.showAt(width, bottom, parentElem);
+    }
   }
 
   showAt(x, y, parentElem = document.body) {
@@ -46,21 +55,31 @@ export default class Flyout {
   }
 
   _generateOuterElem() {
+    const directionClassName = this._getDirectionClassName();
+    this.arrowElem = <div className={classNames('arrow', selectors.arrow)}></div>;
     this.outerElem = (
       <div
-        className={classNames('popover fade bottom', selectors.flyout)}
+        className={classNames('popover fade bottom', selectors.flyout, directionClassName)}
         role="tooltip"
         onMouseDown={e => e.stopPropagation()}
         onClick={e => e.stopPropagation()}
         onKeyDown={e => this._onKeyDown(e)}
         tabIndex={-1}
       >
-        <div className={classNames('arrow', selectors.arrow)}></div>
+        { this.arrowElem }
         <div className="popover-content">
           { this.innerElem }
         </div>
       </div>
     );
+  }
+
+  _getDirectionClassName() {
+    switch (this.opts.direction) {
+      case Flyout.directions.UP: return selectors.direction.up;
+      case Flyout.directions.LEFT: return selectors.direction.left;
+      default: return selectors.direction.up;
+    }
   }
 
   _show(parentElem) {
@@ -80,8 +99,17 @@ export default class Flyout {
   _position(x, y) {
     const { offsetParent } = this.outerElem;
     const { top, left } = offsetParent.getBoundingClientRect();
-    this.outerElem.style.left = `${x - left}px`;
-    this.outerElem.style.top = `${y - top}px`;
+    const width = this.outerElem.clientWidth;
+    const height = this.outerElem.clientHeight;
+    if (this.opts.direction === Flyout.directions.UP) {
+      this.outerElem.style.left = `${x - left}px`;
+      this.outerElem.style.top = `${y - top}px`;
+    } else if (this.opts.direction === Flyout.directions.LEFT) {
+      const arrowWidth = 30;
+      this.outerElem.style.left = `${x + (width / 2) + arrowWidth}px`;
+      this.outerElem.style.top = `${y - height}px`;
+      this.arrowElem.style.top = `${(height / 2) - (this.arrowElem.getBoundingClientRect().height / 4)}px`;
+    }
   }
 
   _onKeyDown(e) {
@@ -91,5 +119,10 @@ export default class Flyout {
   }
 
 }
+
+Flyout.directions = {
+  UP: Symbol('up'),
+  LEFT: Symbol('left'),
+};
 
 insertCss(style.toString());

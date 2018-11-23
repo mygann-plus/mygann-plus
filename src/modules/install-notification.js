@@ -5,6 +5,7 @@ import Flyout from '~/utils/flyout';
 import { getHeader } from '~/shared/user-menu';
 
 import { hasInstalled, clearInstallState } from '~/install';
+import { isMobileView } from '~/utils/ui';
 
 function createFlyoutBody() {
   return (
@@ -17,14 +18,27 @@ function createFlyoutBody() {
 
 async function installNotification() {
   if (await hasInstalled()) {
-    const headerLink = await waitForLoad(() => (
-      getHeader() && getHeader().parentNode.querySelector('a')
-    ));
-    const flyout = new Flyout(createFlyoutBody(), {
-      onHide: clearInstallState,
-    });
-    // site-header-container is nearest ancestor that doesn't restrict width
-    flyout.showAtElem(headerLink, headerLink.closest('#site-header-container'));
+    if (isMobileView()) {
+      const mobileHeaderLink = await waitForLoad(() => (
+        document.querySelector('#site-mobile-btn .btn')
+      ));
+      const flyout = new Flyout(createFlyoutBody(), {
+        onHide: clearInstallState,
+        autoHide: false,
+        direction: Flyout.directions.LEFT,
+      });
+      flyout.showAtElem(mobileHeaderLink);
+    } else {
+      const headerLink = await waitForLoad(() => (
+        getHeader() && getHeader().parentNode.querySelector('a')
+      ));
+      const flyout = new Flyout(createFlyoutBody(), {
+        autoHide: false,
+        onHide: clearInstallState,
+      });
+      // site-header-container is nearest ancestor that doesn't restrict width
+      flyout.showAtElem(headerLink, headerLink.closest('#site-header-container'));
+    }
   }
 }
 
