@@ -34,10 +34,14 @@ function generateButton(followingCourse, text) {
   return button;
 }
 
+const findGraded = currentCourse => course => (
+  currentCourse && course.gradedAssignments.length > 0 && course.class !== currentCourse.class
+);
+
 function getNextCourse(courses, course) {
   return courses
-    .slice(courses.indexOf(course) + 1, course.length)
-    .find(c => c.gradedAssignments.length > 0);
+    .slice(courses.indexOf(course) + 1)
+    .find(findGraded(course));
 }
 function getPreviousCourse(courses, course) {
   const reversedCourses = courses.slice().reverse();
