@@ -164,6 +164,10 @@ Dialog.buttons = {
     name: 'Cancel',
     type: buttonTypes.LINK,
   },
+  CLOSE: {
+    name: 'Close',
+    primary: true,
+  },
 };
 
 Dialog.buttonTypes = buttonTypes;
