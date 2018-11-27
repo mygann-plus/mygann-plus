@@ -43,19 +43,14 @@ async function insertReleaseNotes(dialogBody) {
 function showUpdateFlyout(aboutBody) {
   const releaseNotesLink = aboutBody.querySelector(`#${selectors.releaseNotesLink}`);
 
-  const flyout = new Flyout(
-    (
-      <span>
-        New version of MyGann+ Check out what&apos;s new!<br />
-        <div id={ selectors.updateNotification.buttons }>
-          { constructButton('Don\'t show again', '', '', () => { disableNotification(); flyout.hide(); }) }
-        </div>
-      </span>
-    ),
-    {
-      onHide: clearInstallState,
-    },
-  );
+  const flyout = new Flyout((
+    <span>
+      New version of MyGann+ Check out what&apos;s new!<br />
+      <div id={ selectors.updateNotification.buttons }>
+        { constructButton('Don\'t show again', '', '', () => { disableNotification(); flyout.hide(); }) }
+      </div>
+    </span>
+  ));
   flyout.showAtElem(releaseNotesLink);
 }
 
@@ -109,16 +104,13 @@ function createAboutBody() {
 async function showDialog() {
   const body = createAboutBody();
   const dialog = new Dialog('About MyGann+', body, {
-    leftButtons: [{
-      type: Dialog.buttonTypes.BUTTON,
-      name: 'Close',
-      primary: true,
-    }],
+    leftButtons: [Dialog.buttons.CLOSE],
   });
   insertReleaseNotes(body);
   dialog.open();
   if (await hasUpdated() && await shouldShowNotification()) {
     showUpdateFlyout(dialog.getBody());
+    clearInstallState();
   }
 }
 
