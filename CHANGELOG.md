@@ -1,3 +1,13 @@
+# 1.3.2
+### Changed
+- Update notification disappears when the flyout appears, instead of when the flyout hides
+
+### Fixed
+- Fix Free Block hour overflow bug
+- Fix Free Block inserting multiple blocks
+- Fix install notification not supporting mobile layout
+- Fix Next Graded Course buttons dissapearing in edge case
+
 # 1.3.1
 ### Fixed
 - Fixed installation issue
