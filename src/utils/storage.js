@@ -89,7 +89,7 @@ function doDelete(property) {
 
 function warnType(id) {
   if (typeof id !== 'string') {
-    log('warn', `ID should be a string, not a ${typeof id}`); // eslint-disable-line no-console
+    log('warn', `ID should be a string, not a ${typeof id}`);
   }
 }
 
@@ -153,7 +153,7 @@ async function addArrayItem(key, newItem, schemaVersion, migrateItem) {
   const array = await getArray(key, schemaVersion, migrateItem);
   let id;
   if (newItem.id) {
-    warnType(id);
+    warnType(newItem.id);
     id = newItem.id; // eslint-disable-line prefer-destructuring
   } else {
     id = generateID();
