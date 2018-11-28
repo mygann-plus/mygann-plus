@@ -1,3 +1,7 @@
+# 1.3.3
+### Fixed
+- Fix install notification not disappearing
+
 # 1.3.2
 ### Changed
 - Update notification disappears when the flyout appears, instead of when the flyout hides
@@ -8,9 +12,9 @@
 - Fix install notification not supporting mobile layout
 - Fix Next Graded Course buttons dissapearing in edge case
 
-# 1.3.1
+## 1.3.1
 ### Fixed
-- Fixed installation issue
+- Fix installation issue
 
 ## 1.3.0
 ### Added
