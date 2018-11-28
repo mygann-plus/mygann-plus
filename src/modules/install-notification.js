@@ -24,7 +24,7 @@ async function installNotification() {
       ));
       const flyout = new Flyout(createFlyoutBody(), {
         onHide: clearInstallState,
-        autoHide: false,
+        autoHide: true,
         direction: Flyout.directions.LEFT,
       });
       flyout.showAtElem(mobileHeaderLink);
@@ -33,7 +33,7 @@ async function installNotification() {
         getHeader() && getHeader().parentNode.querySelector('a')
       ));
       const flyout = new Flyout(createFlyoutBody(), {
-        autoHide: false,
+        autoHide: true,
         onHide: clearInstallState,
       });
       // site-header-container is nearest ancestor that doesn't restrict width
