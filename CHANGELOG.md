@@ -1,3 +1,8 @@
+# 1.3.4
+### Fixed
+- Fix Free Blocks showing blocks at noon as 0:00
+- Fix Next Graded course buttons not staying focused when tabbing through courses
+
 # 1.3.3
 ### Fixed
 - Fix install notification not disappearing
