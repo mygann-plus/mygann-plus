@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+
 import registerModule from '~/module';
 
 import {
@@ -12,17 +14,25 @@ import { coursesListLoaded } from '~/shared/progress';
 
 const selectors = {
   button: 'gocp_next-graded-course_button',
+  nextGraded: 'gocp_next-graded-course_next-graded',
+  prevGraded: 'gocp_next-graded-course_prev-graded',
 };
 
-function selectCourse({ elem }) {
-  elem.parentNode.querySelector('.btn.btn-default').click();
+async function selectCourse(course, buttonClassName) {
+  course.elem.parentNode.querySelector('.btn.btn-default').click();
+  await waitForLoad(() => {
+    const headerText = document.querySelector('.bb-dialog-header').textContent.trim();
+    return headerText === course.class;
+  });
+  // refocuses next gradec course button, to allow for continuous entering
+  document.querySelector(`.${buttonClassName}`).focus();
 }
 
-function generateButton(followingCourse, text) {
+function generateButton(followingCourse, text, className) {
   const button = constructButton(
     text, '', '',
-    () => selectCourse(followingCourse),
-    selectors.button,
+    () => selectCourse(followingCourse, className),
+    classNames(selectors.button, className),
   );
   button.style.color = '';
 
@@ -53,8 +63,8 @@ async function addNextGradedCourseButtons(courses, currentCourse, unloaderContex
 
   const nextCourse = getNextCourse(courses, currentCourse);
   const prevCourse = getPreviousCourse(courses, currentCourse);
-  const nextGradedButton = generateButton(nextCourse, 'Next Graded Course');
-  const prevGradedButton = generateButton(prevCourse, 'Previous Graded Course');
+  const nextGradedButton = generateButton(nextCourse, 'Next Graded Course', selectors.nextGraded);
+  const prevGradedButton = generateButton(prevCourse, 'Previous Graded Course', selectors.prevGraded);
 
   const nextButton = document.querySelectorAll('button[data-analysis="next"]')[0];
   const prevButton = document.querySelectorAll('button[data-analysis="prev"]')[0];
