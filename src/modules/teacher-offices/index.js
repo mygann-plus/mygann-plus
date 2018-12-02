@@ -34,7 +34,7 @@ async function insertFacultyOffices(wrap) {
         Office: { office }
       </div>
     );
-    listing.querySelector('.lead a').before(roomSpan);
+    listing.querySelector('h3').after(roomSpan);
   }
 }
 
