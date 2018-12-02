@@ -87,7 +87,8 @@ function classEndingTime(opts, unloaderContext) {
   }, 60000);
   unloaderContext.addFunction(() => clearInterval(interval));
 
-  addDayChangeListeners(() => testForClass(unloaderContext));
+  const dayChangeListener = addDayChangeListeners(() => testForClass(unloaderContext));
+  unloaderContext.addRemovable(dayChangeListener);
 }
 
 export default registerModule('{c8a3ea86-ae06-4155-be84-1a91283fe826}', {
