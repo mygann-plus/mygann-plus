@@ -1,6 +1,8 @@
 import flatten from 'array-flatten';
 import classNames from 'classnames';
 
+import log from '~/utils/log';
+
 export function waitForLoad(condition, root = document.body) {
 
   return new Promise(res => {
@@ -30,6 +32,9 @@ export function waitForLoad(condition, root = document.body) {
 export function waitForOne(condition, root = document.body) {
   return waitForLoad(() => {
     const resolvedCondition = condition();
+    if (!(resolvedCondition instanceof NodeList)) {
+      log('warn', 'waitForOne condition should return an NodeList');
+    }
     if (resolvedCondition && resolvedCondition.length) {
       return resolvedCondition;
     }
