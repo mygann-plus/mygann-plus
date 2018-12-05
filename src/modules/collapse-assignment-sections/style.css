@@ -1,0 +1,17 @@
+.collapse-link {
+  margin-right: 10px !important;
+}
+.table-header-arrow {
+  float: right;
+  margin-top: 1px;
+  margin-right: 3px;
+  cursor: pointer;
+}
+
+:global .back-to-top h6 {
+  display: inline-block;
+}
+
+.hidden-table {
+  display: none;
+}
