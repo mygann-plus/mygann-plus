@@ -1,0 +1,13 @@
+.hidden-assignment {
+  display: none !important;
+}
+
+.main-button {
+  margin-left: 5px !important;
+  border-radius: 3px !important;
+}
+
+li.button-active a {
+  background: var(--success-green);
+  color: white;
+}

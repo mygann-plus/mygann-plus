@@ -62,3 +62,14 @@ export function isDaylightSavings(date = new Date()) {
   return !(date.getTimezoneOffset() < standardTimezoneOffset);
 }
 
+/**
+ * Get Date object from the begining of today's date
+ */
+export function getAbsoluteToday() {
+  const today = new Date();
+  today.setHours(0);
+  today.setMinutes(0);
+  today.setSeconds(0);
+  today.setMilliseconds(0);
+  return today;
+}
