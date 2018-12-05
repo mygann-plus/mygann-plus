@@ -1,4 +1,6 @@
 import { createElement, waitForLoad } from '~/utils/dom';
+import { getUserId } from '~/utils/user';
+import { fetchApi } from '~/utils/fetch';
 
 export function appendMobileAssignmentCenterMenuLink(textContent, onClick, sectionIndex) {
   const handleClick = e => {
@@ -37,4 +39,12 @@ export async function addAssignmentTableMutationObserver(fn) {
 export function isTask(assignmentRow) {
   const type = assignmentRow.querySelector('[data-heading="Type"]');
   return type && type.textContent === 'My tasks';
+}
+
+export async function getAssignmentData(assignmentId) {
+  const studentId = await getUserId();
+  const endpoint = '/api/datadirect/AssignmentStudentDetail';
+  const query = `?format=json&studentId=${studentId}&AssignmentIndexId=${assignmentId}`;
+  const [gradeData] = await fetchApi(endpoint + query);
+  return gradeData;
 }

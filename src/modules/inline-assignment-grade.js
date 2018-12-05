@@ -7,6 +7,7 @@ import { getUserId } from '~/utils/user';
 import {
   appendMobileAssignmentCenterMenuLink,
   addAssignmentTableMutationObserver,
+  getAssignmentData,
 } from '~/shared/assignments-center';
 
 const filterUngraded = label => {
@@ -22,11 +23,8 @@ const calculateGrade = data => {
 };
 
 async function getGrade(id) {
-  const studentId = await getUserId();
-  const endpoint = '/api/datadirect/AssignmentStudentDetail';
-  const query = `?format=json&studentId=${studentId}&AssignmentIndexId=${id}`;
-  const [gradeData] = await fetchApi(endpoint + query);
-  return calculateGrade(gradeData);
+  const assignmentData = getAssignmentData(id);
+  return calculateGrade(assignmentData);
 }
 
 class InlineGrade {
