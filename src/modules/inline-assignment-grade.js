@@ -1,14 +1,13 @@
 import registerModule from '~/module';
 
 import { createElement, waitForLoad, constructButton } from '~/utils/dom';
-import { fetchApi } from '~/utils/fetch';
-import { getUserId } from '~/utils/user';
 
 import {
   appendMobileAssignmentCenterMenuLink,
   addAssignmentTableMutationObserver,
   getAssignmentData,
 } from '~/shared/assignments-center';
+import { computeGradePercentage } from '~/shared/progress';
 
 const filterUngraded = label => {
   return label.textContent === 'Graded';
@@ -17,14 +16,10 @@ const getIdFromLabel = label => {
   const assignment = label.parentNode.parentNode.parentNode.parentNode;
   return assignment.children[2].children[0].href.split('/')[6];
 };
-const calculateGrade = data => {
-  const grade = (Number(data.pointsEarned) / Number(data.maxPoints)) * 100;
-  return Math.round(grade * 10) / 10;
-};
 
 async function getGrade(id) {
-  const assignmentData = getAssignmentData(id);
-  return calculateGrade(assignmentData);
+  const { pointsEarned, maxPoints } = await getAssignmentData(id);
+  return computeGradePercentage(pointsEarned, maxPoints);
 }
 
 class InlineGrade {
