@@ -1,4 +1,7 @@
-import { addEventListener } from '~/utils/dom';
+import { createElement, addEventListener, DropdownMenu, waitForLoad, insertCss } from '~/utils/dom';
+import tick from '~/utils/tick';
+
+import style from './style.css';
 
 /* eslint-disable import/prefer-default-export */
 
@@ -34,6 +37,22 @@ export function addDayChangeListeners(callback) {
     }
   };
   return addEventListener(document.body, 'click', listener);
+}
+
+export function getAnnouncementWrap() {
+  return document.querySelector('#schedule-header .alert.alert-info');
+}
+export function createAnnouncementWrap() {
+  const alertBox = (
+    <div className="alert alert-info" style="margin-top:10px;">
+    </div>
+  );
+  document.getElementsByClassName('col-md-12')[3].children[1].appendChild(alertBox);
+  return alertBox;
+}
+// creates or gets container for coming up and servery menu
+export function createAnnouncementRightContainer() {
+
 }
 
 export function to24Hr(t) {
@@ -72,4 +91,14 @@ export function isCurrentTime(timeString) {
 
 export function isDayView() {
   return !!document.getElementById('accordionSchedules');
+}
+
+export async function getDayViewDateString() {
+  const dateHeader = await waitForLoad(() => document.querySelector('.chCal-header-space + h2'));
+  return dateHeader.textContent;
+}
+
+export function isEmptySchedule() {
+  return document.getElementsByClassName('pl-10')[0] &&
+  document.getElementsByClassName('pl-10')[0].textContent === 'There is nothing scheduled for this date.';
 }

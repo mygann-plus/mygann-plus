@@ -3,7 +3,7 @@ import registerModule from '~/module';
 import { createElement, insertCss, waitForOne } from '~/utils/dom';
 import { compareDate, timeStringToDate, getCurrentDay, isDaylightSavings, dateTo12HrTimeString } from '~/utils/date';
 
-import { addDayChangeListeners, to24Hr } from '~/shared/schedule';
+import { addDayChangeListeners, to24Hr, isEmptySchedule } from '~/shared/schedule';
 import { getTableRowColumnContent } from '~/shared/table';
 
 import style from './style.css';
@@ -66,11 +66,6 @@ function getEndBlock() {
 function getFridayEndTime() {
   const date = new Date(document.querySelector('.chCal-header-space + h2').textContent);
   return isDaylightSavings(date) ? '1:45 PM' : '2:35 PM';
-}
-
-function isEmptySchedule() {
-  return document.getElementsByClassName('pl-10')[0] &&
-  document.getElementsByClassName('pl-10')[0].textContent === 'There is nothing scheduled for this date.';
 }
 
 const domQuery = () => (
