@@ -28,6 +28,8 @@ import teacherOffices from './modules/teacher-offices';
 import markAllAsRead from './modules/mark-all-as-read';
 import messageConversationControls from './modules/message-conversation-archive';
 import calculateGradePercentage from './modules/calculate-grade-percentage';
+import collapseAssignmentSections from './modules/collapse-assignment-sections';
+import dueSoon from './modules/due-soon';
 
 const MODULE_MAP = {
   '#': [
@@ -46,12 +48,14 @@ const MODULE_MAP = {
     hideCompleted,
     inlineAssignmentGrade,
     resizeAssignmentsToolbar,
+    dueSoon,
   ],
   '#studentmyday/schedule': [freeBlock, highlightCurrentClass, classEndingTime, comingUp],
   '#studentmyday/progress': [
     coursesFilter,
     nextGradedCourse,
     calculateGradePercentage,
+    collapseAssignmentSections,
   ],
   '#message': [archiveAll],
   '#message/inbox': [markAllAsRead, markAsRead, fixArchiveHighlight],
