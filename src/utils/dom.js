@@ -32,7 +32,7 @@ export function waitForLoad(condition, root = document.body) {
 export function waitForOne(condition, root = document.body) {
   return waitForLoad(() => {
     const resolvedCondition = condition();
-    if (!(resolvedCondition instanceof NodeList)) {
+    if (!(resolvedCondition instanceof NodeList) && !(resolvedCondition instanceof Array)) {
       log('warn', 'waitForOne condition should return an NodeList');
     }
     if (resolvedCondition && resolvedCondition.length) {

@@ -1,3 +1,5 @@
+import { waitForOne, addEventListener, waitForLoad } from '~/utils/dom';
+
 export function coursesListLoaded() {
   return document.querySelector('#coursesContainer > *') &&
     document.querySelectorAll('.bb-tile-content-section')[3] &&
