@@ -27,6 +27,7 @@ import hideNonacademicClasses from './modules/hide-nonacademic-classes';
 import teacherOffices from './modules/teacher-offices';
 import markAllAsRead from './modules/mark-all-as-read';
 import messageConversationControls from './modules/message-conversation-archive';
+import calculateGradePercentage from './modules/calculate-grade-percentage';
 
 const MODULE_MAP = {
   '#': [
@@ -50,6 +51,7 @@ const MODULE_MAP = {
   '#studentmyday/progress': [
     coursesFilter,
     nextGradedCourse,
+    calculateGradePercentage,
   ],
   '#message': [archiveAll],
   '#message/inbox': [markAllAsRead, markAsRead, fixArchiveHighlight],
