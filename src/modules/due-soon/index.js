@@ -12,7 +12,7 @@ import {
 import style from './style.css';
 import { getIsFiltered, setIsFiltered } from './due-soon-model';
 
-let isFiltered = false;
+let isFiltered = null;
 
 const selectors = {
   mainButton: style.locals['main-button'],
@@ -60,6 +60,7 @@ async function setDateButtonsDisabled(isDisabled) {
     ...document.querySelectorAll('label.assignmentDisplayTypeFilter'),
   ]));
   for (const button of buttons) {
+    if (!button) continue;
     if (isDisabled) {
       button.setAttribute('disabled', '');
     } else {
@@ -122,7 +123,11 @@ function handleButtonClick(e, suboptions, desktopButton, mobileButton) {
 async function dueSoon(suboptions) {
   insertCss(style.toString());
 
-  isFiltered = await getIsFiltered();
+  if (suboptions.persist) {
+    isFiltered = await getIsFiltered();
+  } else if (isFiltered === null) {
+    isFiltered = false;
+  }
   runFilter(suboptions);
 
   const rangeButton = await waitForLoad(domQuery.rangeButton);
@@ -154,6 +159,11 @@ export default registerModule('{5351d862-0067-49b5-b4b4-3aa6957db245}', {
   description: 'Button to quickly see assignments due today or tommorow.',
   main: dueSoon,
   suboptions: {
+    persist: {
+      name: 'Stay enabled after reloading',
+      type: 'boolean',
+      defaultValue: false,
+    },
     dateRange: {
       name: 'Date Range',
       type: 'enum',
