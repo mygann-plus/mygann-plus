@@ -1,7 +1,7 @@
 import { createElement, addEventListener, DropdownMenu, waitForLoad, insertCss } from '~/utils/dom';
 import tick from '~/utils/tick';
 
-import style from './style.css';
+// import style from './style.css';
 
 /* eslint-disable import/prefer-default-export */
 

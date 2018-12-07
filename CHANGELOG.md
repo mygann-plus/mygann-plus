@@ -1,13 +1,30 @@
-# 1.3.4
+## 1.4.0
+### Added
+- "Calculate Grade Percentage" module
+- "Collapse Assignment Sections" module
+- "Due Soon" module
+- "Grade Notifications" module
+
+### Changed
+- Only show Message Notifications for messages sent after install date
+
+### Fixed
+- Fix Teacher Offices not working for teachers without emails
+- Fix Message Notifications appearing under the directory sidebar
+- Fix Message Notifications controls incorrectly positioned in short messages
+- Fix Class Ending Time reappearing after being disabled in edge case
+
+
+## 1.3.4
 ### Fixed
 - Fix Free Blocks showing blocks at noon as 0:00
 - Fix Next Graded course buttons not staying focused when tabbing through courses
 
-# 1.3.3
+## 1.3.3
 ### Fixed
 - Fix install notification not disappearing
 
-# 1.3.2
+## 1.3.2
 ### Changed
 - Update notification disappears when the flyout appears, instead of when the flyout hides
 
