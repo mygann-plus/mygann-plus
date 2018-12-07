@@ -6,8 +6,11 @@ export function coursesListLoaded() {
     document.querySelectorAll('.bb-tile-content-section')[3].children[0];
 }
 
-export function observeCoursesBar(fn) {
-  const courseWrap = document.querySelector('#coursesCollapse').closest('.ch');
+export async function observeCoursesBar(fn) {
+  const courseWrap = await waitForLoad(() => (
+    document.querySelector('#coursesCollapse') &&
+    document.querySelector('#coursesCollapse').closest('.ch')
+  ));
   const observer = new MutationObserver(fn);
   observer.observe(courseWrap, {
     childList: true,

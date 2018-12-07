@@ -167,7 +167,7 @@ async function coursesFilter(opts, unloaderContext) {
 
   let coursesFilterBarUnloader = unloaderContext.addRemovable(await addCoursesFilterBar());
 
-  const coursesBarObserver = observeCoursesBar(async () => {
+  const coursesBarObserver = await observeCoursesBar(async () => {
     coursesFilterBarUnloader.remove();
     coursesFilterBarUnloader = unloaderContext.addRemovable(await addCoursesFilterBar());
   });
