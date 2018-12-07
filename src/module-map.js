@@ -27,6 +27,7 @@ import hideNonacademicClasses from './modules/hide-nonacademic-classes';
 import teacherOffices from './modules/teacher-offices';
 import markAllAsRead from './modules/mark-all-as-read';
 import messageConversationControls from './modules/message-conversation-archive';
+import gradeNotifications from './modules/grade-notifications';
 import calculateGradePercentage from './modules/calculate-grade-percentage';
 import collapseAssignmentSections from './modules/collapse-assignment-sections';
 import dueSoon from './modules/due-soon';
@@ -40,6 +41,7 @@ const MODULE_MAP = {
     favorites,
     fixDividers,
     installNotification,
+    gradeNotifications,
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus],
