@@ -1,4 +1,4 @@
-import { markInstallState, installStates } from '~/install';
+import { markInstallState, installStates, markInstallTimestamp } from '~/install';
 
 function isPatch(prevVersion, curVersion) {
   const [prevMajor, prevMinor, prevPatch] = prevVersion.split('.');
@@ -6,12 +6,15 @@ function isPatch(prevVersion, curVersion) {
   return prevMajor === curMajor && prevMinor === curMinor && prevPatch !== curPatch;
 }
 
-chrome.runtime.onInstalled.addListener(({ previousVersion, reason }) => {
+chrome.runtime.onInstalled.addListener(async ({ previousVersion, reason }) => {
   if (reason === 'update') {
     const currentVersion = chrome.runtime.getManifest().version;
     const isUpdate = !isPatch(previousVersion, currentVersion);
     markInstallState(isUpdate ? installStates.UPDATE : installStates.PATCH);
   } else {
-    markInstallState(installStates.INSTALL);
+    const now = new Date();
+    const timestamp = `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+    await markInstallState(installStates.INSTALL);
+    markInstallTimestamp(timestamp);
   }
 });

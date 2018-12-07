@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import { find as findLinks } from 'linkifyjs';
 
+import { getInstallTimestamp } from '~/install';
+
 import registerModule from '~/module';
 import { fetchApi } from '~/utils/fetch';
 import { createElement, insertCss } from '~/utils/dom';
@@ -163,11 +165,17 @@ function generateNotifications(messages, disappearTime, showLinkButton) {
 }
 
 async function getMessages() {
+  const installTimestamp = await getInstallTimestamp(); // only show messages
+  const installTime = new Date(installTimestamp).getTime();
   try {
     const data = await fetchApi('/api/message/inbox/?format=json');
     return data
       .map(conversation => {
-        return conversation.Messages.filter(message => !message.ReadInd)[0];
+        const messages = conversation.Messages.filter(message => {
+          return !message.ReadInd &&
+          installTime < new Date(message.SendDate).getTime();
+        })[0];
+        return messages;
       })
       .filter(Boolean)
       .map(conversation => ({
