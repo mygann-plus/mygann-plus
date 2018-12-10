@@ -1,3 +1,7 @@
+## 1.4.1
+### Fixed
+- Fix Grade Notification Dialog not opening
+
 ## 1.4.0
 ### Added
 - "Calculate Grade Percentage" module
@@ -13,7 +17,6 @@
 - Fix Message Notifications appearing under the directory sidebar
 - Fix Message Notifications controls incorrectly positioned in short messages
 - Fix Class Ending Time reappearing after being disabled in edge case
-
 
 ## 1.3.4
 ### Fixed
