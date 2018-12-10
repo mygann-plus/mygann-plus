@@ -31,8 +31,13 @@ export default class Dialog {
       backdrop: true,
     };
 
+    if (typeof innerElem === 'function') {
+      this.innerElem = innerElem(this);
+    } else {
+      this.innerElem = innerElem;
+    }
+
     this.title = title;
-    this.innerElem = innerElem;
     this.opts = Object.assign(defaultOpts, opts);
 
     this._generateOuterElem();
