@@ -16,6 +16,7 @@ let newGradedAssignments = [];
 function clearNotifications() {
   const today = new Date();
   const nowDateTime = `${today.toLocaleDateString()} ${today.toLocaleTimeString()}`;
+  newGradedAssignments = [];
   setLastChecked(nowDateTime);
   removeGradeNotificationBubble();
   removeNewGradedButton();
