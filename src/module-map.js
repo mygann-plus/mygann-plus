@@ -31,6 +31,7 @@ import gradeNotifications from './modules/grade-notifications';
 import calculateGradePercentage from './modules/calculate-grade-percentage';
 import collapseAssignmentSections from './modules/collapse-assignment-sections';
 import dueSoon from './modules/due-soon';
+import hideForms from './modules/hide-forms';
 
 const MODULE_MAP = {
   '#': [
@@ -42,6 +43,7 @@ const MODULE_MAP = {
     fixDividers,
     installNotification,
     gradeNotifications,
+    hideForms,
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus],
