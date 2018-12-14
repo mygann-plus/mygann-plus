@@ -7,6 +7,34 @@ import { computeGradePercentage, observeCoursesBar } from '~/shared/progress';
 
 import selectors from './selectors';
 
+// removes unicode (for Hebrew characters) and HTML fragments
+function sanitizeAssignmentTitle(title) {
+  if (title.includes('&#') && title.includes(';')) {
+    title = title
+      .split(/;| /)
+      .map(string => {
+        if (!string.trim()) { return '  '; }
+        const code = string.substring(2, string.length);
+        if (!Number.isNaN(Number(code))) {
+          return String.fromCharCode(code);
+        }
+        return string;
+      })
+      .join('');
+  }
+  return title
+    .replace(/\s+/g, ' ')
+    .replace(/<br>/g, ' ')
+    .replace(/<br \/>/g, ' ')
+    .replace(/<div>/g, '')
+    .replace(/<\/div>/g, '')
+    .replace(/<b>/g, ' ')
+    .replace(/<\/b>/g, ' ')
+    .replace(/<!--StartFragment-->/g, '')
+    .replace(/<!--EndFragment-->/g, '')
+    .trim();
+}
+
 function openCourseDialog(courseName) {
   const courseTitles = Array.from(document.querySelectorAll('#coursesContainer h3'));
   const course = courseTitles.find(title => title.textContent.trim() === courseName);
@@ -14,7 +42,6 @@ function openCourseDialog(courseName) {
 }
 
 function generateDialogBody(assignments, dialog) {
-  console.log(assignments);
   const handleAssignmentClick = assignment => {
     openCourseDialog(assignment.sectionName);
     dialog.close();
@@ -42,7 +69,9 @@ function generateDialogBody(assignments, dialog) {
               onClick={ () => handleAssignmentClick(assignment) }
             >
               <td className="col-md-3">{ assignment.sectionName}</td>
-              <td data-heading="Assignment" className="col-md-3">{ assignment.title }</td>
+              <td data-heading="Assignment" className="col-md-3">
+                { sanitizeAssignmentTitle(assignment.title) }
+              </td>
               <td data-heading="Assigned" className="col-md-1">{ assignment.adate.split(' ')[0] }</td>
               <td data-heading="Due" className="col-md-1">{ assignment.ddate.split(' ')[0] }</td>
               <td data-heading="Points" className="col-md-2">
