@@ -12,6 +12,20 @@ const selectors = {
   dropdown: 'gocp_inline-change-status_dropdown',
 };
 
+async function simulateEditClick(elemIndex) {
+  document.querySelectorAll('.assignment-status-update')[elemIndex].parentNode.children[0].click();
+  const elem = await waitForLoad(() => (
+    document.querySelectorAll('.assignment-status-update')[elemIndex].parentNode
+      .querySelector(`
+        *:nth-child(2) > :nth-child(3) > :first-child .btn
+      `)
+  ));
+  if (!elem) {
+    return setTimeout(() => simulateEditClick(elemIndex));
+  }
+  elem.click();
+}
+
 async function simulateDropdownChange(elemIndex, index) {
   document.querySelectorAll('.assignment-status-update')[elemIndex].parentNode.children[0].click();
   const elem = await waitForLoad(() => (
@@ -31,7 +45,7 @@ function createOptionElem(name, val) {
   return <option value={val}>{name}</option>;
 }
 
-function createDropdown(parentNode, controller, index, preVal) {
+function createDropdown(parentNode, controller, index, preVal, task) {
   const existingValue = (
     preVal ||
     document
@@ -57,13 +71,20 @@ function createDropdown(parentNode, controller, index, preVal) {
   if (optionNames[1]) {
     optionElems.push(createOptionElem(optionNames[1], '2'));
   }
+  if (task) {
+    optionElems.push(createOptionElem('Edit Task', '10'));
+  }
   const handleSelectChange = e => {
     const selectElem = e.target;
     if (selectElem.value === '0') {
       return;
+    } else if (selectElem.value === '10') {
+      simulateEditClick(index);
+      e.target.selectedIndex = 0;
+      return;
     }
     selectElem.remove();
-    createDropdown(parentNode, controller, index, optionNames[selectElem.value - 1]);
+    createDropdown(parentNode, controller, index, optionNames[selectElem.value - 1], task);
     simulateDropdownChange(index, selectElem.value);
   };
 
@@ -83,12 +104,8 @@ function replaceLinks() {
   const links = Array.from(document.getElementsByClassName('assignment-status-update'));
   links.forEach((button, i) => {
     const assignmentRow = button.parentNode.parentNode;
-    if (isTask(assignmentRow)) {
-      // tasks also have an "edit" link, which needs to be available from the popover
-      return;
-    }
     assignmentRow.classList.add(selectors.inlined);
-    createDropdown(button.parentNode, button, i);
+    createDropdown(button.parentNode, button, i, null, isTask(assignmentRow));
   });
 }
 
