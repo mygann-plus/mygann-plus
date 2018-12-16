@@ -1,0 +1,28 @@
+:global #skyui-header {
+  display: none;
+}
+:global #site-top-spacer {
+  background-color: transparent;
+}
+
+.task-name {
+  margin-top: 0px;
+}
+.task-details {
+  margin-top: 10px;
+}
+.due {
+  color: #c70000;
+}
+.status-dropdown {
+  visibility: hidden;
+}
+.status-dropdown.visible-status-dropdown {
+  visibility: visible !important;
+  display: block;
+}
+
+.edit-description-wrap textarea {
+  width: 100%;
+  height: 200px;
+}

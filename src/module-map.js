@@ -32,6 +32,7 @@ import calculateGradePercentage from './modules/calculate-grade-percentage';
 import collapseAssignmentSections from './modules/collapse-assignment-sections';
 import dueSoon from './modules/due-soon';
 import hideForms from './modules/hide-forms';
+import taskDetail from './modules/task-detail';
 
 const MODULE_MAP = {
   '#': [
@@ -53,7 +54,9 @@ const MODULE_MAP = {
     inlineAssignmentGrade,
     resizeAssignmentsToolbar,
     dueSoon,
+    taskDetail,
   ],
+  '#taskdetail': [taskDetail],
   '#studentmyday/schedule': [freeBlock, highlightCurrentClass, classEndingTime, comingUp],
   '#studentmyday/progress': [
     coursesFilter,
