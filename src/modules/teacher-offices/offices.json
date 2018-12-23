@@ -1,15 +1,17 @@
 [
+  { "room": "110", "faculty": "Frank Tipton" },
+  { "room": "114", "faculty": ["Mrs. Julia Mabuchi", "Sheila MacDonald"]},
   {
     "room": "188",
     "faculty": ["Seth Battis", "Yoni Kadden", "Rabbi Sara Meirowitz", "Lily Rabinoff-Goldman"]
   },
   {
-    "room": "112",
-    "faculty": ["Hannah Abelman 2004", "Talia Ambar", "Elise Harrison", "Rachel Frenkil", "Dr. Joshua Gutoff", "Luke Pritchett"]
+    "room": "122",
+    "faculty": ["Hannah Abelman 2004", "Talia Ambar", "Elise Harrison", "Simon Metcalf", "Rachel Frenkil", "Dr. Joshua Gutoff", "Luke Pritchett"]
   },
   {
     "room": "124",
-    "faculty": ["Rabbi Jethro Berkman", "Dr. Hartman"]
+    "faculty": ["Rabbi Jethro Berkman", "Dr. Hartman", "Akiko Yonekawa"]
   },
   {
     "room": "126",
@@ -17,7 +19,7 @@
   },
   {
     "room": "130",
-    "faculty": ["Avital Bar-Zuri", "Anna Finkelstein", "Brian Infante", "Alexandra Lahr", "Kelly O'Reilly", "Lauren Panzano"]
+    "faculty": ["Avital Bar-Zuri", "Anna Finklestein", "Brian Infante", "Alexandra Lahr", "Kelly O'Reilly", "Lauren Panzano"]
   },
   {
     "room": "146 - JSL",
@@ -60,8 +62,13 @@
   { "room": "Beit Midrash", "faculty": ["Ray Daniels"] },
   { "room": "232", "faculty": ["Gracie Alcid"] },
   { "room": "255", "faculty": ["Laila Goodman"] },
+  { "room": "234", "faculty": ["Dr. June Bowman"] },
   {
     "room": "240",
     "faculty": ["Efrat Amiri", "Kevin Cattrell", "Lindsay Goldstein", "Mme L Langwieder", "Vered Strapp", "Denise Zami"]
+  },
+  {
+    "room": "226",
+    "faculty": ["Andrew Davis", "Lynda McKeown-Phipps"]
   }
 ]
