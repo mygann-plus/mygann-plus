@@ -1,12 +1,19 @@
 import registerModule from '~/module';
 
 import { createElement, insertCss, waitForOne } from '~/utils/dom';
-import { compareDate, timeStringToDate, getCurrentDay, isDaylightSavings, dateTo12HrTimeString } from '~/utils/date';
+import {
+  compareDate,
+  timeStringToDate,
+  getCurrentDay,
+  isDaylightSavings,
+  dateTo12HrTimeString,
+} from '~/utils/date';
 
 import { addDayChangeListeners, to24Hr, isEmptySchedule } from '~/shared/schedule';
 import { getTableRowColumnContent } from '~/shared/table';
 
 import style from './style.css';
+import { getBlockLetter, getEndBlockLetter, getBlockSchedule } from './block-letter';
 
 const selectors = {
   activity: style.locals.activity,
@@ -53,16 +60,6 @@ function insertBlock(elemBefore, startTime, endTime, blockText) {
   return tr;
 }
 
-// returns "A" or "B" depending on day of week
-function getEndBlock() {
-  const day = getCurrentDay();
-  if (day === 'Monday' || day === 'Wednesday') {
-    return 'A';
-  } else {
-    return 'B';
-  }
-}
-
 function getFridayEndTime() {
   const date = new Date(document.querySelector('.chCal-header-space + h2').textContent);
   return isDaylightSavings(date) ? '1:45 PM' : '2:35 PM';
@@ -76,6 +73,7 @@ const domQuery = () => (
 
 async function insertFreeBlock(options, unloaderContext) {
   const blocks = await waitForOne(domQuery);
+  await getBlockSchedule();
   if (isEmptySchedule() || document.querySelector(`.${selectors.block}`)) {
     return;
   }
@@ -114,12 +112,10 @@ async function insertFreeBlock(options, unloaderContext) {
       const isOverlap = compareDate(endDate, nextStartDate) > 0;
 
       if (!isConsecutive(fullEndTime, fullNextStartTime) && !isOverlap) {
-        const block = insertBlock(
-          elem,
-          addMinutes(fullEndTime, 5),
-          addMinutes(fullNextStartTime, -5),
-          'Free Block',
-        );
+        const freeStartTime = addMinutes(fullEndTime, 5);
+        const freeEndTime = addMinutes(fullNextStartTime, -5);
+        const blockLetter = getBlockLetter(freeStartTime, freeEndTime);
+        const block = insertBlock(elem, freeStartTime, freeEndTime, `${blockLetter} Block`);
         unloaderContext.addRemovable(block);
         runRecheck();
       }
@@ -128,14 +124,16 @@ async function insertFreeBlock(options, unloaderContext) {
       // special case for A/B block
         const blockText = getTableRowColumnContent(blocks[i], 'Block');
         if (blockText === 'Mincha') {
-          const insertedBlock = insertBlock(elem, '3:55 PM', '5:05 PM', `${getEndBlock()} Block`);
+          const insertedBlock = insertBlock(elem, '3:55 PM', '5:05 PM', `${getEndBlockLetter()} Block`);
           unloaderContext.addRemovable(insertedBlock);
           runRecheck(insertedBlock);
         }
       }
       const fridayEndTime = getFridayEndTime();
       if (getCurrentDay() === 'Friday' && endTime !== fridayEndTime) {
-        const insertedBlock = insertBlock(elem, addMinutes(fullEndTime, 5), fridayEndTime, 'Free Block');
+        const freeStartTime = addMinutes(fullEndTime, 5);
+        const blockLetter = getBlockLetter(freeStartTime, fridayEndTime);
+        const insertedBlock = insertBlock(elem, freeStartTime, fridayEndTime, `${blockLetter} Block`);
         unloaderContext.addRemovable(insertedBlock);
         runRecheck(insertedBlock);
       }

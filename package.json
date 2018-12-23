@@ -7,7 +7,8 @@
     "build": "webpack --config config/webpack.prod.js",
     "start": "webpack --config config/webpack.dev.js",
     "eslint": "eslint src",
-    "deploy-bookmarklet": "sure --question 'Are you sure? (Make the project has been built) [type \"deploy bookmarklet\" to continue]' --yes 'deploy bookmarklet' && surge --domain mygann-plus-bookmarklet.surge.sh"
+    "deploy-bookmarklet": "sure --question 'Are you sure? (Make the project has been built) [type \"deploy bookmarklet\" to continue]' --yes 'deploy bookmarklet' && surge --domain mygann-plus-bookmarklet.surge.sh",
+    "push-data": "cd data && sure --question 'Are you sure you want to push the data? (MAKE SURE YOU ARE IN /DATA) [type \"push data\" to continue]' --yes 'push data' && surge --domain mygannplus-data.surge.sh"
   },
   "author": "",
   "license": "ISC",
