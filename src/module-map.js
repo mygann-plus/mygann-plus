@@ -33,6 +33,7 @@ import collapseAssignmentSections from './modules/collapse-assignment-sections';
 import dueSoon from './modules/due-soon';
 import hideForms from './modules/hide-forms';
 import taskDetail from './modules/task-detail';
+import myDayShortcut from './modules/my-day-shortcut';
 
 const MODULE_MAP = {
   '#': [
@@ -45,6 +46,7 @@ const MODULE_MAP = {
     installNotification,
     gradeNotifications,
     hideForms,
+    myDayShortcut,
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus],
