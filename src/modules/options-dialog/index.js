@@ -42,10 +42,6 @@ const selectors = {
   },
 };
 
-const formatModuleName = name => {
-  let n = name.split(/(?=[A-Z])/).join(' ');
-  return n.charAt(0).toUpperCase() + n.substring(1);
-};
 const formatDescription = desc => desc.replace(/\n/g, ' ');
 
 
@@ -194,7 +190,7 @@ class OptionsDialog {
               <span className={selectors.toggle.pill} />
             </span>
             <span className={selectors.module.caption}>
-              {formatModuleName(module.config.name)}
+              {module.config.name}
               {
                 module.config.description &&
                 <span className={selectors.module.description}>
