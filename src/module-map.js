@@ -74,6 +74,8 @@ const MODULE_MAP = {
   '#message/conversation': [linkifyMessageText, messageConversationControls],
   '#directory/800': [teacherOffices],
   '#searchresults/summary': [filterWebsiteMainSearch],
+  '#academicclass': [nameQuiz],
+  '#communitypage': [nameQuiz],
   '#myschedule': [dayScheduleButton],
 
   __proto__: null, // use as map
