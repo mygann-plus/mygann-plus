@@ -85,15 +85,19 @@ export function createElement(tagName, props, ...children) {
   return elem;
 }
 
-export function constructButton(textContent, id, iClassName, onClick, classnames = '') {
+export function constructButton(textContent, id, iClassName, onClick, classnames = '', opts = {}) {
+  const defaultOpts = {
+    small: true,
+  };
+  const options = { ...defaultOpts, ...opts };
   const styles = {
     button: { color: 'black' },
-    icon: { visibility: 'visible', marginRight: '5px' },
+    icon: { visibility: 'visible', marginRight: textContent ? '5px' : '' },
   };
   return (
     <button
       id={id}
-      className={classNames('btn btn-sm btn-default', classnames)}
+      className={classNames('btn btn-default', options.small && 'btn-sm', classnames)}
       onClick={onClick}
       style={{ color: 'black' }}
     >
