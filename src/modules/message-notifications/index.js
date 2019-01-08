@@ -165,7 +165,7 @@ function generateNotifications(messages, disappearTime, showLinkButton) {
 }
 
 async function getMessages() {
-  const installTimestamp = await getInstallTimestamp(); // only show messages
+  const installTimestamp = await getInstallTimestamp(); // only show messages after install
   const installTime = new Date(installTimestamp).getTime();
   try {
     const data = await fetchApi('/api/message/inbox/?format=json');
