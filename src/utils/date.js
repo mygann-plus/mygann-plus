@@ -73,3 +73,7 @@ export function getAbsoluteToday() {
   today.setMilliseconds(0);
   return today;
 }
+
+export function daysBetween(date1, date2) {
+  return Math.floor((date1 - date2) / 86400000);
+}
