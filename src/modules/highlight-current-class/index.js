@@ -1,16 +1,12 @@
 import { waitForLoad, insertCss } from '~/utils/dom';
 import registerModule from '~/module';
-import { isCurrentDay, addDayChangeListeners, isCurrentTime, isDayView } from '~/shared/schedule';
+import { addDayChangeListeners, isCurrentClass } from '~/shared/schedule';
 
 import style from './style.css';
 
 const selectors = {
   currentClass: style.locals['current-class'],
 };
-
-function isCurrentClass(timeString) {
-  return isDayView() && isCurrentTime(timeString) && isCurrentDay();
-}
 
 function removeHighlight() {
   // only one block is supposed to be highlighted, but this is in case a bug causes multiple to be
@@ -27,10 +23,10 @@ const domQuery = () => (
   && document.getElementById('accordionSchedules').children[0].children.length
 );
 
-function highlight(blocks) {
+async function highlight(blocks) {
   for (const block of blocks) {
     const timeString = block.children[0].childNodes[0].data.trim();
-    if (isCurrentClass(timeString)) {
+    if (await isCurrentClass(timeString)) {
       block.classList.add(selectors.currentClass);
       // [audit] replace with MutationObserver; extract to shared
       return block;
@@ -48,7 +44,7 @@ async function highlightClass() {
     }
   };
 
-  const block = highlight(getBlocks());
+  const block = await highlight(getBlocks());
 
   setTimeout(() => recheck(block), 50);
   setTimeout(() => recheck(block), 100);
@@ -68,7 +64,8 @@ function highlightCurrentClass(opts, unloaderContext) {
 
   unloaderContext.addFunction(() => clearInterval(interval));
 
-  addDayChangeListeners(highlightClass);
+  const dayChangeListener = addDayChangeListeners(highlightClass);
+  unloaderContext.addRemovable(dayChangeListener);
 }
 
 function unloadHighlightCurrentClass() {

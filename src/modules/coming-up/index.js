@@ -51,7 +51,7 @@ const domQuery = () => (
 
 async function showComingUp(unloaderContext) {
   await waitForLoad(domQuery);
-  if (!isCurrentDay()) {
+  if (!(await isCurrentDay())) {
     return;
   }
 
