@@ -1,10 +1,12 @@
-import { createElement, addEventListener, DropdownMenu, waitForLoad, insertCss } from '~/utils/dom';
-import tick from '~/utils/tick';
+import { addEventListener, waitForLoad } from '~/utils/dom';
 
 // import style from './style.css';
 
 /* eslint-disable import/prefer-default-export */
 
+export function isFaculty() {
+  return window.location.hash === '#myday/schedule-performance';
+}
 function formatDay(dayString) {
   return Number(dayString).toString(); // remove leading "0"
 }
@@ -18,14 +20,16 @@ export function hasParentWithClassName(element, classnames) {
 }
 
 // tests if the current day on the schedule is set to today
-export function isCurrentDay() {
-  const cur = document.getElementById('schedule-header')
-    .children[0].children[0].children[0].children[1].children[0].children[3]
-    .textContent.split(', ')[1];
+export async function isCurrentDay() {
+  const header = isFaculty() ?
+    await waitForLoad(() => document.querySelector('#currentday h2')) :
+    await waitForLoad(() => document.querySelector('#schedule-header h2'));
+
+  const currentDate = header.textContent.split(', ')[1];
   const d = new Date().toDateString();
-  let month = d.split(' ')[1];
-  let day = d.split(' ')[2];
-  return cur.split(' ')[0].startsWith(month) && cur.split(' ')[1] === formatDay(day);
+  const month = d.split(' ')[1];
+  const day = d.split(' ')[2];
+  return currentDate.split(' ')[0].startsWith(month) && formatDay(currentDate.split(' ')[1]) === formatDay(day);
 }
 
 export function addDayChangeListeners(callback) {
@@ -89,8 +93,13 @@ export function isCurrentTime(timeString) {
   return isBetween(to24Hr(times[0]), to24Hr(times[1]));
 }
 
-export function isDayView() {
-  return !!document.getElementById('accordionSchedules');
+export async function isDayView() {
+  if (isFaculty()) {
+    const todayBtn = await waitForLoad(() => document.querySelector('.chCal-button-today'));
+    return todayBtn.classList.contains('chCal-state-disabled');
+  } else {
+    return !!document.getElementById('accordionSchedules');
+  }
 }
 
 export async function getDayViewDateString() {
@@ -101,4 +110,16 @@ export async function getDayViewDateString() {
 export function isEmptySchedule() {
   return document.getElementsByClassName('pl-10')[0] &&
   document.getElementsByClassName('pl-10')[0].textContent === 'There is nothing scheduled for this date.';
+}
+
+export function hourStringToDate(time) {
+  const endDate = new Date();
+  endDate.setHours(time.split(':')[0]);
+  endDate.setMinutes(time.split(':')[1]);
+  endDate.setSeconds(time.split(':')[2]);
+  return endDate;
+}
+
+export async function isCurrentClass(timeString) {
+  return (await isDayView()) && isCurrentTime(timeString) && (await isCurrentDay());
 }

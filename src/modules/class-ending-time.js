@@ -1,25 +1,14 @@
 import registerModule from '~/module';
 
-import { createElement, waitForLoad } from '~/utils/dom';
+import { createElement, waitForOne } from '~/utils/dom';
 import {
-  isCurrentDay,
-  isCurrentTime,
-  isDayView,
   to24Hr,
   addDayChangeListeners,
+  hourStringToDate,
+  isCurrentClass,
+  isFaculty,
 } from '~/shared/schedule';
 
-function isCurrentClass(timeString) {
-  return isDayView() && isCurrentTime(timeString) && isCurrentDay();
-}
-
-function hourStringToDate(time) {
-  const endDate = new Date();
-  endDate.setHours(time.split(':')[0]);
-  endDate.setMinutes(time.split(':')[1]);
-  endDate.setSeconds(time.split(':')[2]);
-  return endDate;
-}
 function minutesTo(date) {
   let diffMs = (hourStringToDate(to24Hr(date)) - new Date());
   return Math.ceil(diffMs / 60000);
@@ -28,9 +17,13 @@ function minutesTo(date) {
 function addTime(minutes, parent) {
   if (document.getElementById('gocp_class-ending-time_main')) return;
 
+  const style = isFaculty() ?
+    { color: 'grey', display: 'block' } :
+    { color: 'grey', display: 'inline-block', marginTop: '10px' };
+
   const span = (
     <span
-      style={{ color: 'grey', display: 'inline-block', marginTop: '10px' }}
+      style={style}
       id='gocp_class-ending-time_main'
     >
       { minutes } minutes left
@@ -41,53 +34,59 @@ function addTime(minutes, parent) {
   return span;
 }
 
-const domQuery = () => {
-  return document.getElementById('accordionSchedules')
-        && document.getElementById('accordionSchedules').children[0]
-        && document.getElementById('accordionSchedules').children[0].children
-        && document.getElementById('accordionSchedules').children[0].children.length;
+async function insertClassEndingTime(blocks, unloaderContext) {
+  for (const block of blocks) {
+    let timeString;
+    if (isFaculty()) {
+      timeString = block.textContent.trim();
+    } else {
+      timeString = block.children[0].childNodes[0].data.trim();
+    }
+    if (await isCurrentClass(timeString)) {
+      const minutes = minutesTo(timeString.split('-')[1].trim());
+      const time = addTime(minutes, block.children[0]);
+      if (time) {
+        unloaderContext.addRemovable(time);
+      }
+    }
+  }
+}
+
+const getBlocks = async () => {
+  return isFaculty() ?
+    waitForOne(() => document.querySelectorAll('.textright')) :
+    waitForOne(() => document.querySelectorAll('#accordionSchedules > *'));
 };
 
-async function testForClass(unloaderContext) {
+async function runClassEndingTime(unloaderContext) {
+  const blocks = await getBlocks();
 
-  await waitForLoad(domQuery);
-
-  const blocks = document.getElementById('accordionSchedules').children;
-
-  const recheck = (block, removable) => {
+  const recheck = async block => {
     if (!document.body.contains(block)) {
-      removable.remove();
-      testForClass(unloaderContext);
+      insertClassEndingTime(await getBlocks(), unloaderContext);
     }
   };
 
-  for (const block of blocks) {
-    const timeString = block.children[0].childNodes[0].data.trim();
-    if (isCurrentClass(timeString)) {
-      const minutes = minutesTo(timeString.split('-')[1].trim());
-      const time = addTime(minutes, block.children[0]);
-      const timeRemovable = unloaderContext.addRemovable(time);
-      setTimeout(() => recheck(block, timeRemovable), 50);
-      setTimeout(() => recheck(block, timeRemovable), 100);
-      setTimeout(() => recheck(block, timeRemovable), 200);
-    }
-  }
+  const block = await insertClassEndingTime(blocks, unloaderContext);
 
+  setTimeout(() => recheck(block), 50);
+  setTimeout(() => recheck(block), 100);
+  setTimeout(() => recheck(block), 200);
 }
 
 function classEndingTime(opts, unloaderContext) {
-  testForClass(unloaderContext);
+  runClassEndingTime(unloaderContext);
 
   const interval = setInterval(() => {
     const timeLabel = document.getElementById('gocp_class-ending-time_main');
     if (timeLabel) {
       timeLabel.remove();
     }
-    testForClass(unloaderContext);
+    runClassEndingTime(unloaderContext);
   }, 60000);
   unloaderContext.addFunction(() => clearInterval(interval));
 
-  const dayChangeListener = addDayChangeListeners(() => testForClass(unloaderContext));
+  const dayChangeListener = addDayChangeListeners(() => runClassEndingTime(unloaderContext));
   unloaderContext.addRemovable(dayChangeListener);
 }
 
