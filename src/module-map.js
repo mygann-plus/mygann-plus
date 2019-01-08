@@ -31,6 +31,7 @@ import gradeNotifications from './modules/grade-notifications';
 import calculateGradePercentage from './modules/calculate-grade-percentage';
 import collapseAssignmentSections from './modules/collapse-assignment-sections';
 import dueSoon from './modules/due-soon';
+import nameQuiz from './modules/name-quiz';
 import hideForms from './modules/hide-forms';
 import taskDetail from './modules/task-detail';
 import myDayShortcut from './modules/my-day-shortcut';
@@ -91,6 +92,7 @@ const SECTION_MAP = {
   '#message/conversation': 'Message Conversation',
   '#directory/800': 'Faculty & Staff Directory',
   '#searchresults/summary': 'Search Results Summary',
+  '#academicclass': 'Academic Class Page',
   '#myschedule': 'Month & Week Schedule',
 
   __proto__: null,

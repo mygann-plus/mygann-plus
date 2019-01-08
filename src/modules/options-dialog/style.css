@@ -138,3 +138,15 @@ textarea.suboption-input {
 .toggle-wrap input:checked + .toggle-track .toggle-pill {
   transform: translate(calc(var(--track-width) - var(--pill-width)));
 }
+
+.searchbar {
+  border: none;
+  outline: none;
+  padding: 5px 15px 5px 2px;
+  border-bottom: 1px solid var(--seperator-gray);
+  width: 100%;
+}
+
+.searchbar::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}

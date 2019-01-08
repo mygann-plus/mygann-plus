@@ -6,6 +6,7 @@ import {
   insertCss,
 } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
+import fuzzyMatch from '~/utils/search';
 import log from '~/utils/log';
 
 import { appendDesktopUserMenuLink, appendMobileUserMenuLink } from '~/shared/user-menu';
@@ -15,6 +16,7 @@ import { getFlattenedOptions, setFlattenedOptions, mergeDefaultOptions } from '~
 import style from './style.css';
 
 const selectors = {
+  searchbar: style.locals.searchbar,
   section: {
     wrap: style.locals['section-wrap'],
     optionsWrap: style.locals['section-options-wrap'],
@@ -123,7 +125,10 @@ class OptionsDialog {
   }
 
   renderBody() {
-    const sectionWrap = <div />;
+    this.moduleElems = [];
+    const bodyWrap = <div />;
+    const searchbar = this.createSearchBar();
+    bodyWrap.appendChild(searchbar);
     const createdModules = []; // prevent modules listed for two hashes from appearng twice
     for (const sectionName in MODULE_MAP) {
       const section = this.createSectionView(
@@ -132,10 +137,20 @@ class OptionsDialog {
         createdModules,
       );
       if (section) {
-        sectionWrap.appendChild(section);
+        bodyWrap.appendChild(section);
       }
     }
-    return sectionWrap;
+    return bodyWrap;
+  }
+
+  createSearchBar() {
+    return (
+      <input
+        className={selectors.searchbar}
+        placeholder="Search..."
+        onInput={ e => this.handleSearch(e) }
+      />
+    );
   }
 
   createSectionView(publicName, modules, createdModules) {
@@ -229,6 +244,10 @@ class OptionsDialog {
       moduleView.querySelector(`.${selectors.module.top}`).appendChild(expandLink);
     }
 
+    this.moduleElems.push({
+      name: module.config.name,
+      element: moduleView,
+    });
     return moduleView;
   }
 
@@ -302,6 +321,32 @@ class OptionsDialog {
   enableSaveButton() {
     this.dialog.getLeftButton(0).disabled = false;
   }
+
+  /* eslint-disable class-methods-use-this */
+
+  handleSearch(event) {
+    const query = event.target.value;
+    const sections = document.querySelectorAll(`.${selectors.section.wrap}`);
+    for (const sectionElem of sections) {
+      sectionElem.style.display = '';
+      const modules = sectionElem.querySelectorAll(`.${selectors.module.wrap}`);
+      let shownModulesCount = 0;
+      for (const module of modules) {
+        const caption = module.querySelector(`.${selectors.module.caption}`).textContent;
+        if (fuzzyMatch(query, caption)) {
+          module.style.display = '';
+          shownModulesCount++;
+        } else {
+          module.style.display = 'none';
+        }
+      }
+      if (shownModulesCount === 0) {
+        sectionElem.style.display = 'none';
+      }
+    }
+  }
+
+  /* eslint-enable class-methods-use-this */
 
 }
 
