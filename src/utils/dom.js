@@ -144,6 +144,7 @@ export class DropdownMenu {
       buttonClassname: '',
       wrapClassname: '',
       buttonIconClassname: 'fa fa-ellipsis-h',
+      buttonText: '',
     };
 
     this.items = items;
@@ -160,6 +161,8 @@ export class DropdownMenu {
     return this.dropdownElement;
   }
   getDropdownButton() {
+    return this.dropdownWrap.querySelector('button');
+  }
 
   /**
    *
@@ -176,6 +179,7 @@ export class DropdownMenu {
 
   _generateWrapHtml() {
     const button = constructButton(
+      this.opts.buttonText, '',
       this.opts.buttonIconClassname, () => this._toggleDropdown(), this.opts.buttonClassname,
     );
     return (
