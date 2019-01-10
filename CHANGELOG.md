@@ -1,3 +1,23 @@
+## 1.5.0
+### Added
+- "Hide Forms" module, for permanently hiding individual forms
+- "Task Details" module, which adds descriptions to "My Tasks"
+- "My Day Shortcut" module, for going directly to a My Day page by clicking on the My Day header
+- "Roster Name Quiz" module, which adds a quiz to help learn students' names
+- "Block Length" module, which shows the length of class blocks in the schedule
+- "Class Email" module, which adds a button to quickly send an email to members of a class
+- Searchbar in options dialog
+
+### Changed
+- Improved Change Status supports custom tasks
+- Teacher Office numbers are now more comprehensive
+- The block letter is displayed in Free Blocks
+- Class Ending Time supports the teacher schedule page
+
+### Fixed
+- Fix assignment names in the Grade Notification new graded assignments list displaying incorrect characters
+- Fix Grade Notification badge flickering after being cleared
+
 ## 1.4.1
 ### Fixed
 - Fix Grade Notification Dialog not opening
