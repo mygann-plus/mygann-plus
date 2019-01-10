@@ -95,6 +95,7 @@ export default registerModule('{dcac3a12-b297-4072-ada1-257a5c17aef1}', {
   description: 'Show the length of class blocks',
   main: blockLength,
   unload: unloadBlockLength,
+  defaultEnabled: false,
   suboptions: {
     onlyUpcoming: {
       name: 'Only upcoming blocks',
