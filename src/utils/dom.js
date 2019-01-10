@@ -196,7 +196,7 @@ export class DropdownMenu {
         <a
           href="#"
           style={ itemStyles }
-          onClick={e => this._handleItemClick(e, item.onclick)}
+          onClick={e => this._handleItemClick(e, item.onclick) }
         >
           { item.title }
         </a>
@@ -205,7 +205,8 @@ export class DropdownMenu {
   }
 
   _generateDropdownHtml() {
-    const itemsList = this.items.map(this._createItemElem);
+    // arrow function is needed to preserve this
+    const itemsList = this.items.map(elem => this._createItemElem(elem));
     return (
       <ul className="dropdown-menu" role="menu" style="display: block;">
         { itemsList }
