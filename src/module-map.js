@@ -35,6 +35,7 @@ import nameQuiz from './modules/name-quiz';
 import hideForms from './modules/hide-forms';
 import taskDetail from './modules/task-detail';
 import myDayShortcut from './modules/my-day-shortcut';
+import blockLength from './modules/block-length';
 
 const MODULE_MAP = {
   '#': [
@@ -60,7 +61,14 @@ const MODULE_MAP = {
     taskDetail,
   ],
   '#taskdetail': [taskDetail],
-  '#studentmyday/schedule': [freeBlock, highlightCurrentClass, classEndingTime, comingUp],
+  '#studentmyday/schedule': [
+    freeBlock,
+    highlightCurrentClass,
+    blockLength,
+    classEndingTime,
+    comingUp,
+  ],
+  '#myday/schedule-performance': [classEndingTime],
   '#studentmyday/progress': [
     coursesFilter,
     nextGradedCourse,

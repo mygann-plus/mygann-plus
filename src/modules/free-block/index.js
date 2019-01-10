@@ -47,7 +47,7 @@ function insertBlock(elemBefore, startTime, endTime, blockText) {
 
   const tr = (
     <tr className={selectors.block}>
-      { createCell('Time', `${startTime} - ${endTime}`) }
+      { createCell('Time', `${startTime} - ${endTime} `) }
       { createCell('Block', blockText) }
       { createCell('Activity', activity) }
       { createCell('Contact', '')}
