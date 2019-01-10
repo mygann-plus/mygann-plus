@@ -99,7 +99,7 @@ async function classMessage(opts, unloaderContext) {
 
 export default registerModule('{eb8d1fe3-70c4-473e-804c-5edc7f81a04b}', {
   name: 'Class Email',
-  description: 'Quickly send a MyGann message or email to members of a class',
+  description: 'Quickly send an email to members of a class',
   main: classMessage,
 });
 
