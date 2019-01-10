@@ -159,6 +159,7 @@ export class DropdownMenu {
   getDropdownElement() {
     return this.dropdownElement;
   }
+  getDropdownButton() {
 
   /**
    *
@@ -175,7 +176,6 @@ export class DropdownMenu {
 
   _generateWrapHtml() {
     const button = constructButton(
-      '', '',
       this.opts.buttonIconClassname, () => this._toggleDropdown(), this.opts.buttonClassname,
     );
     return (
