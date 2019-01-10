@@ -36,6 +36,7 @@ import hideForms from './modules/hide-forms';
 import taskDetail from './modules/task-detail';
 import myDayShortcut from './modules/my-day-shortcut';
 import blockLength from './modules/block-length';
+import classEmail from './modules/class-email';
 
 const MODULE_MAP = {
   '#': [
@@ -82,7 +83,7 @@ const MODULE_MAP = {
   '#message/conversation': [linkifyMessageText, messageConversationControls],
   '#directory/800': [teacherOffices],
   '#searchresults/summary': [filterWebsiteMainSearch],
-  '#academicclass': [nameQuiz],
+  '#academicclass': [classEmail, nameQuiz],
   '#communitypage': [nameQuiz],
   '#myschedule': [dayScheduleButton],
 
