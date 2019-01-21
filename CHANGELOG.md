@@ -1,3 +1,7 @@
+## 1.6.0
+### Added
+- "Fix Semester Switch Bug" module, which fixes native bug in which assignments are temporarily duplicated during the semester switch
+
 ## 1.5.0
 ### Added
 - "Hide Forms" module, for permanently hiding individual forms
