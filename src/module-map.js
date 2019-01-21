@@ -37,6 +37,7 @@ import taskDetail from './modules/task-detail';
 import myDayShortcut from './modules/my-day-shortcut';
 import blockLength from './modules/block-length';
 import classEmail from './modules/class-email';
+import fixSemesterSwitch from './modules/fix-semester-switch';
 
 const MODULE_MAP = {
   '#': [
@@ -60,6 +61,7 @@ const MODULE_MAP = {
     resizeAssignmentsToolbar,
     dueSoon,
     taskDetail,
+    fixSemesterSwitch,
   ],
   '#taskdetail': [taskDetail],
   '#studentmyday/schedule': [
