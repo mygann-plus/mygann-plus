@@ -54,7 +54,6 @@ async function myDayShortcut(suboptions, unloaderContext) {
   const clickListener = addEventListener(myDayHeader, 'click', () => {
     window.location.hash = getPageHash(suboptions.page);
   });
-  debugger; // eslint-disable-line no-debugger
   if (suboptions.hideMenu) {
     myDayMenu.classList.add(selectors.hiddenMyDayMenu);
   }
