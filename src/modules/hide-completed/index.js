@@ -36,7 +36,7 @@ async function runFilterDialog(fn) {
   await waitForLoad(() => document.querySelector('.modal-dialog'));
   const dialog = document.querySelector('.modal-dialog');
   try {
-    fn(dialog);
+    await fn(dialog);
     dialog.querySelector('#btn-filter-apply').click();
   } finally {
     // reset modal style even if error occurs
