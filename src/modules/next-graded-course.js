@@ -24,7 +24,7 @@ async function selectCourse(course, buttonClassName) {
     const headerText = document.querySelector('.bb-dialog-header').textContent.trim();
     return headerText === course.class;
   });
-  // refocuses next gradec course button, to allow for continuous entering
+  // refocuses next graded course button, to allow for continuous entering
   document.querySelector(`.${buttonClassName}`).focus();
 }
 
@@ -76,8 +76,15 @@ async function addNextGradedCourseButtons(courses, currentCourse, unloaderContex
 }
 
 async function getCourseGradedAssignments(gradeElem) {
-  const markingPeriod = document.querySelector('.dropdown-menu .active a').dataset.value;
-  const sectionId = gradeElem.nextElementSibling.dataset.analysis;
+  const selectedSemesterElem = document.querySelector('.dropdown-menu .active a');
+  const isSecondSemester = selectedSemesterElem.textContent.toLowerCase().includes('second');
+
+  const markingPeriod = selectedSemesterElem.dataset.value;
+  let sectionId = gradeElem.nextElementSibling.dataset.analysis;
+  if (isSecondSemester) {
+    // during second semester, ids are one less than in DOM for unknown reason
+    sectionId = Number(sectionId) - 1;
+  }
   const userId = await getUserId();
   const endpoint = '/api/datadirect/GradeBookPerformanceAssignmentStudentList/';
   const query = `?sectionId=${sectionId}&markingPeriodId=${markingPeriod}&studentUserId=${userId}`;
