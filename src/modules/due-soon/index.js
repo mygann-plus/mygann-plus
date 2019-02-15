@@ -31,8 +31,8 @@ const domQuery = {
 };
 
 const dateRanges = {
-  todayAndTommorow: 'todayAndTommorow',
-  tommorow: 'tommorow',
+  todayAndTomorrow: 'todayAndTomorrow',
+  tomorrow: 'tomorrow',
 };
 
 async function setHeadersText(text) {
@@ -85,7 +85,7 @@ async function enableDueSoonFilter(dateRange) {
     const rangeStart = getAbsoluteToday();
     const rangeEnd = getAbsoluteToday();
     rangeEnd.setTime(rangeEnd.getTime() + (1000 * 60 * 60 * 24));
-    if (dateRange === dateRanges.tommorow) {
+    if (dateRange === dateRanges.tomorrow) {
       rangeStart.setTime(rangeEnd.getTime() - 1);
     }
     if (dueDate.getTime() <= rangeEnd.getTime() && dueDate.getTime() >= rangeStart.getTime()) {
@@ -94,7 +94,7 @@ async function enableDueSoonFilter(dateRange) {
     assignment.classList.add(selectors.hiddenAssignment);
   }
   setDateButtonsDisabled(true);
-  const headerText = dateRange === dateRanges.todayAndTommorow ? 'Today & Tommorow' : 'Tommorow';
+  const headerText = dateRange === dateRanges.todayAndTomorrow ? 'Today & Tomorrow' : 'Tomorrow';
   setHeadersText(`Due ${headerText}`);
 }
 
@@ -156,7 +156,7 @@ async function dueSoon(suboptions) {
 
 export default registerModule('{5351d862-0067-49b5-b4b4-3aa6957db245}', {
   name: 'Due Soon',
-  description: 'Button to quickly see assignments due today or tommorow.',
+  description: 'Button to quickly see assignments due today or tomorrow.',
   main: dueSoon,
   suboptions: {
     persist: {
@@ -167,10 +167,10 @@ export default registerModule('{5351d862-0067-49b5-b4b4-3aa6957db245}', {
     dateRange: {
       name: 'Date Range',
       type: 'enum',
-      defaultValue: dateRanges.todayAndTommorow,
+      defaultValue: dateRanges.todayAndTomorrow,
       enumValues: {
-        [dateRanges.todayAndTommorow]: 'Today and Tommorow',
-        [dateRanges.tommorow]: 'Tommorow',
+        [dateRanges.todayAndTomorrow]: 'Today and Tomorrow',
+        [dateRanges.tomorrow]: 'Tomorrow',
       },
     },
   },

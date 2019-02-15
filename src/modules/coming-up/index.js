@@ -11,7 +11,7 @@ const selectors = {
   label: style.locals.label,
 };
 
-function getTommorowDateString() {
+function getTomorrowDateString() {
   const date = new Date();
   date.setDate(date.getDate() + 1);
   return [date.getMonth() + 1, date.getDate(), date.getFullYear()].join('%2F');
@@ -25,7 +25,7 @@ async function fetchData() {
 
   const id = await getUserId();
 
-  const query = `mydayDate=${getTommorowDateString()}&viewerId=${id}&viewerPersonaId=2`;
+  const query = `mydayDate=${getTomorrowDateString()}&viewerId=${id}&viewerPersonaId=2`;
   const endpoint = `/api/schedule/ScheduleCurrentDayAnnouncmentParentStudent/?${query}`;
 
   return fetchApi(endpoint)
@@ -66,7 +66,7 @@ async function showComingUp(unloaderContext) {
   }
   const label = (
       <div className={selectors.label}>
-        <i>Tommorow: { announcements.join('; ') }</i>
+        <i>Tomorrow: { announcements.join('; ') }</i>
       </div>
   );
   getAnnouncementWrap().appendChild(label);
