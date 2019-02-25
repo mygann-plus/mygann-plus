@@ -145,11 +145,14 @@ class OptionsDialog {
 
   createSearchBar() {
     return (
-      <input
-        className={selectors.searchbar}
-        placeholder="Search..."
-        onInput={ e => this.handleSearch(e) }
-      />
+      <form autoComplete="off">
+        <input
+          className={selectors.searchbar}
+          placeholder="Search..."
+          autoComplete="off"
+          onInput={ e => this.handleSearch(e) }
+        />
+      </form>
     );
   }
 
@@ -282,6 +285,12 @@ class OptionsDialog {
         break;
       case 'textarea':
         input = <textarea />;
+        break;
+      case 'email':
+        input = <input type="email"></input>;
+        break;
+      case 'password':
+        input = <input type="password"></input>;
         break;
       default:
         log('warn', `Unknown suboption type ${suboption.type}`);
