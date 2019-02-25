@@ -1,3 +1,13 @@
+## 1.6.1
+### Added
+- Added suboption in My Day Shortcut to hide My Day menu
+
+### Fixed
+- Fix Hide Completed button being permanently disabled after single use
+- Fix Chrome incorrectly autocompleting username in options dialog search
+- Fix multiple misspellings of "tomorrow".
+- Fix Next Graded Course not working during second semester
+
 ## 1.6.0
 ### Added
 - "Fix Semester Switch Bug" module, which fixes native bug in which assignments are temporarily duplicated during the semester switch

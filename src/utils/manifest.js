@@ -3,7 +3,7 @@ import { isBookmarklet } from '~/utils/bookmarklet';
 export default function getManifest() {
   if (isBookmarklet()) {
     return {
-      version_name: '1.6.0',
+      version_name: '1.6.1',
       description: 'A collection of modules that improve your MyGann experience',
     };
   } else {
