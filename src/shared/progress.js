@@ -35,7 +35,7 @@ const domQuery = {
   nextButton: () => document.querySelectorAll('button[data-analysis="next"]')[0],
 };
 
-async function callWhenDialogChanges(callback) {
+async function callWhenDialogChanges(callback, data) {
   const getDialogTitle = () => (
     domQuery.dialogTitle() &&
     domQuery.dialogTitle().textContent
@@ -44,20 +44,49 @@ async function callWhenDialogChanges(callback) {
   await waitForLoad(() => (
     getDialogTitle() && getDialogTitle() !== currentTitle
   ));
-  callback();
+  callback(data);
 }
 
 export async function addProgressDialogListener(callback, unloaderContext) {
   const gradeDetailButtons = await waitForOne(() => document.querySelectorAll('.showGrade + a'));
   for (const button of gradeDetailButtons) {
     unloaderContext.addRemovable(addEventListener(button, 'click', async () => {
-      await callWhenDialogChanges(callback);
+      await callWhenDialogChanges(callback, { fromGradeDetailButton: true });
       const navButtons = await waitForOne(() => (
         document.querySelectorAll('[data-analysis="next"], [data-analysis="prev"]')
       ));
       for (const navButton of navButtons) {
-        unloaderContext.addRemovable(addEventListener(navButton, 'click', callback));
+        const data = { fromGradeDetailButton: false };
+        unloaderContext.addRemovable(addEventListener(navButton, 'click', () => callback(data)));
       }
     }));
   }
+}
+
+// removes unicode (for Hebrew characters) and HTML fragments
+export function sanitizeAssignmentTitle(title) {
+  if (title.includes('&#') && title.includes(';')) {
+    title = title
+      .split(/;| /)
+      .map(string => {
+        if (!string.trim()) { return '  '; }
+        const code = string.substring(2, string.length);
+        if (!Number.isNaN(Number(code))) {
+          return String.fromCharCode(code);
+        }
+        return string;
+      })
+      .join('');
+  }
+  return title
+    .replace(/\s+/g, ' ')
+    .replace(/<br>/g, ' ')
+    .replace(/<br \/>/g, ' ')
+    .replace(/<div>/g, '')
+    .replace(/<\/div>/g, '')
+    .replace(/<b>/g, ' ')
+    .replace(/<\/b>/g, ' ')
+    .replace(/<!--StartFragment-->/g, '')
+    .replace(/<!--EndFragment-->/g, '')
+    .trim();
 }
