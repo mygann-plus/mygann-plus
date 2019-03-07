@@ -11,7 +11,7 @@ import {
 import style from './style.css';
 
 // keywords are hardcoded to allow for easy update if a new non-academic class is added
-const HIDDEN_KEYWORDS = ['mincha', 'special program', 'assembly', 'hakhel', 'z\'man kodesh', 'community service', 'lunch'];
+const HIDDEN_KEYWORDS = ['mincha', 'special program', 'assembly', 'hakhel', 'z\'man kodesh', 'community service', 'lunch', 'breakfast'];
 
 const selectors = {
   hiddenClass: style.locals['hidden-class'],
