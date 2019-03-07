@@ -10,30 +10,33 @@ import {
 
 import style from './style.css';
 
+// keywords are hardcoded to allow for easy update if a new non-academic class is added
+const HIDDEN_KEYWORDS = ['mincha', 'special program', 'assembly', 'hakhel', 'z\'man kodesh', 'community service', 'lunch'];
+
 const selectors = {
   hiddenClass: style.locals['hidden-class'],
 };
 
-function hideClasses(classes, keywords) {
+function hideClasses(classes) {
   for (const classObj of classes) {
-    const matches = keywords.find(c => classObj.title.includes(c));
+    const matches = HIDDEN_KEYWORDS.find(c => classObj.title.includes(c));
     if (matches) {
       classObj.elem.classList.add(selectors.hiddenClass);
     }
   }
 }
 
-async function hideClassesMenu(keywords) {
+async function hideClassesMenu() {
 
 
   waitForLoad(getDesktopMenu).then(() => {
     const classes = getDesktopCourses();
-    hideClasses(classes, keywords);
+    hideClasses(classes);
   });
 
   waitForLoad(getMobileMenu).then(() => {
     const classes = getMobileCourses();
-    hideClasses(classes, keywords);
+    hideClasses(classes);
   });
 
 }
@@ -42,7 +45,7 @@ const domQuery = {
   progressCourses: () => document.querySelectorAll('#coursesContainer .row'),
 };
 
-async function hideProgressPage(keywords) {
+async function hideProgressPage() {
   const courseElems = await waitForOne(domQuery.progressCourses);
 
   const classes = Array.from(courseElems).map(elem => ({
@@ -50,20 +53,18 @@ async function hideProgressPage(keywords) {
     elem,
   }));
 
-  hideClasses(classes, keywords);
+  hideClasses(classes);
 }
 
 async function hideNonacademicClasses(suboptions, unloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
-  const keywords = suboptions.keywords.split(',').map(k => k.trim());
-
   if (window.location.hash === '#studentmyday/progress' && suboptions.inProgressPage) {
-    hideProgressPage(keywords);
+    hideProgressPage();
   }
   if (suboptions.inClassesMenu) {
-    hideClassesMenu(keywords);
+    hideClassesMenu();
   }
 }
 
@@ -78,15 +79,10 @@ function unloadedHideNonacademicClasses() {
 
 export default registerModule('{e6bf215e-1286-47e7-baac-d17ec598c4f8}', {
   name: 'Hide Non-Academic Classes',
-  description: 'Hides non-academic "classes" in the classes menu and the progress page. By default, this hides Lunch, Z\'man Kodesh, Mincha, Special Program, Assembly, Hakhel, Clubs/Lunch, Minyan, and Community Service',
+  description: 'Hides the following non-academic "classes" in the classes menu and the progress page: Lunch, Z\'man Kodesh, Mincha, Special Program, Assembly, Hakhel, Clubs/Lunch, Minyan, Community Service, and Breakfast',
   init: hideNonacademicClasses,
   unload: unloadedHideNonacademicClasses,
   suboptions: {
-    keywords: {
-      name: 'Keywords to Hide (separated by commas, not case sensative)',
-      type: 'textarea',
-      defaultValue: 'mincha, special program, assembly, hakhel, z\'man kodesh, community service, lunch',
-    },
     inClassesMenu: {
       name: 'Hide in Classes Menu',
       type: 'boolean',
