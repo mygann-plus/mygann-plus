@@ -7,11 +7,9 @@ import {
   getMobileMenu,
   getMobileCourses,
 } from '~/shared/classes-menu';
+import { default as HIDDEN_KEYWORDS } from '~/shared/nonacademic-classes';
 
 import style from './style.css';
-
-// keywords are hardcoded to allow for easy update if a new non-academic class is added
-const HIDDEN_KEYWORDS = ['mincha', 'special program', 'assembly', 'hakhel', 'z\'man kodesh', 'community service', 'lunch', 'breakfast'];
 
 const selectors = {
   hiddenClass: style.locals['hidden-class'],
