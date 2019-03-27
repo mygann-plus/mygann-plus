@@ -63,9 +63,9 @@ export async function addProgressDialogListener(callback, unloaderContext) {
   }
 }
 
-// removes unicode (for Hebrew characters) and HTML fragments
+// removes HTML entities (for Hebrew characters) and HTML fragments
 export function sanitizeAssignmentTitle(title) {
-  if (title.includes('&#') && title.includes(';')) {
+  if (title.includes('&#')) {
     title = title
       .split(/;| /)
       .map(string => {
@@ -86,6 +86,8 @@ export function sanitizeAssignmentTitle(title) {
     .replace(/<\/div>/g, '')
     .replace(/<b>/g, ' ')
     .replace(/<\/b>/g, ' ')
+    .replace(/<i>/g, '')
+    .replace(/<\/i>/g, '')
     .replace(/<!--StartFragment-->/g, '')
     .replace(/<!--EndFragment-->/g, '')
     .trim();
