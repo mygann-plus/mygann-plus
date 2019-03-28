@@ -3,10 +3,3 @@
   opacity: 0.8;
   margin-left: 11px;
 }
-
-.progress-header-bubble {
-  line-height: unset;
-  padding: .2em .7em;
-  font-size: 14px;
-  background: var(--primary-maroon);
-}
