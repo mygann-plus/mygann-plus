@@ -41,11 +41,11 @@ const selectors = {
     input: style.locals['suboption-input'],
     label: style.locals['suboption-label'],
     name: style.locals['suboption-name'],
+    description: style.locals['suboption-description'],
   },
 };
 
 const formatDescription = desc => desc.replace(/\n/g, ' ');
-
 
 function validateSuboption(input, suboption) {
   switch (suboption.type) {
@@ -61,10 +61,72 @@ function validateSuboption(input, suboption) {
   return true;
 }
 
+function createSuboptionInput(suboption) {
+  let input;
+  switch (suboption.type) {
+    case 'string':
+      input = <input />;
+      break;
+    case 'number':
+      input = <input type="number" min={suboption.min} max={suboption.max} />;
+      break;
+    case 'enum':
+      input = (
+        <select>
+          {Object.keys(suboption.enumValues).map(enumKey => (
+            <option value={enumKey}>{suboption.enumValues[enumKey]}</option>
+          ))}
+        </select>
+      );
+      break;
+    case 'combo':
+      const id = Math.floor(Math.random() * 1000);
+      input = (
+        <span>
+          <input list={id} />
+          <datalist id={id}>
+            {
+              suboption.presetValues.map(value => (
+                <option value={value} />
+              ))
+            }
+          </datalist>
+        </span>
+      );
+      break;
+    case 'boolean':
+      input = (
+        <label className="bb-check-wrapper">
+          <input type="checkbox" />
+          <span className="bb-check-checkbox"></span>
+        </label>
+      );
+      break;
+    case 'textarea':
+      input = <textarea />;
+      break;
+    case 'email':
+      input = <input type="email"></input>;
+      break;
+    case 'password':
+      input = <input type="password"></input>;
+      break;
+    case 'color':
+      input = <input type="color"></input>;
+      break;
+    default:
+      log('warn', `Unknown suboption type ${suboption.type}`);
+      break;
+  }
+  return input;
+}
+
 function getSuboptionValue(suboptElem, suboption) {
   switch (suboption.type) {
     case 'boolean':
       return suboptElem.querySelector('input').checked;
+    case 'combo':
+      return suboptElem.querySelector('input').value;
     default:
       return suboptElem.value;
   }
@@ -74,10 +136,21 @@ function setSuboptionValue(suboptElem, suboption, value) {
     case 'boolean':
       suboptElem.querySelector('input').checked = value;
       break;
-
+    case 'combo':
+      suboptElem.querySelector('input').value = value;
+      break;
     default:
       suboptElem.value = value;
   }
+}
+
+function getTopLevelModules() {
+  const topLevelModules = [];
+  for (const sectionName in MODULE_MAP) {
+    const modules = MODULE_MAP[sectionName].filter(module => module.config.topLevelOption);
+    topLevelModules.push(...modules);
+  }
+  return topLevelModules;
 }
 
 class OptionsDialog {
@@ -130,6 +203,13 @@ class OptionsDialog {
     const searchbar = this.createSearchBar();
     bodyWrap.appendChild(searchbar);
     const createdModules = []; // prevent modules listed for two hashes from appearng twice
+    const topLevelModules = getTopLevelModules();
+    for (const module of topLevelModules) {
+      const moduleView = this.createTopLevelModuleView(module);
+      if (moduleView) {
+        bodyWrap.appendChild(moduleView);
+      }
+    }
     for (const sectionName in MODULE_MAP) {
       const section = this.createSectionView(
         SECTION_MAP[sectionName],
@@ -186,7 +266,9 @@ class OptionsDialog {
 
   createModuleView(module) {
     const moduleState = this.state[module.guid];
-    if (!module.config.showInOptions) return null;
+    if (!module.config.showInOptions || module.config.topLevelOption ) {
+      return null;
+    }
 
     const onToggleChange = ({ target }) => {
       moduleState.enabled = target.checked;
@@ -257,45 +339,7 @@ class OptionsDialog {
   createSuboptionView(module, key) {
     const suboption = module.config.suboptions[key];
     const value = this.state[module.guid].suboptions[key];
-    let input;
-
-    switch (suboption.type) {
-      case 'string':
-        input = <input />;
-        break;
-      case 'number':
-        input = <input type="number" min={suboption.min} max={suboption.max} />;
-        break;
-      case 'enum':
-        input = (
-          <select>
-            {Object.keys(suboption.enumValues).map(enumKey => (
-              <option value={enumKey}>{suboption.enumValues[enumKey]}</option>
-            ))}
-          </select>
-        );
-        break;
-      case 'boolean':
-        input = (
-          <label className="bb-check-wrapper">
-            <input type="checkbox" />
-            <span className="bb-check-checkbox"></span>
-          </label>
-        );
-        break;
-      case 'textarea':
-        input = <textarea />;
-        break;
-      case 'email':
-        input = <input type="email"></input>;
-        break;
-      case 'password':
-        input = <input type="password"></input>;
-        break;
-      default:
-        log('warn', `Unknown suboption type ${suboption.type}`);
-        break;
-    }
+    let input = createSuboptionInput(suboption);
 
     input.classList.add(selectors.suboption.input);
     setSuboptionValue(input, suboption, value);
@@ -322,6 +366,64 @@ class OptionsDialog {
     );
 
     return label;
+  }
+
+  createTopLevelModuleView(module) {
+    const moduleState = this.state[module.guid];
+    if (!module.config.showInOptions) return null;
+
+    const topLevelView = (
+      <div className={selectors.section.wrap}>
+        <div className="bb-section-heading">{module.config.name}</div>
+        <div className={selectors.section.optionsWrap}></div>
+      </div>
+    );
+
+    for (const key in module.config.suboptions) {
+      const suboption = module.config.suboptions[key];
+
+      const input = createSuboptionInput(suboption);
+      const value = this.state[module.guid].suboptions[key];
+      const description = suboption.description && formatDescription(suboption.description);
+      setSuboptionValue(input, suboption, value);
+
+      input.addEventListener('change', () => {
+        if (validateSuboption(input, suboption)) {
+          this.state[module.guid].suboptions[key] = getSuboptionValue(input, suboption);
+          this.enableSaveButton();
+        } else {
+          setSuboptionValue(input, suboption, value);
+        }
+      })
+      
+      const suboptionView = (
+        <div className={selectors.module.wrap}>
+          <div className={selectors.module.top}>
+            <span className={selectors.module.caption}>
+              { suboption.name }
+              {
+                suboption.description ?
+                  (
+                    <span className={selectors.suboption.description}>
+                      &nbsp;- {
+                        suboption.htmlDescription ?
+                        <span innerHTML={ description } /> :
+                        description
+                      }
+                    </span>
+                  ) :
+                  null
+              }
+            </span>
+            { input }
+          </div>
+        </div>
+      )
+
+      topLevelView.querySelector(`.${selectors.section.optionsWrap}`).appendChild(suboptionView);
+    }
+
+    return topLevelView;
   }
 
   disableSaveButton() {

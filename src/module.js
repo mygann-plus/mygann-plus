@@ -8,6 +8,7 @@ export default function registerModule(guid, module) {
     defaultEnabled: true,
     affectsGlobalState: !!module.init, // modules with init fn are assumed to be global
     suboptions: [],
+    topLevelOption: false,
     __proto__: null, // use as map
   };
 

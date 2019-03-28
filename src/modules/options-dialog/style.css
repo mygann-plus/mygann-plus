@@ -1,3 +1,5 @@
+/* WRAP */
+
 .section-wrap {
   margin-top: 10px;
 }
@@ -5,6 +7,8 @@
 .section-options-wrap {
   padding: 2px 0;
 }
+
+/* MODULE */
 
 .module-extra-options {
   display: none;
@@ -45,7 +49,7 @@
 
 .module-caption {
   font-weight: normal; 
-  margin-left: 10px;
+  margin: 0 10px;
 }
 
 .module-chevron {
@@ -68,6 +72,8 @@
   cursor: pointer;
 }
 
+/* SUBOPTION */
+
 .suboption-label {
   font-weight: normal;
   margin-left: 2.7%;
@@ -76,6 +82,10 @@
 
 .suboption-name {
   margin-right: 7px;
+}
+
+.suboption-description {
+  color: #9d9d9d;
 }
 
 .suboption-input {
@@ -94,6 +104,8 @@ textarea.suboption-input {
 .suboption-label :global(.bb-check-wrapper) {
   margin-right: 7px;
 }
+
+/* TOGGLE */
 
 .toggle-wrap {
   --track-width: 35px;
@@ -138,6 +150,8 @@ textarea.suboption-input {
 .toggle-wrap input:checked + .toggle-track .toggle-pill {
   transform: translate(calc(var(--track-width) - var(--pill-width)));
 }
+
+/* SEARCHBAR */
 
 .searchbar {
   border: none;
