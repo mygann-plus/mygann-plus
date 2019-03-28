@@ -1,3 +1,16 @@
+# 1.7.0
+### Added
+- "Theme" module
+- "Full Year Assignments" module, which displays grades from the entire year in progress
+- 
+
+### Changed
+- Breakfast added by default to Hide Nonacademic Classes
+- Behavior tweak in Hide Completed: If assignments are marked as completed while the button is enabled, reclicking the button will hide those assignments (instead of turning it off)
+
+### Removed
+- Hide Nonacademic Classes keywords suboption: it was unused and made updating the keyword list impossible.
+
 ## 1.6.1
 ### Added
 - Added suboption in My Day Shortcut to hide My Day menu
