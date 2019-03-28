@@ -39,6 +39,8 @@ import blockLength from './modules/block-length';
 import classEmail from './modules/class-email';
 import fixSemesterSwitch from './modules/fix-semester-switch';
 import fullYearAssignments from './modules/full-year-assignments';
+import theme from './modules/theme';
+import extreme from './modules/extreme';
 
 const MODULE_MAP = {
   '#': [
@@ -52,6 +54,7 @@ const MODULE_MAP = {
     gradeNotifications,
     hideForms,
     myDayShortcut,
+    theme,
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus],
@@ -63,6 +66,7 @@ const MODULE_MAP = {
     dueSoon,
     taskDetail,
     fixSemesterSwitch,
+    extreme,
   ],
   '#taskdetail': [taskDetail],
   '#studentmyday/schedule': [

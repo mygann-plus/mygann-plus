@@ -93,7 +93,8 @@ async function insertNewGradedButton(newGradedAssignments, unloaderContext, onCl
     '',
     '',
     () => showDialog(newGradedAssignments, onClear),
-    classNames('pull-right', selectors.viewAssignmentsButton),
+    classNames('pull-right primary', selectors.viewAssignmentsButton),
+    { primary: true }
   );
   coursesBar.appendChild(button);
   unloaderContext.addRemovable(button);

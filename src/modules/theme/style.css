@@ -1,0 +1,304 @@
+:global #site-header-container {
+  background: var(--gocp-theme-primary) !important;
+}
+:global .title.pri-100-fgc.sky-nav {
+  color: var(--gocp-theme-primary) !important;
+}
+:global #site-nav-container, :global #site-nav-lower {
+  background: #f3f3f3 !important;
+}
+:global .dayicon.pri-50-bgc {
+  background: var(--gocp-theme-lighter) !important;
+}
+:global #site-nav-bottom {
+  background: var(--gocp-theme-primary) !important;
+}
+
+/* Graded Notification Bubble */
+:global #progress-btn .label {
+  background: var(--gocp-theme-primary) !important;
+}
+
+:global .pri-100-fgc,
+:global .pri-100-fgc-hover:hover {
+  color: var(--gocp-theme-selected-border) !important;
+}
+
+:global .pri-100-bgc,
+:global .pri-100-bgc-hover:hover {
+  background-color: var(--gocp-theme-primary) !important;
+}
+
+:global .pri-100-boxshadow,
+:global .pri-100-boxshadow-hover:hover {
+  -moz-box-shadow: 1px 1px 3px var(--gocp-theme-primary) !important;
+  -webkit-box-shadow: 1px 1px 3px var(--gocp-theme-primary) !important;
+  box-shadow: 1px 1px 3px var(--gocp-theme-primary) !important;
+}
+
+:global .pri-100-bordercolor,
+:global .pri-100-bordercolor-hover:hover {
+  border-color: var(--gocp-theme-primary) !important;
+}
+
+:global .pri-75-fgc,
+:global .pri-75-fgc-hover:hover {
+  color: var(--gocp-theme-lighter) !important;
+}
+
+:global .pri-75-bgc,
+:global .pri-75-bgc-hover:hover {
+  background-color: var(--gocp-theme-lighter) !important;
+}
+
+:global .pri-75-boxshadow,
+:global .pri-75-boxshadow-hover:hover {
+  -moz-box-shadow: 1px 1px 3px var(--gocp-theme-lighter) !important;
+  -webkit-box-shadow: 1px 1px 3px var(--gocp-theme-lighter) !important;
+  box-shadow: 1px 1px 3px var(--gocp-theme-lighter) !important;
+}
+
+:global .pri-75-bordercolor,
+:global .pri-75-bordercolor-hover:hover {
+  border-color: var(--gocp-theme-lighter) !important;
+}
+
+:global .pri-50-fgc,
+:global .pri-50-fgc-hover:hover {
+  color: var(--gocp-theme-lighter) !important;
+}
+
+:global .pri-50-bgc,
+:global .pri-50-bgc-hover:hover {
+  background-color: var(--gocp-theme-lighter) !important;
+}
+
+:global .pri-50-boxshadow,
+:global .pri-50-boxshadow-hover:hover {
+  -moz-box-shadow: 1px 1px 3px var(--gocp-theme-lighter) !important;
+  -webkit-box-shadow: 1px 1px 3px var(--gocp-theme-lighter) !important;
+  box-shadow: 1px 1px 3px var(--gocp-theme-lighter) !important;
+}
+
+:global .pri-50-bordercolor,
+:global .pri-50-bordercolor-hover:hover {
+  border-color: var(--gocp-theme-lighter) !important;
+}
+
+:global .pri-25-fgc,
+:global .pri-25-fgc-hover:hover {
+  color: black !important;
+}
+
+:global .pri-25-bgc,
+:global .pri-25-bgc-hover:hover {
+  background-color: black !important;
+}
+
+:global .pri-25-boxshadow,
+:global .pri-25-boxshadow-hover:hover {
+  -moz-box-shadow: 1px 1px 3px black !important;
+  -webkit-box-shadow: 1px 1px 3px black !important;
+  box-shadow: 1px 1px 3px black !important;
+}
+
+:global .pri-25-bordercolor,
+:global .pri-25-bordercolor-hover:hover {
+  border-color: black !important;
+}
+
+:global .pri-15-fgc,
+:global .pri-15-fgc-hover:hover {
+  color: black !important;
+}
+
+:global .pri-15-bgc,
+:global .pri-15-bgc-hover:hover {
+  background-color: black !important;
+}
+
+:global .pri-15-boxshadow,
+:global .pri-15-boxshadow-hover:hover {
+  -moz-box-shadow: 1px 1px 3px black !important;
+  -webkit-box-shadow: 1px 1px 3px black !important;
+  box-shadow: 1px 1px 3px black !important;
+}
+
+:global .pri-15-bordercolor,
+:global .pri-15-bordercolor-hover:hover {
+  border-color: black !important;
+}
+
+:global .sec-100-fgc,
+:global .sec-100-fgc-hover:hover {
+  color: var(--gocp-theme-primary-color) !important;
+}
+
+:global .sec-100-bgc,
+:global .sec-100-bgc-hover:hover {
+  background-color: var(--gocp-theme-primary-color) !important;
+}
+
+:global .sec-100-boxshadow,
+:global .sec-100-boxshadow-hover:hover {
+  -moz-box-shadow: 1px 1px 3px var(--gocp-theme-primary-color) !important;
+  -webkit-box-shadow: 1px 1px 3px var(--gocp-theme-primary-color) !important;
+  box-shadow: 1px 1px 3px var(--gocp-theme-primary-color) !important;
+}
+
+:global .sec-100-bordercolor,
+:global .sec-100-bordercolor-hover:hover {
+  border-color: var(--gocp-theme-primary-color) !important;
+}
+
+:global .sec-75-fgc,
+:global .sec-75-fgc-hover:hover {
+  color: var(--gocp-theme-selected-border) !important;
+}
+
+:global .sec-75-bgc,
+:global .sec-75-bgc-hover:hover {
+  background-color: var(--gocp-theme-selected-border) !important;
+}
+
+:global .sec-75-boxshadow,
+:global .sec-75-boxshadow-hover:hover {
+  -moz-box-shadow: 1px 1px 3px var(--gocp-theme-selected-border) !important;
+  -webkit-box-shadow: 1px 1px 3px var(--gocp-theme-selected-border) !important;
+  box-shadow: 1px 1px 3px var(--gocp-theme-selected-border) !important;
+}
+
+:global .sec-75-bordercolor,
+:global .sec-75-bordercolor-hover:hover {
+  border-color: var(--gocp-theme-selected-border) !important;
+}
+
+:global .sec-50-fgc,
+:global .sec-50-fgc-hover:hover {
+  color: var(--gocp-theme-selected-border) !important;
+}
+
+:global .sec-50-bgc,
+:global .sec-50-bgc-hover:hover {
+  background-color: var(--gocp-theme-selected-border) !important;
+}
+
+:global .sec-50-boxshadow,
+:global .sec-50-boxshadow-hover:hover {
+  -moz-box-shadow: 1px 1px 3px var(--gocp-theme-selected-border) !important;
+  -webkit-box-shadow: 1px 1px 3px var(--gocp-theme-selected-border) !important;
+  box-shadow: 1px 1px 3px var(--gocp-theme-selected-border) !important;
+}
+
+:global .sec-50-bordercolor,
+:global .sec-50-bordercolor-hover:hover {
+  border-color: var(--gocp-theme-selected-border) !important;
+}
+
+:global .sec-25-fgc,
+:global .sec-25-fgc-hover:hover {
+  color: var(--gocp-theme-top-gradient) !important;
+}
+
+:global .sec-25-bgc,
+:global .sec-25-bgc-hover:hover {
+  background-color: var(--gocp-theme-top-gradient) !important;
+}
+
+:global .sec-25-boxshadow,
+:global .sec-25-boxshadow-hover:hover {
+  -moz-box-shadow: 1px 1px 3px var(--gocp-theme-top-gradient) !important;
+  -webkit-box-shadow: 1px 1px 3px var(--gocp-theme-top-gradient) !important;
+  box-shadow: 1px 1px 3px var(--gocp-theme-top-gradient) !important;
+}
+
+:global .sec-25-bordercolor,
+:global .sec-25-bordercolor-hover:hover {
+  border-color: var(--gocp-theme-top-gradient) !important;
+}
+
+:global .sec-15-fgc,
+:global .sec-15-fgc-hover:hover {
+  color: var(--gocp-theme-top-gradient) !important;
+}
+
+:global .sec-15-bgc,
+:global .sec-15-bgc-hover:hover {
+  background-color: var(--gocp-theme-top-gradient) !important;
+}
+
+:global .sec-15-boxshadow,
+:global .sec-15-boxshadow-hover:hover {
+  -moz-box-shadow: 1px 1px 3px var(--gocp-theme-top-gradient) !important;
+  -webkit-box-shadow: 1px 1px 3px var(--gocp-theme-top-gradient) !important;
+  box-shadow: 1px 1px 3px var(--gocp-theme-top-gradient) !important;
+}
+
+:global .sec-15-bordercolor,
+:global .sec-15-bordercolor-hover:hover {
+  border-color: var(--gocp-theme-top-gradient) !important;
+}
+
+:global #site-nav ul.topnav>li>a.active,
+:global #site-nav ul.topnav>li>a:hover,
+:global .subnavbar .nav>.active>a,
+:global .subnavbar .nav>.active>a:hover {
+  background-repeat: repeat-x;
+  /*Repeat the gradient */
+  background-image: -moz-linear-gradient(top, var(--gocp-theme-top-gradient) 0%, var(--gocp-theme-selected-border) 100%) !important;
+  /*FF3.6+ */
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, var(--gocp-theme-top-gradient)), color-stop(100%, var(--gocp-theme-selected-border))) !important;
+  /*Chrome,Safari4+ */
+  background-image: -webkit-linear-gradient(top, var(--gocp-theme-top-gradient) 0%, var(--gocp-theme-selected-border) 100%) !important;
+}
+
+:global .subnavbar .nav>.active>a,
+:global .subnavbar .nav>.active>a:hover {
+  border-color: var(--gocp-theme-selected-border) !important;
+  background: var(--gocp-theme-selected-border) !important;
+}
+
+:global .btn-primary, :global #gocp-ui-button {
+  background-repeat: repeat-x;
+  background-color: var(--gocp-theme-primary);
+  background-image: -moz-linear-gradient(top, var(--gocp-theme-lighter), var(--gocp-theme-primary)) !important;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(var(--gocp-theme-lighter)), to(var(--gocp-theme-primary))) !important;
+  background-image: -webkit-linear-gradient(top, var(--gocp-theme-lighter), var(--gocp-theme-primary)) !important;
+  background-image: linear-gradient(top, var(--gocp-theme-lighter), var(--gocp-theme-primary)) !important;
+}
+
+:global #gocp-ui-button,
+:global .btn-primary:hover,
+:global .btn-primary:active,
+:global .btn-primary.active,
+:global .btn-primary.disabled,
+:global .btn-primary[disabled] .nav-list>li>a:hover {
+  background-color: var(--gocp-theme-primary) !important;
+}
+
+:global .modal-header,
+:global .modal-header A {
+  color: #ffffff !important;
+}
+
+:global .label:not([class*="label label-"]) {
+  background-color: var(--gocp-theme-primary) !important;
+}
+
+:global .subnavbar {
+  background-color: var(--gocp-theme-top-gradient) !important;
+  border-color: var(--gocp-theme-top-gradient) !important;
+}
+
+:global div.token-input-dropdown ul li.token-input-selected-dropdown-item {
+  background-color: var(--gocp-theme-primary) !important;
+}
+
+:global #site-nav DIV.subnav UL>li>a.active {
+  background-color: var(--gocp-theme-top-gradient) !important;
+}
+
+:global #site-mobile-menu.app-mobile-menu,
+:global #site-mobile-menu .app-mobile-level {
+  background-color: var(--gocp-theme-primary) !important;
+}

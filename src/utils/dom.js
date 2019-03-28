@@ -67,6 +67,8 @@ export function createElement(tagName, props, ...children) {
           elem.style[styleProp] = prop[styleProp];
         }
       }
+    } else if (propName === 'list') {
+      elem.setAttribute('list', prop);
     } else {
       elem[propName] = prop;
     }
@@ -88,6 +90,7 @@ export function createElement(tagName, props, ...children) {
 export function constructButton(textContent, id, iClassName, onClick, classnames = '', opts = {}) {
   const defaultOpts = {
     small: true,
+    primary: false,
   };
   const options = { ...defaultOpts, ...opts };
   const styles = {
@@ -96,7 +99,7 @@ export function constructButton(textContent, id, iClassName, onClick, classnames
   };
   return (
     <button
-      id={id}
+      id={classNames(id, opts.primary && 'gocp-ui-button')}
       className={classNames('btn btn-default', options.small && 'btn-sm', classnames)}
       onClick={onClick}
       style={{ color: 'black' }}
