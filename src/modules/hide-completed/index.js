@@ -24,7 +24,7 @@ function isChecked(checkbox) {
   return checkbox.classList.contains('active');
 }
 
-async function runFilterDialog(fn) {
+async function runFilterDialog(fn = () => {}) {
   document.getElementById('filter-status').click();
 
   const hideDialogStyle = insertCss(`
@@ -64,12 +64,18 @@ async function onFilterStatusClick(hideCompletedButtons) {
 
 async function toggleHidden({ target: button }) {
   button.disabled = true;
+
+  const isHiddenEnabled = button.classList.contains(selectors.activeButton);
+  const completedLabels = document.querySelectorAll('.label-success');
+
+  if (isHiddenEnabled && completedLabels.length) {
+    return runFilterDialog();
+  }
+
   await runFilterDialog(dialog => {
     const checkboxes = dialog.querySelectorAll('.status-button');
-    const desiredState = button.classList.contains(selectors.activeButton);
-
     for (const index of completedStatusIndices) {
-      if (isChecked(checkboxes[index]) !== desiredState) {
+      if (isChecked(checkboxes[index]) !== isHiddenEnabled) {
         checkboxes[index].querySelector('.p3icon-check').click();
       }
     }
