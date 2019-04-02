@@ -41,6 +41,7 @@ import fixSemesterSwitch from './modules/fix-semester-switch';
 import fullYearAssignments from './modules/full-year-assignments';
 import theme from './modules/theme';
 import extreme from './modules/extreme';
+import fixTaskClass from './modules/fix-task-class';
 
 const MODULE_MAP = {
   '#': [
@@ -66,6 +67,7 @@ const MODULE_MAP = {
     dueSoon,
     taskDetail,
     fixSemesterSwitch,
+    fixTaskClass,
     extreme,
   ],
   '#taskdetail': [taskDetail],

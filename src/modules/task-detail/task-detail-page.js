@@ -8,6 +8,7 @@ import Dialog from '~/utils/dialog';
 
 import selectors from './task-detail-selectors';
 import { getTaskDetail, addOrChangeTaskDetail } from './task-detail-model';
+import { getTaskData } from '~/shared/assignments-center';
 
 const statuses = {
   TODO: {
@@ -49,30 +50,14 @@ function getStatus(index) {
   }
 }
 
-async function getTaskData(id) {
-  const endpoint = `/api/usertask/edit/${id}`;
-  const data = await fetchApi(endpoint);
-  const courseId = data.SectionId;
-  let courseName = 'General Task';
+// includes details
+async function getFullTaskData(id) {
+  const data = await getTaskData(id);
   const { details } = await getTaskDetail(id);
-
-  if (courseId) { // task is set to specific class
-    const coursesEndpoint = '/api/datadirect/ParentStudentUserAcademicGroupsGet';
-    const coursesQuery = `?userId=${await getUserId()}&persona=2&memberLevel=-1&durationList=`;
-    const courses = await fetchApi(coursesEndpoint + coursesQuery);
-    const course = courses.find(c => c.sectionid === courseId);
-    courseName = course.sectionidentifier;
-  }
-
   return {
-    id,
-    name: data.ShortDescription,
-    status: data.TaskStatus,
-    course: courseName,
-    due: data.DueDate,
-    assigned: data.AssignedDate,
+    ...data,
     details,
-  };
+  }
 }
 
 function isPageInserted() {
@@ -255,7 +240,7 @@ export default async function insertPage(siteMain) {
   if (id[id.length] === '/') {
     id.substring(0, id.length - 2);
   }
-  const taskData = await getTaskData(id);
+  const taskData = await getFullTaskData(id);
   const taskDetailPage = new TaskDetailPage(taskData);
 
   if (isPageInserted()) {
