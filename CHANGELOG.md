@@ -1,8 +1,11 @@
-# 1.7.0
+## 1.7.1
+### Added
+- "Fix Task Class" module, which fixes native bug in which the course a task was assigned to was not displayed
+
+## 1.7.0
 ### Added
 - "Theme" module
 - "Full Year Assignments" module, which displays grades from the entire year in progress
-- 
 
 ### Changed
 - Breakfast added by default to Hide Nonacademic Classes
