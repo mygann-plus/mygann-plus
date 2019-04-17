@@ -1,3 +1,5 @@
+import he from 'he'
+
 import { waitForOne, addEventListener, waitForLoad } from '~/utils/dom';
 
 export function coursesListLoaded() {
@@ -65,20 +67,7 @@ export async function addProgressDialogListener(callback, unloaderContext) {
 
 // removes HTML entities (for Hebrew characters) and HTML fragments
 export function sanitizeAssignmentTitle(title) {
-  if (title.includes('&#')) {
-    title = title
-      .split(/;| /)
-      .map(string => {
-        if (!string.trim()) { return '  '; }
-        const code = string.substring(2, string.length);
-        if (!Number.isNaN(Number(code))) {
-          return String.fromCharCode(code);
-        }
-        return string;
-      })
-      .join('');
-  }
-  return title
+  return he.decode(title
     .replace(/\s+/g, ' ')
     .replace(/<br>/g, ' ')
     .replace(/<br \/>/g, ' ')

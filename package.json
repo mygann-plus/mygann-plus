@@ -33,6 +33,7 @@
     "classnames": "^2.2.6",
     "deep-object-diff": "^1.1.0",
     "file-loader": "^1.1.11",
+    "he": "^1.2.0",
     "linkifyjs": "^2.1.6",
     "lodash.clonedeep": "^4.5.0",
     "marked": "^0.5.0",
