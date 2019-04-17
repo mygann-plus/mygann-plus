@@ -46,7 +46,7 @@ export function dateTo12HrTimeString(date) {
 
   const formattedHours = hours <= 12 ? hours : hours - 12;
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-  const period = hours <= 12 ? 'AM' : 'PM';
+  const period = hours < 12 ? 'AM' : 'PM';
   return `${formattedHours}:${formattedMinutes} ${period}`;
 }
 
