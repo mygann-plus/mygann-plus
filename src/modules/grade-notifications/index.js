@@ -2,7 +2,6 @@ import registerModule from '~/module';
 
 import { insertCss } from '~/utils/dom';
 import { fetchApi } from '~/utils/fetch';
-import { getAssignmentData } from '~/shared/assignments-center';
 
 import { getLastChecked, setLastChecked } from './grade-notifications-model';
 import showGradedNotificationBubble, {
@@ -10,6 +9,8 @@ import showGradedNotificationBubble, {
 } from './grade-notifications-bubble';
 import showNewGradedButton, { removeNewGradedButton } from './grade-notifications-progress';
 import style from './style.css';
+import { getUserId } from '~/utils/user';
+import { getAssignmentData } from '~/shared/assignments-center';
 
 let newGradedAssignments = [];
 
@@ -20,6 +21,17 @@ function clearNotifications() {
   setLastChecked(nowDateTime);
   removeGradeNotificationBubble();
   removeNewGradedButton();
+}
+
+// unique endpoint used to get grade published status
+async function getFullAssignmentData(assignment) {
+  const publishedEndpoint = `/api/assignment2/read/${assignment.assignment_id}/?format=json`;
+  const publishedData = await fetchApi(publishedEndpoint);
+  const data = await getAssignmentData(assignment.assignment_index_id);
+  return {
+    ...data,
+    ...publishedData,
+  };
 }
 
 /**
@@ -34,12 +46,13 @@ async function getNewGradedAssignments(lastChecked, pointsThreshold) {
 
   const assignments = await fetchApi(endpoint + query);
   const assignmentsData = (await Promise.all(assignments
-    .map(assignment => getAssignmentData(assignment.assignment_index_id))));
+    .map(assignment => getFullAssignmentData(assignment))));
 
   return assignmentsData.filter(assignment => {
     const gradedDate = new Date(assignment.gradedDate);
     const passesThreshold = assignment.maxPoints >= pointsThreshold;
-    return gradedDate.getTime() > new Date(lastChecked).getTime() && passesThreshold;
+    const published = assignment.PublishGrade === true;
+    return gradedDate.getTime() > new Date(lastChecked).getTime() && passesThreshold && published;
   });
 }
 
