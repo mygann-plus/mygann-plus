@@ -1,3 +1,9 @@
+## 1.7.2
+### Fixed
+- Fix Grade Notifications displaying unpublished grades
+- Fix assignment titles occasionally containing special characters
+- Fix Free Block displaying "12:00 AM" as the start time for the block following lunches
+
 ## 1.7.1
 ### Added
 - "Fix Task Class" module, which fixes native bug in which the course a task was assigned to was not displayed
