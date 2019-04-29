@@ -48,7 +48,7 @@ export function getAnnouncementWrap() {
 }
 export function createAnnouncementWrap() {
   const alertBox = (
-    <div className="alert alert-info" style="margin-top:10px;">
+    <div className="alert alert-info" style={{ marginTop: '10px' }}>
     </div>
   );
   document.getElementsByClassName('col-md-12')[3].children[1].appendChild(alertBox);

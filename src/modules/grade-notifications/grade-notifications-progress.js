@@ -47,7 +47,7 @@ function generateDialogBody(assignments, dialog) {
               <td data-heading="Assigned" className="col-md-1">{ assignment.adate.split(' ')[0] }</td>
               <td data-heading="Due" className="col-md-1">{ assignment.ddate.split(' ')[0] }</td>
               <td data-heading="Points" className="col-md-2">
-                <h4 style="margin:0px;">{assignment.pointsEarned}
+                <h4 style={{ margin: '0px' }}>{assignment.pointsEarned}
                   <span style={{ fontWeight: 200 }}>
                     /{assignment.maxPoints}&nbsp;
                     ({ computeGradePercentage(assignment.pointsEarned, assignment.maxPoints) }%)
@@ -94,7 +94,7 @@ async function insertNewGradedButton(newGradedAssignments, unloaderContext, onCl
     '',
     () => showDialog(newGradedAssignments, onClear),
     classNames('pull-right primary', selectors.viewAssignmentsButton),
-    { primary: true }
+    { primary: true },
   );
   coursesBar.appendChild(button);
   unloaderContext.addRemovable(button);

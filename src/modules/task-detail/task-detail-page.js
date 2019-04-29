@@ -57,7 +57,7 @@ async function getFullTaskData(id) {
   return {
     ...data,
     details,
-  }
+  };
 }
 
 function isPageInserted() {
@@ -157,7 +157,7 @@ class TaskDetailPage {
           </div>
         </div>
         <div className="col-md-6 bb-page-content-tile-column">
-          <section className="bb-tile" id="assignment-status-tile" style="">
+          <section className="bb-tile" id="assignment-status-tile">
             <div className="bb-tile-title">
               <div>
                 <h2 className="bb-tile-header">Status</h2>
@@ -167,7 +167,7 @@ class TaskDetailPage {
               <div>
                 <div className="bb-tile-content-section" id="assignment-detail-extras">
                   <div>
-                    <div className="whiteContainer1" style="background-color:#fff;">
+                    <div className="whiteContainer1" style={{ backgroundColor: '#fff' }}>
                       <div id="assignment-info-header">
                         <div className={classNames('assignment-detail-header', this.status.className)}>
                           <div className="indicator-parent dropdown">
@@ -189,7 +189,7 @@ class TaskDetailPage {
                           </span>
                         </div>
                       </div>
-                      <div id="assignment-info-textedit" style="display: none;">
+                      <div id="assignment-info-textedit" style={{ display: 'none' }}>
                         <div></div>
                       </div>
                     </div>
@@ -201,7 +201,7 @@ class TaskDetailPage {
         </div>
       </div>
       <div id="outer-lti-region" className="row">
-        <div id="box-content" style="height:500px;"></div>
+        <div id="box-content" style={{ height: '500px' }}></div>
       </div>
     </div>
     );
