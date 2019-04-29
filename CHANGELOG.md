@@ -1,3 +1,7 @@
+## 1.7.3
+### Fixed
+- Fix previously noncritical error which breaks entire extension in Chrome 74
+
 ## 1.7.2
 ### Fixed
 - Fix Grade Notifications displaying unpublished grades
