@@ -4,12 +4,11 @@ import { createElement, insertCss, waitForOne } from '~/utils/dom';
 import {
   compareDate,
   timeStringToDate,
-  getCurrentDay,
   isDaylightSavings,
   dateTo12HrTimeString,
 } from '~/utils/date';
 
-import { addDayChangeListeners, to24Hr, isEmptySchedule } from '~/shared/schedule';
+import { addDayChangeListeners, to24Hr, isEmptySchedule, getCurrentDay } from '~/shared/schedule';
 import { getTableRowColumnContent } from '~/shared/table';
 
 import style from './style.css';

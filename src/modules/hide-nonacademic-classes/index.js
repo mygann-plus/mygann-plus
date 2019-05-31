@@ -7,7 +7,7 @@ import {
   getMobileMenu,
   getMobileCourses,
 } from '~/shared/classes-menu';
-import { default as HIDDEN_KEYWORDS } from '~/shared/nonacademic-classes';
+import HIDDEN_KEYWORDS from '~/shared/nonacademic-classes';
 
 import style from './style.css';
 

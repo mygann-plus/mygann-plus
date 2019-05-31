@@ -5,10 +5,10 @@ import { daysBetween, getAbsoluteToday } from '~/utils/date';
 import { createElement, constructButton } from '~/utils/dom';
 import { getUserId } from '~/utils/user';
 import Dialog from '~/utils/dialog';
+import { getTaskData } from '~/shared/assignments-center';
 
 import selectors from './task-detail-selectors';
 import { getTaskDetail, addOrChangeTaskDetail } from './task-detail-model';
-import { getTaskData } from '~/shared/assignments-center';
 
 const statuses = {
   TODO: {

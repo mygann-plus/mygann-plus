@@ -61,11 +61,7 @@ export function createElement(tagName, props, ...children) {
       Object.assign(elem.dataset, prop);
     } else if (propName === 'style') {
       for (const styleProp in prop) {
-        if (styleProp.includes('-')) {
-          elem.style.setProperty(styleProp, prop[styleProp]);
-        } else {
-          elem.style[styleProp] = prop[styleProp];
-        }
+        elem.style[styleProp] = prop[styleProp];
       }
     } else if (propName === 'list') {
       elem.setAttribute('list', prop);
@@ -215,7 +211,7 @@ export class DropdownMenu {
     // arrow function is needed to preserve this
     const itemsList = this.items.map(elem => this._createItemElem(elem));
     return (
-      <ul className="dropdown-menu" role="menu" style="display: block;">
+      <ul className="dropdown-menu" role="menu" style={{ display: 'block' }}>
         { itemsList }
       </ul>
     );

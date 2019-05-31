@@ -2,7 +2,7 @@ const getVerificationToken = () => {
   return document.getElementsByName('__RequestVerificationToken')[0].value;
 };
 
-export function mergeHeaders(base, extension) {
+function mergeHeaders(base, extension) {
   if (!extension) {
     return base;
   }

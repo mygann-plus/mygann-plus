@@ -2,15 +2,15 @@ import registerModule from '~/module';
 
 import { insertCss } from '~/utils/dom';
 import { fetchApi } from '~/utils/fetch';
+import { getAssignmentData } from '~/shared/assignments-center';
 
 import { getLastChecked, setLastChecked } from './grade-notifications-model';
 import showGradedNotificationBubble, {
   removeGradeNotificationBubble,
 } from './grade-notifications-bubble';
 import showNewGradedButton, { removeNewGradedButton } from './grade-notifications-progress';
+
 import style from './style.css';
-import { getUserId } from '~/utils/user';
-import { getAssignmentData } from '~/shared/assignments-center';
 
 let newGradedAssignments = [];
 
@@ -55,7 +55,6 @@ async function getNewGradedAssignments(lastChecked, pointsThreshold) {
     return gradedDate.getTime() > new Date(lastChecked).getTime() && passesThreshold && published;
   });
 }
-
 
 async function gradeNotifications(suboptions, unloaderContext) {
   const styles = insertCss(style.toString());

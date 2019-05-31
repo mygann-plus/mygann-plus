@@ -1,6 +1,6 @@
 import registerModule from '~/module';
+
 import { waitForOne } from '~/utils/dom';
-import { fetchApi } from '~/utils/fetch';
 import { getTaskData, addAssignmentTableMutationObserver } from '~/shared/assignments-center';
 
 async function getCourseName(task) {

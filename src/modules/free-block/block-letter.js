@@ -1,5 +1,5 @@
-import { getCurrentDay } from '~/utils/date';
 import { fetchJson } from '~/utils/fetch';
+import { getCurrentDay } from '~/shared/schedule';
 
 const BLOCK_SCHEDULE_URL = 'https://mygannplus-data.surge.sh/free-block/block-schedule.json'; // eslint-disable-line max-len
 const BLOCK_SCHEDULE_SCHEMA = 1;

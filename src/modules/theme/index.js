@@ -28,9 +28,9 @@ function setThemeColorProperty(name, colorObj) {
 function hexToRgb(hex) {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return {
-      r: parseInt(result[1], 16),
-      g: parseInt(result[2], 16),
-      b: parseInt(result[3], 16)
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16),
   };
 }
 
@@ -39,7 +39,7 @@ function createColorObject(base, r, g, b) {
     r: base.r + r,
     g: base.g + g,
     b: base.b + b,
-  }
+  };
 }
 
 const domQuery = () => document.querySelector('#app-style style');
@@ -71,7 +71,7 @@ function applyFontStyles(font, unloaderContext) {
   const fontlink = <link href={fontUrl} rel="stylesheet" />;
   document.head.appendChild(fontlink);
   unloaderContext.addRemovable(fontlink);
-  
+
   setThemeProperty('font', `"${font}", "Blackbaud Sans","Helvetica Neue",Arial,sans-serif`);
 }
 
@@ -84,7 +84,7 @@ function theme(options, unloaderContext) {
   if (font !== DEFAULT_FONT) {
     applyFontStyles(font, unloaderContext);
   }
-  
+
 }
 
 // empty unloader to prevent unnecessary reload if no styles were initially applied
@@ -122,7 +122,7 @@ export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
         'Josefin Sans',
         'Karla',
         'Open Sans',
-      ]
+      ],
     },
   },
 });

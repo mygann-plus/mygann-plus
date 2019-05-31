@@ -1,7 +1,7 @@
 import registerModule from '~/module';
 
 import { createElement, waitForOne } from '~/utils/dom';
-import { to24Hr, hourStringToDate, isCurrentClass, addDayChangeListeners } from '~/shared/schedule';
+import { to24Hr, isCurrentClass, addDayChangeListeners } from '~/shared/schedule';
 import { compareDate, timeStringToDate } from '~/utils/date';
 
 const selectors = {
@@ -9,7 +9,7 @@ const selectors = {
 };
 
 function generateBlockLengthLabel(timeString) {
-  const [start, end] = timeString.split('-').map(t => hourStringToDate(to24Hr(t.trim())));
+  const [start, end] = timeString.split('-').map(t => timeStringToDate(to24Hr(t.trim())));
   const length = Math.ceil((end - start) / 60000);
 
   const span = (

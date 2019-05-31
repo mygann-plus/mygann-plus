@@ -1,4 +1,4 @@
-import he from 'he'
+import he from 'he';
 
 import { waitForOne, addEventListener, waitForLoad } from '~/utils/dom';
 
@@ -79,5 +79,5 @@ export function sanitizeAssignmentTitle(title) {
     .replace(/<\/i>/g, '')
     .replace(/<!--StartFragment-->/g, '')
     .replace(/<!--EndFragment-->/g, '')
-    .trim();
+    .trim());
 }

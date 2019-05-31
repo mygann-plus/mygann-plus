@@ -101,7 +101,9 @@ function generateAssignmentSectionTable(sectionName, assignments) {
     </div>
   );
   const table = (
-    <table className={classNames('table table-striped table-condensed table-mobile-stacked', selectors.table)}>
+    <table className={
+      classNames('table table-striped table-condensed table-mobile-stacked', selectors.table)
+    }>
       <thead>
         <tr>
           <th>Assignment</th>
@@ -118,7 +120,9 @@ function generateAssignmentSectionTable(sectionName, assignments) {
               <td data-heading="Assignment" className="col-md-3">
                 { sanitizeAssignmentTitle(assignment.AssignmentShortDescription) }
               </td>
-              <td data-heading="Assigned" className="col-md-1">{ formatDate(assignment.DateAssigned) } </td>
+              <td data-heading="Assigned" className="col-md-1">
+                { formatDate(assignment.DateAssigned) }
+              </td>
               <td data-heading="Due" className="col-md-1">{ formatDate(assignment.DateDue) }</td>
               <td data-heading="Points" className="col-md-2">
                 <h4 className={selectors.pointsWrap}>
@@ -170,11 +174,11 @@ function handleShowFirstSemesterClick(e, firstSemesterCourseList, markingPeriodI
   const isShown = e.target.dataset[selectors.dataShown];
   if (isShown) {
     hideFirstSemesterGrades();
-    e.target.textContent = 'Show 1st Semester'
-    e.target.dataset[selectors.dataShown] = "";
+    e.target.textContent = 'Show 1st Semester';
+    e.target.dataset[selectors.dataShown] = '';
   } else {
     showFirstSemesterGrades(firstSemesterCourseList, markingPeriodId, modalBody);
-    e.target.textContent = 'Hide 1st Semester'
+    e.target.textContent = 'Hide 1st Semester';
     e.target.dataset[selectors.dataShown] = true;
   }
 }

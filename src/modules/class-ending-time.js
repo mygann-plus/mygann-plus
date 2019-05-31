@@ -1,16 +1,16 @@
 import registerModule from '~/module';
 
 import { createElement, waitForOne } from '~/utils/dom';
+import { timeStringToDate } from '~/utils/date';
 import {
   to24Hr,
   addDayChangeListeners,
-  hourStringToDate,
   isCurrentClass,
   isFaculty,
 } from '~/shared/schedule';
 
 function minutesTo(date) {
-  let diffMs = (hourStringToDate(to24Hr(date)) - new Date());
+  let diffMs = (timeStringToDate(to24Hr(date)) - new Date());
   return Math.ceil(diffMs / 60000);
 }
 
