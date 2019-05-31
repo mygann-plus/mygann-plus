@@ -1,3 +1,11 @@
+## 1.8.0
+### Added
+- Progress Assignment Description module, which displays the description of graded assignments in progress
+- Servery Menu module, which displays the daily servery menu in schedule
+
+### Fixed
+- Fix internal "fix.fixTaskClass" module incorrectly being displayed in options
+
 ## 1.7.3
 ### Fixed
 - Fix previously noncritical error which breaks entire extension in Chrome 74
