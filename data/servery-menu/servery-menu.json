@@ -1,0 +1,672 @@
+{
+  "$schemaVersion": 1,
+  "data": [
+    {
+      "year": 2018,
+      "month": 11,
+      "link": "https://bbk12e1-cdn.myschoolcdn.com/ftpimages/591/misc/misc_162659.pdf",
+      "menu": [
+        {
+          "date": 1,
+          "items": [
+            {
+              "name": "Baked Tilapia",
+              "parve": true
+            },
+            {
+              "name": "Eggplant Parmesan"
+            },
+            {
+              "name": "Roasted Red Potatoes",
+              "parve": true,
+              "gf": true
+            },
+            {
+              "name": "Roasted Butternut Squash",
+              "parve": true
+            }
+          ]
+        },
+        {
+          "date": 26,
+          "items": [
+            {
+              "name": "Macaroni & Cheese"
+            },
+            {
+              "name": "Baked Haddock",
+              "details": "lemon panko crusted",
+              "parve": true
+            },
+            {
+              "name": "Roast Zucchini",
+              "parve": true,
+              "gf": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "month": 12,
+      "link": "https://bbk12e1-cdn.myschoolcdn.com/ftpimages/591/misc/misc_164035.pdf",
+      "menu": [
+        {
+          "date": 3,
+          "items": [
+            {
+              "name": "Baked Tilapia",
+              "gf": false,
+              "parve": true
+            },
+            {
+              "name": "Cheese Quesadilla",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Roast Idaho Potatoes",
+              "gf": true,
+              "parve": true
+            },
+            {
+              "name": "Roasted Acorn Squash, ",
+              "gf": true,
+              "parve": true
+            }
+          ]
+        },
+        {
+          "date": 4,
+          "items": [
+            {
+              "name": "GRAB & GO LUNCH",
+              "gf": false,
+              "parve": false
+            }
+          ]
+        },
+        {
+          "date": 5,
+          "items": [
+            {
+              "name": "Winter Vegetable Stew",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Fish Sandwich Lettuce & Tomato",
+              "gf": false,
+              "parve": true
+            },
+            {
+              "name": "Rice",
+              "gf": true,
+              "parve": true
+            },
+            {
+              "name": "Lemon Dill Carrots",
+              "gf": true,
+              "parve": true
+            }
+          ]
+        },
+        {
+          "date": 6,
+          "items": [
+            {
+              "name": "Broccoli Kugel",
+              "gf": false,
+              "parve": true
+            },
+            {
+              "name": "Vegan Nuggets",
+              "gf": false,
+              "parve": true
+            },
+            {
+              "name": "Roasted Red Potatoes",
+              "gf": true,
+              "parve": true
+            }
+          ]
+        },
+        {
+          "date": 7,
+          "items": [
+            {
+              "name": "Macaroni & Cheese",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Fish Sticks",
+              "gf": false,
+              "parve": true
+            },
+            {
+              "name": "Roast Cailiflower",
+              "gf": true,
+              "parve": true
+            }
+          ]
+        },
+        {
+          "date": 11,
+          "items": [
+            {
+              "name": "GRAB & GO LUNCH",
+              "gf": false,
+              "parve": false
+            }
+          ]
+        },
+        {
+          "date": 12,
+          "items": [
+            {
+              "name": "Cheese Tortellini Pesto",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Baked Tilapia",
+              "gf": false,
+              "parve": true
+            },
+            {
+              "name": "Lemon Herb Cous Cous",
+              "gf": false,
+              "parve": true
+            },
+            {
+              "name": "Lemon Dill Carrots",
+              "gf": true,
+              "parve": true
+            }
+          ]
+        },
+        {
+          "date": 13,
+          "items": [
+            {
+              "name": "Sloppy Joe (meatless)",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Vegan Pot Pie",
+              "gf": false,
+              "parve": true
+            },
+            {
+              "name": "Mashed Potatoes",
+              "gf": true,
+              "parve": false
+            },
+            {
+              "name": "Ratatouli",
+              "gf": true,
+              "parve": true
+            }
+          ]
+        },
+        {
+          "date": 14,
+          "items": [
+            {
+              "name": "Mac & Cheese",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Garden Chili",
+              "gf": true,
+              "parve": true
+            },
+            {
+              "name": "Rice",
+              "gf": true,
+              "parve": true
+            },
+            {
+              "name": "Sauteed Fresh Spinach",
+              "gf": false,
+              "parve": false
+            }
+          ]
+        },
+        {
+          "date": 17,
+          "items": [
+            {
+              "name": "Cheese Manicotti",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Veggie Burger with BBQ",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Onions",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Steamed Beets",
+              "gf": true,
+              "parve": true
+            },
+            {
+              "name": "Corn",
+              "gf": true,
+              "parve": true
+            }
+          ]
+        },
+        {
+          "date": 18,
+          "items": [
+            {
+              "name": "GRAB & GO LUNCH",
+              "gf": false,
+              "parve": false
+            }
+          ]
+        },
+        {
+          "date": 19,
+          "items": [
+            {
+              "name": "Fish & Chips",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Tacos",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Rice",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Roast Zucchini",
+              "gf": false,
+              "parve": false
+            }
+          ]
+        },
+        {
+          "date": 20,
+          "items": [
+            {
+              "name": "Tuna Melt",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Vegetarian Meatballs",
+              "gf": false,
+              "parve": true
+            },
+            {
+              "name": "Swiss Chard with Fresh Tomatoes & Chickpease",
+              "gf": true,
+              "parve": true
+            }
+          ]
+        },
+        {
+          "date": 21,
+          "items": [
+            {
+              "name": "Macaroni & Cheese",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Baked Pollack",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Roast Carrot “",
+              "gf": false,
+              "parve": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 2019,
+      "month": 4,
+      "link": "https://bbk12e1-cdn.myschoolcdn.com/ftpimages/591/misc/misc_168550.pdf",
+      "menu": [
+        {
+          "date": 1,
+          "items": [
+            {
+              "name": "Veggie Burger with BBQ Onions",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Quiche",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Roasted Carrot Sticks",
+              "gf": false,
+              "parve": false
+            }
+          ]
+        },
+        {
+          "date": 2,
+          "items": [
+            {
+              "name": "Calzone",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Baked Tilapia",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Rice",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Broccoli",
+              "gf": false,
+              "parve": false
+            }
+          ]
+        },
+        {
+          "date": 3,
+          "items": [
+            {
+              "name": "Mozzarella Sticks with Marinara",
+              "gf": false,
+              "parve": false
+            }
+          ]
+        },
+        {
+          "date": 4,
+          "items": [
+            {
+              "name": "Cheese Tortellini",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Vegan Nuggets",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Roast Spaghetti",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Squash",
+              "gf": true,
+              "parve": true
+            }
+          ]
+        },
+        {
+          "date": 5,
+          "items": [
+            {
+              "name": "Macaroni & Cheese",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Black Bean Stew",
+              "gf": true,
+              "parve": true
+            },
+            {
+              "name": "Rice",
+              "gf": true,
+              "parve": true
+            },
+            {
+              "name": "Roast Tomatoes & Zucchini",
+              "gf": true,
+              "parve": true
+            }
+          ]
+        },
+        {
+          "date": 9,
+          "items": [
+            {
+              "name": "GRAB & GO",
+              "gf": false,
+              "parve": false
+            }
+          ]
+        },
+        {
+          "date": 10,
+          "items": [
+            {
+              "name": "Fish Curry",
+              "gf": true,
+              "parve": true
+            },
+            {
+              "name": "Eggplant Parmesan",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Rice",
+              "gf": true,
+              "parve": true
+            },
+            {
+              "name": "Roast Butternut Squash with Kale Chips",
+              "gf": true,
+              "parve": true
+            }
+          ]
+        },
+        {
+          "date": 11,
+          "items": [
+            {
+              "name": "Tuna Melt",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Falafel Plate  with Sesame Yogurt Sauce, Israeli Salad & Hummus",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Lemon Dill Carrots",
+              "gf": true,
+              "parve": true
+            }
+          ]
+        },
+        {
+          "date": 12,
+          "items": [
+            {
+              "name": "Macaroni & Cheese",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Fish Sticks",
+              "gf": false,
+              "parve": true
+            },
+            {
+              "name": "Sautéed Green Beansp,",
+              "gf": true,
+              "parve": true
+            }
+          ]
+        },
+        {
+          "date": 15,
+          "items": [
+            {
+              "name": "Cheese Quesadilla",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Vegetarian Chili",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Rice",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Broccoli",
+              "gf": false,
+              "parve": false
+            }
+          ]
+        },
+        {
+          "date": 16,
+          "items": [
+            {
+              "name": "GRAB & GO",
+              "gf": false,
+              "parve": false
+            }
+          ]
+        },
+        {
+          "date": 17,
+          "items": [
+            {
+              "name": "Braised Tofu with Mushrooms",
+              "gf": true,
+              "parve": true
+            },
+            {
+              "name": "Baked Tilapia",
+              "gf": false,
+              "parve": true
+            },
+            {
+              "name": "Rice",
+              "gf": true,
+              "parve": true
+            },
+            {
+              "name": "Fried Bok Choy",
+              "gf": true,
+              "parve": true
+            }
+          ]
+        },
+        {
+          "date": 18,
+          "items": [
+            {
+              "name": "Mac & Cheese",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Cauliflower Mac",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Sauteed Spinach",
+              "gf": false,
+              "parve": false
+            }
+          ]
+        },
+        {
+          "date": 29,
+          "items": [
+            {
+              "name": "Stuffed Shells with fresh basil and roasted red peppers",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Fish Nuggets",
+              "gf": false,
+              "parve": true
+            },
+            {
+              "name": "Steamed Broccoli",
+              "gf": true,
+              "parve": true
+            }
+          ]
+        },
+        {
+          "date": 30,
+          "items": [
+            {
+              "name": "GRAB & GO",
+              "gf": false,
+              "parve": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 2019,
+      "month": 5,
+      "link": "https://bbk12e1-cdn.myschoolcdn.com/ftpimages/591/misc/misc_169746.pdf",
+      "menu": [
+        {
+          "date": 31,
+          "items": [
+            {
+              "name": "Mac & Cheese",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Sweet Potato Mac",
+              "gf": false,
+              "parve": false
+            },
+            {
+              "name": "Sauteed Green Beans",
+              "gf": false,
+              "parve": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

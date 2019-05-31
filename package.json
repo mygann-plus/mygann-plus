@@ -36,7 +36,9 @@
     "he": "^1.2.0",
     "linkifyjs": "^2.1.6",
     "lodash.clonedeep": "^4.5.0",
+    "lodash.unescape": "^4.0.1",
     "marked": "^0.5.0",
+    "pdf-parse": "^1.1.1",
     "sure": "0.0.3"
   }
 }

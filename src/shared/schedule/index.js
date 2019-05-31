@@ -1,8 +1,19 @@
-import { addEventListener, waitForLoad } from '~/utils/dom';
+import {
+  createElement,
+  addEventListener,
+  waitForLoad,
+  DropdownMenu,
+  insertCss,
+} from '~/utils/dom';
+import tick from '~/utils/tick';
 
-// import style from './style.css';
+import style from './style.css';
 
 /* eslint-disable import/prefer-default-export */
+
+export function getCurrentDay() {
+  return document.querySelector('.chCal-header-space + h2').textContent.split(',')[0].trim();
+}
 
 export function isFaculty() {
   return window.location.hash === '#myday/schedule-performance';
@@ -41,22 +52,6 @@ export function addDayChangeListeners(callback) {
     }
   };
   return addEventListener(document.body, 'click', listener);
-}
-
-export function getAnnouncementWrap() {
-  return document.querySelector('#schedule-header .alert.alert-info');
-}
-export function createAnnouncementWrap() {
-  const alertBox = (
-    <div className="alert alert-info" style={{ marginTop: '10px' }}>
-    </div>
-  );
-  document.getElementsByClassName('col-md-12')[3].children[1].appendChild(alertBox);
-  return alertBox;
-}
-// creates or gets container for coming up and servery menu
-export function createAnnouncementRightContainer() {
-
 }
 
 export function to24Hr(t) {
@@ -112,14 +107,93 @@ export function isEmptySchedule() {
   document.getElementsByClassName('pl-10')[0].textContent === 'There is nothing scheduled for this date.';
 }
 
-export function hourStringToDate(time) {
-  const endDate = new Date();
-  endDate.setHours(time.split(':')[0]);
-  endDate.setMinutes(time.split(':')[1]);
-  endDate.setSeconds(time.split(':')[2]);
-  return endDate;
+export async function isCurrentClass(timeString) {
+  return (await isDayView()) && (isCurrentTime(timeString)) && (await isCurrentDay());
 }
 
-export async function isCurrentClass(timeString) {
-  return (await isDayView()) && isCurrentTime(timeString) && (await isCurrentDay());
+export function getAnnouncementWrap() {
+  return document.querySelector('#schedule-header .alert.alert-info');
+}
+export function createAnnouncementWrap() {
+  const alertBox = (
+    <div className="alert alert-info" style={{ marginTop: '10px' }}>
+    </div>
+  );
+  document.getElementsByClassName('col-md-12')[3].children[1].appendChild(alertBox);
+  return alertBox;
+}
+
+// ANNOUNCEMENT DROPDOWN
+
+const selectors = {
+  dropdownWrap: style.locals['dropdown-wrap'],
+  dropdownButton: style.locals['dropdown-button'],
+};
+
+const announcementDropdown = new DropdownMenu([], {
+  wrapClassname: selectors.dropdownWrap,
+  buttonClassname: selectors.dropdownButton,
+});
+const announcementDropdownItems = [];
+
+async function addDropdown(unloaderContext) {
+  await tick(100);
+  const banner = await waitForLoad(() => (
+    isEmptySchedule() || document.querySelector('#schedule-header .alert-info')
+  ));
+  if (!banner) {
+    return;
+  }
+  announcementDropdown.clearItems();
+  let shownItemCount = 0;
+  for (const item of announcementDropdownItems) {
+    if (await item.shouldShow()) {
+      announcementDropdown.addItem(item);
+      shownItemCount++;
+    }
+  }
+  if (!shownItemCount) {
+    return;
+  }
+  banner.appendChild(announcementDropdown.getDropdownWrap());
+  unloaderContext.addRemovable(announcementDropdown.getDropdownWrap());
+
+  const recheck = () => {
+    if (!document.body.contains(announcementDropdown.getDropdownWrap())) {
+      addDropdown(unloaderContext);
+    }
+  };
+
+  setTimeout(recheck, 100);
+  setTimeout(recheck, 500);
+  setTimeout(recheck, 1000);
+}
+
+/**
+ * Inserts dropdown button, or does nothing if dropdown already exists
+*/
+export function insertAnnouncementDropdown(unloaderContext) {
+  const existingDropdown = document.querySelector(`.${selectors.dropdownWrap}`);
+  if (existingDropdown) {
+    return;
+  }
+  const styles = insertCss(style.toString());
+  unloaderContext.addRemovable(styles);
+  addDropdown(unloaderContext);
+  addDayChangeListeners(() => addDropdown(unloaderContext));
+}
+
+/**
+ *
+ * @param {Object} link
+ * @param {string} link.title
+ * @param {function} link.onclick
+ * @param {function} link.shouldShow
+ */
+export function registerAnnouncementDropdownLink(link) {
+  if (announcementDropdownItems.find(item => item.id === link.id)) {
+    return;
+  }
+  announcementDropdown.addItem(link);
+  announcementDropdownItems.push(link);
 }

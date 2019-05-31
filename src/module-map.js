@@ -43,6 +43,7 @@ import theme from './modules/theme';
 import extreme from './modules/extreme';
 import fixTaskClass from './modules/fix-task-class';
 import progressAssignmentDetails from './modules/progress-assignment-details';
+import serveryMenu from './modules/servery-menu';
 
 const MODULE_MAP = {
   '#': [
@@ -75,6 +76,7 @@ const MODULE_MAP = {
   '#studentmyday/schedule': [
     freeBlock,
     highlightCurrentClass,
+    serveryMenu,
     blockLength,
     classEndingTime,
     comingUp,
@@ -85,7 +87,8 @@ const MODULE_MAP = {
     nextGradedCourse,
     calculateGradePercentage,
     collapseAssignmentSections,
-    fullYearAssignments
+    fullYearAssignments,
+    progressAssignmentDetails,
   ],
   '#message': [archiveAll],
   '#message/inbox': [markAllAsRead, markAsRead, fixArchiveHighlight],
