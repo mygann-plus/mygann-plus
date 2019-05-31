@@ -11,7 +11,7 @@ async function getCourseName(task) {
 
 async function fixCourseName(task) {
   const courseName = await getCourseName(task);
-   // coursename != general task
+  // coursename != general task
   if (courseName) {
     task.querySelector('[data-heading="Class"').textContent = courseName;
   }
@@ -22,11 +22,11 @@ const domQuery = () => document.querySelectorAll('#assignment-center-assignment-
 async function fixCourseNames() {
   const assignments = await waitForOne(domQuery);
   const tasks = Array.from(assignments).filter(assignment => {
-    return assignment.querySelector('[data-index="null"]')
-  })
+    return assignment.querySelector('[data-index="null"]');
+  });
   for (const task of tasks) {
     fixCourseName(task);
-  }  
+  }
 }
 
 async function fixTaskClass(opts, unloaderContext) {
@@ -37,4 +37,6 @@ async function fixTaskClass(opts, unloaderContext) {
 export default registerModule('{1ebf20e3-b910-461f-a281-fe78c22c1b8c}', {
   name: 'fix.fixTaskClass',
   main: fixTaskClass,
-})
+  showInOptions: false,
+});
+
