@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import { fetchApi } from '~/utils/fetch';
 import { daysBetween, getAbsoluteToday } from '~/utils/date';
 import { createElement, constructButton } from '~/utils/dom';
-import { getUserId } from '~/utils/user';
 import Dialog from '~/utils/dialog';
 import { getTaskData } from '~/shared/assignments-center';
 
@@ -113,8 +112,8 @@ class TaskDetailPage {
     const dialogBody = this.editDialog.getBody();
     const details = dialogBody.querySelector('textarea').value;
     addOrChangeTaskDetail(this.id, { id: this.id, details });
-    this.page.querySelector(`.${selectors.taskDetails}`).textContent = details;
     this.details = details;
+    this.page.querySelector(`.${selectors.taskDetails}`).innerHTML = this.generateDetailsHtml().innerHTML;
   }
 
   generatePage() {
@@ -149,7 +148,7 @@ class TaskDetailPage {
                     { constructButton('', '', 'fa fa-edit', () => this.openEditDialog(), '', { small: false }) }
                   </div>
                   <div className={selectors.taskDetails}>
-                    { this.details }
+                    { this.generateDetailsHtml() }
                   </div>
                 </div>
               </div>
@@ -220,6 +219,18 @@ class TaskDetailPage {
           <a className="assignment-status-link" href="#" onClick={e => this.changeStatus(e, 1)}>Completed</a>
         </li>
       </ul>
+    );
+  }
+
+  generateDetailsHtml() {
+    return (
+      <span>
+        {
+          this.details.split(/(?:\r\n|\r|\n)/g).map(line => (
+            <span>{ line }<br></br></span>
+          ))
+        }
+      </span>
     );
   }
 
