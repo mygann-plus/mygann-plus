@@ -42,6 +42,7 @@ import fullYearAssignments from './modules/full-year-assignments';
 import theme from './modules/theme';
 import extreme from './modules/extreme';
 import fixTaskClass from './modules/fix-task-class';
+import progressAssignmentDetails from './modules/progress-assignment-details';
 
 const MODULE_MAP = {
   '#': [
