@@ -105,6 +105,21 @@ textarea.suboption-input {
   margin-right: 7px;
 }
 
+.suboption-reset {
+  display: none;
+
+  box-sizing: border-box;
+  height: 22px;
+  padding: 1px 5px;
+  margin-left: 11px;
+
+  border-radius: 0;
+  border-color: rgb(169, 169, 169) !important;
+}
+.suboption-reset.suboption-reset-visible {
+  display: inline-block;
+}
+
 /* TOGGLE */
 
 .toggle-wrap {

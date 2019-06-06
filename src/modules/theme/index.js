@@ -100,6 +100,7 @@ export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
       name: 'Color',
       type: 'color',
       defaultValue: DEFAULT_COLOR,
+      resettable: true,
     },
     font: {
       name: 'Font',

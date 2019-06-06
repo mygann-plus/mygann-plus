@@ -4,6 +4,7 @@ import registerModule from '~/module';
 import {
   createElement,
   insertCss,
+  constructButton,
 } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
 import fuzzyMatch from '~/utils/search';
@@ -42,6 +43,8 @@ const selectors = {
     label: style.locals['suboption-label'],
     name: style.locals['suboption-name'],
     description: style.locals['suboption-description'],
+    reset: style.locals['suboption-reset'],
+    resetVisible: style.locals['suboption-reset-visible'],
   },
 };
 
@@ -228,6 +231,7 @@ class OptionsDialog {
       <form autoComplete="off">
         <input
           className={selectors.searchbar}
+          id={selectors.searchbar}
           placeholder="Search..."
           autoComplete="off"
           onInput={ e => this.handleSearch(e) }
@@ -266,7 +270,7 @@ class OptionsDialog {
 
   createModuleView(module) {
     const moduleState = this.state[module.guid];
-    if (!module.config.showInOptions || module.config.topLevelOption ) {
+    if (!module.config.showInOptions || module.config.topLevelOption) {
       return null;
     }
 
@@ -383,19 +387,38 @@ class OptionsDialog {
       const suboption = module.config.suboptions[key];
 
       const input = createSuboptionInput(suboption);
+      const resetSuboptionButton = constructButton('Reset', '', '', () => {}, selectors.suboption.reset);
+
       const value = this.state[module.guid].suboptions[key];
       const description = suboption.description && formatDescription(suboption.description);
       setSuboptionValue(input, suboption, value);
 
+      if (suboption.resettable && value !== suboption.defaultValue) {
+        resetSuboptionButton.classList.add(selectors.suboption.resetVisible);
+      }
+
       input.addEventListener('change', () => {
         if (validateSuboption(input, suboption)) {
-          this.state[module.guid].suboptions[key] = getSuboptionValue(input, suboption);
+          const newValue = getSuboptionValue(input, suboption);
+          this.state[module.guid].suboptions[key] = newValue;
           this.enableSaveButton();
+          if (suboption.resettable && newValue !== suboption.defaultValue) {
+            resetSuboptionButton.classList.add(selectors.suboption.resetVisible);
+          } else {
+            resetSuboptionButton.classList.remove(selectors.suboption.resetVisible);
+          }
         } else {
           setSuboptionValue(input, suboption, value);
         }
-      })
-      
+      });
+
+      resetSuboptionButton.addEventListener('click', () => {
+        setSuboptionValue(input, suboption, suboption.defaultValue);
+        this.state[module.guid].suboptions[key] = suboption.defaultValue;
+        this.enableSaveButton();
+        resetSuboptionButton.classList.remove(selectors.suboption.resetVisible);
+      });
+
       const suboptionView = (
         <div className={selectors.module.wrap}>
           <div className={selectors.module.top}>
@@ -416,9 +439,10 @@ class OptionsDialog {
               }
             </span>
             { input }
+            { resetSuboptionButton }
           </div>
         </div>
-      )
+      );
 
       topLevelView.querySelector(`.${selectors.section.optionsWrap}`).appendChild(suboptionView);
     }
