@@ -17,6 +17,7 @@ import { getFlattenedOptions, setFlattenedOptions, mergeDefaultOptions } from '~
 import style from './style.css';
 
 const selectors = {
+  searchbarWrap: style.locals['searchbar-wrap'],
   searchbar: style.locals.searchbar,
   section: {
     wrap: style.locals['section-wrap'],
@@ -228,7 +229,10 @@ class OptionsDialog {
 
   createSearchBar() {
     return (
-      <form autoComplete="off">
+      <form autoComplete="off" className={selectors.searchbarWrap}>
+        <label htmlFor={selectors.searchbar}>
+          <i className="fa fa-search"></i>
+        </label>
         <input
           className={selectors.searchbar}
           id={selectors.searchbar}

@@ -168,12 +168,19 @@ textarea.suboption-input {
 
 /* SEARCHBAR */
 
+.searchbar-wrap {
+  display: flex;
+  align-items: center;
+}
+
 .searchbar {
-  border: none;
-  outline: none;
-  padding: 5px 15px 5px 2px;
-  border-bottom: 1px solid var(--seperator-gray);
   width: 100%;
+  border: none;
+  padding: 5px 15px 5px 2px;
+  flex-grow: 1;
+  margin-left: 9px;
+  border-bottom: 1px solid var(--seperator-gray);
+  outline: none;
 }
 
 .searchbar::placeholder {
