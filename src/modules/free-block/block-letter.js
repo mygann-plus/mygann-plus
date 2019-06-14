@@ -17,7 +17,7 @@ export function getBlockLetter(startTime, endTime) {
     return 'Free';
   }
 
-  const isCorrecTime = time => time[0] === startTime && time[1] === endTime;
+  const isCorrectTime = time => time[0] === startTime && time[1] === endTime;
 
   const dateString = document.querySelector('.chCal-header-space + h2').textContent;
   const date = new Date(dateString);
@@ -35,7 +35,7 @@ export function getBlockLetter(startTime, endTime) {
 
   for (const letter in letters) {
     const time = letters[letter];
-    if (isCorrecTime(time)) {
+    if (isCorrectTime(time)) {
       blockLetter = letter;
     }
   }
@@ -44,7 +44,7 @@ export function getBlockLetter(startTime, endTime) {
   if (exceptions) {
     for (const exceptionLetter in exceptions) {
       const time = exceptions[exceptionLetter];
-      if (isCorrecTime(time)) {
+      if (isCorrectTime(time)) {
         blockLetter = exceptionLetter;
       }
     }
