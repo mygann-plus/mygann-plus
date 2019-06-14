@@ -38,10 +38,14 @@ function addMinutes(time, mins) {
   return dateTo12HrTimeString(newDate);
 }
 
-function insertBlock(elemBefore, startTime, endTime, blockText) {
+function insertBlock(elemBefore, startTime, endTime, blockText, independentStudy, independentStudyName) {
   const createCell = (heading, content) => <td dataset={{ heading }}>{ content }</td>;
 
-  const activity = <h4 className={selectors.activity}>Free</h4>;
+  const activity = (
+    <h4 className={selectors.activity}>
+      { independentStudy ? independentStudyName : 'Free Block'}
+    </h4>
+  );
   const attendance = <span><span>N/A</span></span>;
 
   const tr = (
@@ -114,7 +118,17 @@ async function insertFreeBlock(options, unloaderContext) {
         const freeStartTime = addMinutes(fullEndTime, 5);
         const freeEndTime = addMinutes(fullNextStartTime, -5);
         const blockLetter = getBlockLetter(freeStartTime, freeEndTime);
-        const block = insertBlock(elem, freeStartTime, freeEndTime, `${blockLetter} Block`);
+        const independentStudyEnabled = options.independentStudy &&
+          blockLetter === options.independentStudyBlock;
+
+        const block = insertBlock(
+          elem,
+          freeStartTime,
+          freeEndTime,
+          `${blockLetter} Block`,
+          independentStudyEnabled,
+          options.independentStudyName,
+        );
         unloaderContext.addRemovable(block);
         runRecheck();
       }
@@ -132,7 +146,15 @@ async function insertFreeBlock(options, unloaderContext) {
       if (getCurrentDay() === 'Friday' && endTime !== fridayEndTime) {
         const freeStartTime = addMinutes(fullEndTime, 5);
         const blockLetter = getBlockLetter(freeStartTime, fridayEndTime);
-        const insertedBlock = insertBlock(elem, freeStartTime, fridayEndTime, `${blockLetter} Block`);
+        const independentStudyEnabled = blockLetter === options.independentStudyBlock;
+        const insertedBlock = insertBlock(
+          elem,
+          freeStartTime,
+          fridayEndTime,
+          `${blockLetter} Block`,
+          independentStudyEnabled,
+          options.independentStudyName,
+        );
         unloaderContext.addRemovable(insertedBlock);
         runRecheck(insertedBlock);
       }
@@ -158,6 +180,25 @@ export default registerModule('{5a1befbf-8fed-481d-8184-8db72ba22ad1}', {
       name: 'Show Free A/B Blocks',
       type: 'boolean',
       defaultValue: true,
+    },
+    independentStudy: {
+      name: 'Independent Study',
+      type: 'boolean',
+      defaultValue: false,
+    },
+    independentStudyBlock: {
+      name: 'Independent Study Block',
+      type: 'enum',
+      enumValues: {
+        C: 'C', D: 'D', E: 'E', F: 'F', G: 'G', H: 'H', I: 'I', J: 'J',
+      },
+      dependent: 'independentStudy',
+    },
+    independentStudyName: {
+      name: 'Independent Study Name',
+      type: 'string',
+      defaultValue: '',
+      dependent: 'independentStudy',
     },
   },
 });
