@@ -15,7 +15,8 @@
     defaultValue: '', // default value (for enum, string key of default value)
     enumValues: { // object of values in enum
       doOneThing: 'Do One Thing', // Internal key : User-friendly value name
-    }
+    },
+    dependent: 'myOtherOption' // (optional) only show if myOtherOption is enabled
   }
 }
 ```

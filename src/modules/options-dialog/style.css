@@ -105,6 +105,10 @@ textarea.suboption-input {
   margin-right: 7px;
 }
 
+.suboption-hidden {
+  display: none;
+}
+
 .suboption-reset {
   display: none;
 

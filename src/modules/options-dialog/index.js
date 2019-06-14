@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-
 import registerModule from '~/module';
 import {
   createElement,
@@ -44,6 +43,7 @@ const selectors = {
     label: style.locals['suboption-label'],
     name: style.locals['suboption-name'],
     description: style.locals['suboption-description'],
+    hidden: style.locals['suboption-hidden'],
     reset: style.locals['suboption-reset'],
     resetVisible: style.locals['suboption-reset-visible'],
   },
@@ -163,6 +163,9 @@ class OptionsDialog {
     this.state = optionsData;
     this.onSave = onSave;
     this.getDefaultState = getDefaultState;
+
+    // [module.guid]: [suboptionKey1, suboptionKey2, ...]
+    this.dependentSuboptions = {};
 
     this.bodyElement = this.renderBody();
 
@@ -355,8 +358,19 @@ class OptionsDialog {
     let oldValue = value;
     input.addEventListener('change', () => {
       if (validateSuboption(input, suboption)) {
-        this.state[module.guid].suboptions[key] = getSuboptionValue(input, suboption);
+
+        const newValue = getSuboptionValue(input, suboption);
+        this.state[module.guid].suboptions[key] = newValue;
         this.enableSaveButton();
+
+        if (suboption.type === 'boolean') {
+          if (newValue) {
+            this.enableDependentSuboptions(module, key);
+          } else {
+            this.disableDependentSuboptions(module, key);
+          }
+        }
+
       } else {
         setSuboptionValue(input, suboption, oldValue);
       }
@@ -373,11 +387,18 @@ class OptionsDialog {
       </label>
     );
 
+    if (suboption.dependent) {
+      const dependentEnabled = this.state[module.guid].suboptions[suboption.dependent];
+      if (!dependentEnabled) {
+        label.classList.add(selectors.suboption.hidden);
+      }
+      this.registerDependentSuboption(module, key, label);
+    }
+
     return label;
   }
 
   createTopLevelModuleView(module) {
-    const moduleState = this.state[module.guid];
     if (!module.config.showInOptions) return null;
 
     const topLevelView = (
@@ -391,7 +412,10 @@ class OptionsDialog {
       const suboption = module.config.suboptions[key];
 
       const input = createSuboptionInput(suboption);
-      const resetSuboptionButton = constructButton('Reset', '', '', () => {}, selectors.suboption.reset);
+      const resetSuboptionButton = constructButton(
+        'Reset', '', '',
+        () => {}, selectors.suboption.reset,
+      );
 
       const value = this.state[module.guid].suboptions[key];
       const description = suboption.description && formatDescription(suboption.description);
@@ -459,6 +483,32 @@ class OptionsDialog {
   }
   enableSaveButton() {
     this.dialog.getLeftButton(0).disabled = false;
+  }
+
+  registerDependentSuboption(module, suboptionKey, element) {
+    this.dependentSuboptions[module.guid] = this.dependentSuboptions[module.guid] || [];
+    this.dependentSuboptions[module.guid].push({ key: suboptionKey, element });
+  }
+
+  getDependentSuboptions(module, suboptionKey) {
+    const allDependentSuboptions = this.dependentSuboptions[module.guid] || [];
+    return allDependentSuboptions.filter(suboption => {
+      return module.config.suboptions[suboption.key].dependent === suboptionKey;
+    });
+  }
+
+  enableDependentSuboptions(module, suboptionKey) {
+    const dependentSuboptions = this.getDependentSuboptions(module, suboptionKey);
+    for (const suboption of dependentSuboptions) {
+      suboption.element.classList.remove(selectors.suboption.hidden);
+    }
+  }
+
+  disableDependentSuboptions(module, suboptionKey) {
+    const dependentSuboptions = this.getDependentSuboptions(module, suboptionKey);
+    for (const suboption of dependentSuboptions) {
+      suboption.element.classList.add(selectors.suboption.hidden);
+    }
   }
 
   /* eslint-disable class-methods-use-this */
