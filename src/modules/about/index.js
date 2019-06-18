@@ -1,4 +1,5 @@
 import marked from 'marked';
+import fetchReject from 'fetch-reject';
 
 import registerModule from '~/module';
 import { hasUpdated, addInstallStateChangeListener, clearInstallState } from '~/install';
@@ -33,10 +34,19 @@ function toggleReleaseNotes(e) {
 async function insertReleaseNotes(dialogBody) {
   const releaseNotesWrap = dialogBody.querySelector(`#${selectors.releaseNotes}`);
   const endpoint = 'https://api.github.com/repos/matankb/mygann-plus/releases';
-  const releases = await fetch(endpoint).then(d => d.json());
+  let releases;
+  try {
+    releases = await fetchReject(endpoint).then(d => d.json());
+  } catch (e) {
+    releases = [];
+  }
   const currentVersion = getVersionString();
   const release = releases.find(r => isEqualVersion(r.tag_name, currentVersion));
-  releaseNotesWrap.innerHTML = marked(release.body); // parse markdown
+  if (!release) {
+    releaseNotesWrap.innerHTML = 'There was an issue loading the release notes. Please try again.';
+  } else {
+    releaseNotesWrap.innerHTML = marked(release.body); // parse markdown
+  }
 }
 
 
