@@ -26,7 +26,6 @@ function generateDialogBody(assignments, dialog) {
         <th>Assigned</th>
         <th>Due</th>
         <th>Points</th>
-        <th>Notes</th>
       </tr>
     </thead>
   );
@@ -54,7 +53,6 @@ function generateDialogBody(assignments, dialog) {
                   </span>
                 </h4>
               </td>
-              <td data-heading="Notes"></td>
             </tr>
           ))
         }
