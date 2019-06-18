@@ -93,6 +93,12 @@ function warnType(id) {
   }
 }
 
+function warnSchema(schemaVersion) {
+  if (typeof schemaVersion !== 'number') {
+    log('warn', `Schema Version should be a number, not a ${typeof schemaVersion}`);
+  }
+}
+
 function reduceArray(data, id, reducer) {
   return data.map(item => {
     if (item.id === id) {
@@ -109,6 +115,7 @@ function generateID() {
 // PUBLIC API
 
 async function get(property, schemaVersion, migrate) {
+  warnSchema(schemaVersion);
   let object = await doGet(property);
   if (!object) {
     return null;
@@ -133,6 +140,7 @@ async function get(property, schemaVersion, migrate) {
 }
 
 function set(key, value, schemaVersion) {
+  warnSchema(schemaVersion);
   return doSet({
     [key]: {
       [SCHEMA_VERSION_KEY]: schemaVersion,
@@ -142,6 +150,7 @@ function set(key, value, schemaVersion) {
 }
 
 async function getArray(key, schemaVersion, migrateItem) {
+  warnSchema(schemaVersion);
   const migrate = (oldSchema, oldData) => oldData.map(d => migrateItem(oldSchema, d));
   return (await get(key, schemaVersion, migrateItem && migrate)) || [];
 }
@@ -150,6 +159,7 @@ async function getArray(key, schemaVersion, migrateItem) {
  * @returns Added item's ID
  */
 async function addArrayItem(key, newItem, schemaVersion, migrateItem) {
+  warnSchema(schemaVersion);
   const array = await getArray(key, schemaVersion, migrateItem);
   let id;
   if (newItem.id) {
@@ -165,6 +175,7 @@ async function addArrayItem(key, newItem, schemaVersion, migrateItem) {
 }
 
 async function changeArrayItem(key, id, reducer, schemaVersion, migrateItem) {
+  warnSchema(schemaVersion);
   warnType(id);
   // TODO: warn if item doesn't exist
   const array = await getArray(key, schemaVersion, migrateItem);
@@ -173,6 +184,7 @@ async function changeArrayItem(key, id, reducer, schemaVersion, migrateItem) {
 }
 
 async function addOrChangeArrayItem(key, id, reducer, schemaVersion, migrateItem) {
+  warnSchema(schemaVersion);
   const array = await getArray(key, schemaVersion, migrateItem);
   const item = array.find(i => i.id === id);
   if (!item) {
@@ -183,6 +195,7 @@ async function addOrChangeArrayItem(key, id, reducer, schemaVersion, migrateItem
 }
 
 async function deleteArrayItem(key, id, schemaVersion, migrateItem) {
+  warnSchema(schemaVersion);
   warnType(id);
   const array = await getArray(key, schemaVersion, migrateItem);
   const newArray = array.filter(assignment => (
