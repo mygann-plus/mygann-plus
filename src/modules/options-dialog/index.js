@@ -361,6 +361,7 @@ class OptionsDialog {
 
         const newValue = getSuboptionValue(input, suboption);
         this.state[module.guid].suboptions[key] = newValue;
+        oldValue = newValue;
         this.enableSaveButton();
 
         if (suboption.type === 'boolean') {
