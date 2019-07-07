@@ -297,11 +297,18 @@ class NameQuizGame {
 }
 
 async function runGame(unloaderContext) {
-  let students = Array.from(document.querySelectorAll('.bb-card'))
-    .filter(card => (
-      card.querySelector('.bb-card-title').textContent !== 'Teacher' &&
-      card.querySelector('.bb-avatar-image')
-    ))
+  const students = Array.from(document.querySelectorAll('.bb-card'))
+    .filter(card => {
+      const name = card.querySelector('.bb-card-title').textContent;
+      const email = card.querySelector('a').textContent;
+      const image = card.querySelector('.bb-avatar-image');
+      // student email accounts start with grad year
+      const isStudentEmail = !Number.isNaN(parseInt(email, 10));
+      if (name === 'Teacher' || name === 'Owner' || !image || !isStudentEmail) {
+        return false;
+      }
+      return true;
+    })
     .map(card => ({
       name: card.querySelector('.bb-card-title').textContent,
       image: card.querySelector('.bb-avatar-image').src,
