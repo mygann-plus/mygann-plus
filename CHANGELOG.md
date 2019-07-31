@@ -1,3 +1,7 @@
+## 1.8.1
+### Fixed
+- Fix Hide forms displaying an incorrect amount of forms in banner
+
 ## 1.8.0
 ### Added
 - Progress Assignment Description module, which displays the description of graded assignments in progress
