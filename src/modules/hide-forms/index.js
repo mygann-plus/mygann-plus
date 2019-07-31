@@ -75,7 +75,7 @@ async function getActiveForms() {
   const endpoint = `/api/DataDirect/GetMyFileForms?userId=${userId}`;
   const forms = await fetchApi(endpoint);
   return forms
-    .filter(form => form.ReviewInd === 1) // is active
+    .filter(form => form.ReviewInd !== 2) // is not completed
     .map(form => form.ApplicationFormId); // get id
 }
 
