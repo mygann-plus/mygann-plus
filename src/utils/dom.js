@@ -172,6 +172,7 @@ export class DropdownMenu {
   addItem(item) {
     this.dropdownElement.appendChild(this._createItemElem(item));
   }
+  
   clearItems() {
     this.dropdownElement.innerHTML = '';
   }
@@ -218,6 +219,7 @@ export class DropdownMenu {
   }
 
   _hideDropdown() { this.dropdownElement.style.display = 'none'; }
+
   _showDropdown() { this.dropdownElement.style.display = 'block'; }
 
   _toggleDropdown() {

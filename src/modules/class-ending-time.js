@@ -10,7 +10,7 @@ import {
 } from '~/shared/schedule';
 
 function minutesTo(date) {
-  let diffMs = (timeStringToDate(to24Hr(date)) - new Date());
+  const diffMs = (timeStringToDate(to24Hr(date)) - new Date());
   return Math.ceil(diffMs / 60000);
 }
 

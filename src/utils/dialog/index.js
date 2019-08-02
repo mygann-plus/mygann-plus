@@ -53,6 +53,7 @@ export default class Dialog {
     this._resizeDialog();
     this._resizeListener = addEventListener(window, 'resize', () => this._resizeDialog());
   }
+
   close() {
     this._resizeListener.remove();
     if (this.opts.backdrop) {
@@ -61,12 +62,15 @@ export default class Dialog {
     this.outerElem.remove();
     this.opts.onClose();
   }
+
   getBody() {
     return this.innerElem;
   }
+
   getLeftButton(index) {
     return this.leftButtons[index];
   }
+  
   getRightButton(index) {
     return this.rightButtons[index];
   }
