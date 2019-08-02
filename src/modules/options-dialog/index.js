@@ -4,6 +4,7 @@ import {
   createElement,
   insertCss,
   constructButton,
+  addEventListener,
 } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
 import fuzzyMatch from '~/utils/search';
@@ -15,6 +16,7 @@ import { getFlattenedOptions, setFlattenedOptions, mergeDefaultOptions } from '~
 import { isRemoteDisabled } from '~/remote-disable';
 
 import style from './style.css';
+
 
 const selectors = {
   searchbarWrap: style.locals['searchbar-wrap'],
@@ -188,6 +190,7 @@ class OptionsDialog {
           return false;
         },
       }],
+      onClose: () => this.disableUnloadWarning(),
     });
 
     this.disableSaveButton();
@@ -205,6 +208,7 @@ class OptionsDialog {
     this.bodyElement.replaceWith(newBodyElement);
     this.bodyElement = newBodyElement;
     this.enableSaveButton();
+    this.enableUnloadWarning();
   }
 
   async renderBody() {
@@ -291,6 +295,7 @@ class OptionsDialog {
     const onToggleChange = ({ target }) => {
       moduleState.enabled = target.checked;
       this.enableSaveButton();
+      this.enableUnloadWarning();
     };
 
     const moduleView = (
@@ -370,6 +375,7 @@ class OptionsDialog {
         this.state[module.guid].suboptions[key] = newValue;
         oldValue = newValue;
         this.enableSaveButton();
+        this.enableUnloadWarning();
 
         if (suboption.type === 'boolean') {
           if (newValue) {
@@ -438,6 +444,7 @@ class OptionsDialog {
           const newValue = getSuboptionValue(input, suboption);
           this.state[module.guid].suboptions[key] = newValue;
           this.enableSaveButton();
+          this.enableUnloadWarning();
           if (suboption.resettable && newValue !== suboption.defaultValue) {
             resetSuboptionButton.classList.add(selectors.suboption.resetVisible);
           } else {
@@ -452,6 +459,7 @@ class OptionsDialog {
         setSuboptionValue(input, suboption, suboption.defaultValue);
         this.state[module.guid].suboptions[key] = suboption.defaultValue;
         this.enableSaveButton();
+        this.enableUnloadWarning();
         resetSuboptionButton.classList.remove(selectors.suboption.resetVisible);
       });
 
@@ -491,6 +499,22 @@ class OptionsDialog {
   }
   enableSaveButton() {
     this.dialog.getLeftButton(0).disabled = false;
+  }
+
+  // "Unsaved Work" warning on page close
+  enableUnloadWarning() {
+    if (!this.unloadListener) {
+      this.unloadListener = addEventListener(window, 'beforeunload', e => {
+        e.preventDefault();
+        e.returnValue = '';
+      });
+    }
+  }
+
+  disableUnloadWarning() {
+    if (this.unloadListener) {
+      this.unloadListener.remove();
+    }
   }
 
   registerDependentSuboption(module, suboptionKey, element) {
