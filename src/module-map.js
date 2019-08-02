@@ -1,4 +1,5 @@
 import autoCloseDetailStatus from './modules/auto-close-detail-status';
+import autofocusSiteSearch from './modules/autofocus-site-search';
 import archiveAll from './modules/archive-all';
 import classEndingTime from './modules/class-ending-time';
 import coursesFilter from './modules/courses-filter';
@@ -58,6 +59,7 @@ const MODULE_MAP = {
     hideForms,
     myDayShortcut,
     theme,
+    autofocusSiteSearch,
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus],
