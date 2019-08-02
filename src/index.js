@@ -7,6 +7,7 @@ import { isBookmarklet, markBookmarkletLoaded, isBookmarletLoaded } from '~/util
 import { getRegisteredModules } from '~/module';
 import { modulesForHash } from '~/module-map';
 import { loadModule, softUnloadModule, hardUnloadModule, isModuleLoaded } from '~/module-loader';
+import { fetchRemoteDisabled } from '~/remote-disable';
 import {
   getFlattenedOptions,
   setFlattenedOptions,
@@ -83,11 +84,13 @@ async function runExtension() {
   }
 
   await initializeOptions();
+  fetchRemoteDisabled();
   setCssVars();
   addOptionsChangeListener(applyNewOptions);
   loadModules(getHash(window.location.href));
 
   window.addEventListener('hashchange', e => {
+    fetchRemoteDisabled();
     const newHash = getHash(e.newURL);
     const oldHash = getHash(e.oldURL);
     unloadModules(oldHash, newHash);

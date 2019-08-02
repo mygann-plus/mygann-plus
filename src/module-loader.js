@@ -1,4 +1,5 @@
 import { getOptionsFor } from '~/options';
+import { isRemoteDisabled } from '~/remote-disable';
 import log from '~/utils/log';
 
 /**
@@ -67,6 +68,11 @@ export function isModuleLoaded(module) {
 }
 
 export async function loadModule(module, waitUntilLoaded = false) {
+  if (await isRemoteDisabled(module)) {
+    return;
+  }
+
+
   const options = await getOptionsFor(module.guid);
   const unloaderContext = isModuleLoaded(module) ?
     loadedModules.get(module).unloaderContext
