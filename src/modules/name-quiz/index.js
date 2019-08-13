@@ -4,6 +4,8 @@ import registerModule from '~/module';
 
 import { createElement, waitForLoad, constructButton, insertCss } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
+import { fetchApi } from '~/utils/fetch';
+import { getCDNImageUrl } from '~/utils/cdn';
 
 import style from './style.css';
 import { getNicknames, setNickname, removeNickname, getMode, setMode } from './name-quiz-modal';
@@ -80,7 +82,8 @@ class NameQuizGame {
       this.shownStudents = [];
     }
     if (this.currentStudent) {
-      while (this.currentStudent.image === student.image || this.shownStudents.includes(student.name)) {
+      const alreadyShown = this.shownStudents.includes(student.name);
+      while (this.currentStudent.image === student.image || alreadyShown) {
         student = getRandomItem(this.students);
       }
     }
@@ -297,22 +300,15 @@ class NameQuizGame {
 }
 
 async function runGame(unloaderContext) {
-  const students = Array.from(document.querySelectorAll('.bb-card'))
-    .filter(card => {
-      const name = card.querySelector('.bb-card-title').textContent;
-      const email = card.querySelector('a').textContent;
-      const image = card.querySelector('.bb-avatar-image');
-      // student email accounts start with grad year
-      const isStudentEmail = !Number.isNaN(parseInt(email, 10));
-      if (name === 'Teacher' || name === 'Owner' || !image || !isStudentEmail) {
-        return false;
-      }
-      return true;
-    })
-    .map(card => ({
-      name: card.querySelector('.bb-card-title').textContent,
-      image: card.querySelector('.bb-avatar-image').src,
-    }));
+
+  const classId = window.location.href.match(/#academicclass\/([0-9]+)/)[1];
+
+  const students = await Promise.all((await fetchApi(`/api/datadirect/sectionrosterget/${classId}`))
+    .filter(student => student.gradYear) // only students have gradYears
+    .map(async student => ({
+      name: student.name,
+      image: await getCDNImageUrl(`user/${student.userPhotoLarge}?resize=200,200`),
+    })));
 
   if (!students.length) {
     return alert('There are no students in this class.'); // eslint-disable-line no-alert
