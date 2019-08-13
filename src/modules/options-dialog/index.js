@@ -4,6 +4,7 @@ import {
   createElement,
   insertCss,
   constructButton,
+  addEventListener,
 } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
 import fuzzyMatch from '~/utils/search';
@@ -12,8 +13,10 @@ import log from '~/utils/log';
 import { appendDesktopUserMenuLink, appendMobileUserMenuLink } from '~/shared/user-menu';
 import { MODULE_MAP, SECTION_MAP } from '~/module-map';
 import { getFlattenedOptions, setFlattenedOptions, mergeDefaultOptions } from '~/options';
+import { isRemoteDisabled } from '~/remote-disable';
 
 import style from './style.css';
+
 
 const selectors = {
   searchbarWrap: style.locals['searchbar-wrap'],
@@ -166,8 +169,10 @@ class OptionsDialog {
 
     // [module.guid]: [suboptionKey1, suboptionKey2, ...]
     this.dependentSuboptions = {};
+  }
 
-    this.bodyElement = this.renderBody();
+  async constructDialog() {
+    this.bodyElement = await this.renderBody();
 
     this.dialog = new Dialog('MyGann+ Options', this.bodyElement, {
       leftButtons: [{
@@ -185,6 +190,7 @@ class OptionsDialog {
           return false;
         },
       }],
+      onClose: () => this.disableUnloadWarning(),
     });
 
     this.disableSaveButton();
@@ -196,15 +202,16 @@ class OptionsDialog {
   save() {
     this.onSave(this.state);
   }
-  reset() {
+  async reset() {
     this.state = this.getDefaultState();
-    const newBodyElement = this.renderBody();
+    const newBodyElement = await this.renderBody();
     this.bodyElement.replaceWith(newBodyElement);
     this.bodyElement = newBodyElement;
     this.enableSaveButton();
+    this.enableUnloadWarning();
   }
 
-  renderBody() {
+  async renderBody() {
     this.moduleElems = [];
     const bodyWrap = <div />;
     const searchbar = this.createSearchBar();
@@ -218,7 +225,7 @@ class OptionsDialog {
       }
     }
     for (const sectionName in MODULE_MAP) {
-      const section = this.createSectionView(
+      const section = await this.createSectionView(
         SECTION_MAP[sectionName],
         MODULE_MAP[sectionName],
         createdModules,
@@ -247,13 +254,13 @@ class OptionsDialog {
     );
   }
 
-  createSectionView(publicName, modules, createdModules) {
-    const moduleViews = modules.map(module => {
+  async createSectionView(publicName, modules, createdModules) {
+    const moduleViews = await Promise.all(modules.map(module => {
       if (!createdModules.includes(module)) {
         createdModules.push(module);
         return this.createModuleView(module);
       }
-    });
+    }));
     if (moduleViews.every(x => !x)) {
       // all modules are null or already shown, therefore hidden in options
       return null;
@@ -275,15 +282,20 @@ class OptionsDialog {
     return sectionView;
   }
 
-  createModuleView(module) {
+  async createModuleView(module) {
     const moduleState = this.state[module.guid];
-    if (!module.config.showInOptions || module.config.topLevelOption) {
+
+    const shouldRender = module.config.showInOptions
+      && !module.config.topLevelOption
+      && !await isRemoteDisabled(module);
+    if (!shouldRender) {
       return null;
     }
 
     const onToggleChange = ({ target }) => {
       moduleState.enabled = target.checked;
       this.enableSaveButton();
+      this.enableUnloadWarning();
     };
 
     const moduleView = (
@@ -363,6 +375,7 @@ class OptionsDialog {
         this.state[module.guid].suboptions[key] = newValue;
         oldValue = newValue;
         this.enableSaveButton();
+        this.enableUnloadWarning();
 
         if (suboption.type === 'boolean') {
           if (newValue) {
@@ -431,6 +444,7 @@ class OptionsDialog {
           const newValue = getSuboptionValue(input, suboption);
           this.state[module.guid].suboptions[key] = newValue;
           this.enableSaveButton();
+          this.enableUnloadWarning();
           if (suboption.resettable && newValue !== suboption.defaultValue) {
             resetSuboptionButton.classList.add(selectors.suboption.resetVisible);
           } else {
@@ -445,6 +459,7 @@ class OptionsDialog {
         setSuboptionValue(input, suboption, suboption.defaultValue);
         this.state[module.guid].suboptions[key] = suboption.defaultValue;
         this.enableSaveButton();
+        this.enableUnloadWarning();
         resetSuboptionButton.classList.remove(selectors.suboption.resetVisible);
       });
 
@@ -484,6 +499,22 @@ class OptionsDialog {
   }
   enableSaveButton() {
     this.dialog.getLeftButton(0).disabled = false;
+  }
+
+  // "Unsaved Work" warning on page close
+  enableUnloadWarning() {
+    if (!this.unloadListener) {
+      this.unloadListener = addEventListener(window, 'beforeunload', e => {
+        e.preventDefault();
+        e.returnValue = '';
+      });
+    }
+  }
+
+  disableUnloadWarning() {
+    if (this.unloadListener) {
+      this.unloadListener.remove();
+    }
   }
 
   registerDependentSuboption(module, suboptionKey, element) {
@@ -550,6 +581,7 @@ function getDefaultOptions() {
 async function showDialog() {
   const optionsData = await getFlattenedOptions();
   const dialog = new OptionsDialog(optionsData, saveOptions, getDefaultOptions);
+  await dialog.constructDialog();
   dialog.open();
 }
 
