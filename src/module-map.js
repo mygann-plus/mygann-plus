@@ -45,6 +45,8 @@ import extreme from './modules/extreme';
 import fixTaskClass from './modules/fix-task-class';
 import progressAssignmentDetails from './modules/progress-assignment-details';
 import serveryMenu from './modules/servery-menu';
+import scheduleArrowNavigation from './modules/schedule-arrow-navigation';
+import admin from './modules/admin';
 
 const MODULE_MAP = {
   '#': [
@@ -82,6 +84,7 @@ const MODULE_MAP = {
     blockLength,
     classEndingTime,
     comingUp,
+    scheduleArrowNavigation,
   ],
   '#myday/schedule-performance': [classEndingTime],
   '#studentmyday/progress': [
@@ -102,6 +105,7 @@ const MODULE_MAP = {
   '#academicclass': [classEmail, nameQuiz],
   '#communitypage': [nameQuiz],
   '#myschedule': [dayScheduleButton],
+  '#admin': [admin],
 
   __proto__: null, // use as map
 };
