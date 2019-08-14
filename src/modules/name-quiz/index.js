@@ -303,7 +303,10 @@ async function runGame(unloaderContext) {
   const classId = window.location.href.match(/#academicclass\/([0-9]+)/)[1];
 
   const students = await Promise.all((await fetchApi(`/api/datadirect/sectionrosterget/${classId}`))
-    .filter(student => student.gradYear) // only students have gradYears
+    .filter(student => {
+      // only students have gradYears, some students don't have photos
+      return student.gradYear && student.userPhotoLarge;
+    })
     .map(async student => ({
       name: student.name,
       image: await getCDNImageUrl(`user/${student.userPhotoLarge}?resize=200,200`),
