@@ -301,11 +301,12 @@ class NameQuizGame {
 async function runGame(unloaderContext) {
 
   const classId = window.location.href.match(/#academicclass\/([0-9]+)/)[1];
+  const userId = Number(await getUserId());
 
   const students = await Promise.all((await fetchApi(`/api/datadirect/sectionrosterget/${classId}`))
     .filter(student => {
       // only students have gradYears, some students don't have photos
-      return student.gradYear && student.userPhotoLarge;
+      return student.gradYear && student.Id !== userId && student.userPhotoLarge;
     })
     .map(async student => ({
       name: student.name,
