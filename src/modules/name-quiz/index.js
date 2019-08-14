@@ -6,6 +6,7 @@ import { createElement, waitForLoad, constructButton, insertCss } from '~/utils/
 import Dialog from '~/utils/dialog';
 import { fetchApi } from '~/utils/fetch';
 import { getCDNImageUrl } from '~/utils/cdn';
+import { getUserId } from '~/utils/user';
 
 import style from './style.css';
 import { getNicknames, setNickname, removeNickname, getMode, setMode } from './name-quiz-modal';
