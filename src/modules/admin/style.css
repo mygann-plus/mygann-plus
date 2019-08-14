@@ -1,0 +1,16 @@
+:global #skyui-header {
+  display: none;
+}
+:global #site-top-spacer {
+  background-color: transparent;
+}
+
+.report {
+  background: white;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.report img {
+  width: 50px;
+}
