@@ -88,6 +88,15 @@ export async function getAllMessages(inbox = true, page = 0, messages = []) {
 
 }
 
+export async function getAllMessageConversations() {
+  const messages = await getAllMessages();
+  const conversations = Promise.all(messages.map(async message => {
+    const query = `/api/message/conversation/${message.ConversationId}`;
+    return fetchApi(query);
+  }));
+  return conversations;
+}
+
 // switches hashes, then goes back, which refreshes message list
 export async function refreshMessageList() {
   const oldHash = window.location.hash;
