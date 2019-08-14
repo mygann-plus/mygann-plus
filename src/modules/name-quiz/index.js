@@ -78,12 +78,11 @@ class NameQuizGame {
 
   generateNewQuestion() {
     let student = getRandomItem(this.students);
-    if (this.shownStudents.length === this.students.length) {
+    if (this.shownStudents.length === this.students.length - 1) {
       this.shownStudents = [];
     }
     if (this.currentStudent) {
-      const alreadyShown = this.shownStudents.includes(student.name);
-      while (this.currentStudent.image === student.image || alreadyShown) {
+      while (this.currentStudent.image === student.image || this.shownStudents.includes(student.name)) {
         student = getRandomItem(this.students);
       }
     }
