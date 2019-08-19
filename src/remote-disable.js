@@ -1,6 +1,6 @@
 import storage from '~/utils/storage';
-import { fetchJson } from './utils/fetch';
-
+import { fetchJson } from '~/utils/fetch';
+import getManifest from '~/utils/manifest';
 
 // storage data
 const REMOTE_DISABLE_STORAGE_SCHEMA_VERSION = 1;
@@ -19,6 +19,7 @@ export async function fetchRemoteDisabled() {
 }
 
 export async function isRemoteDisabled(module) {
+  const version = getManifest().version_name;
   const storedDisabled = await storage.get(
     REMOTE_DISABLE_STORAGE_KEY,
     REMOTE_DISABLE_STORAGE_SCHEMA_VERSION,
@@ -26,5 +27,6 @@ export async function isRemoteDisabled(module) {
   if (!storedDisabled) {
     return false;
   }
-  return storedDisabled.includes(module.guid);
+  const disabledModule = storedDisabled.find(m => m.guid === module.guid);
+  return disabledModule && disabledModule.version === version;
 }

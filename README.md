@@ -23,3 +23,14 @@
 
 ### Bookmarklet Script
 `javascript:fetch('https://mygann-plus-bookmarklet.surge.sh/dist/content-script.js').then(d=>d.text()).then(eval)`
+
+## Remote Disable Format
+
+```json
+{
+    "$schemaVersion": 1,
+    "disabled": [{
+        "guid": "{guid of broken module}",
+        "version": "broken version"
+    }]
+}
