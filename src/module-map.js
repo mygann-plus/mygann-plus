@@ -47,6 +47,7 @@ import progressAssignmentDetails from './modules/progress-assignment-details';
 import serveryMenu from './modules/servery-menu';
 import scheduleArrowNavigation from './modules/schedule-arrow-navigation';
 import admin from './modules/admin';
+import semesterSwitcher from './modules/semester-switcher';
 
 const MODULE_MAP = {
   '#': [
@@ -94,6 +95,7 @@ const MODULE_MAP = {
     collapseAssignmentSections,
     fullYearAssignments,
     progressAssignmentDetails,
+    semesterSwitcher,
   ],
   '#message': [archiveAll],
   '#message/inbox': [markAllAsRead, markAsRead, fixArchiveHighlight],
