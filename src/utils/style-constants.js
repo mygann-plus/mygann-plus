@@ -7,9 +7,9 @@ const constants = {
   navMenuHighlight: '#fff2c0',
   badgeRed: '#ff3633',
   linkBlue: '#007ca6',
+  errorRed: '#cc0000',
 
   maxMobileWidth: '978px',
 };
 
 export default constants;
-

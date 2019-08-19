@@ -5,6 +5,7 @@ import { createElement, insertCss, waitForLoad } from '~/utils/dom';
 
 import style from './style.css';
 import fontStyle from './font-style.css';
+import { fetchJson } from '~/utils/fetch';
 
 const DEFAULT_COLOR = constants.primaryMaroon;
 const DEFAULT_FONT = '';
@@ -40,6 +41,19 @@ function createColorObject(base, r, g, b) {
     g: base.g + g,
     b: base.b + b,
   };
+}
+
+// Suboption Validators
+
+// Checks if font exists on Google Fonts
+async function fontValidator(font) {
+  const endpoint = `https://fonts.googleapis.com/css?family=${font.replace(/ /g, '+')}`;
+  try {
+    await fetch(endpoint);
+    return { valid: true };
+  } catch (e) {
+    return { valid: false, message: `${font} is not on Google Fonts` };
+  }
 }
 
 const domQuery = () => document.querySelector('#app-style style');
@@ -124,6 +138,7 @@ export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
         'Karla',
         'Open Sans',
       ],
+      validator: fontValidator,
     },
   },
 });
