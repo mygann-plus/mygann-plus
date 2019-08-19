@@ -49,24 +49,11 @@ const selectors = {
     hidden: style.locals['suboption-hidden'],
     reset: style.locals['suboption-reset'],
     resetVisible: style.locals['suboption-reset-visible'],
+    invalidMessage: style.locals['suboption-invalid-message'],
   },
 };
 
 const formatDescription = desc => desc.replace(/\n/g, ' ');
-
-function validateSuboption(input, suboption) {
-  switch (suboption.type) {
-    case 'number':
-      const numValue = Number(input.value);
-      if ('min' in suboption && numValue < suboption.min) return false;
-      if ('max' in suboption && numValue > suboption.max) return false;
-      if (suboption.validator && !suboption.validator(numValue)) return false;
-      break;
-    default:
-      if (suboption.validator && !suboption.validator(input.value)) return false;
-  }
-  return true;
-}
 
 function createSuboptionInput(suboption) {
   let input;
@@ -151,6 +138,44 @@ function setSuboptionValue(suboptElem, suboption, value) {
   }
 }
 
+async function validateSuboption(input, suboption) {
+  const value = getSuboptionValue(input, suboption);
+
+  const runCustomValidator = async val => {
+    const validated = await suboption.validator(val);
+    if (typeof validated === 'boolean') {
+      return validated ? { valid: true } : { valid: false, message: `${val} is invalid` };
+    }
+    return { valid: validated.valid, message: validated.message };
+  };
+
+  switch (suboption.type) {
+    case 'number':
+      const numValue = Number(value);
+      if ('min' in suboption && numValue < suboption.min) {
+        return {
+          valid: false,
+          message: `${value} is too small. The value must be more than ${suboption.min}`,
+        };
+      }
+      if ('max' in suboption && numValue > suboption.max) {
+        return {
+          valid: false,
+          message: `${value} is too big. The value must be less than ${suboption.max}`,
+        };
+      }
+      if (suboption.validator) {
+        return runCustomValidator(numValue);
+      }
+      break;
+    default:
+      if (suboption.validator) {
+        return runCustomValidator(value);
+      }
+  }
+  return { valid: true };
+}
+
 function getTopLevelModules() {
   const topLevelModules = [];
   for (const sectionName in MODULE_MAP) {
@@ -199,9 +224,11 @@ class OptionsDialog {
   open() {
     this.dialog.open();
   }
+
   save() {
     this.onSave(this.state);
   }
+
   async reset() {
     this.state = this.getDefaultState();
     const newBodyElement = await this.renderBody();
@@ -315,8 +342,8 @@ class OptionsDialog {
             <span className={selectors.module.caption}>
               {module.config.name}
               {
-                module.config.description &&
-                <span className={selectors.module.description}>
+                module.config.description
+                && <span className={selectors.module.description}>
                   - {formatDescription(module.config.description)}
                 </span>
               }
@@ -362,14 +389,16 @@ class OptionsDialog {
   createSuboptionView(module, key) {
     const suboption = module.config.suboptions[key];
     const value = this.state[module.guid].suboptions[key];
-    let input = createSuboptionInput(suboption);
+    const input = createSuboptionInput(suboption);
+    const invalidMessage = <span className={selectors.suboption.invalidMessage}></span>;
 
     input.classList.add(selectors.suboption.input);
     setSuboptionValue(input, suboption, value);
 
     let oldValue = value;
-    input.addEventListener('change', () => {
-      if (validateSuboption(input, suboption)) {
+    input.addEventListener('change', async () => {
+      const validated = await validateSuboption(input, suboption);
+      if (validated.valid) {
 
         const newValue = getSuboptionValue(input, suboption);
         this.state[module.guid].suboptions[key] = newValue;
@@ -385,8 +414,10 @@ class OptionsDialog {
           }
         }
 
+        invalidMessage.textContent = '';
       } else {
         setSuboptionValue(input, suboption, oldValue);
+        invalidMessage.textContent = validated.message;
       }
     });
 
@@ -394,10 +425,11 @@ class OptionsDialog {
     const label = (
       <label className={selectors.suboption.label}>
         {
-          suboption.type === 'boolean' ?
-          [input, nameWrap] :
-          [nameWrap, input]
+          suboption.type === 'boolean'
+            ? [input, nameWrap]
+            : [nameWrap, input]
         }
+        { invalidMessage }
       </label>
     );
 
@@ -426,6 +458,7 @@ class OptionsDialog {
       const suboption = module.config.suboptions[key];
 
       const input = createSuboptionInput(suboption);
+      const invalidValueMessage = <span className={selectors.suboption.invalidMessage}></span>;
       const resetSuboptionButton = constructButton(
         'Reset', '', '',
         () => {}, selectors.suboption.reset,
@@ -439,8 +472,9 @@ class OptionsDialog {
         resetSuboptionButton.classList.add(selectors.suboption.resetVisible);
       }
 
-      input.addEventListener('change', () => {
-        if (validateSuboption(input, suboption)) {
+      input.addEventListener('change', async () => {
+        const validator = await validateSuboption(input, suboption);
+        if (validator.valid) {
           const newValue = getSuboptionValue(input, suboption);
           this.state[module.guid].suboptions[key] = newValue;
           this.enableSaveButton();
@@ -450,8 +484,10 @@ class OptionsDialog {
           } else {
             resetSuboptionButton.classList.remove(selectors.suboption.resetVisible);
           }
+          invalidValueMessage.textContent = '';
         } else {
           setSuboptionValue(input, suboption, value);
+          invalidValueMessage.textContent = validator.message;
         }
       });
 
@@ -461,6 +497,7 @@ class OptionsDialog {
         this.enableSaveButton();
         this.enableUnloadWarning();
         resetSuboptionButton.classList.remove(selectors.suboption.resetVisible);
+        invalidValueMessage.textContent = '';
       });
 
       const suboptionView = (
@@ -469,21 +506,22 @@ class OptionsDialog {
             <span className={selectors.module.caption}>
               { suboption.name }
               {
-                suboption.description ?
-                  (
+                suboption.description
+                  ? (
                     <span className={selectors.suboption.description}>
                       &nbsp;- {
-                        suboption.htmlDescription ?
-                        <span innerHTML={ description } /> :
-                        description
+                        suboption.htmlDescription
+                          ? <span innerHTML={ description } />
+                          : description
                       }
                     </span>
-                  ) :
-                  null
+                  )
+                  : null
               }
             </span>
             { input }
             { resetSuboptionButton }
+            { invalidValueMessage }
           </div>
         </div>
       );
@@ -497,6 +535,7 @@ class OptionsDialog {
   disableSaveButton() {
     this.dialog.getLeftButton(0).disabled = true;
   }
+
   enableSaveButton() {
     this.dialog.getLeftButton(0).disabled = false;
   }

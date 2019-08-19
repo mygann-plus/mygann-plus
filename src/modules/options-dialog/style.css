@@ -124,6 +124,12 @@ textarea.suboption-input {
   display: inline-block;
 }
 
+.suboption-invalid-message {
+  display: block;
+  font-size: 13px;
+  color: var(--error-red);
+}
+
 /* TOGGLE */
 
 .toggle-wrap {
