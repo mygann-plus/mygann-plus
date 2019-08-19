@@ -10,6 +10,7 @@ import {
 import { appendMobileAssignmentCenterMenuLink } from '~/shared/assignments-center';
 
 import style from './style.css';
+import { getHideCompletedEnabled, setHideCompletedEnabled } from './hide-completed-model';
 
 const selectors = {
   activeButton: style.locals['active-button'],
@@ -79,7 +80,17 @@ async function toggleHidden({ target: button }) {
         checkboxes[index].querySelector('.p3icon-check').click();
       }
     }
+    setHideCompletedEnabled(!isHiddenEnabled);
   });
+}
+
+async function enableHidden(hideCompletedButtons) {
+  const isEnabled = hideCompletedButtons[0].classList.contains(selectors.activeButton);
+  if (!isEnabled) {
+    for (const button of hideCompletedButtons) {
+      toggleHidden({ target: button });
+    }
+  }
 }
 
 const domQuery = {
@@ -87,7 +98,7 @@ const domQuery = {
   mobile: () => document.querySelector('#filter-status-menu'),
 };
 
-async function hideCompleted(opts, unloaderContext) {
+async function hideCompleted(suboptions, unloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
@@ -117,13 +128,25 @@ async function hideCompleted(opts, unloaderContext) {
   unloaderContext.addRemovable(desktopFilterStatusListener);
   unloaderContext.addRemovable(mobileFilterStatusListener);
 
-  // open and apply dialog, which updates button to current filter
-  // used for dynamic loading
-  runFilterDialog(() => {});
+  // if persisting and enabled in storage, turn on
+  if (suboptions.persist && await getHideCompletedEnabled()) {
+    enableHidden([button, mobileLink]);
+  } else {
+    // open and apply dialog, which updates button to current filter
+    // used for dynamic loading
+    runFilterDialog(() => {});
+  }
 }
 
 export default registerModule('{6394e18f-5b51-44f4-bb3c-1144ab97945a}', {
   name: 'Hide Completed Assignments Button',
   description: 'Button to quickly show or hide completed and graded assignments',
   main: hideCompleted,
+  suboptions: {
+    persist: {
+      name: 'Keep Enabled',
+      type: 'boolean',
+      defaultValue: false,
+    },
+  },
 });
