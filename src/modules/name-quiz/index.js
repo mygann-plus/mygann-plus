@@ -12,6 +12,7 @@ import style from './style.css';
 import { getNicknames, setNickname, removeNickname, getMode, setMode } from './name-quiz-modal';
 
 const getRandomItem = arr => arr[Math.floor(Math.random() * arr.length)];
+const normalizeName = name => name.toLowerCase().trim();
 const getFirstName = fullName => fullName.split(' ')[0];
 const capitalize = str => str[0].toUpperCase() + str.substring(1);
 const removeStudent = (students, student) => students.filter(s => s.name !== student.name);
@@ -48,7 +49,6 @@ class NameQuizGame {
     this.students = students;
     this.nicknames = nicknames;
     this.mode = mode;
-    this.correctAnswer = null;
     this.points = 0;
     this.shownStudents = [];
     this.hintLength = 0;
@@ -62,6 +62,7 @@ class NameQuizGame {
     this.elements.input.focus();
     this.generateNewQuestion();
   }
+
   getWrap() {
     return this.elements.wrap;
   }
@@ -88,7 +89,6 @@ class NameQuizGame {
       }
     }
     this.currentStudent = student;
-    this.correctAnswer = this.getStudentName(student);
     this.elements.image.src = student.image;
     if (this.mode === modes.CHOICE) {
       this.generateNewMultipleChoiceBoxes(student);
@@ -115,12 +115,19 @@ class NameQuizGame {
     return nickname ? capitalize(nickname) : getFirstName(student.name);
   }
 
+  isCorrectName(name) {
+    const nickname = this.nicknames[this.currentStudent.name];
+    const currentName = getFirstName(normalizeName(this.currentStudent.name));
+    const normalName = normalizeName(name);
+    return (nickname && normalName === normalizeName(nickname)) || normalName === currentName;
+  }
+
   /* EVENT LISTENERS */
 
   handleInput(e) {
     this.elements.wrap.classList.remove(selectors.wrongAnswer);
     if (e.key === 'Enter') {
-      if (e.target.value.toLowerCase().trim() === this.correctAnswer.toLowerCase().trim()) {
+      if (this.isCorrectName(e.target.value)) {
         this.incrementPoints();
         this.hideHint();
         this.nextTurn();
@@ -130,13 +137,15 @@ class NameQuizGame {
       }
     }
   }
+
   handleChoiceClick(e) {
-    if (e.target.textContent === this.correctAnswer) {
+    if (this.isCorrectName(e.target.textContent)) {
       e.target.blur();
       this.incrementPoints();
       this.nextTurn();
     }
   }
+
   handleNicknameClick(e) {
     e.preventDefault();
     const nickname = prompt(`Nickname for ${this.currentStudent.name}`); // eslint-disable-line no-alert
@@ -144,12 +153,12 @@ class NameQuizGame {
       return;
     }
     this.nicknames[this.currentStudent.name] = nickname;
-    this.correctAnswer = nickname;
     setNickname(this.currentStudent.name, nickname);
     if (this.mode === modes.CHOICE) {
       this.elements.multipleChoiceBoxes[this.correctIndex].textContent = nickname;
     }
   }
+
   updateInputType() {
     switch (this.mode) {
       case modes.TYPE:
@@ -173,6 +182,7 @@ class NameQuizGame {
     const letters = this.getStudentName(this.currentStudent).substring(0, this.hintLength);
     this.elements.hint.textContent = `Hint: ${letters}`;
   }
+
   hideHint() {
     this.hintLength = 0;
     this.elements.hint.textContent = '';
@@ -279,6 +289,7 @@ class NameQuizGame {
     });
     dialog.open();
   }
+
   selectMode(mode) {
     if (mode !== this.mode) {
       this.mode = mode;
@@ -287,11 +298,13 @@ class NameQuizGame {
     this.mode = mode;
     setMode(mode);
   }
+
   handleNicknameRemoveClick(e, fullName) {
     e.target.closest(`.${selectors.settings.nicknameRow}`).remove();
     delete this.nicknames[fullName];
     removeNickname(fullName);
   }
+
   funny() {
     setInterval(() => {
       this.generateNewQuestion();
