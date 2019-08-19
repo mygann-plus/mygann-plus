@@ -152,13 +152,16 @@ function renderFilterBar() {
 }
 
 const domQuery = () => (
-  coursesListLoaded() &&
-  document.getElementById('showHideGrade')
+  coursesListLoaded()
+  && document.getElementById('showHideGrade')
 );
 
 async function addCoursesFilterBar() {
   await waitForLoad(domQuery);
-  return renderFilterBar();
+  const existingFilterBar = document.querySelector(`.${selectors.filterInput}`);
+  if (!existingFilterBar) {
+    return renderFilterBar();
+  }
 }
 
 async function coursesFilter(opts, unloaderContext) {
