@@ -1,0 +1,7 @@
+:global #group-header-Classes + * + .subnav li {
+  max-width: 152px;
+}
+
+:global #group-header-Classes + * + .subnav .subnavfooter li {
+  max-width: unset;
+}
