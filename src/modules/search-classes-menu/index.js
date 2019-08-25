@@ -41,24 +41,26 @@ class ClassFilter {
 
     this.input.addEventListener('input', () => this.handleSearch());
     this.input.addEventListener('keypress', e => this.handleKeypress(e));
-    this.courses = this.getCourses();
     this.match = null;
 
     this.hiddenClassName = hiddenClassName;
     this.highlightedClassName = highlightedClassName;
   }
+
   showSearchbar() {
     this.input.value = '';
     this.handleSearch();
     this.input.focus();
   }
+
   getCurrentSearch() {
     return this.input.value.toLowerCase().trim();
   }
 
   handleSearch() {
     const matches = [];
-    for (const course of this.courses) {
+    const courses = this.getCourses();
+    for (const course of courses) {
       const isMatched = fuzzyMatch(this.getCurrentSearch(), course.title);
       if (isMatched) {
         matches.push(course);
@@ -78,6 +80,7 @@ class ClassFilter {
       this.goToMatch();
     }
   }
+
   goToMatch() {
     this.match.elem.querySelector('a').click();
   }
@@ -102,11 +105,15 @@ class DesktopClassFilter extends ClassFilter {
 
   getCourses() {
     return getDesktopCourses()
-      .filter(({ elem }) => elem.id !== selectors.desktopSearchbar);
+      .filter(({ elem }) => {
+        return elem.id !== selectors.desktopSearchbar && !elem.closest('.subnavfooter');
+      });
   }
+
   mountInput(node) {
     node.prepend(this.input);
   }
+
   remove() {
     this.input.remove();
   }
@@ -120,10 +127,12 @@ class MobileClassFilter extends ClassFilter {
       selectors.highlightedCourse.mobile,
     );
   }
+
   getCourses() {
     return getMobileCourses()
       .filter(({ elem }) => elem.id !== selectors.mobileSearchbarWrap);
   }
+
   mountInput(node) {
     this.wrap = (
       <li id={selectors.mobileSearchbarWrap}>
@@ -132,6 +141,7 @@ class MobileClassFilter extends ClassFilter {
     );
     node.prepend(this.wrap);
   }
+
   remove() {
     this.wrap.remove();
   }
