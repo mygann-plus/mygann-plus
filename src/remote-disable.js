@@ -1,5 +1,5 @@
 import storage from '~/utils/storage';
-import { fetchJson } from '~/utils/fetch';
+import { fetchRawData } from '~/utils/fetch';
 import getManifest from '~/utils/manifest';
 
 // storage data
@@ -7,15 +7,12 @@ const REMOTE_DISABLE_STORAGE_SCHEMA_VERSION = 1;
 const REMOTE_DISABLE_STORAGE_KEY = 'remote_disable';
 
 // server data
-const REMOTE_DISABLE_URL = 'https://mygannplus-data.surge.sh/remote-disable/remote-disable.json'; // eslint-disable-line max-len
-const REMOTE_DISABLE_DATA_SCHEMA_VERSION = 1;
+const REMOTE_DISABLE_PATH = '/remote-disable/remote-disable.json'; // eslint-disable-line max-len
 
 export async function fetchRemoteDisabled() {
-  const data = await fetchJson(REMOTE_DISABLE_URL);
-  if (data.$schemaVersion === REMOTE_DISABLE_DATA_SCHEMA_VERSION) {
-    const { disabled } = data;
-    storage.set(REMOTE_DISABLE_STORAGE_KEY, disabled, REMOTE_DISABLE_STORAGE_SCHEMA_VERSION);
-  }
+  const data = await fetchRawData(REMOTE_DISABLE_PATH);
+  const { disabled } = data;
+  storage.set(REMOTE_DISABLE_STORAGE_KEY, disabled, REMOTE_DISABLE_STORAGE_SCHEMA_VERSION);
 }
 
 export async function isRemoteDisabled(module) {

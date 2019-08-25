@@ -69,9 +69,9 @@ function getFridayEndTime() {
 }
 
 const domQuery = () => (
-  isEmptySchedule() ?
-    [null] :
-    document.querySelectorAll('#accordionSchedules > *')
+  isEmptySchedule()
+    ? [null]
+    : document.querySelectorAll('#accordionSchedules > *')
 );
 
 async function insertFreeBlock(options, unloaderContext) {
@@ -118,8 +118,8 @@ async function insertFreeBlock(options, unloaderContext) {
         const freeStartTime = addMinutes(fullEndTime, 5);
         const freeEndTime = addMinutes(fullNextStartTime, -5);
         const blockLetter = getBlockLetter(freeStartTime, freeEndTime);
-        const independentStudyEnabled = options.independentStudy &&
-          blockLetter === options.independentStudyBlock;
+        const independentStudyEnabled = options.independentStudy
+          && blockLetter === options.independentStudyBlock;
 
         const block = insertBlock(
           elem,

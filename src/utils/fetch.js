@@ -1,3 +1,5 @@
+import log from '~/utils/log';
+
 const getVerificationToken = () => {
   return document.getElementsByName('__RequestVerificationToken')[0].value;
 };
@@ -47,4 +49,22 @@ export function fetchApi(endpoint, opts = {}) {
   return fetchJson(`https://gannacademy.myschoolapp.com${endpoint}`, Object.assign(opts, {
     headers: apiHeaders,
   }));
+}
+
+const DATA_ENDPOINT = 'https://mygannplus-data.surge.sh';
+
+// Fetch path from /data endpoint
+export function fetchRawData(name) {
+  if (!name.startsWith('/')) {
+    return log('warn', 'Data path must start with /');
+  }
+
+  return fetchJson(DATA_ENDPOINT + name);
+}
+
+export async function fetchData(name, schemaVersion) {
+  const resource = await fetchRawData(name);
+  if (resource) {
+    return resource[schemaVersion];
+  }
 }

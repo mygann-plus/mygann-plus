@@ -1,19 +1,19 @@
-import { fetchJson } from '~/utils/fetch';
+import { fetchData } from '~/utils/fetch';
 import { getCurrentDay } from '~/shared/schedule';
 
-const BLOCK_SCHEDULE_URL = 'https://mygannplus-data.surge.sh/free-block/block-schedule.json'; // eslint-disable-line max-len
+const BLOCK_SCHEDULE_PATH = '/free-block/block-schedule.json'; // eslint-disable-line max-len
 const BLOCK_SCHEDULE_SCHEMA = 1;
 let blockSchedule = null;
 
 export async function getBlockSchedule() {
   if (!blockSchedule) {
-    blockSchedule = await fetchJson(BLOCK_SCHEDULE_URL);
+    blockSchedule = await fetchData(BLOCK_SCHEDULE_PATH, BLOCK_SCHEDULE_SCHEMA);
   }
   return blockSchedule;
 }
 
 export function getBlockLetter(startTime, endTime) {
-  if (blockSchedule.$schemaVersion !== BLOCK_SCHEDULE_SCHEMA) {
+  if (!blockSchedule) {
     return 'Free';
   }
 
