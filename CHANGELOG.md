@@ -1,3 +1,21 @@
+## 1.9.0 (unreleased)
+### Added
+- "Auto Focus Site Search" module, which autofocuses the site searchbar when opened
+- "Schedule Arrow Navigation" module, which enabled using the arrow keys to switch days in the schedule
+- "Semester Switcher" module, which adds a button to quickly switch semesters
+- Option to Hide Completed to stay enabled through page reloads
+- Internal system to quickly remotely disable modules if they break
+
+### Changed
+- Options will warn if the window closes with unsaved options
+- Name Quiz will not display students without photos or the current user
+- Name Quiz will also accept the regular name of a student if a nickname is set
+- Theme will warn if the custom font exists on Google Fonts
+
+## Fixed
+- Fix Name Quiz only displaying the first twenty students in the roster, due to a change in MyGann
+- Fix Courses Filter bar positioned incorrectly, due to a change in MyGann
+
 ## 1.8.1
 ### Fixed
 - Fix Hide forms displaying an incorrect amount of forms in banner
