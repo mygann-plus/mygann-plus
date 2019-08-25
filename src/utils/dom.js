@@ -116,11 +116,11 @@ export function insertCss(css) {
   };
 }
 
-export function addEventListener(elem, ...params) {
-  elem.addEventListener(...params);
+export function addEventListener(target, ...params) {
+  target.addEventListener(...params);
   return {
     remove() {
-      elem.removeEventListener(...params);
+      target.removeEventListener(...params);
     },
   };
 }
@@ -156,9 +156,11 @@ export class DropdownMenu {
   getDropdownWrap() {
     return this.dropdownWrap;
   }
+
   getDropdownElement() {
     return this.dropdownElement;
   }
+
   getDropdownButton() {
     return this.dropdownWrap.querySelector('button');
   }
@@ -172,7 +174,7 @@ export class DropdownMenu {
   addItem(item) {
     this.dropdownElement.appendChild(this._createItemElem(item));
   }
-  
+
   clearItems() {
     this.dropdownElement.innerHTML = '';
   }
