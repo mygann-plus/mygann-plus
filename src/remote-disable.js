@@ -1,3 +1,5 @@
+import semver from 'semver';
+
 import storage from '~/utils/storage';
 import { fetchRawData } from '~/utils/fetch';
 import getManifest from '~/utils/manifest';
@@ -16,7 +18,7 @@ export async function fetchRemoteDisabled() {
 }
 
 export async function isRemoteDisabled(module) {
-  const version = getManifest().version_name;
+  const extensionVersion = getManifest().version_name;
   const storedDisabled = await storage.get(
     REMOTE_DISABLE_STORAGE_KEY,
     REMOTE_DISABLE_STORAGE_SCHEMA_VERSION,
@@ -25,5 +27,5 @@ export async function isRemoteDisabled(module) {
     return false;
   }
   const disabledModule = storedDisabled.find(m => m.guid === module.guid);
-  return disabledModule && disabledModule.version === version;
+  return disabledModule && semver.satisfies(extensionVersion, disabledModule.extensionVersion);
 }
