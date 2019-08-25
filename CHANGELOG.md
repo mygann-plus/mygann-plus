@@ -1,4 +1,4 @@
-## 1.9.0 (unreleased)
+## 1.9.0
 ### Added
 - "Auto Focus Site Search" module, which autofocuses the site searchbar when opened
 - "Schedule Arrow Navigation" module, which enabled using the arrow keys to switch days in the schedule
