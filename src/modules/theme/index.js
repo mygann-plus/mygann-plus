@@ -47,6 +47,9 @@ function createColorObject(base, r, g, b) {
 
 // Checks if font exists on Google Fonts
 async function fontValidator(font) {
+  if (!font) {
+    return { valid: true };
+  }
   const endpoint = `https://fonts.googleapis.com/css?family=${font.replace(/ /g, '+')}`;
   try {
     await fetch(endpoint);
