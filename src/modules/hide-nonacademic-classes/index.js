@@ -7,7 +7,7 @@ import {
   getMobileMenu,
   getMobileCourses,
 } from '~/shared/classes-menu';
-import HIDDEN_KEYWORDS from '~/shared/nonacademic-classes';
+import fetchNonacademicClasses from '~/shared/nonacademic-classes';
 
 import style from './style.css';
 
@@ -15,26 +15,26 @@ const selectors = {
   hiddenClass: style.locals['hidden-class'],
 };
 
-function hideClasses(classes) {
+function hideClasses(classes, hiddenKeywords) {
   for (const classObj of classes) {
-    const matches = HIDDEN_KEYWORDS.find(c => classObj.title.includes(c));
+    const matches = hiddenKeywords.find(c => classObj.title.includes(c));
     if (matches) {
       classObj.elem.classList.add(selectors.hiddenClass);
     }
   }
 }
 
-async function hideClassesMenu() {
+async function hideClassesMenu(hiddenKeywords) {
 
 
   waitForLoad(getDesktopMenu).then(() => {
     const classes = getDesktopCourses();
-    hideClasses(classes);
+    hideClasses(classes, hiddenKeywords);
   });
 
   waitForLoad(getMobileMenu).then(() => {
     const classes = getMobileCourses();
-    hideClasses(classes);
+    hideClasses(classes, hiddenKeywords);
   });
 
 }
@@ -43,7 +43,7 @@ const domQuery = {
   progressCourses: () => document.querySelectorAll('#coursesContainer .row'),
 };
 
-async function hideProgressPage() {
+async function hideProgressPage(hiddenKeywords) {
   const courseElems = await waitForOne(domQuery.progressCourses);
 
   const classes = Array.from(courseElems).map(elem => ({
@@ -51,18 +51,23 @@ async function hideProgressPage() {
     elem,
   }));
 
-  hideClasses(classes);
+  hideClasses(classes, hiddenKeywords);
 }
 
 async function hideNonacademicClasses(suboptions, unloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
+  const hiddenKeywords = await fetchNonacademicClasses();
+  if (!hiddenKeywords) {
+    return;
+  }
+
   if (window.location.hash === '#studentmyday/progress' && suboptions.inProgressPage) {
-    hideProgressPage();
+    hideProgressPage(hiddenKeywords);
   }
   if (suboptions.inClassesMenu) {
-    hideClassesMenu();
+    hideClassesMenu(hiddenKeywords);
   }
 }
 

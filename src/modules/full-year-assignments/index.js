@@ -11,9 +11,9 @@ import {
   sanitizeAssignmentTitle,
   computeGradePercentage,
 } from '~/shared/progress';
-import NONACADEMIC_CLASSES from '~/shared/nonacademic-classes';
 
 import style from './style.css';
+import fetchNonacademicClasses from '~/shared/nonacademic-classes';
 
 const selectors = {
   table: 'gocp_full-year-assignments_table',
@@ -183,10 +183,10 @@ function handleShowFirstSemesterClick(e, firstSemesterCourseList, markingPeriodI
   }
 }
 
-async function insertFirstSemesterButton(firstSemesterCourseList, markingPeriodId) {
+async function insertFirstSemesterButton(firstSemesterCourseList, markingPeriodId, nonacademicClasses) {
   const modalBody = await waitForLoad(domQuery.dialogBody);
   const courseName = (await waitForLoad(domQuery.dialogHeader)).textContent.toLowerCase();
-  const isNonacademic = !!NONACADEMIC_CLASSES.find(c => courseName.includes(c));
+  const isNonacademic = !!nonacademicClasses.find(c => courseName.includes(c));
 
   if (document.querySelector(`#${selectors.firstSemesterBtn}`) || isNonacademic) {
     return;
@@ -199,14 +199,19 @@ async function insertFirstSemesterButton(firstSemesterCourseList, markingPeriodI
   modalBody.appendChild(firstSemesterBtn);
 }
 
-async function handleProgressDialogChange(data, firstSemCourseList, markingPeriodId) {
+async function handleProgressDialogChange(
+  data,
+  firstSemCourseList,
+  markingPeriodId,
+  nonacademicClasses,
+) {
   if (data.fromGradeDetailButton) {
     await waitForLoad(domQuery.assignmentTable);
   } else {
     const previousCourseGradeElem = domQuery.gradeColumn();
     await waitForLoad(() => !document.body.contains(previousCourseGradeElem));
   }
-  insertFirstSemesterButton(firstSemCourseList, markingPeriodId);
+  insertFirstSemesterButton(firstSemCourseList, markingPeriodId, nonacademicClasses);
 }
 
 async function fullYearAssignments(opts, unloaderContext) {
@@ -216,8 +221,10 @@ async function fullYearAssignments(opts, unloaderContext) {
   const firstSemesterCourseList = await getFirstSemesterCourseList();
   const { markingPeriodId } = firstSemesterCourseList[0];
 
+  const nonacademicClasses = await fetchNonacademicClasses() || [];
+
   addProgressDialogListener(data => {
-    handleProgressDialogChange(data, firstSemesterCourseList, markingPeriodId);
+    handleProgressDialogChange(data, firstSemesterCourseList, markingPeriodId, nonacademicClasses);
   }, unloaderContext);
 }
 

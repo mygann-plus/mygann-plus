@@ -1,3 +1,6 @@
 {
-    "disabled": []
+    "disabled": [{
+        "guid": "{705f08d2-de45-434b-bf51-c613e5d39f55}",
+        "extensionVersion": "^1.9"
+    }]
 }
