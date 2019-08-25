@@ -19,7 +19,7 @@ import oneClickLogin from './modules/one-click-login';
 import exitCompose from './modules/exit-compose';
 import resizeAssignmentsToolbar from './modules/resize-assignments-toolbar';
 import linkifyMessageText from './modules/linkify-message-text';
-import userMenuLinks from './modules/user-menu-links';
+import userMenuLinks from './modules/user-menu-links'; // eslint-disable-line import/no-cycle
 import fixDividers from './modules/fix-dividers';
 import installNotification from './modules/install-notification';
 import fixArchiveHighlight from './modules/fix-archive-highlight';
