@@ -43,7 +43,7 @@ async function insertReleaseNotes(dialogBody) {
   const currentVersion = getVersionString();
   const release = releases.find(r => isEqualVersion(r.tag_name, currentVersion));
   if (!release) {
-    releaseNotesWrap.innerHTML = 'There was an issue loading the release notes. Please try again.';
+    releaseNotesWrap.innerHTML = 'There was an issue loading what\'s new. Please try again.';
   } else {
     releaseNotesWrap.innerHTML = marked(release.body); // parse markdown
   }
@@ -77,7 +77,7 @@ function createAboutBody() {
       <h4 className={selectors.mainDescription}>{ getDescription() }</h4>
       <p>
         <b>Version: </b>
-        { getVersionString() } (<a href="#" id={selectors.releaseNotesLink} onClick={toggleReleaseNotes}>release notes</a>)
+        { getVersionString() } (<a href="#" id={selectors.releaseNotesLink} onClick={toggleReleaseNotes}>what&apos;s new</a>)
       </p>
       <div id={selectors.releaseNotes}>Loading...</div>
       <p><b>Created By:</b> Matan Kotler-Berkowitz</p>
