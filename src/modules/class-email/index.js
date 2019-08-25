@@ -1,6 +1,7 @@
 import registerModule from '~/module';
 
-import { createElement, waitForLoad, DropdownMenu, constructButton, insertCss } from '~/utils/dom';
+import { createElement, waitForLoad, constructButton, insertCss } from '~/utils/dom';
+import DropdownMenu from '~/utils/dropdown-menu';
 import Dialog from '~/utils/dialog';
 
 import style from './style.css';
@@ -102,4 +103,3 @@ export default registerModule('{eb8d1fe3-70c4-473e-804c-5edc7f81a04b}', {
   description: 'Quickly send an email to members of a class',
   main: classMessage,
 });
-

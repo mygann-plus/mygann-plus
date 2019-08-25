@@ -2,9 +2,9 @@ import {
   createElement,
   addEventListener,
   waitForLoad,
-  DropdownMenu,
   insertCss,
 } from '~/utils/dom';
+import DropdownMenu from '~/utils/dropdown-menu';
 import tick from '~/utils/tick';
 
 import style from './style.css';
@@ -32,9 +32,9 @@ export function hasParentWithClassName(element, classnames) {
 
 // tests if the current day on the schedule is set to today
 export async function isCurrentDay() {
-  const header = isFaculty() ?
-    await waitForLoad(() => document.querySelector('#currentday h2')) :
-    await waitForLoad(() => document.querySelector('#schedule-header h2'));
+  const header = isFaculty()
+    ? await waitForLoad(() => document.querySelector('#currentday h2'))
+    : await waitForLoad(() => document.querySelector('#schedule-header h2'));
 
   const currentDate = header.textContent.split(', ')[1];
   const d = new Date().toDateString();
@@ -103,8 +103,8 @@ export async function getDayViewDateString() {
 }
 
 export function isEmptySchedule() {
-  return document.getElementsByClassName('pl-10')[0] &&
-  document.getElementsByClassName('pl-10')[0].textContent === 'There is nothing scheduled for this date.';
+  return document.getElementsByClassName('pl-10')[0]
+  && document.getElementsByClassName('pl-10')[0].textContent === 'There is nothing scheduled for this date.';
 }
 
 export async function isCurrentClass(timeString) {
