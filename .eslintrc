@@ -55,7 +55,7 @@
     "no-prototype-builtins": 0,
     "no-continue": 0,
     "import/order": [
-      1,
+      0,
       {
         "newlines-between": "ignore"  
       }
@@ -65,6 +65,11 @@
     }],
     "react/jsx-key": 0,
     "react/prop-types": 0,
-    "no-loop-func": 0
+    "no-loop-func": 0,
+    "object-curly-newline": ["error", {
+      "ImportDeclaration": {
+        "multiline": true
+      }
+    }]
   }
 }
