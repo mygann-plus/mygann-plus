@@ -1,5 +1,10 @@
 import classNames from 'classnames';
+
 import registerModule from '~/module';
+import { MODULE_MAP, SECTION_MAP } from '~/module-map'; // eslint-disable-line import/no-cycle
+import { getFlattenedOptions, setFlattenedOptions, mergeDefaultOptions } from '~/options';
+import { getRemoteDisabledStatus } from '~/remote-disable';
+
 import {
   createElement,
   insertCss,
@@ -9,14 +14,9 @@ import {
 import Dialog from '~/utils/dialog';
 import fuzzyMatch from '~/utils/search';
 import log from '~/utils/log';
-
 import { appendDesktopUserMenuLink, appendMobileUserMenuLink } from '~/shared/user-menu';
-import { MODULE_MAP, SECTION_MAP } from '~/module-map';
-import { getFlattenedOptions, setFlattenedOptions, mergeDefaultOptions } from '~/options';
-import { isRemoteDisabled } from '~/remote-disable';
 
 import style from './style.css';
-
 
 const selectors = {
   searchbarWrap: style.locals['searchbar-wrap'],
@@ -35,6 +35,8 @@ const selectors = {
     chevron: style.locals['module-chevron'],
     extraOptions: style.locals['module-extra-options'],
     expanded: style.locals['module-expanded'],
+    remoteDisabled: style.locals['module-remote-disabled'],
+    remoteDisabledMessage: style.locals['module-remote-disabled-message'],
   },
   toggle: {
     wrap: style.locals['toggle-wrap'],
@@ -275,7 +277,7 @@ class OptionsDialog {
           id={selectors.searchbar}
           placeholder="Search..."
           autoComplete="off"
-          onInput={ e => this.handleSearch(e) }
+          onInput={e => this.handleSearch(e)}
         />
       </form>
     );
@@ -313,11 +315,16 @@ class OptionsDialog {
     const moduleState = this.state[module.guid];
 
     const shouldRender = module.config.showInOptions
-      && !module.config.topLevelOption
-      && !await isRemoteDisabled(module);
+      && !module.config.topLevelOption;
+
     if (!shouldRender) {
       return null;
     }
+
+    const {
+      disabled: remoteDisabled,
+      message: remoteDisabledMessage,
+    } = await getRemoteDisabledStatus(module);
 
     const onToggleChange = ({ target }) => {
       moduleState.enabled = target.checked;
@@ -326,15 +333,21 @@ class OptionsDialog {
     };
 
     const moduleView = (
-      <div className={selectors.module.wrap}>
+      <div
+        className={classNames(
+          selectors.module.wrap,
+          remoteDisabled && selectors.module.remoteDisabled,
+        )}
+      >
         <div className={selectors.module.top}>
           <label
-            className={ classNames(selectors.toggle.wrap, selectors.module.label) }
+            className={classNames(selectors.toggle.wrap, selectors.module.label)}
           >
             <input
               type="checkbox"
-              checked={moduleState.enabled}
+              checked={moduleState.enabled && !remoteDisabled}
               onChange={onToggleChange}
+              disabled={remoteDisabled}
             />
             <span className={selectors.toggle.track}>
               <span className={selectors.toggle.pill} />
@@ -350,6 +363,17 @@ class OptionsDialog {
             </span>
           </label>
         </div>
+        {
+          remoteDisabled
+            ? (
+                <div
+                  className={selectors.module.remoteDisabledMessage}
+                >
+                  <i className="fa fa-info-circle" />
+                  { remoteDisabledMessage || `${module.config.name} is temporarily disabled while it's being fixed`}
+                </div>
+            ) : null
+        }
       </div>
     );
 
@@ -370,7 +394,7 @@ class OptionsDialog {
       };
 
       const expandLink = (
-        <a href="#" className={selectors.module.expandLink} onClick={ onExpandLinkClick }>
+        <a href="#" className={selectors.module.expandLink} onClick={onExpandLinkClick}>
           <i className={classNames('fa fa-chevron-down', selectors.module.chevron)}></i>
         </a>
       );

@@ -34,6 +34,7 @@
 .module-wrap {
   background: #f0efef;
   margin-bottom: 5px;
+  --remote-disabled-gray: #686868;
 }
 
 .module-top {
@@ -70,6 +71,23 @@
   color: black;
   float: right;
   cursor: pointer;
+}
+
+.module-remote-disabled .module-top {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.module-remote-disabled-message {
+  font-size: 13px;
+  margin-left: 14px;
+  margin-top: -7px;
+  padding-bottom: 5px;
+  color: gray;
+}
+
+.module-remote-disabled-message i {
+  margin-right: 5px;
 }
 
 /* SUBOPTION */
@@ -160,6 +178,10 @@ textarea.suboption-input {
 
 .toggle-wrap input:checked + .toggle-track {
   background: #007ca6;
+}
+
+.toggle-wrap input:disabled + .toggle-track {
+  background: lightgray !important;
 }
 
 .toggle-pill {
