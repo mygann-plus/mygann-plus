@@ -17,15 +17,26 @@ export async function fetchRemoteDisabled() {
   storage.set(REMOTE_DISABLE_STORAGE_KEY, disabled, REMOTE_DISABLE_STORAGE_SCHEMA_VERSION);
 }
 
-export async function isRemoteDisabled(module) {
+export async function getRemoteDisabledStatus(module) {
   const extensionVersion = getManifest().version_name;
   const storedDisabled = await storage.get(
     REMOTE_DISABLE_STORAGE_KEY,
     REMOTE_DISABLE_STORAGE_SCHEMA_VERSION,
   );
   if (!storedDisabled) {
-    return false;
+    return { disabled: false };
   }
+
   const disabledModule = storedDisabled.find(m => m.guid === module.guid);
-  return disabledModule && semver.satisfies(extensionVersion, disabledModule.extensionVersion);
+  const isDisabled = disabledModule
+    && semver.satisfies(extensionVersion, disabledModule.extensionVersion);
+
+  if (isDisabled) {
+    return {
+      disabled: true,
+      message: disabledModule.message,
+    };
+  }
+
+  return { disabled: false };
 }

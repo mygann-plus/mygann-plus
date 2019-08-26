@@ -1,5 +1,5 @@
 import { getOptionsFor } from '~/options';
-import { isRemoteDisabled } from '~/remote-disable';
+import { getRemoteDisabledStatus } from '~/remote-disable';
 import log from '~/utils/log';
 
 /**
@@ -34,6 +34,7 @@ class UnloaderContext {
   constructor() {
     this.removables = [];
   }
+
   /**
    * @param {*} removable Object which has a .remove method
    */
@@ -45,6 +46,7 @@ class UnloaderContext {
       },
     };
   }
+
   addFunction(fn) {
     this.removables.push({
       remove: fn,
@@ -68,14 +70,14 @@ export function isModuleLoaded(module) {
 }
 
 export async function loadModule(module, waitUntilLoaded = false) {
-  if (await isRemoteDisabled(module)) {
+  if ((await getRemoteDisabledStatus(module)).disabled) {
     return;
   }
 
 
   const options = await getOptionsFor(module.guid);
-  const unloaderContext = isModuleLoaded(module) ?
-    loadedModules.get(module).unloaderContext
+  const unloaderContext = isModuleLoaded(module)
+    ? loadedModules.get(module).unloaderContext
     : new UnloaderContext();
 
   if (!options.enabled) {
