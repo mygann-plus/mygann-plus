@@ -1,21 +1,24 @@
+import classNames from 'classnames';
+
 import registerModule from '~/module';
 
 import { createElement, waitForLoad, insertCss } from '~/utils/dom';
+import { fetchData } from '~/utils/fetch';
 
 import style from './style.css';
-import { fetchData } from '~/utils/fetch';
 
 const TEACHER_OFFICES_PATH = '/teacher-offices/offices.json';
 const TEACHER_OFFICES_SCHEMA_VERSION = 1;
 
 const selectors = {
   roomLabel: style.locals['room-label'],
+  helpIcon: style.locals['help-icon'],
 };
 
-function getOfficeRoom(teacherName, offices) {
+function getOffice(teacherName, offices) {
   for (const office of offices) {
     if (office.faculty.includes(teacherName)) {
-      return office.room;
+      return office;
     }
   }
 }
@@ -26,7 +29,7 @@ async function insertFacultyOffices(wrap, offices) {
 
   for (const listing of listings) {
     const name = listing.querySelector('h3').textContent.trim();
-    const office = getOfficeRoom(name, offices);
+    const office = getOffice(name, offices);
     const existingRoomLabel = listing.querySelector(`.${selectors.roomLabel}`);
     if (!office || existingRoomLabel) {
       continue;
@@ -34,7 +37,15 @@ async function insertFacultyOffices(wrap, offices) {
 
     const roomSpan = (
       <div className={selectors.roomLabel}>
-        Office: { office }
+        Office: { office.room }
+        {
+          office.help
+            ? <i
+                className={classNames('fa fa-question-circle', selectors.helpIcon)}
+                title={office.help}
+              />
+            : null
+        }
       </div>
     );
     listing.querySelector('h3').after(roomSpan);
