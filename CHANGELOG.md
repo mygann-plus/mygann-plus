@@ -1,8 +1,11 @@
+## 1.9.2
+### Changed
+- Display help message for certain teacher offices
+
 ## 1.9.1
 ### Changed
-- Movevd teacher offices and nonacademic classes to external server, which enables them to be quickly modified without a new release.
+- Moved teacher offices and nonacademic classes to external server, which enables them to be quickly modified without a new release.
 - Display if a module is remote disabled in options
-
 
 ## 1.9.0
 ### Added
