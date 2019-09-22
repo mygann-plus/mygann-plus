@@ -16,8 +16,22 @@ const domQuery = {
   nextButton: () => document.querySelectorAll('button[data-analysis="next"]')[0],
 };
 
-function createPercentageLabel(earned, total) {
-  const percentage = computeGradePercentage(earned, total);
+function letterGradeToPercentage(letter) {
+  const letterMap = {
+    A: 96.99,
+    B: 86.99,
+    C: 76.99,
+    D: 66.99,
+  };
+  let grade = letterMap[letter[0]];
+  // adjust grade based on +/-
+  if (letter[1]) {
+    grade += letter[1] === '+' ? 3 : -4;
+  }
+  return grade;
+}
+
+function createPercentageLabel(percentage) {
   return (
     <span className={selectors.percentage}>
       { percentage }%
@@ -35,7 +49,11 @@ async function insertPercentages() {
   for (const pointWrap of pointWraps) {
     const pointElem = pointWrap.querySelector('h4');
     const [earned, total] = pointElem.textContent.split('/');
-    const percentageElem = createPercentageLabel(earned, total);
+
+    const percentage = total
+      ? computeGradePercentage(earned, total)
+      : letterGradeToPercentage(earned);
+    const percentageElem = createPercentageLabel(percentage);
     pointElem.appendChild(percentageElem);
   }
 }
