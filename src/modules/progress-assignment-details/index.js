@@ -25,7 +25,7 @@ async function getAssignmentDetails(assignmentElem) {
   const name = assignmentElem.querySelector('[data-heading="Assignment"]').textContent;
   const assignedAssignments = await getAssignmentsByAssigned(assignedDate);
   const assignment = assignedAssignments.find(a => {
-    return a.short_description === name;
+    return sanitizeAssignmentTitle(a.short_description) === name;
   });
   return sanitizeAssignmentTitle(assignment.long_description);
 }
