@@ -3,15 +3,15 @@ import he from 'he';
 import { waitForOne, addEventListener, waitForLoad } from '~/utils/dom';
 
 export function coursesListLoaded() {
-  return document.querySelector('#coursesContainer > *') &&
-    document.querySelectorAll('.bb-tile-content-section')[3] &&
-    document.querySelectorAll('.bb-tile-content-section')[3].children[0];
+  return document.querySelector('#coursesContainer > *')
+    && document.querySelectorAll('.bb-tile-content-section')[3]
+    && document.querySelectorAll('.bb-tile-content-section')[3].children[0];
 }
 
-export async function observeCoursesBar(fn) {
+async function observeSectionBar(id, fn) {
   const courseWrap = await waitForLoad(() => (
-    document.querySelector('#coursesCollapse') &&
-    document.querySelector('#coursesCollapse').closest('.ch')
+    document.querySelector(`#${id}`)
+    && document.querySelector(`#${id}`).closest('.ch')
   ));
   const observer = new MutationObserver(fn);
   observer.observe(courseWrap, {
@@ -20,6 +20,14 @@ export async function observeCoursesBar(fn) {
   return {
     remove() { observer.disconnect(); },
   };
+}
+
+export async function observeCoursesBar(fn) {
+  return observeSectionBar('coursesCollapse', fn);
+}
+
+export async function observeActivitiesBar(fn) {
+  return observeSectionBar('activitiesCollapse', fn);
 }
 
 export function computeGradePercentage(earned, total) {
@@ -39,8 +47,8 @@ const domQuery = {
 
 async function callWhenDialogChanges(callback, data) {
   const getDialogTitle = () => (
-    domQuery.dialogTitle() &&
-    domQuery.dialogTitle().textContent
+    domQuery.dialogTitle()
+    && domQuery.dialogTitle().textContent
   );
   const currentTitle = getDialogTitle();
   await waitForLoad(() => (
