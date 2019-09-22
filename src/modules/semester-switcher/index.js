@@ -97,7 +97,7 @@ async function semesterSwitcher(opts, unloaderContext) {
 }
 
 export default registerModule('{9d28ed37-4d06-4ce5-bc25-f10776491e96}', {
-  name: 'Semester Switcher',
-  description: 'Button to quickly switch semesters.',
+  name: 'Semester & Season Switcher',
+  description: 'Button to quickly switch semesters and sports seasons.',
   main: semesterSwitcher,
 });
