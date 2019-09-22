@@ -44,8 +44,8 @@ function unloadFixSemesterSwitch() {
 }
 
 export default registerModule('{df455955-40f8-4475-9a74-456f8888002d}', {
-  name: 'Fix Semester Switch Bug',
-  description: 'Fix assignments being temporarily duplicated during the semester switch',
+  name: 'fix.semesterSwitchBug',
   main: fixSemesterSwitch,
   unload: unloadFixSemesterSwitch,
+  showInOptions: false,
 });
