@@ -1,3 +1,18 @@
+## 1.10.0
+### Added
+- Button to switch sports seasons in Semester & Season Switcher
+
+### Changed
+- Renamed "Semester Switcher" to "Semester & Season Switcher"
+- Hid Fix Semester Switch Bug in options
+
+### Fixed
+- Fix Progress Assignment Details not working with Hebrew assignment titles
+- Fix letter grades breaking Calculate Grade Percentage
+
+### Removed
+- Fix Task Class removed, because MyGann fixed this bug natively
+
 ## 1.9.2
 ### Changed
 - Display help message for certain teacher offices
