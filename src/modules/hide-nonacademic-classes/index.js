@@ -10,6 +10,7 @@ import {
 import fetchNonacademicClasses from '~/shared/nonacademic-classes';
 
 import style from './style.css';
+import { observeCoursesBar } from '~/shared/progress';
 
 const selectors = {
   hiddenClass: style.locals['hidden-class'],
@@ -64,7 +65,9 @@ async function hideNonacademicClasses(suboptions, unloaderContext) {
   }
 
   if (window.location.hash === '#studentmyday/progress' && suboptions.inProgressPage) {
+    const observer = observeCoursesBar(() => hideProgressPage(hiddenKeywords));
     hideProgressPage(hiddenKeywords);
+    unloaderContext.addRemovable(observer);
   }
   if (suboptions.inClassesMenu) {
     hideClassesMenu(hiddenKeywords);
