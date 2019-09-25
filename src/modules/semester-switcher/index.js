@@ -75,10 +75,10 @@ async function semesterSwitcher(opts, unloaderContext) {
 
   await waitForLoad(() => domQuery.coursesBar() && domQuery.activitiesBar());
 
-  let semesterSwitchButtonUnloader = unloaderContext.addRemovable(() => (
-    insertSemesterSwitchButton()
-  ));
-  let seasonSwitchButtonUnloader = unloaderContext.addRemovable(() => (
+  let semesterSwitchButtonUnloader = unloaderContext.addRemovable(
+    insertSemesterSwitchButton(),
+  );
+  let seasonSwitchButtonUnloader = unloaderContext.addRemovable((
     insertSeasonSwitchButton()
   ));
 
