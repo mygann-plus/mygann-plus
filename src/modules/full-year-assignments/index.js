@@ -72,6 +72,12 @@ async function getFirstSemesterAssignments(firstSemCourses, firstSemMarkingPerio
 
 /* UI */
 
+// Is first/both semester(s) currently selected
+async function isFirstSemester() {
+  const [firstSemButton] = await waitForOne(domQuery.termButtons);
+  return firstSemButton.classList.contains('active');
+}
+
 function calculateSectionCumulativeGrade(assignments) {
   const { Points, MaxPoints } = assignments.reduce((a, b) => {
     if (a.Points === null || b.Points === null) {
@@ -205,7 +211,9 @@ async function handleProgressDialogChange(
   markingPeriodId,
   nonacademicClasses,
 ) {
-  if (data.fromGradeDetailButton) {
+  if (await isFirstSemester()) {
+    return;
+  } else if (data.fromGradeDetailButton) {
     await waitForLoad(domQuery.assignmentTable);
   } else {
     const previousCourseGradeElem = domQuery.gradeColumn();
