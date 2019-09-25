@@ -88,7 +88,7 @@ export default class DropdownMenu {
     // arrow function is needed to preserve this
     const itemsList = this.items.map(elem => this._createItemElem(elem));
     return (
-      <ul className="dropdown-menu" role="menu" style={{ display: 'block' }}>
+      <ul className="dropdown-menu" role="menu">
         { itemsList }
       </ul>
     );
