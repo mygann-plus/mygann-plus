@@ -47,6 +47,7 @@ import serveryMenu from './modules/servery-menu';
 import scheduleArrowNavigation from './modules/schedule-arrow-navigation';
 import admin from './modules/admin';
 import semesterSwitcher from './modules/semester-switcher';
+import hideCommunityServiceAssignment from './modules/hide-community-service-assignment';
 
 const MODULE_MAP = {
   '#': [
@@ -74,6 +75,7 @@ const MODULE_MAP = {
     taskDetail,
     fixSemesterSwitch,
     extreme,
+    hideCommunityServiceAssignment,
   ],
   '#taskdetail': [taskDetail],
   '#studentmyday/schedule': [
