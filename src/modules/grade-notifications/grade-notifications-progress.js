@@ -29,6 +29,7 @@ function generateDialogBody(assignments, dialog) {
       </tr>
     </thead>
   );
+  
   return (
     <table className="table table-striped table-condensed table-mobile-stacked">
       { tableHeader }
@@ -46,11 +47,14 @@ function generateDialogBody(assignments, dialog) {
               <td data-heading="Assigned" className="col-md-1">{ assignment.adate.split(' ')[0] }</td>
               <td data-heading="Due" className="col-md-1">{ assignment.ddate.split(' ')[0] }</td>
               <td data-heading="Points" className="col-md-2">
-                <h4 style={{ margin: '0px' }}>{assignment.pointsEarned}
+                <h4 style={{ margin: '0px' }}>{assignment.pointsEarned || assignment.Letter}
+                {
+                  assignment.pointsEarned &&
                   <span style={{ fontWeight: 200 }}>
                     /{assignment.maxPoints}&nbsp;
                     ({ computeGradePercentage(assignment.pointsEarned, assignment.maxPoints) }%)
                   </span>
+                }
                 </h4>
               </td>
             </tr>
