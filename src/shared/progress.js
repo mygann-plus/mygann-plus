@@ -71,6 +71,7 @@ export async function addProgressDialogListener(callback, unloaderContext) {
       }
     }));
   }
+  unloaderContext.addRemovable(observeCoursesBar(() => addProgressDialogListener(callback, unloaderContext)));
 }
 
 // removes HTML entities (for Hebrew characters) and HTML fragments
