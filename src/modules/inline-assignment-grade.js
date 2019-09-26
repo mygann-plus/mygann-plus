@@ -18,8 +18,11 @@ const getIdFromLabel = label => {
 };
 
 async function getGrade(id) {
-  const { pointsEarned, maxPoints } = await getAssignmentData(id);
-  return computeGradePercentage(pointsEarned, maxPoints);
+  const { pointsEarned, maxPoints, Letter } = await getAssignmentData(id);
+  if (pointsEarned) {
+    return `${computeGradePercentage(pointsEarned, maxPoints)}%`;
+  }
+  return Letter;
 }
 
 class InlineGrade {
@@ -55,7 +58,7 @@ class InlineGrade {
     this.hidden = false;
     if (!this.grade) {
       this.grade = await getGrade(this.id);
-      this.gradeLabel.textContent = `: ${this.grade}%`;
+      this.gradeLabel.textContent = `: ${this.grade}`;
     }
     this.gradeLabel.style.display = 'inline-block';
     this.button.className = 'fa fa-eye-slash';
