@@ -86,6 +86,9 @@ async function insertPage(siteMain) {
 async function admin(opts, unloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
+  if (await getUserId() !== String(ADMIN_ID)) {
+    return;
+  }
 
   const siteMain = await waitForLoad(domQuery.siteMain);
   const page = await insertPage(siteMain);
