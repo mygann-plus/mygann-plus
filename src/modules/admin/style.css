@@ -14,3 +14,8 @@
 .report img {
   width: 50px;
 }
+
+.spinner {
+  display: block;
+  font-size: 50px;
+}

@@ -6,10 +6,12 @@ import { createElement, waitForLoad, insertCss } from '~/utils/dom';
 import { getAllMessageConversations } from '~/shared/messages';
 
 import style from './style.css';
+import { getUserId } from '~/utils/user';
 
 const ADMIN_ID = 4109775;
 
 const selectors = {
+  spinner: style.locals.spinner,
   report: style.locals.report,
 };
 
@@ -26,8 +28,8 @@ async function getBugReports() {
     .map(conversation => (
       conversation.Messages
         .filter(message => {
-          return message.Body.includes('MyGann+ Bug Report') &&
-            message.FromUser.UserId !== ADMIN_ID;
+          return message.Body.includes('MyGann+ Bug Report')
+            && message.FromUser.UserId !== ADMIN_ID;
         })
         .map(message => {
           const lines = message.Body.split('<br>').join('\n');
@@ -38,8 +40,6 @@ async function getBugReports() {
             const imageId = message.Body.match(/-- image id: (.+) --/)[1];
             image = `https://i.imgur.com/${imageId}.png`;
           }
-          // const data = lines.slice(2, lines.length - 1);
-          // return JSON.parse(data.join(''));
           return {
             from,
             body,
@@ -51,52 +51,73 @@ async function getBugReports() {
 }
 
 class AdminPanel {
-  constructor(reports) {
-    this.reports = reports;
+  constructor() {
+    this.page = this.generatePage();
+    getBugReports().then(reports => {
+      this.populateReports(reports);
+      this.removeSpinner();
+    });
   }
-  getPage() {
-    return (
-      <div>
-        Bug Reports:
-        { this.reports.map(report => (
-          <div className={ selectors.report }>
-            <b>From:</b> { report.from }
-            <div>{ report.body} </div>
-            {
-              report.image ?
-              <a href={report.image} target="_blank" rel="noopener noreferrer">
+
+  populateReports(reports) {
+    const reportsWrap = this.page.querySelector(`.${selectors.reports}`);
+    reports.forEach(report => {
+      const reportElem = (
+        <div className={selectors.report}>
+          <b>From:</b> {report.from}
+          <div>{report.body} </div>
+          {
+            report.image
+              ? <a href={report.image} target="_blank" rel="noopener noreferrer">
                 <img src={report.image}></img>
               </a>
               : null
-            }
-          </div>
-        )) }
+          }
+        </div>
+      );
+      reportsWrap.appendChild(reportElem);
+    });
+  }
+
+  removeSpinner() {
+    this.page.querySelector('.fa-spin').remove();
+  }
+
+  /* eslint-disable class-methods-use-this */
+
+  generatePage() {
+    return (
+      <div>
+        Bug Reports:
+        <div className={selectors.spinner}>
+          <i className="fa fa-spinner fa-spin" />
+        </div>
+        <div className={selectors.reports}>
+        </div>
       </div>
     );
   }
+
+  getPage() {
+    return this.page;
+  }
 }
 
-async function insertPage(siteMain) {
-  const bugReports = await getBugReports();
-  const panel = new AdminPanel(bugReports);
-  siteMain.appendChild(panel.getPage());
-  return panel.getPage();
-}
-
-async function admin(opts, unloaderContext) {
-  const styles = insertCss(style.toString());
-  unloaderContext.addRemovable(styles);
+async function admin() {
   if (await getUserId() !== String(ADMIN_ID)) {
     return;
   }
 
+  insertCss(style.toString());
+
   const siteMain = await waitForLoad(domQuery.siteMain);
-  const page = await insertPage(siteMain);
+  const panel = new AdminPanel();
+  siteMain.appendChild(panel.getPage());
   const observer = new MutationObserver(async () => {
-    if (document.body.contains(page)) {
+    if (document.body.contains(panel.getPage())) {
       return;
     }
-    await insertPage(siteMain);
+    siteMain.appendChild(panel.getPage());
     observer.disconnect();
   });
   observer.observe(siteMain, {
@@ -110,4 +131,3 @@ export default registerModule('{015b4a2e-c33a-44c6-8285-b4c5ca2b4ee6}', {
   showInOptions: false,
   affectsGlobal: true,
 });
-
