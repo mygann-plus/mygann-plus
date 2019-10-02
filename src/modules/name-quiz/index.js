@@ -314,7 +314,7 @@ class NameQuizGame {
 
 async function runGame(unloaderContext) {
 
-  const classId = window.location.href.match(/#academicclass\/([0-9]+)/)[1];
+  const classId = window.location.href.match(/#academicclass|#communitypage\/([0-9]+)/)[1];
   const userId = Number(await getUserId());
 
   const students = await Promise.all((await fetchApi(`/api/datadirect/sectionrosterget/${classId}`))
@@ -335,9 +335,9 @@ async function runGame(unloaderContext) {
   const mode = (await getMode()) || modes.CHOICE;
   const game = new NameQuizGame(students, nicknames, mode);
 
-  const rosterBar = window.location.hash.startsWith('#communitypage') ?
-    document.querySelector('#communitypagecontainer div') :
-    document.querySelector('#academicclassmaincontainer div');
+  const rosterBar = window.location.hash.startsWith('#communitypage')
+    ? document.querySelector('#communitypagecontainer div')
+    : document.querySelector('#academicclassmaincontainer div');
 
   rosterBar.after(game.getWrap());
   unloaderContext.addRemovable(game.getWrap());
