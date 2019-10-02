@@ -1,3 +1,18 @@
+## 1.10.1
+### Changed
+- Show 1st Semester button is hidden during first semester
+
+### Fixed
+- Fix the following progress modules not working after semester is switched:
+  - Calculate Grade Percentage
+  - Collapse Assignment Sections
+  - Full Year Assignments
+  - Progress Assignment Description
+  - Hide Nonacademic Classes
+- Support letter grades in Grade Notifications and Preview Assignment Grade
+- Fix the dropdown menu in Class Email being open by default
+- Fix Name Quiz not working on group pages
+
 ## 1.10.0
 ### Added
 - Button to switch sports seasons in Semester & Season Switcher
