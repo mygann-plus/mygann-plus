@@ -75,7 +75,6 @@ const MODULE_MAP = {
     taskDetail,
     fixSemesterSwitch,
     extreme,
-    hideCommunityServiceAssignment,
   ],
   '#taskdetail': [taskDetail],
   '#studentmyday/schedule': [
