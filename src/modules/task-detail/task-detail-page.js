@@ -247,10 +247,7 @@ class TaskDetailPage {
 }
 
 export default async function insertPage(siteMain) {
-  let id = window.location.hash.split('taskdetail/')[1];
-  if (id[id.length] === '/') {
-    id.substring(0, id.length - 2);
-  }
+  const [, id] = window.location.hash.match(/#taskdetail\/([0-9]+)/);
   const taskData = await getFullTaskData(id);
   const taskDetailPage = new TaskDetailPage(taskData);
 
