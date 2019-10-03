@@ -19,10 +19,9 @@ function callListeners(key, oldValue, newValue) {
   }
   const data = {
     newValue: newValue[DATA_KEY],
-    oldValue: oldValue &&
-      oldValue[SCHEMA_VERSION_KEY] !== newValue[SCHEMA_VERSION_KEY] ?
-      null :
-      oldValue[DATA_KEY],
+    oldValue: !oldValue || oldValue[SCHEMA_VERSION_KEY] !== newValue[SCHEMA_VERSION_KEY]
+      ? null
+      : oldValue[DATA_KEY],
   };
   keyListeners.forEach(listener => listener(cloneDeep(data)));
 }
@@ -227,4 +226,3 @@ export default {
 
   addChangeListener,
 };
-
