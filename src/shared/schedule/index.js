@@ -55,12 +55,12 @@ export function addDayChangeListeners(callback) {
 }
 
 export function to24Hr(t) {
-  let time = t;
+  const time = t;
   let hours = Number(time.match(/^(\d+)/)[1]);
-  let minutes = Number(time.match(/:(\d+)/)[1]);
-  let AMPM = time.match(/\s(.*)$/)[1];
-  if (AMPM === 'PM' && hours < 12) hours += 12;
-  if (AMPM === 'AM' && hours === 12) hours -= 12;
+  const minutes = Number(time.match(/:(\d+)/)[1]);
+  const ampm = time.match(/\s(.*)$/)[1];
+  if (ampm === 'PM' && hours < 12) hours += 12;
+  if (ampm === 'AM' && hours === 12) hours -= 12;
   let sHours = hours.toString();
   let sMinutes = minutes.toString();
   if (hours < 10) sHours = `0${sHours}`;

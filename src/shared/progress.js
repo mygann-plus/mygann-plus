@@ -31,11 +31,7 @@ export async function observeActivitiesBar(fn) {
 }
 
 export function computeGradePercentage(earned, total) {
-  let percentage = Number(((Number(earned) / Number(total)) * 100).toFixed(2));
-  if (Math.floor(percentage) === percentage) {
-    percentage = Math.floor(percentage); // don't display .00
-  }
-  return percentage;
+  return Number(((Number(earned) / Number(total)) * 100).toFixed(2));
 }
 
 const domQuery = {

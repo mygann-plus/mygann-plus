@@ -108,6 +108,7 @@ class TaskDetailPage {
     this.editDialog.open();
     this.editDialog.getBody().querySelector('textarea').focus();
   }
+
   saveNewDetails() {
     const dialogBody = this.editDialog.getBody();
     const details = dialogBody.querySelector('textarea').value;
@@ -181,9 +182,9 @@ class TaskDetailPage {
                           </div>
                           <span className="assignment-detail-header-info">
                           {
-                            this.daysDue > 0 ?
-                            <span>Due in { this.daysDue } Days</span> :
-                            <span>Overdue by { Math.abs(this.daysDue) } Days</span>
+                            this.daysDue > 0
+                              ? <span>Due in { this.daysDue } Days</span>
+                              : <span>Overdue by { Math.abs(this.daysDue) } Days</span>
                           }
                           </span>
                         </div>

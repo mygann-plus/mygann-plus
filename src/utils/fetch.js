@@ -11,7 +11,7 @@ function mergeHeaders(base, extension) {
 
   const finalHeaders = new Headers();
   const copyHeaders = headers => {
-    for (let header of headers.entries()) {
+    for (const header of headers.entries()) {
       finalHeaders.append(...header);
     }
   };
