@@ -44,7 +44,7 @@ async function taskDetail(opts, unloaderContext) {
 
   if (window.location.hash === '#studentmyday/assignment-center') {
     assignmentCenter(unloaderContext);
-  } else {
+  } else if (window.location.hash.includes('#taskdetail')) {
     taskDetailPage();
   }
 }
