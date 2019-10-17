@@ -229,7 +229,7 @@ async function fullYearAssignments(opts, unloaderContext) {
   const firstSemesterCourseList = await getFirstSemesterCourseList();
   const { markingPeriodId } = firstSemesterCourseList[0];
 
-  const nonacademicClasses = await fetchNonacademicClasses() || [];
+  const nonacademicClasses = (await fetchNonacademicClasses()).progress || [];
 
   addProgressDialogListener(data => {
     handleProgressDialogChange(data, firstSemesterCourseList, markingPeriodId, nonacademicClasses);
