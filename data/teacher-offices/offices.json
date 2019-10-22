@@ -1,213 +1,149 @@
 {
   "1": [
     {
-      "room": "110",
-      "faculty": "Frank Tipton"
-    },
-    {
-      "room": "114",
+      "room": "118",
       "faculty": [
-        "Mrs. Julia Mabuchi",
-        "Sheila MacDonald"
-      ]
-    },
-    {
-      "room": "188",
-      "faculty": [
-        "Seth Battis",
-        "Yoni Kadden",
-        "Rabbi Sara Meirowitz",
+        "Efrat Amiri", 
+        "Rabbi Jethro Berkman",
+        "Sarah DuBeau-Farley",
         "Lily Rabinoff-Goldman"
       ]
     },
     {
-      "room": "122",
+      "room": "112",
       "faculty": [
-        "Hannah Abelman 2004",
-        "Talia Ambar",
-        "Elise Harrison",
-        "Simon Metcalf",
-        "Rachel Frenkil",
+        "Cate Bleyl",
+        "Elan Cohen",
+        "Alex Green",
         "Dr. Joshua Gutoff",
-        "Luke Pritchett"
+        "Elizabeth Loewenberg",
+        "Ustaaza Lucy Thiboutot"
       ]
     },
     {
       "room": "124",
       "faculty": [
-        "Rabbi Jethro Berkman",
-        "Dr. Hartman",
-        "Akiko Yonekawa"
+        "Maria Graciela Alcid",
+        "Elena Morgan",
+        "Shani Winton"
       ]
     },
     {
       "room": "126",
-      "faculty": [
-        "Sarah DuBeau-Farley"
-      ]
+      "faculty": ["Matt Conti"]
     },
     {
       "room": "130",
       "faculty": [
-        "Avital Bar-Zuri",
-        "Anna Finklestein",
-        "Brian Infante",
+        "Naomi Bilmes",
+        "Jaime Guarnaccia",
+        "Stephanie Hoffman",
+        "Mme L Langwieder",
         "Alexandra Lahr",
-        "Kelly O'Reilly",
-        "Lauren Panzano"
+        "Jeffrey Molk"
       ]
     },
     {
-      "room": "146 - JSL",
-      "faculty": [
-        "Noah Weinberg",
-        "Eli Witkin"
-      ]
-    },
-    {
-      "room": "105 - Faculty Lounge",
-      "faculty": [
-        "Alex Green",
-        "Kevin Levin",
-        "Dr. Jacob Meskin",
-        "Shulamit Ben-Natan"
-      ]
+      "room": "141",
+      "faculty": ["Laila Goodman"]
     },
     {
       "room": "216",
       "faculty": [
-        "Nili Bulis-Barzelay",
+        "Ruth Castillo",
         "Dr. Susan Cheloff",
-        "Rabbi Elli Cohn",
-        "Valerie Giebel",
         "Dr. Jonathan Golden",
-        "Rachel Shapiro"
+        "Tamar Guigui-Raz",
+        "Vered Strapp",
+        "Maya Wainhaus"
       ]
     },
     {
       "room": "218",
       "faculty": [
-        "Dr. Jonah Hassenfeld 2002",
-        "Lisa Jacobs",
-        "Chris Heap-Senhouse",
-        "Shani Winton"
+        "Seth Battis",
+        "Chris Senhouse"
       ]
     },
     {
       "room": "220",
-      "faculty": [
-        "Dr. Adam Marshak"
-      ]
+      "faculty": ["Dr. Adam Marshak"]
     },
     {
       "room": "224",
       "faculty": [
         "Lynda Bachman",
-        "Nati Golan",
-        "Elena Morgan",
-        "Abby Shapiro",
-        "Jaime Guarnaccia",
-        "Steve Cavender-Wood"
-      ]
-    },
-    {
-      "room": "236",
-      "faculty": [
-        "Naomi Bilmes",
-        "Tamar Guigui-Raz",
-        "Greg Kee",
-        "Rabbi Yaakov Komisar",
-        "Elizabeth Loewenberg",
-        "Maya Wainhaus"
-      ]
-    },
-    {
-      "room": "238",
-      "faculty": [
-        "Cate Bleyl",
         "Sam Davis",
-        "Beth Gilmartin",
+        "Nati Golan",
         "Rabbi Hillel Greene",
-        "Ustaaza Lucy Thiboutot"
-      ]
-    },
-    {
-      "room": "L005",
-      "faculty": [
-        "Emily Hart"
-      ]
-    },
-    {
-      "room": "L011",
-      "faculty": [
-        "Mark Wilkins"
-      ]
-    },
-    {
-      "room": "L015",
-      "faculty": [
-        "Cindy Jacobs"
-      ]
-    },
-    {
-      "room": "L017 - Dance Studio",
-      "faculty": [
-        "Katie Pustizzi"
+        "Greg Kee",
+        "Abby Shapiro"
       ]
     },
     {
       "room": "231B - Art Studio Office",
+      "faculty": ["Landa Ruen"]
+    },
+    {
+      "room": "222",
+      "faculty": "Dr. June Bowman"
+    },
+    {
+      "room": "217A",
+      "faculty": ["Ray Daniels"]
+    },
+    {
+      "room": "S103",
+      "help": "This office is in the SAC",
       "faculty": [
-        "Landa Ruen"
+        "Yoni Kadden",
+        "Rabbi Sara Meirowitz",
+        "Akiko Yonekawa"
       ]
     },
     {
-      "room": "230",
+      "room": "S102",
+      "help": "This office is in the SAC",
       "faculty": [
-        "Matt Conti"
+        "Rachel Frenkil",
+        "Gavriel Goldfeder",
+        "Simon Metcalf",
+        "Lauren Panzano",
+        "Nira Shain",
+        "Steven Wood"
       ]
     },
     {
-      "room": "Beit Midrash",
+      "room": "S104",
+      "help": "This office is in the SAC",
       "faculty": [
-        "Ray Daniels"
-      ]
-    },
-    {
-      "room": "232",
-      "faculty": [
-        "Gracie Alcid"
-      ]
-    },
-    {
-      "room": "255",
-      "faculty": [
-        "Laila Goodman"
-      ]
-    },
-    {
-      "room": "234",
-      "faculty": [
-        "Dr. June Bowman"
-      ]
-    },
-    {
-      "room": "240",
-      "faculty": [
-        "Efrat Amiri",
+        "Hannah Abelman 2004",
+        "Shulamit Ben-Natan",
         "Kevin Cattrell",
-        "Lindsay Goldstein",
-        "Mme L Langwieder",
-        "Vered Strapp",
-        "Denise Zami"
+        "Valerie Giebel",
+        "Luke Pritchett",
+        "Noah Weinberg"
       ]
     },
     {
-      "room": "226",
+      "room": "S106",
+      "help": "This office is in the SAC",
       "faculty": [
-        "Andrew Davis",
-        "Lynda McKeown-Phipps"
+        "Rabbi Elli Cohn",
+        "Lindsay Goldstein",
+        "Brian Infante",
+        "Rachel Shapiro",
+        "Mark Wilkins",
+        "Shlomi Zan"
       ]
+    },
+    {
+      "room": "L015",
+      "faculty": ["Cindy Jacobs"]
+    },
+    {
+      "room": "L017 - Dance Studio",
+      "faculty": ["Katie Pustizzi"]
     }
   ]
 }
