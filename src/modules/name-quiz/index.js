@@ -314,7 +314,7 @@ class NameQuizGame {
 
 async function runGame(unloaderContext) {
 
-  const classId = window.location.href.match(/#academicclass|#communitypage\/([0-9]+)/)[1];
+  const classId = window.location.href.match(/(?:#academicclass|#communitypage)\/([0-9]+)/)[1];
   const userId = Number(await getUserId());
 
   const students = await Promise.all((await fetchApi(`/api/datadirect/sectionrosterget/${classId}`))
