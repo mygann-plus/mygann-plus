@@ -1,8 +1,11 @@
 import registerModule from '~/module';
 
-import { fetchApi } from '~/utils/fetch';
 import { createElement, waitForOne, insertCss, constructButton } from '~/utils/dom';
-import { addProgressDialogListener, sanitizeAssignmentTitle } from '~/shared/progress';
+import {
+  addProgressDialogListener,
+  sanitizeAssignmentTitle,
+  getAssignmentBasicDataFromRow,
+} from '~/shared/progress';
 
 import style from './style.css';
 
@@ -11,27 +14,9 @@ const selectors = {
   details: style.locals.details,
 };
 
-// get all assignments on a certain assigned date
-function getAssignmentsByAssigned(assigned) {
-  const endpoint = '/api/DataDirect/AssignmentCenterAssignments';
-  const year = (new Date()).getFullYear();
-  const fullAssigned = `${assigned}/${year}`;
-  const query = `?format=json&filter=0&dateStart=${fullAssigned}&dateEnd=${fullAssigned}&persona=2&statusList=&sectionList=`;
-  return fetchApi(endpoint + query);
-}
-
-async function getAssignmentDetails(assignmentElem) {
-  const assignedDate = assignmentElem.querySelector('[data-heading="Assigned"]').textContent;
-  const name = assignmentElem.querySelector('[data-heading="Assignment"]').textContent;
-  const assignedAssignments = await getAssignmentsByAssigned(assignedDate);
-  const assignment = assignedAssignments.find(a => {
-    return sanitizeAssignmentTitle(a.short_description) === name;
-  });
-  return sanitizeAssignmentTitle(assignment.long_description);
-}
-
 async function showAssignmentDetails(assignmentElem) {
-  const details = await getAssignmentDetails(assignmentElem);
+  const assignmentData = await getAssignmentBasicDataFromRow(assignmentElem);
+  const details = sanitizeAssignmentTitle(assignmentData.long_description);
   const detailsElem = (
     <div className={selectors.details}>
       <td colSpan="5">
