@@ -48,6 +48,7 @@ import scheduleArrowNavigation from './modules/schedule-arrow-navigation';
 import admin from './modules/admin';
 import semesterSwitcher from './modules/semester-switcher';
 import hideCommunityServiceAssignment from './modules/hide-community-service-assignment';
+import autocollapseProgressBoxes from './modules/autocollapse-progress-boxes';
 
 const MODULE_MAP = {
   '#': [
@@ -95,6 +96,7 @@ const MODULE_MAP = {
     fullYearAssignments,
     progressAssignmentDetails,
     semesterSwitcher,
+    autocollapseProgressBoxes,
   ],
   '#message': [archiveAll],
   '#message/inbox': [markAllAsRead, markAsRead, fixArchiveHighlight],
