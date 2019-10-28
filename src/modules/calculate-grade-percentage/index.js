@@ -1,7 +1,12 @@
 import registerModule from '~/module';
 
 import { createElement, waitForOne, insertCss } from '~/utils/dom';
-import { computeGradePercentage, addProgressDialogListener } from '~/shared/progress';
+import {
+  computeGradePercentage,
+  addProgressDialogListener,
+  getAssignmentDataFromRow,
+  assignmentHasRubric,
+} from '~/shared/progress';
 
 import style from './style.css';
 
@@ -50,9 +55,25 @@ async function insertPercentages() {
     const pointElem = pointWrap.querySelector('h4');
     const [earned, total] = pointElem.textContent.split('/');
 
-    const percentage = total
-      ? computeGradePercentage(earned, total)
-      : letterGradeToPercentage(earned);
+    let percentage;
+    if (total) {
+      percentage = computeGradePercentage(earned, total);
+    } else {
+      const assignmentRow = pointElem.closest('tr');
+      const rubric = assignmentHasRubric(assignmentRow);
+      if (rubric) {
+        const assignmentData = await getAssignmentDataFromRow(assignmentRow);
+        const { rubricPoints, maxPoints } = assignmentData;
+        if (rubricPoints) {
+          percentage = computeGradePercentage(rubricPoints, maxPoints);
+        } else {
+          percentage = letterGradeToPercentage(earned);
+        }
+      } else {
+        percentage = letterGradeToPercentage(earned);
+      }
+    }
+
     const percentageElem = createPercentageLabel(percentage);
     pointElem.appendChild(percentageElem);
   }

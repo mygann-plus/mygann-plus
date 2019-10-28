@@ -1,6 +1,8 @@
 import he from 'he';
 
 import { waitForOne, addEventListener, waitForLoad } from '~/utils/dom';
+import { fetchApi } from '~/utils/fetch';
+import { getAssignmentData } from './assignments-center';
 
 export function coursesListLoaded() {
   return document.querySelector('#coursesContainer > *')
@@ -85,4 +87,32 @@ export function sanitizeAssignmentTitle(title) {
     .replace(/<!--StartFragment-->/g, '')
     .replace(/<!--EndFragment-->/g, '')
     .trim());
+}
+
+// get all assignments on a certain assigned date
+function getAssignmentsByAssigned(assigned) {
+  const endpoint = '/api/DataDirect/AssignmentCenterAssignments';
+  const year = (new Date()).getFullYear();
+  const fullAssigned = `${assigned}/${year}`;
+  const query = `?format=json&filter=0&dateStart=${fullAssigned}&dateEnd=${fullAssigned}&persona=2&statusList=&sectionList=`;
+  return fetchApi(endpoint + query);
+}
+
+export async function getAssignmentBasicDataFromRow(assignmentRow) {
+  const assignedDate = assignmentRow.querySelector('[data-heading="Assigned"]').textContent;
+  const name = assignmentRow.querySelector('[data-heading="Assignment"]').textContent;
+  const assignedAssignments = await getAssignmentsByAssigned(assignedDate);
+  const assignment = assignedAssignments.find(a => {
+    return sanitizeAssignmentTitle(a.short_description) === name;
+  });
+  return assignment;
+}
+
+export async function getAssignmentDataFromRow(assignmentRow) {
+  const assignmentBasicData = await getAssignmentBasicDataFromRow(assignmentRow);
+  return getAssignmentData(assignmentBasicData.assignment_index_id);
+}
+
+export function assignmentHasRubric(assignmentRow) {
+  return assignmentRow.querySelector('.rubric-detail-button');
 }
