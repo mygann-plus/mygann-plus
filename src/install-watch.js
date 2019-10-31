@@ -13,7 +13,7 @@ chrome.runtime.onInstalled.addListener(async ({ previousVersion, reason }) => {
     markInstallState(isUpdate ? installStates.UPDATE : installStates.PATCH);
   } else {
     const now = new Date();
-    const timestamp = `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+    const timestamp = `${now.toLocaleDateString('en-US')} ${now.toLocaleTimeString()}`;
     await markInstallState(installStates.INSTALL);
     markInstallTimestamp(timestamp);
   }

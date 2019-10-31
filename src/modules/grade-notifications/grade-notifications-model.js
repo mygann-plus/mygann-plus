@@ -19,7 +19,7 @@ export async function getLastChecked() {
   const { lastChecked } = (await storage.get(GRADE_NOTIFICATIONS_KEY, SCHEMA_VERSION)) || {};
   if (!lastChecked) {
     const today = new Date();
-    const todayDateTime = `${today.toLocaleDateString()} ${today.toLocaleTimeString()}`;
+    const todayDateTime = `${today.toLocaleDateString('en-US')} ${today.toLocaleTimeString()}`;
     await setLastChecked(todayDateTime);
     return today;
   }

@@ -40,7 +40,7 @@ export function getBlockLetter(startTime, endTime) {
     }
   }
 
-  const exceptions = blockSchedule.exceptions[date.toLocaleDateString()];
+  const exceptions = blockSchedule.exceptions[date.toLocaleDateString('en-US')];
   if (exceptions) {
     for (const exceptionLetter in exceptions) {
       const time = exceptions[exceptionLetter];

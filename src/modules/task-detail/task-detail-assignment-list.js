@@ -43,7 +43,7 @@ export async function addTaskLinks(unloaderContext) {
 
 async function getAllTasks() {
   const endpoint = '/api/DataDirect/AssignmentCenterAssignments/';
-  const query = `?format=json&filter=2&dateStart=9/17/2018&dateEnd=${new Date().toLocaleDateString()}&persona=2&statusList=&sectionList=`;
+  const query = `?format=json&filter=2&dateStart=9/17/2018&dateEnd=${new Date().toLocaleDateString('en-US')}&persona=2&statusList=&sectionList=`;
   const data = await fetchApi(endpoint + query);
   return data.filter(item => item.user_task_ind);
 }
@@ -84,8 +84,8 @@ async function insertDetailsInput(e) {
     if (!id) { // adding new task
       const newTasks = await getAllTasks();
       const createdTask = newTasks.find(t => (
-        !existingTasks.find(task => task.assignment_id === t.assignment_id) &&
-        t.short_description === taskName
+        !existingTasks.find(task => task.assignment_id === t.assignment_id)
+        && t.short_description === taskName
       ));
       id = String(createdTask.assignment_id);
     }

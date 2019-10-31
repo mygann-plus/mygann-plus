@@ -5,9 +5,7 @@ import { fetchApi } from '~/utils/fetch';
 import { getAssignmentData } from '~/shared/assignments-center';
 
 import { getLastChecked, setLastChecked } from './grade-notifications-model';
-import showGradedNotificationBubble, {
-  removeGradeNotificationBubble,
-} from './grade-notifications-bubble';
+import showGradedNotificationBubble, { removeGradeNotificationBubble } from './grade-notifications-bubble';
 import showNewGradedButton, { removeNewGradedButton } from './grade-notifications-progress';
 
 import style from './style.css';
@@ -16,7 +14,7 @@ let newGradedAssignments = [];
 
 function clearNotifications() {
   const today = new Date();
-  const nowDateTime = `${today.toLocaleDateString()} ${today.toLocaleTimeString()}`;
+  const nowDateTime = `${today.toLocaleDateString('en-US')} ${today.toLocaleTimeString()}`;
   newGradedAssignments = [];
   setLastChecked(nowDateTime);
   removeGradeNotificationBubble();
@@ -39,12 +37,13 @@ async function getFullAssignmentData(assignment) {
  */
 async function getNewGradedAssignments(lastChecked, pointsThreshold) {
   const startDate = '9/17/2018'; // TODO: better, generally
-  const endDate = new Date().toLocaleDateString();
+  const endDate = new Date().toLocaleDateString('en-US');
 
   const endpoint = '/api/DataDirect/AssignmentCenterAssignments/';
   const query = `?format=json&filter=2&dateStart=${startDate}&dateEnd=${endDate}&persona=2&statusList=4`;
 
   const assignments = await fetchApi(endpoint + query);
+
   const assignmentsData = (await Promise.all(assignments
     .map(assignment => getFullAssignmentData(assignment))));
 
