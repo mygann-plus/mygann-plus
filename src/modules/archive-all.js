@@ -7,6 +7,9 @@ import {
   refreshMessageList,
 } from '~/shared/messages';
 
+const selectors = {
+  button: 'gocp_archive-all_button',
+};
 
 const textMap = {
   '#message/inbox': {
@@ -34,8 +37,9 @@ async function archive() {
 
 async function archiveAll(opts, unloaderContext) {
 
+  const existingButton = document.getElementById(selectors.button);
   const text = textMap[window.location.hash];
-  if (!text) {
+  if (!text || existingButton) {
     // keep previous button on page, but don't add a new one.
     return;
   }
@@ -47,6 +51,7 @@ async function archiveAll(opts, unloaderContext) {
     buttonText,
     messageText,
     icon: 'archive',
+    id: selectors.button,
     onClick: archive,
   });
 

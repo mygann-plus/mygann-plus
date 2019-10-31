@@ -40,7 +40,7 @@ function handleButtonClick(e, messageElem, callback) {
 }
 
 export async function addMessageBarButton({
-  buttonText, messageText, onClick,
+  buttonText, messageText, onClick, id,
 }) {
 
   const styles = insertCss(style.toString());
@@ -55,7 +55,7 @@ export async function addMessageBarButton({
     </span>
   );
 
-  const button = constructButton(buttonText, '', 'fa fa-archive', e => {
+  const button = constructButton(buttonText, id, 'fa fa-archive', e => {
     handleButtonClick(e, message, onClick);
   });
   button.style.margin = '5px 0px 5px 10px';
