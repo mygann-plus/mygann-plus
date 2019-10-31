@@ -1,3 +1,20 @@
+## 1.11.0
+
+### Added
+- Create "Automatically Collapse Progress Boxes" module
+
+### Changed
+- Hide Nonacademic Classes shows Community Service on progress page
+- Support rubrics in Calculate Grade Percentage
+
+### Fixed
+- Fix internal storage not working the first time it's used by a module
+- Fix task details not working if the URL ends with a slash
+- Fix Hide Nonacademic Classes not working on progress if progress is navigated to without reloading
+- Fix Name Quiz not working on class pages
+- Fix Archive All button appearing twice after running archive all or mark all as read
+- Fix Grade Notifications and Free Block exceptions not working on computers with non-US date formatting
+
 ## 1.10.1
 ### Changed
 - Show 1st Semester button is hidden during first semester
