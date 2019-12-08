@@ -116,3 +116,17 @@ export async function getAssignmentDataFromRow(assignmentRow) {
 export function assignmentHasRubric(assignmentRow) {
   return assignmentRow.querySelector('.rubric-detail-button');
 }
+export function letterGradeToPercentage(letter) {
+  const letterMap = {
+    A: 96.99,
+    B: 86.99,
+    C: 76.99,
+    D: 66.99,
+  };
+  let grade = letterMap[letter[0]];
+  // adjust grade based on +/-
+  if (letter[1]) {
+    grade += letter[1] === '+' ? 3 : -4;
+  }
+  return grade;
+}

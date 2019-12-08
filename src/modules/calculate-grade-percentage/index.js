@@ -6,6 +6,7 @@ import {
   addProgressDialogListener,
   getAssignmentDataFromRow,
   assignmentHasRubric,
+  letterGradeToPercentage,
 } from '~/shared/progress';
 
 import style from './style.css';
@@ -20,21 +21,6 @@ const domQuery = {
   prevButton: () => document.querySelectorAll('button[data-analysis="prev"]')[0],
   nextButton: () => document.querySelectorAll('button[data-analysis="next"]')[0],
 };
-
-function letterGradeToPercentage(letter) {
-  const letterMap = {
-    A: 96.99,
-    B: 86.99,
-    C: 76.99,
-    D: 66.99,
-  };
-  let grade = letterMap[letter[0]];
-  // adjust grade based on +/-
-  if (letter[1]) {
-    grade += letter[1] === '+' ? 3 : -4;
-  }
-  return grade;
-}
 
 function createPercentageLabel(percentage) {
   return (
@@ -63,6 +49,9 @@ async function insertPercentages() {
       const rubric = assignmentHasRubric(assignmentRow);
       if (rubric) {
         const assignmentData = await getAssignmentDataFromRow(assignmentRow);
+        if (!assignmentData) {
+          continue;
+        }
         const { rubricPoints, maxPoints } = assignmentData;
         if (rubricPoints) {
           percentage = computeGradePercentage(rubricPoints, maxPoints);
@@ -75,7 +64,7 @@ async function insertPercentages() {
     }
 
     const percentageElem = createPercentageLabel(percentage);
-    pointElem.appendChild(percentageElem);
+    pointElem.after(percentageElem);
   }
 }
 
