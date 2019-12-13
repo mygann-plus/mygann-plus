@@ -47,9 +47,9 @@ import serveryMenu from './modules/servery-menu';
 import scheduleArrowNavigation from './modules/schedule-arrow-navigation';
 import admin from './modules/admin';
 import semesterSwitcher from './modules/semester-switcher';
-import hideCommunityServiceAssignment from './modules/hide-community-service-assignment';
 import letterGradePoints from './modules/letter-grade-points';
 import autocollapseProgressBoxes from './modules/autocollapse-progress-boxes';
+import assignmentCheckpoints from './modules/assignment-checkpoints';
 
 const MODULE_MAP = {
   '#': [
@@ -67,7 +67,7 @@ const MODULE_MAP = {
     autofocusSiteSearch,
   ], // universal modules
   '#login': [oneClickLogin],
-  '#assignmentdetail': [autoCloseDetailStatus],
+  '#assignmentdetail': [autoCloseDetailStatus, assignmentCheckpoints],
   '#studentmyday/assignment-center': [
     inlineChangeStatus,
     hideCompleted,
@@ -76,9 +76,10 @@ const MODULE_MAP = {
     dueSoon,
     taskDetail,
     fixSemesterSwitch,
+    assignmentCheckpoints,
     extreme,
   ],
-  '#taskdetail': [taskDetail],
+  '#taskdetail': [taskDetail, assignmentCheckpoints],
   '#studentmyday/schedule': [
     freeBlock,
     highlightCurrentClass,
@@ -98,7 +99,9 @@ const MODULE_MAP = {
     progressAssignmentDetails,
     semesterSwitcher,
     letterGradePoints,
+    assignmentGroup,
     autocollapseProgressBoxes,
+    gradeGraph,
   ],
   '#message': [archiveAll],
   '#message/inbox': [markAllAsRead, markAsRead, fixArchiveHighlight],

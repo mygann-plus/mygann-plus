@@ -72,3 +72,7 @@ export async function getTaskData(id) {
     assigned: data.AssignedDate,
   };
 }
+
+export function getAssignmentIdFromRow(row) {
+  return row.querySelector('.assignment-status-update').dataset.id;
+}
