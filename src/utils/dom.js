@@ -90,15 +90,22 @@ export function constructButton(textContent, id, iClassName, onClick, classnames
   };
   const options = { ...defaultOpts, ...opts };
   const styles = {
-    button: { color: 'black' },
+    button: { color: opts.primary ? 'white' : 'black' },
     icon: { visibility: 'visible', marginRight: textContent ? '5px' : '' },
   };
   return (
     <button
       id={classNames(id, opts.primary && 'gocp-ui-button')}
-      className={classNames('btn btn-default', options.small && 'btn-sm', classnames)}
+      className={
+        classNames(
+          'btn btn-default',
+          options.small && 'btn-sm',
+          opts.primary && 'btn-primary',
+          classnames,
+        )
+      }
       onClick={onClick}
-      style={{ color: 'black' }}
+      style={styles.button}
     >
       { iClassName && <i className={iClassName} style={styles.icon} /> }
       { textContent }
