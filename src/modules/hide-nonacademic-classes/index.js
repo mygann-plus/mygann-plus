@@ -59,8 +59,8 @@ async function hideNonacademicClasses(suboptions, unloaderContext) {
   const hiddenKeywords = (await fetchNonacademicClasses()).progress;
   const onProgress = window.location.hash === '#studentmyday/progress';
   if (onProgress && suboptions.inProgressPage && hiddenKeywords) {
-    const observer = observeCoursesBar(() => hideProgressPage(hiddenKeywords));
     hideProgressPage(hiddenKeywords);
+    const observer = await observeCoursesBar(() => hideProgressPage(hiddenKeywords));
     unloaderContext.addRemovable(observer);
   }
 }
