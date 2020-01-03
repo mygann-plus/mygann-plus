@@ -76,10 +76,10 @@ async function semesterSwitcher(opts, unloaderContext) {
   await waitForLoad(() => domQuery.coursesBar() && domQuery.activitiesBar());
 
   let semesterSwitchButtonUnloader = unloaderContext.addRemovable(
-    insertSemesterSwitchButton(),
+    await insertSemesterSwitchButton(),
   );
   let seasonSwitchButtonUnloader = unloaderContext.addRemovable((
-    insertSeasonSwitchButton()
+    await insertSeasonSwitchButton()
   ));
 
   const coursesBarObserver = await observeCoursesBar(async () => {
