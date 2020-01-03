@@ -38,7 +38,7 @@
     "linkifyjs": "^2.1.6",
     "lodash.clonedeep": "^4.5.0",
     "lodash.unescape": "^4.0.1",
-    "marked": "^0.5.0",
+    "marked": "^0.6.1",
     "pdf-parse": "^1.1.1",
     "semver": "^6.3.0",
     "string-strip-html": "^4.3.12",
