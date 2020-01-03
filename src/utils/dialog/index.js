@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 
-import { createElement, insertCss, addEventListener } from '../dom';
+import { createElement, insertCss, addEventListener } from '~/utils/dom';
 
 import style from './style.css';
 
@@ -70,7 +70,7 @@ export default class Dialog {
   getLeftButton(index) {
     return this.leftButtons[index];
   }
-  
+
   getRightButton(index) {
     return this.rightButtons[index];
   }

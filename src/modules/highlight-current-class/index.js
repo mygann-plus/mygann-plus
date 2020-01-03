@@ -1,5 +1,6 @@
+import registerModule from '~/core/module';
+
 import { waitForLoad, insertCss } from '~/utils/dom';
-import registerModule from '~/module';
 import { addDayChangeListeners, isCurrentClass } from '~/shared/schedule';
 
 import style from './style.css';

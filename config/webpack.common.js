@@ -2,8 +2,8 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    'content-script': path.resolve(__dirname, '../src/index.js'),
-    'install-watch': path.resolve(__dirname, '../src/install-watch.js'),
+    'content-script': path.resolve(__dirname, '../src/core/index.ts'),
+    // 'install-watch': path.resolve(__dirname, '../src/install-watch.js'),
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
@@ -12,9 +12,9 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.tsx?$/,
+        use: 'ts-loader',
         exclude: /node_modules/,
-        loader: 'babel-loader',
       },
       {
         test: /\.css$/,
@@ -36,5 +36,6 @@ module.exports = {
     alias: {
       '~': path.resolve(__dirname, '../src'),
     },
+    extensions: ['.js', '.ts', '.tsx'],
   },
 };

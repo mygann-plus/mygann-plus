@@ -25,10 +25,17 @@
     "eslint-import-resolver-webpack": "^0.10.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-react": "^7.14.3",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.3",
     "webpack": "^4.16.4",
     "webpack-command": "^0.4.1"
   },
   "dependencies": {
+    "@types/chrome": "^0.0.91",
+    "@types/classnames": "^2.2.9",
+    "@types/lodash.clonedeep": "^4.5.6",
+    "@types/node": "^13.1.1",
+    "@types/react": "^16.9.17",
     "array-flatten": "^2.1.1",
     "classnames": "^2.2.6",
     "deep-object-diff": "^1.1.0",
