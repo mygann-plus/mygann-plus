@@ -123,3 +123,21 @@ export function letterGradeToPercentage(letter) {
   }
   return grade;
 }
+
+
+// / Get sectionId for currently open "See grade detail" modal
+export function getOpenCourseId() {
+  const title = document.querySelector('.bb-dialog-header').textContent.trim();
+  const courses = Array.from(document.querySelectorAll('#coursesContainer .row'));
+  const openCourse = courses.find(course => {
+    return course.querySelector('h3').textContent.trim() === title;
+  });
+  return openCourse && openCourse.querySelector('.showGrade + a').dataset.analysis;
+}
+
+export async function getActiveMarkingPeriodId() {
+  const activeMarkingPeriod = await waitForLoad(() => {
+    return document.querySelector('#showHideGrade .dropdown-menu .active a');
+  });
+  return activeMarkingPeriod.dataset.value;
+}
