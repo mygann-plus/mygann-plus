@@ -50,6 +50,7 @@ import semesterSwitcher from './modules/semester-switcher';
 import hideCommunityServiceAssignment from './modules/hide-community-service-assignment';
 import letterGradePoints from './modules/letter-grade-points';
 import autocollapseProgressBoxes from './modules/autocollapse-progress-boxes';
+import fixAssignmentCenterDate from './modules/fix-assignment-center-date';
 
 const MODULE_MAP = {
   '#': [
@@ -76,6 +77,7 @@ const MODULE_MAP = {
     dueSoon,
     taskDetail,
     fixSemesterSwitch,
+    fixAssignmentCenterDate,
     extreme,
   ],
   '#taskdetail': [taskDetail],
