@@ -23,7 +23,7 @@ function getOffice(teacherName, offices) {
   }
 }
 
-async function insertFacultyOffices(wrap, offices) {
+async function insertFacultyOffices(wrap, offices, unloaderContext) {
   await waitForLoad(() => wrap.querySelector('tbody > tr'));
   const listings = wrap.querySelectorAll('tbody > tr');
 
@@ -49,6 +49,7 @@ async function insertFacultyOffices(wrap, offices) {
       </div>
     );
     listing.querySelector('h3').after(roomSpan);
+    unloaderContext.addRemovable(roomSpan);
   }
 }
 
@@ -74,9 +75,11 @@ async function facultyOffices(opts, unloaderContext) {
     return;
   }
 
-  insertFacultyOffices(results, offices);
+  insertFacultyOffices(results, offices, unloaderContext);
 
-  const observer = new MutationObserver(() => insertFacultyOffices(results, offices));
+  const observer = new MutationObserver(() => {
+    insertFacultyOffices(results, offices, unloaderContext);
+  });
   observer.observe(results, {
     childList: true,
   });
