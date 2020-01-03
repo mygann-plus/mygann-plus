@@ -1,4 +1,5 @@
 import he from 'he';
+import stripHtml from 'string-strip-html';
 
 import { waitForOne, addEventListener, waitForLoad } from '~/utils/dom';
 import { fetchApi } from '~/utils/fetch';
@@ -74,19 +75,11 @@ export async function addProgressDialogListener(callback, unloaderContext) {
 
 // removes HTML entities (for Hebrew characters) and HTML fragments
 export function sanitizeAssignmentTitle(title) {
-  return he.decode(title
+  return he.decode(stripHtml(title)
     .replace(/\s+/g, ' ')
-    .replace(/<br>/g, ' ')
-    .replace(/<br \/>/g, ' ')
-    .replace(/<div>/g, '')
-    .replace(/<\/div>/g, '')
-    .replace(/<b>/g, ' ')
-    .replace(/<\/b>/g, ' ')
-    .replace(/<i>/g, '')
-    .replace(/<\/i>/g, '')
     .replace(/<!--StartFragment-->/g, '')
     .replace(/<!--EndFragment-->/g, '')
-    .trim());
+    .trim()).trim();
 }
 
 // get all assignments on a certain assigned date

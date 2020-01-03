@@ -41,6 +41,7 @@
     "marked": "^0.5.0",
     "pdf-parse": "^1.1.1",
     "semver": "^6.3.0",
+    "string-strip-html": "^4.3.12",
     "sure": "0.0.3"
   }
 }
