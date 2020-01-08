@@ -66,7 +66,7 @@ async function sendReport() {
   ${description}
   
   -- debug data id: ${debugDataId} --
-  `;
+  `.trim();
 
   if (fileInput.value) {
     imageId = await uploadImage(fileInput);
