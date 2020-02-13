@@ -11,10 +11,10 @@ import style from './style.css';
 const selectors = {
   hidden: style.locals.hidden,
   filterInput: style.locals['filter-input'],
+  selectedCourse: style.locals['selected-course'],
 };
 
 let courses;
-const filters = [];
 
 function generateCourseList() {
   const rows = document.getElementById('coursesContainer').getElementsByClassName('row');
@@ -31,18 +31,24 @@ function regenerateCoursesList() {
   }
 }
 
-function runFilter() {
-  regenerateCoursesList();
-  const kept = filters.reduce((arr, filter) => arr.filter(filter), courses);
-  courses.forEach(course => course.elem.classList.add(selectors.hidden));
-  kept.forEach(course => course.elem.classList.remove(selectors.hidden));
-}
-
 function handleSearch(course) {
   const query = document.querySelector(`.${selectors.filterInput}`).value;
   return fuzzyMatch(query, course.name);
 }
-filters.push(handleSearch);
+
+function runFilter() {
+  regenerateCoursesList();
+  const kept = courses.filter(handleSearch);
+  courses.forEach(course => {
+    course.elem.classList.add(selectors.hidden);
+    course.elem.classList.remove(selectors.selectedCourse);
+  });
+  kept.forEach(course => course.elem.classList.remove(selectors.hidden));
+  if (kept.length === 1) {
+    kept[0].elem.classList.add(selectors.selectedCourse);
+  }
+}
+
 
 function handleKeyDown(e) {
   if (e.key === 'Enter') {
@@ -69,16 +75,10 @@ function renderFilterBar() {
     />
   );
 
-  const wrap = (
-    <div className="btn-group" style={{ display: 'inline' }}>
-      { input }
-    </div>
-  );
-
-  document.getElementById('showHideGrade').after(wrap);
+  document.getElementById('showHideGrade').after(input);
   document.getElementById('showHideGrade').style.marginRight = '15px';
 
-  return wrap;
+  return input;
 }
 
 const domQuery = () => (
