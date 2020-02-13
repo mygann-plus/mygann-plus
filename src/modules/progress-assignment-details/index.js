@@ -15,8 +15,8 @@ const selectors = {
 };
 
 async function showAssignmentDetails(assignmentElem) {
-  const assignmentData = await getAssignmentBasicDataFromRow(assignmentElem);
-  const details = sanitizeAssignmentTitle(assignmentData.long_description);
+  const { long_description: rawDescription } = await getAssignmentBasicDataFromRow(assignmentElem);
+  const details = rawDescription && sanitizeAssignmentTitle(rawDescription);
   const detailsElem = (
     <div className={selectors.details}>
       <td colSpan="5">
