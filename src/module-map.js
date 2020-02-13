@@ -51,6 +51,7 @@ import hideCommunityServiceAssignment from './modules/hide-community-service-ass
 import letterGradePoints from './modules/letter-grade-points';
 import autocollapseProgressBoxes from './modules/autocollapse-progress-boxes';
 import fixAssignmentCenterDate from './modules/fix-assignment-center-date';
+import defaultAssignmentSort from './modules/default-assignment-sort';
 
 const MODULE_MAP = {
   '#': [
@@ -78,6 +79,7 @@ const MODULE_MAP = {
     taskDetail,
     fixSemesterSwitch,
     fixAssignmentCenterDate,
+    defaultAssignmentSort,
     extreme,
   ],
   '#taskdetail': [taskDetail],
