@@ -28,7 +28,7 @@ async function showAssignmentDetails(assignmentElem) {
 }
 
 function hideAssignmentDetails(assignmentElem) {
-  const details = assignmentElem.nextElementSibling;
+  const details = assignmentElem.parentNode.querySelector(`.${selectors.details}`);
   if (details) {
     details.remove();
   }
