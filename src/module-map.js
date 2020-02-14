@@ -113,6 +113,8 @@ const MODULE_MAP = {
   '#searchresults/summary': [filterWebsiteMainSearch],
   '#academicclass': [classEmail, nameQuiz],
   '#communitypage': [nameQuiz],
+  '#advisorypage': [nameQuiz],
+  '#activitypage': [nameQuiz],
   '#myschedule': [dayScheduleButton],
   '#admin': [admin],
 

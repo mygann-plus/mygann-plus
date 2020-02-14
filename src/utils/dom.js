@@ -29,13 +29,18 @@ export function waitForLoad(condition, root = document.body) {
 }
 
 // waits for a non-empty array
-export function waitForOne(condition, root = document.body) {
+// If filterNull is true, ignore all elements in the array that are null
+export function waitForOne(condition, filterNull, root = document.body) {
   return waitForLoad(() => {
     const resolvedCondition = condition();
     if (!(resolvedCondition instanceof NodeList) && !(resolvedCondition instanceof Array)) {
       log('warn', 'waitForOne condition should return an NodeList');
     }
     if (resolvedCondition && resolvedCondition.length) {
+      if (filterNull) {
+        const filtered = resolvedCondition.filter(k => k !== null);
+        return filtered.length && filtered;
+      }
       return resolvedCondition;
     }
   }, root);

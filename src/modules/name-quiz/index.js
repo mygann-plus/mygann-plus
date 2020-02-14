@@ -2,7 +2,7 @@ import classNames from 'classnames';
 
 import registerModule from '~/module';
 
-import { createElement, waitForLoad, constructButton, insertCss } from '~/utils/dom';
+import { createElement, waitForLoad, constructButton, insertCss, waitForOne } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
 import { fetchApi } from '~/utils/fetch';
 import { getCDNImageUrl } from '~/utils/cdn';
@@ -309,7 +309,8 @@ class NameQuizGame {
 
 async function runGame(unloaderContext) {
 
-  const classId = window.location.href.match(/(?:#academicclass|#communitypage)\/([0-9]+)/)[1];
+  // extracts id from advisorypage, communitypage, activitypage, and academicclas
+  const classId = window.location.href.match(/(?:#.+page|#academicclass)\/([0-9]+)/)[1];
   const userId = Number(await getUserId());
 
   const students = await Promise.all((await fetchApi(`/api/datadirect/sectionrosterget/${classId}`))
@@ -331,9 +332,12 @@ async function runGame(unloaderContext) {
   const mode = (await getMode()) || modes.CHOICE;
   const game = new NameQuizGame(students, nicknames, mode);
 
-  const rosterBar = window.location.hash.startsWith('#communitypage')
-    ? document.querySelector('#communitypagecontainer div')
-    : document.querySelector('#academicclassmaincontainer div');
+  const [rosterBar] = await waitForOne(() => ([
+    document.querySelector('#communitypagecontainer div'),
+    document.querySelector('#academicclassmaincontainer div'),
+    document.querySelector('#grouppagemaincontainer div'),
+    document.querySelector('#activitypagecontainer div'),
+  ]), true);
 
   rosterBar.after(game.getWrap());
   unloaderContext.addRemovable(game.getWrap());
