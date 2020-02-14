@@ -111,12 +111,13 @@ class NameQuizGame {
   }
 
   getStudentName(student) {
-    const nickname = this.nicknames[student.name];
+    // current-user-set nickname takes priority, then self-set, then default
+    const nickname = this.nicknames[student.name] || student.nickname;
     return nickname ? capitalize(nickname) : getFirstName(student.name);
   }
 
   isCorrectName(name) {
-    const nickname = this.nicknames[this.currentStudent.name];
+    const nickname = this.nicknames[this.currentStudent.name] || this.currentStudent.nickname;
     const currentName = getFirstName(normalizeName(this.currentStudent.name));
     const normalName = normalizeName(name);
     return (nickname && normalName === normalizeName(nickname)) || normalName === currentName;
@@ -304,12 +305,6 @@ class NameQuizGame {
     delete this.nicknames[fullName];
     removeNickname(fullName);
   }
-
-  funny() {
-    setInterval(() => {
-      this.generateNewQuestion();
-    }, 1);
-  }
 }
 
 async function runGame(unloaderContext) {
@@ -324,6 +319,7 @@ async function runGame(unloaderContext) {
     })
     .map(async student => ({
       name: student.name,
+      nickname: student.nickName,
       image: await getCDNImageUrl(`user/${student.userPhotoLarge}?resize=200,200`),
     })));
 
