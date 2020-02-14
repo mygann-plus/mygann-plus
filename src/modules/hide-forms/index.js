@@ -41,9 +41,11 @@ class HideButton {
     this.isActive = hiddenForms.includes(this.id);
     this.button = this.generateButton();
   }
+
   show() {
     getFormControls(this.formRow).appendChild(this.button);
   }
+
   generateButton() {
     const hideButton = constructButton(
       'Hide', '', 'fa fa-eye-slash',
@@ -53,6 +55,7 @@ class HideButton {
     hideButton.classList.remove('btn-sm');
     return hideButton;
   }
+
   handleButtonClick(e) {
     e.stopPropagation();
     this.button.classList.toggle(selectors.hideButtonActive);
@@ -64,6 +67,7 @@ class HideButton {
     }
     this.isActive = !this.isActive;
   }
+
   remove() {
     this.button.remove();
   }
@@ -128,7 +132,7 @@ async function hideFormsMain(opts, unloaderContext) {
   }
 
   addHideButtons(unloaderContext);
-  const formsWrap = domQuery.formsWrap();
+  const formsWrap = await waitForLoad(domQuery.formsWrap);
   const observer = new MutationObserver(() => addHideButtons(unloaderContext));
   observer.observe(formsWrap, {
     childList: true,
