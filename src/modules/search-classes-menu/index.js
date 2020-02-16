@@ -72,6 +72,8 @@ class ClassFilter {
     if (matches.length === 1) {
       this.match = matches[0]; // eslint-disable-line prefer-destructuring
       this.setCourseHighlighted(this.match.elem, true);
+    } else {
+      this.match = null;
     }
   }
 
