@@ -11,7 +11,7 @@ import messageNotifications from './modules/message-notifications';
 import nextGradedCourse from './modules/next-graded-course';
 import searchClassesMenu from './modules/search-classes-menu';
 import hideCompleted from './modules/hide-completed';
-import comingUp from './modules/coming-up';
+import tomorrowsEvents from './modules/tomorrows-events';
 import dayScheduleButton from './modules/day-schedule-button';
 import favorites from './modules/favorites';
 import inlineAssignmentGrade from './modules/inline-assignment-grade';
@@ -89,7 +89,7 @@ const MODULE_MAP = {
     serveryMenu,
     blockLength,
     classEndingTime,
-    comingUp,
+    tomorrowsEvents,
     scheduleArrowNavigation,
   ],
   '#myday/schedule-performance': [classEndingTime],

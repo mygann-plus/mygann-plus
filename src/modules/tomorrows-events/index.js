@@ -44,12 +44,12 @@ function createAlertBox() {
 }
 
 const domQuery = () => (
-  getAnnouncementWrap() ||
-  (document.getElementsByClassName('pl-10')[0] &&
-  document.getElementsByClassName('pl-10')[0].textContent === 'There is nothing scheduled for this date.') // eslint-disable-line max-len
+  getAnnouncementWrap()
+  || (document.getElementsByClassName('pl-10')[0]
+  && document.getElementsByClassName('pl-10')[0].textContent === 'There is nothing scheduled for this date.') // eslint-disable-line max-len
 );
 
-async function showComingUp(unloaderContext) {
+async function showTomorrowsEvents(unloaderContext) {
   await waitForLoad(domQuery);
   if (!(await isCurrentDay())) {
     return;
@@ -73,21 +73,21 @@ async function showComingUp(unloaderContext) {
   unloaderContext.addRemovable(label);
 }
 
-function comingUp(opts, unloaderContext) {
+function tomorrowsEvents(opts, unloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
-  showComingUp(unloaderContext);
+  showTomorrowsEvents(unloaderContext);
   const dayChangeListener = addDayChangeListeners(() => {
     // there's a small delay between button click and date change in dom
-    setTimeout(() => showComingUp(unloaderContext), 100);
+    setTimeout(() => showTomorrowsEvents(unloaderContext), 100);
   });
   unloaderContext.addRemovable(dayChangeListener);
 }
 
 export default registerModule('{2b337dae-cb2f-4627-b3d6-bde7a5f2dc06}', {
-  name: 'Coming Up',
+  name: 'Tomorrow\'s Events',
   description: 'Show preview of the next day\'s events',
-  main: comingUp,
+  main: tomorrowsEvents,
   defaultEnabled: false,
 });
