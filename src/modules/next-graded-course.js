@@ -75,15 +75,30 @@ async function addNextGradedCourseButtons(courses, currentCourse, unloaderContex
   unloaderContext.addRemovable(prevGradedButton);
 }
 
-async function getCourseGradedAssignments(gradeElem) {
+// Is course full year, not semester
+function isFullYearCourse(sectionId, coursesContext) {
+  const course = coursesContext.find(c => (
+    c.CurrentSectionId === sectionId
+  ));
+  // if course is full-year, there will two courses with same SectionId
+  const otherSemesterCourse = coursesContext.find(c => (
+    c.SectionId === course.SectionId && c.CurrentSectionId !== course.CurrentSectionId
+  ));
+  return !!otherSemesterCourse;
+}
+
+async function getCourseGradedAssignments(gradeElem, coursesContext) {
   const selectedSemesterElem = document.querySelector('.dropdown-menu .active a');
-  const isSecondSemester = selectedSemesterElem.textContent.toLowerCase().includes('second');
+  const isSecondSemester = selectedSemesterElem.textContent.includes('2');
 
   const markingPeriod = selectedSemesterElem.dataset.value;
-  let sectionId = gradeElem.nextElementSibling.dataset.analysis;
+  let sectionId = Number(gradeElem.nextElementSibling.dataset.analysis);
   if (isSecondSemester) {
-    // during second semester, ids are one less than in DOM for unknown reason
-    sectionId = Number(sectionId) - 1;
+    const fullYear = isFullYearCourse(sectionId, coursesContext);
+    if (fullYear) {
+      // during second semester, full-year ids are one less than in DOM for unknown reason
+      sectionId = Number(sectionId) - 1;
+    }
   }
   const userId = await getUserId();
   const endpoint = '/api/datadirect/GradeBookPerformanceAssignmentStudentList/';
@@ -92,18 +107,20 @@ async function getCourseGradedAssignments(gradeElem) {
 }
 
 const domQuery = () => (
-  coursesListLoaded() &&
-  document.querySelector('.btn.btn-default.btn-sm.bold') &&
-  document.querySelector('.active')
+  coursesListLoaded()
+  && document.querySelector('.btn.btn-default.btn-sm.bold')
+  && document.querySelector('.active')
 );
 
 async function nextGradedCourse(opts, unloaderContext) {
   await waitForLoad(domQuery);
 
+  const coursesContext = (await fetchApi('/api/webapp/context')).Groups;
+
   const gradeElemToObject = async e => ({
     grade: e.textContent.trim(),
     class: e.parentNode.parentNode.children[0].children[0].children[0].textContent,
-    gradedAssignments: await getCourseGradedAssignments(e),
+    gradedAssignments: await getCourseGradedAssignments(e, coursesContext),
     elem: e,
   });
 
@@ -140,4 +157,3 @@ export default registerModule('{82a191dc-db60-475e-ada5-3c966dd36af5}', {
   description: 'Button in grade detail to jump to next and previous graded course',
   main: nextGradedCourse,
 });
-
