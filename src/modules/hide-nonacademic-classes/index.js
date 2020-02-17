@@ -13,24 +13,47 @@ import style from './style.css';
 import { observeCoursesBar } from '~/shared/progress';
 
 const selectors = {
-  hiddenClass: style.locals['hidden-class'],
+  hidden: style.locals.hidden,
 };
 
+// Shifts visible classes to remove gaps caused by hidden list items
+function repositionDesktopMenu(menu, visibleClasses) {
+  const columns = menu.querySelectorAll('ul');
+  const listLength = columns[0].children.length;
+  const visibleColumnsCount = Math.ceil(visibleClasses.length / listLength);
+
+  for (let i = 0; i < visibleColumnsCount; i++) {
+    const startIndex = i * listLength;
+    const endIndex = (i + 1) * listLength;
+    const columnClasses = visibleClasses.slice(startIndex, endIndex);
+    columns[i].append(...columnClasses.map(c => c.elem));
+  }
+
+  const leftoverColumns = Array.from(columns).slice(visibleColumnsCount, -1);
+  for (const column of leftoverColumns) {
+    column.classList.add(selectors.hidden);
+  }
+}
+
 function hideClasses(classes, hiddenKeywords) {
+  const visible = [];
   for (const classObj of classes) {
     const matches = hiddenKeywords.find(c => classObj.title.includes(c));
     if (matches) {
-      classObj.elem.classList.add(selectors.hiddenClass);
+      classObj.elem.classList.add(selectors.hidden);
+    } else {
+      visible.push(classObj);
     }
   }
+  return visible;
 }
 
 async function hideClassesMenu(hiddenKeywords) {
 
-
-  waitForLoad(getDesktopMenu).then(() => {
+  waitForLoad(getDesktopMenu).then(menu => {
     const classes = getDesktopCourses();
-    hideClasses(classes, hiddenKeywords);
+    const visibleClasses = hideClasses(classes, hiddenKeywords);
+    repositionDesktopMenu(menu, visibleClasses);
   });
 
   waitForLoad(getMobileMenu).then(() => {
@@ -75,10 +98,14 @@ async function initHideNonacademicClasses(suboptions, unloaderContext) {
   }
 }
 
-function unloadedHideNonacademicClasses() {
-  const hiddenClasses = document.querySelectorAll(`.${selectors.hiddenClass}`);
-  for (const classElem of hiddenClasses) {
-    classElem.classList.remove(selectors.hiddenClass);
+function unloadedHideNonacademicClasses(opts) {
+  if (opts.inClassesMenu) {
+    // instead of undoing position recalculation, force reload
+    throw new Error('Forcing reload');
+  }
+  const hidden = document.querySelectorAll(`.${selectors.hidden}`);
+  for (const elem of hidden) {
+    elem.classList.remove(selectors.hidden);
   }
 }
 
