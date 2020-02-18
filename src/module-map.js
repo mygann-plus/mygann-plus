@@ -80,6 +80,7 @@ const MODULE_MAP = {
     fixSemesterSwitch,
     fixAssignmentCenterDate,
     defaultAssignmentSort,
+    hideCommunityServiceAssignment,
     extreme,
   ],
   '#taskdetail': [taskDetail],
