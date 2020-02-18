@@ -117,12 +117,28 @@ export async function getAssignmentBasicDataFromRow(assignmentRow) {
 
 export async function getAssignmentDataFromRow(assignmentRow) {
   const assignmentBasicData = await getAssignmentBasicDataFromRow(assignmentRow);
+  // could not find assignment due to unexpected unstripped formatting
+  if (!assignmentBasicData) {
+    return;
+  }
   return getAssignmentData(assignmentBasicData.assignment_index_id);
 }
 
 export function assignmentHasRubric(assignmentRow) {
   return !!assignmentRow.querySelector('.rubric-detail-button');
 }
+
+// Gets ID of course that is current open in modal dialog
+export function getOpenCourseId() {
+  const courseName = document.querySelector('.bb-dialog-header').textContent.trim();
+  const courseTitles = document.querySelectorAll('#coursesContainer h3:not(.showGrade)');
+  const courseTitleMatch = Array.from(courseTitles).find(title => {
+    return title.textContent.trim() === courseName;
+  });
+  const id = courseTitleMatch.closest('.row').querySelector('.showGrade + .btn').dataset.analysis;
+  return id;
+}
+
 export function letterGradeToPercentage(letter) {
   const letterMap = {
     A: 96.99,

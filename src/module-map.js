@@ -51,6 +51,7 @@ import hideCommunityServiceAssignment from './modules/hide-community-service-ass
 import autocollapseProgressBoxes from './modules/autocollapse-progress-boxes';
 import fixAssignmentCenterDate from './modules/fix-assignment-center-date';
 import defaultAssignmentSort from './modules/default-assignment-sort';
+import assignmentCheckpoints from './modules/assignment-checkpoints';
 
 const MODULE_MAP = {
   '#': [
@@ -68,7 +69,7 @@ const MODULE_MAP = {
     autofocusSiteSearch,
   ], // universal modules
   '#login': [oneClickLogin],
-  '#assignmentdetail': [autoCloseDetailStatus],
+  '#assignmentdetail': [autoCloseDetailStatus, assignmentCheckpoints],
   '#studentmyday/assignment-center': [
     inlineChangeStatus,
     hideCompleted,
@@ -80,9 +81,10 @@ const MODULE_MAP = {
     fixAssignmentCenterDate,
     defaultAssignmentSort,
     hideCommunityServiceAssignment,
+    assignmentCheckpoints,
     extreme,
   ],
-  '#taskdetail': [taskDetail],
+  '#taskdetail': [taskDetail, assignmentCheckpoints],
   '#studentmyday/schedule': [
     freeBlock,
     highlightCurrentClass,

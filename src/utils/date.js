@@ -10,6 +10,15 @@ export function compareDate(a, b) {
 }
 
 /**
+ * @param {number} a valueOf date
+ * @param {number} b valueOf date
+ * @returns {number} 1 if a > b; 0 if a = b; -1 if a < b
+ */
+export function compareDateMilliseconds(a, b) {
+  return (a > b) - (a < b);
+}
+
+/**
  * Converts a 24-hour time string to a Date object
 */
 export function timeStringToDate(timeString) {
@@ -56,4 +65,12 @@ export function getAbsoluteToday() {
 
 export function daysBetween(date1, date2) {
   return Math.floor((date1 - date2) / 86400000);
+}
+
+/**
+ * Get Date object from date input
+ * @param {HTMLDateInput} dateInput
+ */
+export function getDateFromInput(dateInput) {
+  return new Date(`${dateInput.value}T00:00`);
 }
