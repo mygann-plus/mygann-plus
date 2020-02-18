@@ -27,3 +27,18 @@
   background: var(--primary-maroon);
   color: white !important;
 }
+
+.clear-notification-button {
+  margin-top: 3px;
+  padding: 4px 8px;
+  opacity: 0;
+  transition: opacity 100ms;
+}
+
+tr:hover .clear-notification-button {
+  opacity: 1;
+}
+
+.modal-table-points-header {
+  border-right: none !important;
+}

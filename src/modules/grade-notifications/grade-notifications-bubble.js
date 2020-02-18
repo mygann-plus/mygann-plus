@@ -15,7 +15,7 @@ export function removeGradeNotificationBubble() {
   }
 }
 
-export default async function showGradedNotificationBubble(newGradedAssignments, unloaderContext) {
+export async function showGradedNotificationBubble(newGradedAssignments, unloaderContext) {
   removeGradeNotificationBubble();
   if (!newGradedAssignments.length) {
     return;

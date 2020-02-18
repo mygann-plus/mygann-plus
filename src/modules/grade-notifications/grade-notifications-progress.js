@@ -3,7 +3,11 @@ import classNames from 'classnames';
 import { createElement, waitForLoad, constructButton } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
 
-import { computeGradePercentage, observeCoursesBar, sanitizeAssignmentTitle } from '~/shared/progress';
+import {
+  computeGradePercentage,
+  observeCoursesBar,
+  sanitizeAssignmentTitle,
+} from '~/shared/progress';
 
 import selectors from './selectors';
 
@@ -13,7 +17,7 @@ function openCourseDialog(courseName) {
   course.closest('.row').querySelector('.showGrade + .btn').click();
 }
 
-function generateDialogBody(assignments, dialog) {
+function generateDialogBody(assignments, dialog, handleNotificationClear) {
   const handleAssignmentClick = assignment => {
     openCourseDialog(assignment.sectionName);
     dialog.close();
@@ -25,11 +29,12 @@ function generateDialogBody(assignments, dialog) {
         <th>Assignment</th>
         <th>Assigned</th>
         <th>Due</th>
-        <th>Points</th>
+        <th className={selectors.modalTable.pointsHeader}>Points</th>
+        <th></th>
       </tr>
     </thead>
   );
-  
+
   return (
     <table className="table table-striped table-condensed table-mobile-stacked">
       { tableHeader }
@@ -44,18 +49,33 @@ function generateDialogBody(assignments, dialog) {
               <td data-heading="Assignment" className="col-md-3">
                 { sanitizeAssignmentTitle(assignment.title) }
               </td>
-              <td data-heading="Assigned" className="col-md-1">{ assignment.adate.split(' ')[0] }</td>
+              <td data-heading="Assigned" className="col-md-1">
+                { assignment.adate.split(' ')[0] }
+              </td>
               <td data-heading="Due" className="col-md-1">{ assignment.ddate.split(' ')[0] }</td>
               <td data-heading="Points" className="col-md-2">
                 <h4 style={{ margin: '0px' }}>{assignment.pointsEarned || assignment.Letter}
                 {
-                  assignment.pointsEarned &&
-                  <span style={{ fontWeight: 200 }}>
+                  assignment.pointsEarned
+                  && <span style={{ fontWeight: 200 }}>
                     /{assignment.maxPoints}&nbsp;
                     ({ computeGradePercentage(assignment.pointsEarned, assignment.maxPoints) }%)
                   </span>
                 }
                 </h4>
+              </td>
+              <td>
+                {
+                  constructButton(
+                    '', '', 'fa fa-times',
+                    e => {
+                      e.stopPropagation();
+                      e.target.closest('tr').remove();
+                      handleNotificationClear(assignment.AssignmentId);
+                    },
+                    selectors.clearNotificationButton,
+                  )
+                }
               </td>
             </tr>
           ))
@@ -65,14 +85,16 @@ function generateDialogBody(assignments, dialog) {
   );
 }
 
-async function showDialog(gradedAssignments, onClear) {
-  const dialogBody = dialog => generateDialogBody(gradedAssignments, dialog);
+async function showDialog(gradedAssignments, handleClearAll, handleNotificationClear) {
+  const dialogBody = dialog => {
+    return generateDialogBody(gradedAssignments, dialog, handleNotificationClear);
+  };
   const dialog = new Dialog('New Graded Assignments', dialogBody, {
     leftButtons: [
       {
-        name: 'Clear Notifications',
+        name: 'Clear All Notifications',
         primary: true,
-        onClick: onClear,
+        onClick: handleClearAll,
       },
       {
         name: 'Close',
@@ -85,7 +107,12 @@ async function showDialog(gradedAssignments, onClear) {
 
 const getCourseBar = () => document.querySelector('#coursesCollapse .row .col-md-12');
 
-async function insertNewGradedButton(newGradedAssignments, unloaderContext, onClear) {
+async function insertNewGradedButton(
+  newGradedAssignments,
+  unloaderContext,
+  handleClearAll,
+  handleNotificationClear,
+) {
   if (!newGradedAssignments.length) {
     return;
   }
@@ -94,7 +121,7 @@ async function insertNewGradedButton(newGradedAssignments, unloaderContext, onCl
     'New Graded Assignments',
     '',
     '',
-    () => showDialog(newGradedAssignments, onClear),
+    () => showDialog(newGradedAssignments, handleClearAll, handleNotificationClear),
     classNames('pull-right primary', selectors.viewAssignmentsButton),
     { primary: true },
   );
@@ -109,10 +136,21 @@ export function removeNewGradedButton() {
   }
 }
 
-export default async function showNewGradedButton(newGradedAssignments, unloaderContext, onClear) {
-  insertNewGradedButton(newGradedAssignments, unloaderContext, onClear);
+export default async function showNewGradedButton(
+  newGradedAssignments,
+  unloaderContext,
+  handlClearAll,
+  handleNotificationClear,
+) {
+  const args = [
+    newGradedAssignments,
+    unloaderContext,
+    handlClearAll,
+    handleNotificationClear,
+  ];
+  insertNewGradedButton(...args);
   const observer = await observeCoursesBar(() => {
-    insertNewGradedButton(newGradedAssignments, unloaderContext, onClear);
+    insertNewGradedButton(...args);
   });
   unloaderContext.addRemovable(observer);
 }
