@@ -57,7 +57,12 @@ function showUpdateFlyout(aboutBody) {
     <span>
       New version of MyGann+ Check out what&apos;s new!<br />
       <div id={ selectors.updateNotification.buttons }>
-        { constructButton('Don\'t show again', '', '', () => { disableNotification(); flyout.hide(); }) }
+        {
+          constructButton(
+            'Don\'t show again', '', '',
+            () => { disableNotification(); flyout.hide(); },
+          )
+        }
       </div>
     </span>
   ));

@@ -104,4 +104,3 @@ export default registerModule('{dcac3a12-b297-4072-ada1-257a5c17aef1}', {
     },
   },
 });
-

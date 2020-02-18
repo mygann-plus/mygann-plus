@@ -175,4 +175,3 @@ export default registerModule('{5351d862-0067-49b5-b4b4-3aa6957db245}', {
     },
   },
 });
-

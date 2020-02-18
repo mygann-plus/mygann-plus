@@ -88,4 +88,3 @@ export default registerModule('{d560bad4-1073-4452-ac11-f4466dc19184}', {
     },
   },
 });
-

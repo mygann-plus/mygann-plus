@@ -9,7 +9,7 @@ const selectors = {
   button: style.locals.button,
   close: style.locals.close,
   title: style.locals.title,
-}
+};
 
 function isAprilFirst() {
   const date = new Date();
@@ -18,7 +18,7 @@ function isAprilFirst() {
 
 function generateFrame(existingUrl) {
   const urls = [
-    'https://www.youtube.com/embed/LadBSoOT_08', 
+    'https://www.youtube.com/embed/LadBSoOT_08',
     'https://www.youtube.com/embed/FO0iG_P0P6M',
     'https://www.youtube.com/embed/3FG_xStCjI0',
     'https://www.youtube.com/embed/9Z6tVQvm8G4',
@@ -26,9 +26,9 @@ function generateFrame(existingUrl) {
     'https://www.youtube.com/embed/FaOSCASqLsE',
     'https://www.youtube.com/embed/imW392e6XR0',
     'https://www.youtube.com/embed/886A2ErYpQk',
-    'https://www.boredbutton.com', 
+    'https://www.boredbutton.com',
     'https://theuselessweb.com/',
-    'https://www.powr.io/plugins/instagram-feed/view?unique_label=4980c32f_1553727425&external_type=iframe'
+    'https://www.powr.io/plugins/instagram-feed/view?unique_label=4980c32f_1553727425&external_type=iframe',
   ];
   if (existingUrl) {
     urls.splice(urls.indexOf(existingUrl), 1);
@@ -38,13 +38,13 @@ function generateFrame(existingUrl) {
   if (typeof url === 'function') {
     return url();
   }
-  
+
   return <iframe
-    className={ selectors.frame } 
+    className={ selectors.frame }
     src={ url }
-    frameborder="0"
-    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-    allowfullscreen
+    frameBorder="0"
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen
   ></iframe>;
 }
 
@@ -71,7 +71,7 @@ function hideProcrastinationFrame(e) {
 function generateTitle() {
   return (
     <div className={selectors.title}>April Fools!</div>
-  )
+  );
 }
 
 function showProcrastinationFrame() {
@@ -108,7 +108,7 @@ async function procrastinate() {
   addTask.before(button);
 }
 
-function extreme(opts, unloaderContext) {
+function extreme() {
   insertCss(style.toString());
   if (!isAprilFirst()) {
     return;
@@ -121,4 +121,4 @@ export default registerModule('{508be51e-75e5-41da-afeb-d7b5cad20e94}', {
   main: extreme,
   defaultEnabled: true,
   showInOptions: false,
-})
+});

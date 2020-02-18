@@ -189,7 +189,11 @@ function handleShowFirstSemesterClick(e, firstSemesterCourseList, markingPeriodI
   }
 }
 
-async function insertFirstSemesterButton(firstSemesterCourseList, markingPeriodId, nonacademicClasses) {
+async function insertFirstSemesterButton(
+  firstSemesterCourseList,
+  markingPeriodId,
+  nonacademicClasses,
+) {
   const modalBody = await waitForLoad(domQuery.dialogBody);
   const courseName = (await waitForLoad(domQuery.dialogHeader)).textContent.toLowerCase();
   const isNonacademic = !!nonacademicClasses.find(c => courseName.includes(c));
@@ -242,7 +246,9 @@ function unloadFullYearAssignments() {
 
 export default registerModule('{705f08d2-de45-434b-bf51-c613e5d39f55}', {
   name: 'Full Year Assignments',
-  description: 'View your graded assignments from the entire year, instead of only the current semester',
+  description: `
+    View your graded assignments from the entire year, instead of only the current semester
+  `,
   main: fullYearAssignments,
   unload: unloadFullYearAssignments,
 });

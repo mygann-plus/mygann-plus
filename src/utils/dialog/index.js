@@ -70,7 +70,7 @@ export default class Dialog {
   getLeftButton(index) {
     return this.leftButtons[index];
   }
-  
+
   getRightButton(index) {
     return this.rightButtons[index];
   }

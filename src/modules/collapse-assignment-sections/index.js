@@ -91,9 +91,9 @@ async function addCollapseButtons(buttonPosition, unloaderContext) {
     const { id } = table.previousSibling;
     const isHidden = hiddenMap[i];
 
-    const button = buttonPosition === buttonPositions.collapseLink ?
-      addCollapseLink(table, id, isHidden) :
-      addTableHeaderArrow(table, id, isHidden);
+    const button = buttonPosition === buttonPositions.collapseLink
+      ? addCollapseLink(table, id, isHidden)
+      : addTableHeaderArrow(table, id, isHidden);
     unloaderContext.addRemovable(button);
 
     if (isHidden) {

@@ -47,8 +47,8 @@ function createOptionElem(name, val) {
 
 function createDropdown(parentNode, controller, index, preVal, task) {
   const existingValue = (
-    preVal ||
-    document
+    preVal
+    || document
       .querySelectorAll('.assignment-status-update')[index]
       .parentNode.parentNode.children[5].textContent.trim()
   );
@@ -137,4 +137,3 @@ export default registerModule('{4155f319-a10b-4e4e-8a10-999a43ef9d19}', {
   main: inlineChangeStatus,
   unload: unloadInlineChangeStatus,
 });
-

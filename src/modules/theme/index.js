@@ -5,7 +5,6 @@ import { createElement, insertCss, waitForLoad } from '~/utils/dom';
 
 import style from './style.css';
 import fontStyle from './font-style.css';
-import { fetchJson } from '~/utils/fetch';
 
 const DEFAULT_COLOR = constants.primaryMaroon;
 const DEFAULT_FONT = '';

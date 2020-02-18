@@ -144,8 +144,10 @@ async function nextGradedCourse(opts, unloaderContext) {
       const nextButton = document.querySelectorAll('button[data-analysis="next"]')[0];
       const prevButton = document.querySelectorAll('button[data-analysis="prev"]')[0];
 
-      unloaderContext.addRemovable(addEventListener(nextButton, 'click', () => reAddButtons(course, 1)));
-      unloaderContext.addRemovable(addEventListener(prevButton, 'click', () => reAddButtons(course, -1)));
+      const nextListener = addEventListener(nextButton, 'click', () => reAddButtons(course, 1));
+      const prevListener = addEventListener(prevButton, 'click', () => reAddButtons(course, -1));
+      unloaderContext.addRemovable(nextListener);
+      unloaderContext.addRemovable(prevListener);
     });
 
     unloaderContext.addRemovable(gradeDetailListener);

@@ -28,4 +28,3 @@ export default registerModule('{8581eb62-2d14-4441-8c8c-620d7ea2663b}', {
   main: resizeToolbar,
   showInOptions: false,
 });
-

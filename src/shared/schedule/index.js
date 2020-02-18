@@ -103,12 +103,15 @@ export async function getDayViewDateString() {
 }
 
 export function isEmptySchedule() {
-  return document.getElementsByClassName('pl-10')[0]
-  && document.getElementsByClassName('pl-10')[0].textContent === 'There is nothing scheduled for this date.';
+  const scheduleHeader = document.querySelector('.pl-10');
+  return scheduleHeader && scheduleHeader.textContent === 'There is nothing scheduled for this date.';
 }
 
 export async function isCurrentClass(timeString) {
-  return (await isDayView()) && (isCurrentTime(timeString)) && (await isCurrentDay());
+  const currentDay = await isCurrentDay();
+  const dayView = await isDayView();
+  const currentTime = isCurrentTime(timeString);
+  return currentDay && dayView && currentTime;
 }
 
 export function getAnnouncementWrap() {

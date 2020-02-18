@@ -19,8 +19,8 @@ function createMenuItemElem(menuItem) {
       { menuItem.name }&nbsp;
       {
         attributes.length
-        ? <span>({ attributes.join(', ') })</span>
-        : null
+          ? <span>({ attributes.join(', ') })</span>
+          : null
       }
     </li>
   );

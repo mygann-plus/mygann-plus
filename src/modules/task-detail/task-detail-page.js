@@ -143,10 +143,17 @@ class TaskDetailPage {
                     <button className="btn disabled" style={{ marginRight: '10px' }}>
                       Assigned: { this.formattedAssigned }&nbsp;
                       <span className="muted">|</span>
-                      <strong className={selectors.due}>&nbsp;Due: { this.formattedDue }&nbsp;</strong>
+                      <strong className={selectors.due}>
+                        &nbsp;Due: { this.formattedDue }&nbsp;
+                      </strong>
                       <span className="muted">|</span>&nbsp;{ this.course }
                     </button>
-                    { constructButton('', '', 'fa fa-edit', () => this.openEditDialog(), '', { small: false }) }
+                    {
+                      constructButton(
+                        '', '', 'fa fa-edit',
+                        () => this.openEditDialog(), '', { small: false },
+                      )
+                    }
                   </div>
                   <div className={selectors.taskDetails}>
                     { this.generateDetailsHtml() }
@@ -169,14 +176,18 @@ class TaskDetailPage {
                   <div>
                     <div className="whiteContainer1" style={{ backgroundColor: '#fff' }}>
                       <div id="assignment-info-header">
-                        <div className={classNames('assignment-detail-header', this.status.className)}>
+                        <div
+                          className={classNames('assignment-detail-header', this.status.className)}
+                        >
                           <div className="indicator-parent dropdown">
                             <div
                               className="indicator-field p3formWhite dropdown-toggle assignment-status-button"
                               onClick={ () => this.toggleDropdown() }
                             >
                               <span className="caret"></span>
-                              <span className="assignment-detail-status-label"> { this.status.name }</span>
+                              <span className="assignment-detail-status-label">
+                                { this.status.name }
+                              </span>
                             </div>
                             { this.statusDropdown }
                           </div>

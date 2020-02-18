@@ -56,13 +56,13 @@ class MessageNotification {
           </div>
           <div className={identifiers.controls}>
             {
-              this.urls.length && showLinkButton ?
-              <button
+              this.urls.length && showLinkButton
+                ? <button
                 className={classNames('fa fa-link', identifiers.control)}
                 onClick={e => this.onLinkClick(e)}
                 title={`Open Link: ${new URL(this.urls[0]).hostname}`}
-              /> :
-              null
+              />
+                : null
             }
             <button
               className={classNames('fa fa-archive', identifiers.control)}
@@ -92,12 +92,14 @@ class MessageNotification {
     e.stopPropagation();
     window.open(this.urls[0]);
   }
+
   onArchiveClick(e) {
     e.preventDefault();
     e.stopPropagation();
     archiveMessage(this.message.id);
     this.removeMessage();
   }
+
   onDimissClick(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -128,6 +130,7 @@ class MessageNotification {
       });
     }
   }
+
   fadeIn() {
     this.main.style.opacity = '1';
   }
@@ -172,8 +175,8 @@ async function getMessages() {
     return data
       .map(conversation => {
         const messages = conversation.Messages.filter(message => {
-          return !message.ReadInd &&
-          installTime < new Date(message.SendDate).getTime();
+          return !message.ReadInd
+          && installTime < new Date(message.SendDate).getTime();
         })[0];
         return messages;
       })

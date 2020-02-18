@@ -17,9 +17,9 @@ function minutesTo(date) {
 function addTime(minutes, parent) {
   if (document.getElementById('gocp_class-ending-time_main')) return;
 
-  const style = isFaculty() ?
-    { color: 'grey', display: 'block' } :
-    { color: 'grey', display: 'inline-block', marginTop: '10px' };
+  const style = isFaculty()
+    ? { color: 'grey', display: 'block' }
+    : { color: 'grey', display: 'inline-block', marginTop: '10px' };
 
   const span = (
     <span
@@ -53,9 +53,9 @@ async function insertClassEndingTime(blocks, unloaderContext) {
 }
 
 const getBlocks = async () => {
-  return isFaculty() ?
-    waitForOne(() => document.querySelectorAll('.textright')) :
-    waitForOne(() => document.querySelectorAll('#accordionSchedules > *'));
+  return isFaculty()
+    ? waitForOne(() => document.querySelectorAll('.textright'))
+    : waitForOne(() => document.querySelectorAll('#accordionSchedules > *'));
 };
 
 async function runClassEndingTime(unloaderContext) {
@@ -95,4 +95,3 @@ export default registerModule('{c8a3ea86-ae06-4155-be84-1a91283fe826}', {
   description: 'Show how much time is left until the current class ends',
   main: classEndingTime,
 });
-
