@@ -22,6 +22,10 @@ const domQuery = {
   nextButton: () => document.querySelectorAll('button[data-analysis="next"]')[0],
 };
 
+function isLetterGrade(pointElem) {
+  return !!pointElem.textContent.match(/[A-F]/);
+}
+
 function createPercentageLabel(percentage) {
   return (
     <span className={selectors.percentage}>
@@ -39,10 +43,12 @@ async function insertPercentages() {
 
   for (const pointWrap of pointWraps) {
     const pointElem = pointWrap.querySelector('h4');
+
     const [earned, total] = pointElem.textContent.split('/');
+    const letter = isLetterGrade(pointElem);
 
     let percentage;
-    if (total) {
+    if (!letter) {
       percentage = computeGradePercentage(earned, total);
     } else {
       const assignmentRow = pointElem.closest('tr');

@@ -48,7 +48,6 @@ import scheduleArrowNavigation from './modules/schedule-arrow-navigation';
 import admin from './modules/admin';
 import semesterSwitcher from './modules/semester-switcher';
 import hideCommunityServiceAssignment from './modules/hide-community-service-assignment';
-import letterGradePoints from './modules/letter-grade-points';
 import autocollapseProgressBoxes from './modules/autocollapse-progress-boxes';
 import fixAssignmentCenterDate from './modules/fix-assignment-center-date';
 import defaultAssignmentSort from './modules/default-assignment-sort';
@@ -102,7 +101,6 @@ const MODULE_MAP = {
     fullYearAssignments,
     progressAssignmentDetails,
     semesterSwitcher,
-    letterGradePoints,
     autocollapseProgressBoxes,
   ],
   '#message': [archiveAll],

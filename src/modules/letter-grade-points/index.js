@@ -9,6 +9,9 @@ import {
   getOpenCourseId,
   getActiveMarkingPeriodId,
   sanitizeAssignmentTitle,
+  assignmentHasRubric,
+  getAssignmentDataFromRow,
+  observeCoursesBar,
 } from '~/shared/progress';
 import { getTableRowColumnContent } from '~/shared/table';
 
@@ -31,30 +34,52 @@ function isEqualDate(longDate, shortDate) {
   return longDate.startsWith(shortDate);
 }
 
-async function generatePointsLabel(gradeElem, assignments) {
-  const assignmentRow = gradeElem.closest('tr');
-  const name = getTableRowColumnContent(assignmentRow, 'Assignment');
-  const assigned = getTableRowColumnContent(assignmentRow, 'Assigned');
-  const due = getTableRowColumnContent(assignmentRow, 'Due');
+async function getAssignmentPoints(assignmentRow, assignments) {
+  const rubric = assignmentHasRubric(assignmentRow);
 
-  const assignmentData = assignments.find(assignment => {
-    return sanitizeAssignmentTitle(assignment.AssignmentShortDescription) === name
-      && isEqualDate(assignment.DateAssigned, assigned)
-      && isEqualDate(assignment.DateDue, due);
-  });
+  if (rubric) {
+    const assignmentData = await getAssignmentDataFromRow(assignmentRow);
+    if (!assignmentData) {
+      return log(
+        'error',
+        'Cannot match assignment data in letter-grade-points',
+        assignmentRow,
+      );
+    }
+    const { rubricPoints, maxPoints } = assignmentData;
+    // return
+    // if (rubricPoints) {
+    //   percentage = computeGradePercentage(rubricPoints, maxPoints);
+    // } else {
+    //   percentage = letterGradeToPercentage(earned);
+    // }
+  } else {
+    const name = getTableRowColumnContent(assignmentRow, 'Assignment');
+    const assigned = getTableRowColumnContent(assignmentRow, 'Assigned');
+    const due = getTableRowColumnContent(assignmentRow, 'Due');
 
-  if (!assignmentData) {
-    return log(
-      'error',
-      'Cannot match assignment data in letter-grade-points',
-      gradeElem,
-      assignments,
-    );
+    const assignmentData = assignments.find(assignment => {
+      console.log(sanitizeAssignmentTitle(assignment.AssignmentShortDescription), name);
+      return sanitizeAssignmentTitle(assignment.AssignmentShortDescription) === name
+        && isEqualDate(assignment.DateAssigned, assigned)
+        && isEqualDate(assignment.DateDue, due);
+    });
+
+    if (!assignmentData) {
+      return log(
+        'error',
+        'Cannot match assignment data in letter-grade-points',
+        assignmentRow,
+      );
+    }
+
+    const max = assignmentData.MaxPoints;
+    const earned = (max * assignmentData.AssignmentPercentage) / 100;
+    return [max, earned];
   }
+}
 
-  const max = assignmentData.MaxPoints;
-  const earned = (max * assignmentData.AssignmentPercentage) / 100;
-
+async function generatePointsLabel(earned, max) {
   const label = (
     <span className={selectors.label}>
       ({earned}/{max})
@@ -73,6 +98,7 @@ function isLetterGrade(gradeElem) {
 const domQuery = () => document.querySelectorAll('[data-heading="Points"] h4');
 
 async function insertPoints(unloaderContext) {
+  console.log('inserting');
   const gradeElems = await waitForOne(domQuery);
   const letterGradeElems = Array.from(gradeElems)
     .filter(isLetterGrade);
@@ -81,14 +107,29 @@ async function insertPoints(unloaderContext) {
     return;
   }
 
-  const openCourseId = getOpenCourseId();
-  const assignments = await getAssignments(openCourseId);
+  const allRubric = Array.from(gradeElems).every(gradeElem => {
+    const row = gradeElem.closest('tr');
+    return assignmentHasRubric(row);
+  });
 
-  for (const gradeElem of letterGradeElems) {
-    const label = await generatePointsLabel(gradeElem, assignments);
-    gradeElem.appendChild(label);
-    unloaderContext.addRemovable(label);
+  if (!allRubric) {
+    const openCourseId = getOpenCourseId();
+    const assignments = await getAssignments(openCourseId);
+
+    for (const gradeElem of letterGradeElems) {
+      const row = gradeElem.closest('tr');
+      if (!assignmentHasRubric(row)) {
+        const [earned, max] = getAssignmentPoints(row, assignments);
+        const label = await generatePointsLabel(earned, max);
+        gradeElem.appendChild(label);
+        unloaderContext.addRemovable(label);
+      } else {
+        const label = await generatePointsLabel(gradeElem);
+      }
+    }
   }
+
+
 }
 
 async function letterGradePoints(opts, unloaderContext) {
