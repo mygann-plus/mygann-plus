@@ -82,10 +82,24 @@ export function sanitizeAssignmentTitle(title) {
     .trim()).trim();
 }
 
+// assigned date does not include year
+// returns the year the assigned was assigned,
+// based on the school year schedule
+function getYearFromAssigned(assigned) {
+  const month = Number(assigned.split('/')[0]);
+  const now = new Date();
+  const currentMonth = now.getMonth() + 1;
+  const currentYear = now.getFullYear();
+  if (month >= 9 && currentMonth < 9) {
+    return currentYear - 1;
+  }
+  return currentYear;
+}
+
 // get all assignments on a certain assigned date
 function getAssignmentsByAssigned(assigned) {
   const endpoint = '/api/DataDirect/AssignmentCenterAssignments';
-  const year = (new Date()).getFullYear();
+  const year = getYearFromAssigned(assigned);
   const fullAssigned = `${assigned}/${year}`;
   const query = `?format=json&filter=0&dateStart=${fullAssigned}&dateEnd=${fullAssigned}&persona=2&statusList=&sectionList=`;
   return fetchApi(endpoint + query);
@@ -93,7 +107,7 @@ function getAssignmentsByAssigned(assigned) {
 
 export async function getAssignmentBasicDataFromRow(assignmentRow) {
   const assignedDate = assignmentRow.querySelector('[data-heading="Assigned"]').textContent;
-  const name = assignmentRow.querySelector('[data-heading="Assignment"]').textContent;
+  const name = assignmentRow.querySelector('[data-heading="Assignment"]').textContent.trim();
   const assignedAssignments = await getAssignmentsByAssigned(assignedDate);
   const assignment = assignedAssignments.find(a => {
     return sanitizeAssignmentTitle(a.short_description) === name;
@@ -107,7 +121,7 @@ export async function getAssignmentDataFromRow(assignmentRow) {
 }
 
 export function assignmentHasRubric(assignmentRow) {
-  return assignmentRow.querySelector('.rubric-detail-button');
+  return !!assignmentRow.querySelector('.rubric-detail-button');
 }
 export function letterGradeToPercentage(letter) {
   const letterMap = {
