@@ -1,5 +1,31 @@
-## 1.11.0
+## 1.12.0
+### Added
+- "Subtasks" module, which enables adding subtasks to larger assignments
+- "Default Assignment Sort" module, which adds option to set how the order of assignments should be sorted by default
+- "Fix Assignment Center Date" module, which removes extra zero in assignment center date
+- "Hide Community Service Assignment" module
+- Add button to clear individual grade notifications
 
+### Changed
+- Renamed Coming Up to "Tomorrows Events"
+- Bold the button of the selected course in Courses Filter
+- Self-set nickname is now used in Name Quiz
+- Enabled Name Quiz on activity and advisory pages
+- Hide Nonacademic Classes now removes empty space in Classes Menu
+
+### Fixed
+- Fix the following modules not unloading correctly when disabled:
+  - Hide Nonacademic Classes
+  - Teacher Offices
+  - Semester Switcher
+- Fix Graded Notification and Progress Assignment Details displaying HTML
+- Fix Progress Assignment Details deleting the next assignment if the selected assignment has no details
+- Fix Next Graded Course not working during second semester
+
+### Removed
+- Removed dropdown from Courses Filter, since its only item was nonfunctional 
+
+## 1.11.0
 ### Added
 - Create "Automatically Collapse Progress Boxes" module
 
