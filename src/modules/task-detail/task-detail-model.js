@@ -18,16 +18,13 @@ export function getSavedTaskDetails() {
 export async function saveNewTaskDetail(task) {
   return storage.addArrayItem(TASK_DETAIL_KEY, task, SCHEMA_VERSION);
 }
-window.saveNewTaskDetail = saveNewTaskDetail;
 
 export async function addOrChangeTaskDetail(id, newTaskDetail) {
   storage.addOrChangeArrayItem(TASK_DETAIL_KEY, id, () => newTaskDetail, SCHEMA_VERSION);
 }
 
 export async function getTaskDetail(id) {
-  return (await getSavedTaskDetails()).find(f => f.id === id);
-}
-
-export function addFavoritesChangeListener(callback) {
-  return storage.addChangeListener(TASK_DETAIL_KEY, callback);
+  const details = (await getSavedTaskDetails()).find(f => f.id === id);
+  // details will be null if page is accessed via checkpoints
+  return details || { id, details: '' };
 }
