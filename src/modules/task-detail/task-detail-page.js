@@ -210,6 +210,7 @@ class TaskDetailPage {
             </div>
           </section>
         </div>
+        <div id="evaluation-tile"></div> {/* Empty div for checkpoint positioning */}
       </div>
       <div id="outer-lti-region" className="row">
         <div id="box-content" style={{ height: '500px' }}></div>

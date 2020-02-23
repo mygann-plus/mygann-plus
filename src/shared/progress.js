@@ -128,17 +128,6 @@ export function assignmentHasRubric(assignmentRow) {
   return !!assignmentRow.querySelector('.rubric-detail-button');
 }
 
-// Gets ID of course that is current open in modal dialog
-export function getOpenCourseId() {
-  const courseName = document.querySelector('.bb-dialog-header').textContent.trim();
-  const courseTitles = document.querySelectorAll('#coursesContainer h3:not(.showGrade)');
-  const courseTitleMatch = Array.from(courseTitles).find(title => {
-    return title.textContent.trim() === courseName;
-  });
-  const id = courseTitleMatch.closest('.row').querySelector('.showGrade + .btn').dataset.analysis;
-  return id;
-}
-
 export function letterGradeToPercentage(letter) {
   const letterMap = {
     A: 96.99,
@@ -153,7 +142,6 @@ export function letterGradeToPercentage(letter) {
   }
   return grade;
 }
-
 
 // / Get sectionId for currently open "See grade detail" modal
 export function getOpenCourseId() {

@@ -15,8 +15,8 @@
   display: inline-block;
 }
 
-.checkpoint__name {
-
+.preview__wrap--showing-more .checkpoint__wrap--visible {
+  display: block;
 }
 
 .checkpoint__due {
@@ -25,4 +25,27 @@
   margin-left: 5px; 
   margin-right: 5px;
   font-style: italic;
+}
+
+.checkpoint__checkbox {
+  margin-right: 5px;
+  width: 18px;
+  height: 18px;
+}
+
+.checkpoint__checkbox span {
+  width: 18px;
+  height: 18px;
+  outline: none !important;
+}
+
+.checkpoint__checkbox span::before {
+  font-size: 9px !important;
+  position: relative;
+  top: -3px;
+}
+
+.checkpoint__fadeout {
+  transition: opacity 200ms;
+  opacity: 0;
 }

@@ -5,6 +5,7 @@ import {
   constructButton,
   waitForLoad,
   insertCss,
+  constructCheckbox,
 } from '~/utils/dom';
 import { getDateFromInput, compareDateMilliseconds } from '~/utils/date';
 
@@ -14,7 +15,7 @@ import {
   deleteCheckpoint,
   setCheckpointData,
   getAssignmentCheckpoints,
-  addCheckpointsChangeListener,
+  addAssignmentCheckpointsChangeListener,
 } from './assignment-checkpoints-model';
 
 import style from './checkpoints-box-style.css';
@@ -44,19 +45,6 @@ const selectors = {
 
 /* UI Elements */
 
-function generateCheckbox(isChecked, isDisabled, onChange) {
-  return (
-    <label className="bb-check-wrapper">
-      <input
-        type="checkbox"
-        className="field"
-        checked={isChecked}
-        onChange={onChange}
-      />
-      <span className="check-label bb-check-checkbox"></span>
-    </label>
-  );
-}
 
 class CheckpointEditor {
 
@@ -89,7 +77,7 @@ class CheckpointEditor {
         )}
       >
         <div>
-          {generateCheckbox(false, true, () => { })}
+          {constructCheckbox(false, true, () => { })}
           <input
             value={checkpoint.name || ''}
             placeholder="Title"
@@ -110,7 +98,7 @@ class CheckpointEditor {
             placeholder="Description"
             className={selectors.editor.description}
           >
-            { checkpoint.description }
+            {checkpoint.description}
           </textarea>
 
         </div>
@@ -175,7 +163,7 @@ class CheckpointsBox {
         <section className="bb-tile">
           <div className="bb-tile-title">
             <div className={selectors.header.wrap}>
-              <h2 className="bb-tile-header">Checkpoints</h2>
+              <h2 className="bb-tile-header">Subtasks</h2>
               {
                 constructButton(
                   '', '', 'fa fa-plus',
@@ -222,7 +210,7 @@ class CheckpointsBox {
       <div className={selectors.checkpoint.wrap}>
         <div>
           {
-            generateCheckbox(
+            constructCheckbox(
               checkpoint.completed,
               false,
               e => this.handleCompletedClick(e, id),
@@ -239,9 +227,15 @@ class CheckpointsBox {
           <div className={selectors.checkpoint.controls}>
             {controls}
           </div>
-          <div className={selectors.checkpoint.due}>
-            Due {new Date(checkpoint.due).toLocaleDateString()}
-          </div>
+          {
+            checkpoint.due
+              ? (
+                <div className={selectors.checkpoint.due}>
+                  Due {new Date(checkpoint.due).toLocaleDateString()}
+                </div>
+              )
+              : ''
+          }
         </div>
       </div>
     );
@@ -324,6 +318,10 @@ class CheckpointsBox {
     this.listWrap = newListWrap;
   }
 
+  remove() {
+    this.wrap.remove();
+  }
+
 }
 
 const domQuery = () => document.querySelector('#evaluation-tile');
@@ -333,14 +331,16 @@ export default async function insertCheckpointsBox(unloaderContext) {
   unloaderContext.addRemovable(styles);
 
   const evaluationTile = await waitForLoad(domQuery);
-  const [, assignmentId] = window.location.hash.match(/#assignmentdetail\/([0-9]+)\//);
+  const [, assignmentId] = window.location.hash.match(/#(?:task|assignment)detail\/([0-9]+)(\/|$)/);
   const checkpoints = await getAssignmentCheckpoints(assignmentId);
 
   const checkpointsBox = new CheckpointsBox(checkpoints, assignmentId);
   evaluationTile.after(checkpointsBox.getWrap());
+  unloaderContext.addRemovable(checkpointsBox);
 
-  const checkpointsListener = addCheckpointsChangeListener(assignmentId, newCheckpoints => {
-    checkpointsBox.refreshCheckpoints(newCheckpoints);
-  });
+  const checkpointsListener = addAssignmentCheckpointsChangeListener(
+    assignmentId,
+    newCheckpoints => checkpointsBox.refreshCheckpoints(newCheckpoints),
+  );
   unloaderContext.addRemovable(checkpointsListener);
 }

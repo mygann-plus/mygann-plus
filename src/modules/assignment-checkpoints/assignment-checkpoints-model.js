@@ -12,7 +12,7 @@ const ASSIGNMENT_CHECKPOINTS_SCHEMA = 1;
  * }
  */
 
-async function getAllCheckpoints() {
+export async function getAllCheckpoints() {
   return (await storage.get(ASSIGNMENT_CHECKPOINTS_KEY, ASSIGNMENT_CHECKPOINTS_SCHEMA)) || [];
 }
 
@@ -20,8 +20,9 @@ function filterCheckpointsByAssignment(checkpoints, assignmentId) {
   return checkpoints.filter(checkpoint => checkpoint.assignmentId === assignmentId);
 }
 
-export async function getAssignmentCheckpoints(assignmentId) {
-  const checkpoints = await getAllCheckpoints();
+// allCheckpoints is optional, used if multiple assignments are checked at once
+export async function getAssignmentCheckpoints(assignmentId, allCheckpoints) {
+  const checkpoints = allCheckpoints || await getAllCheckpoints();
   return filterCheckpointsByAssignment(checkpoints, assignmentId);
 }
 
@@ -63,8 +64,15 @@ export function deleteCheckpoint(checkpointId) {
   );
 }
 
-export function addCheckpointsChangeListener(assignmentId, callback) {
+export function addCheckpointsChangeListener(callback) {
   return storage.addChangeListener(ASSIGNMENT_CHECKPOINTS_KEY, ({ newValue: checkpoints }) => {
+    callback(checkpoints);
+  });
+}
+
+// Add checkpoint change listener for specific assignment
+export function addAssignmentCheckpointsChangeListener(assignmentId, callback) {
+  return addCheckpointsChangeListener(checkpoints => {
     callback(filterCheckpointsByAssignment(checkpoints, assignmentId));
   });
 }

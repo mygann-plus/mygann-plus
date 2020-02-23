@@ -3,6 +3,8 @@ import { fetchApi } from '~/utils/fetch';
 
 import { getTaskDetail, addOrChangeTaskDetail } from './task-detail-model';
 import selectors from './task-detail-selectors';
+import { isModuleLoaded } from '~/module-loader';
+import assignmentCheckpoints from '../assignment-checkpoints';
 
 const domQuery = {
   tasks: () => document.querySelectorAll('[data-user-task-ind="true"]'),
@@ -21,6 +23,10 @@ export async function addTaskLinks(unloaderContext) {
 
   const tasks = Array.from(domQuery.tasks())
     .map(statusLink => statusLink.parentNode.parentNode);
+
+  if (isModuleLoaded(assignmentCheckpoints)) {
+    return;
+  }
 
   for (const task of tasks) {
     const detailsCol = task.querySelector('[data-heading="Details"]');

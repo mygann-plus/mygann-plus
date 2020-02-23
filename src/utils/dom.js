@@ -118,6 +118,21 @@ export function constructButton(textContent, id, iClassName, onClick, classnames
   );
 }
 
+export function constructCheckbox(isChecked, isDisabled, onChange = () => {}) {
+  return (
+    <label className="bb-check-wrapper">
+      <input
+        type="checkbox"
+        className="field"
+        checked={isChecked}
+        onChange={onChange}
+        disabled={isDisabled}
+      />
+      <span className="check-label bb-check-checkbox"></span>
+    </label>
+  );
+}
+
 export function insertCss(css) {
   const styleElem = <style>{ css }</style>;
   document.head.appendChild(styleElem);
