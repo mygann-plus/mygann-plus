@@ -72,7 +72,7 @@ async function applyNewOptions({ oldValue: oldOptions, newValue: newOptions }) {
   }
 }
 
-async function runExtension() {
+export default async function runExtension() {
   // TODO: only call initializeOptions on install and update
   // (plus dev feature to force initialization)
 
@@ -97,5 +97,3 @@ async function runExtension() {
     loadModules(newHash);
   });
 }
-
-runExtension();

@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "module": "es6",
+    "target": "es5",
+
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "downlevelIteration": true,
+
+    "lib": ["es2018", "dom"],
+    "types": ["node", "chrome", "react"],
+
+    "jsx": "react",
+    "allowJs": true,
+    "jsxFactory": "createElement",
+    
+    "baseUrl": "src",
+    "paths": {
+      "~/core/*": ["core/*"],
+      "~/modules/*": ["modules/*"],
+      "~/shared/*": ["shared/*"],
+      "~/utils/*": ["utils/*"]
+    }
+  }
+}

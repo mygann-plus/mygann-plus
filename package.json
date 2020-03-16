@@ -25,6 +25,8 @@
     "eslint-import-resolver-webpack": "^0.10.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-react": "^7.14.3",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.8.3",
     "webpack": "^4.16.4",
     "webpack-command": "^0.4.1"
   },
