@@ -3,13 +3,15 @@
     "outDir": "./dist/",
     "module": "es6",
     "target": "es5",
+    "sourceMap": true,
 
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
     "downlevelIteration": true,
+    "skipLibCheck": true,
 
-    "lib": ["es2018", "dom"],
+    "lib": ["es2018", "dom", "DOM.Iterable"],
     "types": ["node", "chrome", "react"],
 
     "jsx": "react",

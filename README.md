@@ -31,6 +31,12 @@
     "$schemaVersion": 1,
     "disabled": [{
         "guid": "{guid of broken module}",
-        "version": "broken version"
+        "extensionVersion": "broken version"
     }]
 }
+```
+
+### Typescript Conventions
+
+- Always use `as` to typecast, since `<>` notation isn't allowed in `.tsx` files
+- Use `any` type for data returned from OnCampus API (for the time being, maybe later add types)
