@@ -103,6 +103,7 @@ const MODULE_MAP: ModuleMap = {
     classEndingTime,
     tomorrowsEvents,
     scheduleArrowNavigation,
+    extreme,
   ],
   '#myday/schedule-performance': [classEndingTime],
   '#studentmyday/progress': [
