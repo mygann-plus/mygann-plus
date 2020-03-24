@@ -1,3 +1,7 @@
+## 1.12.1
+### Added
+- April Fools 2020
+
 ## 1.12.0
 ### Added
 - "Subtasks" module, which enables adding subtasks to larger assignments
