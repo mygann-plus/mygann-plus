@@ -22,7 +22,7 @@ export default class DropdownMenu {
   private dropdownElement: HTMLElement;
   private dropdownWrap: HTMLElement;
 
-  constructor(items: DropdownItem[], opts: DropdownConfig) {
+  constructor(items: DropdownItem[], opts?: DropdownConfig) {
     const defaultOpts = {
       buttonClassname: '',
       wrapClassname: '',
@@ -65,10 +65,12 @@ export default class DropdownMenu {
   }
 
   private generateWrapHtml() {
-    const button = constructButton(
-      this.opts.buttonText, '',
-      this.opts.buttonIconClassname, () => this.toggleDropdown(), this.opts.buttonClassname,
-    );
+    const button = constructButton({
+      textContent: this.opts.buttonText,
+      iClassName: this.opts.buttonIconClassname,
+      className: this.opts.buttonClassname,
+      onClick: () => this.toggleDropdown(),
+    });
     return (
       <div
         className={classNames('btn-group', this.opts.wrapClassname)}
