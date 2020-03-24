@@ -48,10 +48,11 @@ function getEmails(includeTeachers: boolean) {
 
 function showDialog(includeTeachers: boolean) {
   const emails = getEmails(includeTeachers);
-  const copyButton = constructButton(
-    'Copy', '', '',
-    e => copyEmails(e, emails), selectors.copyButton,
-  );
+  const copyButton = constructButton({
+    textContent: 'Copy',
+    onClick: e => copyEmails(e, emails),
+    className: selectors.copyButton,
+  });
   const dialogBody = (
     <div>
       Copy-and-paste into Outlook&apos;s &quot;to&quot; field:

@@ -139,10 +139,10 @@ async function dueSoon(suboptions: DueSoonSuboptions) {
   runFilter(suboptions);
 
   const rangeButton = await waitForLoad(domQuery.rangeButton);
-  const desktopButton = constructButton(
-    'Due Soon', '', '',
-    () => {}, selectors.mainButton,
-  );
+  const desktopButton = constructButton({
+    textContent: 'Due Soon',
+    className: selectors.mainButton,
+  });
   rangeButton.after(desktopButton);
 
   const mobileButton = appendMobileAssignmentCenterMenuLink('Due Soon', () => {}, 0);

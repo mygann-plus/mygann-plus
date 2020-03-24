@@ -73,15 +73,15 @@ function generateDialogBody(
               </td>
               <td>
                 {
-                  constructButton(
-                    '', '', 'fa fa-times',
-                    e => {
+                  constructButton({
+                    iClassName: 'fa fa-times',
+                    onClick: e => {
                       e.stopPropagation();
                       (e.target as HTMLElement).closest('tr').remove();
                       handleNotificationClear(assignment.AssignmentId);
                     },
-                    selectors.clearNotificationButton,
-                  )
+                    className: selectors.clearNotificationButton,
+                  })
                 }
               </td>
             </tr>
@@ -128,14 +128,12 @@ async function insertNewGradedButton(
     return;
   }
   const coursesBar = await waitForLoad(getCourseBar);
-  const button = constructButton(
-    'New Graded Assignments',
-    '',
-    '',
-    () => showDialog(newGradedAssignments, handleClearAll, handleNotificationClear),
-    classNames('pull-right primary', selectors.viewAssignmentsButton),
-    { primary: true },
-  );
+  const button = constructButton({
+    textContent: 'New Graded Assignments',
+    onClick: () => showDialog(newGradedAssignments, handleClearAll, handleNotificationClear),
+    className: classNames('pull-right primary', selectors.viewAssignmentsButton),
+    primary: true,
+  });
   coursesBar.appendChild(button);
   unloaderContext.addRemovable(button);
 }

@@ -518,10 +518,10 @@ class OptionsDialog {
 
       const input = createSuboptionInput(suboption);
       const invalidValueMessage = <span className={selectors.suboption.invalidMessage}></span>;
-      const resetSuboptionButton = constructButton(
-        'Reset', '', '',
-        () => {}, selectors.suboption.reset,
-      );
+      const resetSuboptionButton = constructButton({
+        textContent: 'Reset',
+        className: selectors.suboption.reset,
+      });
 
       const value = this.state[module.guid].suboptions[key];
       const description = suboption.description && formatDescription(suboption.description);

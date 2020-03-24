@@ -28,10 +28,13 @@ function handleButtonClick(e: Event, messageElem: HTMLElement, callback: () => v
         This may take a few moments. Please do not use MyGann until the operation finishes
       </div>
       {
-        constructButton('Continue', '', '', () => {
-          messageElem.style.display = 'inline-block';
-          flyout.hide();
-          callback();
+        constructButton({
+          textContent: 'Continue',
+          onClick: () => {
+            messageElem.style.display = 'inline-block';
+            flyout.hide();
+            callback();
+          },
         })
       }
     </div>
@@ -62,8 +65,13 @@ export async function addMessageBarButton({
     </span>
   );
 
-  const button = constructButton(buttonText, id, 'fa fa-archive', e => {
-    handleButtonClick(e, message, onClick);
+  const button = constructButton({
+    textContent: buttonText,
+    id,
+    iClassName: 'fa fa-archive',
+    onClick: e => {
+      handleButtonClick(e, message, onClick);
+    },
   });
   button.style.margin = '5px 0px 5px 10px';
 

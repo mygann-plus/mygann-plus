@@ -79,11 +79,11 @@ class CheckpointsBox {
             <div className={selectors.header.wrap}>
               <h2 className="bb-tile-header">Subtasks</h2>
               {
-                constructButton(
-                  '', '', 'fa fa-plus',
-                  () => this.handleAddOpen(),
-                  selectors.header.addButton,
-                )
+                constructButton({
+                  iClassName: 'fa fa-plus',
+                  onClick: () => this.handleAddOpen(),
+                  className: selectors.header.addButton,
+                })
               }
             </div>
           </div>
@@ -116,8 +116,14 @@ class CheckpointsBox {
     const { id } = checkpoint;
 
     const controls = [
-      constructButton('', '', 'fa fa-edit', e => this.handleEditClick(e, checkpoint)),
-      constructButton('', '', 'fa fa-trash', () => this.handleDeleteClick(id)),
+      constructButton({
+        iClassName: 'fa fa-edit',
+        onClick: e => this.handleEditClick(e, checkpoint),
+      }),
+      constructButton({
+        iClassName: 'fa fa-trash',
+        onClick: () => this.handleDeleteClick(id),
+      }),
     ];
 
     return (

@@ -38,11 +38,11 @@ async function selectCourse(course: Course, buttonClassName: string) {
 }
 
 function generateButton(followingCourse: Course, text: string, className: string) {
-  const button = constructButton(
-    text, '', '',
-    () => selectCourse(followingCourse, className),
-    classNames(selectors.button, className),
-  );
+  const button = constructButton({
+    textContent: text,
+    onClick: () => selectCourse(followingCourse, className),
+    className: classNames(selectors.button, className),
+  });
   button.style.color = '';
 
   if (!followingCourse) {

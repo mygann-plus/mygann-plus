@@ -209,13 +209,13 @@ async function insertFirstSemesterButton(
   if (document.querySelector(`#${selectors.firstSemesterBtn}`) || isNonacademic) {
     return;
   }
-  const firstSemesterBtn = constructButton(
-    'Show 1st Semester', selectors.firstSemesterBtn, '',
-    (e: any) => {
+  const firstSemesterBtn = constructButton({
+    textContent: 'Show 1st Semester',
+    id: selectors.firstSemesterBtn,
+    onClick: (e: any) => {
       handleShowFirstSemesterClick(e, firstSemesterCourseList, markingPeriodId, modalBody);
     },
-    '',
-  );
+  });
   modalBody.appendChild(firstSemesterBtn);
 }
 

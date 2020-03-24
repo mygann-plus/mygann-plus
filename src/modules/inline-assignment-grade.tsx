@@ -127,12 +127,12 @@ async function inlineAssignmentGrade(
 
   let inlineGrades: InlineGrade[] = [];
 
-  const showGradesBtn = constructButton(
-    'Preview All Grades',
-    'gocp_inline-assignment-grade_button',
-    'fa fa-eye',
-    () => showGrades(inlineGrades),
-  );
+  const showGradesBtn = constructButton({
+    textContent: 'Preview All Grades',
+    id: 'gocp_inline-assignment-grade_button',
+    iClassName: 'fa fa-eye',
+    onClick: () => showGrades(inlineGrades),
+  });
   if (opts.showMainbutton) {
     filterStatusButton.parentNode.appendChild(showGradesBtn);
   }

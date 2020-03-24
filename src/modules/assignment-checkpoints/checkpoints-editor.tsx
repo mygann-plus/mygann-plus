@@ -86,13 +86,18 @@ export default class CheckpointEditor {
 
         <div className={selectors.editor.buttonWrap}>
           {
-            constructButton(
-              this.saveButtonText, '', '',
-              () => this.handleSaveClick(this), '',
-              { primary: true },
-            )
+            constructButton({
+              textContent: this.saveButtonText,
+              onClick: () => this.handleSaveClick(this),
+              primary: true,
+            })
           }
-          {constructButton('Cancel', '', '', () => this.handleCancelClick(this))}
+          {
+            constructButton({
+              textContent: 'Cancel',
+              onClick: () => this.handleCancelClick(this),
+            })
+          }
         </div>
       </div>
     );

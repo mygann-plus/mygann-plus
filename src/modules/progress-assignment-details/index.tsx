@@ -57,12 +57,11 @@ async function insertDetailButtons(unloaderContext: UnloaderContext) {
       continue;
     }
     const name = assignment.querySelector('[data-heading="Assignment"]');
-    const expand = constructButton(
-      '', '',
-      'fa fa-chevron-down',
-      e => handleExpandClick(e, assignment),
-      selectors.expand,
-    );
+    const expand = constructButton({
+      iClassName: 'fa fa-chevron-down',
+      onClick: e => handleExpandClick(e, assignment),
+      className: selectors.expand,
+    });
     name.appendChild(expand);
     unloaderContext.addRemovable(expand);
   }

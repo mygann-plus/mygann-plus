@@ -115,8 +115,12 @@ async function hideCompleted(
   const filterStatusButton = domQuery.desktop();
   const filterStatusLink = domQuery.mobile();
 
-  const button = constructButton('Hide Completed', '', 'fa fa-check', (e: Event) => {
-    toggleHidden(e.target as HTMLButtonElement);
+  const button = constructButton({
+    textContent: 'Hide Completed',
+    iClassName: 'fa fa- check',
+    onClick: (e: Event) => {
+      toggleHidden(e.target as HTMLButtonElement);
+    },
   });
   filterStatusButton.parentNode.appendChild(button);
   unloaderContext.addRemovable(button);

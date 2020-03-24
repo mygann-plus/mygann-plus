@@ -79,7 +79,12 @@ function showProcrastinationFrame() {
   if (existingClose) {
     incrementCloseButton(existingClose);
   } else {
-    const closeButton = constructButton('Close Procrastination', '', 'fa fa-times', hideProcrastinationFrame, selectors.close);
+    const closeButton = constructButton({
+      textContent: 'Close Procrastination',
+      iClassName: 'fa fa-times',
+      onClick: hideProcrastinationFrame,
+      className: selectors.close,
+    });
     const title = generateTitle();
     closeButton.dataset.level = '0';
     assignmentCenter.before(closeButton);
@@ -92,8 +97,12 @@ function showProcrastinationFrame() {
 
 export default async function procrastinate() {
   const addTask = await waitForLoad(() => document.querySelector('#add-task'));
-  const button = constructButton('Procrastinate', '', '', () => {
-    showProcrastinationFrame();
-  }, selectors.button);
+  const button = constructButton({
+    textContent: 'Procrastinate',
+    onClick: () => {
+      showProcrastinationFrame();
+    },
+    className: selectors.button,
+  });
   addTask.before(button);
 }

@@ -180,10 +180,11 @@ class TaskDetailPage {
                       <span className="muted">|</span>&nbsp;{ this.course }
                     </button>
                     {
-                      constructButton(
-                        '', '', 'fa fa-edit',
-                        () => this.openEditDialog(), '', { small: false },
-                      )
+                      constructButton({
+                        iClassName: 'fa fa-edit',
+                        onClick: () => this.openEditDialog(),
+                        small: false,
+                      })
                     }
                   </div>
                   <div className={selectors.taskDetails}>

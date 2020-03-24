@@ -23,7 +23,10 @@ async function handleArchiveClick() {
 
 function generateArchiveButton() {
   const text = isOnArchive() ? 'Unarchive' : 'Archive';
-  return constructButton(text, '', '', handleArchiveClick, '');
+  return constructButton({
+    textContent: text,
+    onClick: handleArchiveClick,
+  });
 }
 
 async function messageConversationControls(opts: void, unloaderContext: UnloaderContext) {

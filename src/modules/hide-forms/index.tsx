@@ -56,11 +56,12 @@ class HideButton {
   }
 
   generateButton() {
-    const hideButton = constructButton(
-      'Hide', '', 'fa fa-eye-slash',
-      e => this.handleButtonClick(e),
-      classNames(selectors.hideButton, this.isActive && selectors.hideButtonActive),
-    );
+    const hideButton = constructButton({
+      textContent: 'Hide',
+      iClassName: 'fa fa-eye-slash',
+      onClick: e => this.handleButtonClick(e),
+      className: classNames(selectors.hideButton, this.isActive && selectors.hideButtonActive),
+    });
     hideButton.classList.remove('btn-sm');
     return hideButton;
   }

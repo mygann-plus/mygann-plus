@@ -28,14 +28,19 @@ function handleDelete(event: Event, id: string) {
   const li = button.closest('li');
   li.classList.add(selectors.menuItem.highlight);
 
-  const flyout = new Flyout(constructButton('Delete', '', '', () => {
-    deleteSavedFavorite(id);
-    flyout.hide();
-  }), {
-    onHide: () => {
-      li.classList.remove(selectors.menuItem.highlight);
+  const flyout = new Flyout(
+    constructButton({
+      textContent: 'Delete',
+      onClick: () => {
+        deleteSavedFavorite(id);
+        flyout.hide();
+      },
+    }), {
+      onHide: () => {
+        li.classList.remove(selectors.menuItem.highlight);
+      },
     },
-  });
+  );
 
   flyout.showAtElem(button);
   flyout.getBody().focus();

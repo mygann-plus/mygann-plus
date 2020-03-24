@@ -26,11 +26,11 @@ function createButton(message: Element) {
     read(message);
     (e.target as HTMLElement).remove();
   };
-  const readButton = constructButton(
-    'Mark as Read', '', '',
-    handleClick,
-    classNames('conv-tooltip bb-btn-secondary pull-right mt-5', selectors.button),
-  );
+  const readButton = constructButton({
+    textContent: 'Mark as Read',
+    onClick: handleClick,
+    className: classNames('conv-tooltip bb-btn-secondary pull-right mt-5', selectors.button),
+  });
   readButton.title = 'Mark as Read';
   return readButton;
 }

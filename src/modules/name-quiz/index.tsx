@@ -230,21 +230,21 @@ class NameQuizGame {
 
   createGameElements() {
     const image = (
-      <img className={ selectors.image }></img>
+      <img className={selectors.image}></img>
     ) as HTMLImageElement;
-    const imageWrap = <div className={ selectors.imageWrap }>{ image }</div>;
+    const imageWrap = <div className={selectors.imageWrap}>{image}</div>;
     const input = (
       <input
         placeholder="Student Name"
-        onKeyUp={ (e: any) => this.handleInput(e) }
-        className={ selectors.input }
+        onKeyUp={(e: any) => this.handleInput(e)}
+        className={selectors.input}
       ></input>
     );
     const createMultipleChoiceBox = () => (
-      constructButton(
-        '', '', '',
-        e => this.handleChoiceClick(e), selectors.multipleChoice.box,
-      )
+      constructButton({
+        onClick: e => this.handleChoiceClick(e),
+        className: selectors.multipleChoice.box,
+      })
     );
     const multipleChoiceBoxes = [
       createMultipleChoiceBox(),
@@ -396,11 +396,11 @@ async function nameQuiz(opts: void, unloaderContext: UnloaderContext) {
   unloaderContext.addRemovable(styles);
 
   const termButton = await waitForLoad(domQuery);
-  const button = constructButton(
-    'Name Quiz', '', '',
-    () => handleButtonClick(unloaderContext),
-    selectors.playButton,
-  );
+  const button = constructButton({
+    textContent: 'Name Quiz',
+    onClick: () => handleButtonClick(unloaderContext),
+    className: selectors.playButton,
+  });
   termButton.before(button);
   unloaderContext.addRemovable(button);
 }

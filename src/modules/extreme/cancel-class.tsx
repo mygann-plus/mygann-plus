@@ -27,7 +27,11 @@ async function insertCancelButtons() {
     return;
   }
   for (const col of attendanceCols) {
-    const button = constructButton('Cancel Class', '', '', handleCancelClick, selectors.button);
+    const button = constructButton({
+      textContent: 'Cancel Class',
+      onClick: handleCancelClick,
+      className: selectors.button,
+    });
     col.appendChild(button);
   }
 }

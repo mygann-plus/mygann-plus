@@ -52,11 +52,10 @@ async function switchSemesters(parent: HTMLElement, getParent: () => HTMLElement
 }
 
 function generateSwitchButton(sectionName: string, cb: (e: Event) => void) {
-  const switchButton = constructButton(
-    '', '',
-    classNames('fa fa-exchange', selectors.switchIcon),
-    cb,
-  );
+  const switchButton = constructButton({
+    iClassName: classNames('fa fa-exchange', selectors.switchIcon),
+    onClick: cb,
+  });
   switchButton.title = `Switch ${sectionName}`;
   return switchButton;
 }

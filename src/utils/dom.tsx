@@ -93,36 +93,44 @@ export function createElement(tagName: string, props: any, ...children: any[]) {
   return elem;
 }
 
-interface ConstructButtonOpts {
+interface ConstructButtonConfig {
+  textContent?: string;
+  id?: string;
+  iClassName?: string;
+  className?: string;
+  onClick?: (e: MouseEvent) => void;
   small?: boolean,
   primary?: boolean,
 }
 
-export function constructButton(
-  textContent: string,
-  id: string,
-  iClassName: string,
-  onClick: (e: MouseEvent) => void,
-  classnames = '',
-  opts: ConstructButtonOpts = {},
-): HTMLButtonElement {
-  const defaultOpts = {
+export function constructButton(config: ConstructButtonConfig): HTMLButtonElement {
+
+  const defaultConfig = {
+    textContent: '',
+    id: '',
+    iClassName: '',
+    className: '',
+    onClick: () => { },
     small: true,
     primary: false,
   };
-  const options = { ...defaultOpts, ...opts };
+
+  const {
+    textContent, id, iClassName, className, onClick, small, primary,
+  } = { ...defaultConfig, ...config };
+
   const styles = {
-    button: { color: opts.primary ? 'white' : 'black' },
+    button: { color: primary ? 'white' : 'black' },
   };
   const button = (
     <button
-      id={classNames(id, opts.primary && 'gocp-ui-button')}
+      id={classNames(id, primary && 'gocp-ui-button')}
       className={
         classNames(
           'btn btn-default',
-          options.small && 'btn-sm',
-          opts.primary && 'btn-primary',
-          classnames,
+          small && 'btn-sm',
+          primary && 'btn-primary',
+          className,
         )
       }
       onClick={(e: any) => onClick(e)}
