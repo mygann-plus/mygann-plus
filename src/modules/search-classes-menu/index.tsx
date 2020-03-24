@@ -178,7 +178,7 @@ const domQuery = {
   mobile: getMobileMenu,
 };
 
-function searchClassesMenu(opts: void, unloaderContext: UnloaderContext) {
+function searchClassesMenuMain(opts: void, unloaderContext: UnloaderContext) {
   insertCss(style.toString());
 
   waitForLoad(domQuery.desktop).then(() => {
@@ -208,5 +208,5 @@ function searchClassesMenu(opts: void, unloaderContext: UnloaderContext) {
 
 export default registerModule('{3eb98c28-475a-43d7-ae80-721fffcdda11}', {
   name: 'Search Classes Menu',
-  init: searchClassesMenu,
+  init: searchClassesMenuMain,
 });

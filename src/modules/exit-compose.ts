@@ -2,7 +2,7 @@
 
 import registerModule from '~/core/module';
 
-function exitCompose() {
+function exitComposeMain() {
   const siteModal = document.querySelector('#site-modal');
 
   const observer = new MutationObserver(() => {
@@ -19,6 +19,6 @@ function exitCompose() {
 
 export default registerModule('{53b77a69-c31b-4f9f-b17d-4f22c445bd5e}', {
   name: 'Exit Compose',
-  main: exitCompose,
+  main: exitComposeMain,
   showInOptions: false,
 });

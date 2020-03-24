@@ -9,7 +9,7 @@ const getMonthButton = () => (
 
 const goToDay = () => { window.location.hash = 'studentmyday/schedule'; };
 
-async function dayScheduleButton(opts: void, unloaderContext: UnloaderContext) {
+async function dayScheduleButtonMain(opts: void, unloaderContext: UnloaderContext) {
   await waitForLoad(getMonthButton);
 
   const monthButton = getMonthButton();
@@ -37,7 +37,7 @@ function unloadDayScheduleButton() {
 
 export default registerModule('{0ae24306-a117-447f-94e1-9a296d2b8a7d}', {
   name: 'Day Schedule Button',
-  main: dayScheduleButton,
+  main: dayScheduleButtonMain,
   unload: unloadDayScheduleButton,
   description: 'Button to return to day view',
 });

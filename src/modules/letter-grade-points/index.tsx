@@ -137,7 +137,7 @@ async function insertPoints(unloaderContext: UnloaderContext) {
 
 }
 
-async function letterGradePoints(opts: void, unloaderContext: UnloaderContext) {
+async function letterGradePointsMain(opts: void, unloaderContext: UnloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
@@ -149,5 +149,5 @@ async function letterGradePoints(opts: void, unloaderContext: UnloaderContext) {
 export default registerModule('{e8c4fe63-4ca7-4a1b-ac96-3675aa16d3db}', {
   name: 'Letter Grade Points',
   description: 'See the earned and total amount of points on a letter graded assignment',
-  main: letterGradePoints,
+  main: letterGradePointsMain,
 });

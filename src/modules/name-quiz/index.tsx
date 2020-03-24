@@ -391,7 +391,7 @@ function handleButtonClick(unloaderContext: UnloaderContext) {
 
 const domQuery = () => document.querySelector('#roster-term-picker');
 
-async function nameQuiz(opts: void, unloaderContext: UnloaderContext) {
+async function nameQuizMain(opts: void, unloaderContext: UnloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
@@ -408,5 +408,5 @@ async function nameQuiz(opts: void, unloaderContext: UnloaderContext) {
 export default registerModule('{2b9653de-c88c-4885-b43c-1845f8879e0f}', {
   name: 'Roster Name Quiz',
   description: 'Quiz to help you learn students\' names',
-  main: nameQuiz,
+  main: nameQuizMain,
 });

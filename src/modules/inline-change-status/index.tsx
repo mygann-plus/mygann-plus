@@ -119,7 +119,7 @@ function replaceLinks() {
 
 const domQuery = () => document.querySelector('#assignment-center-assignment-items *');
 
-async function inlineChangeStatus(opts: void, unloaderContext: UnloaderContext) {
+async function inlineChangeStatusMain(opts: void, unloaderContext: UnloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
@@ -142,6 +142,6 @@ function unloadInlineChangeStatus() {
 export default registerModule('{4155f319-a10b-4e4e-8a10-999a43ef9d19}', {
   name: 'Improved Status Dropdown',
   description: 'Show status dropdown directly in assignment, without having to click on "Change Status" link', // eslint-disable-line max-len
-  main: inlineChangeStatus,
+  main: inlineChangeStatusMain,
   unload: unloadInlineChangeStatus,
 });

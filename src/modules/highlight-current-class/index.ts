@@ -54,7 +54,7 @@ async function highlightClass() {
 
 }
 
-function highlightCurrentClass(opts: void, unloaderContext: UnloaderContext) {
+function highlightCurrentClassMain(opts: void, unloaderContext: UnloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
@@ -76,7 +76,7 @@ function unloadHighlightCurrentClass() {
 
 export default registerModule('{c9550c66-5dc8-4132-a359-459486a8ab08}', {
   name: 'Highlight Current Class in Schedule',
-  main: highlightCurrentClass,
+  main: highlightCurrentClassMain,
   unload: unloadHighlightCurrentClass,
   affectsGlobalState: true,
 });

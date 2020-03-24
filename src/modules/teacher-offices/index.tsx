@@ -73,7 +73,7 @@ const domQuery = {
   ),
 };
 
-async function facultyOffices(opts: void, unloaderContext: UnloaderContext) {
+async function facultyOfficesMain(opts: void, unloaderContext: UnloaderContext) {
   await waitForLoad(domQuery.heading);
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
@@ -103,6 +103,6 @@ async function facultyOffices(opts: void, unloaderContext: UnloaderContext) {
 export default registerModule('{17e77f22-7fc6-4fc9-875c-b7fad1e8febe}', {
   name: 'Teacher Offices',
   description: 'Show teacher and faculty office room numbers in the directory',
-  main: facultyOffices,
+  main: facultyOfficesMain,
   affectsGlobalState: true, // sets css that affects global
 });

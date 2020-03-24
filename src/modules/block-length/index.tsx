@@ -78,7 +78,10 @@ async function runBlockLength(suboptions: BlockLengthSuboptions) {
 }
 
 
-async function blockLength(suboptions: BlockLengthSuboptions, unloaderContext: UnloaderContext) {
+async function blockLengthMain(
+  suboptions: BlockLengthSuboptions,
+  unloaderContext: UnloaderContext,
+) {
   runBlockLength(suboptions);
   const dayChangeListener = addDayChangeListeners(() => runBlockLength(suboptions));
   unloaderContext.addRemovable(dayChangeListener);
@@ -101,7 +104,7 @@ interface BlockLengthSuboptions {
 export default registerModule('{dcac3a12-b297-4072-ada1-257a5c17aef1}', {
   name: 'Block Length',
   description: 'Show the length of class blocks',
-  main: blockLength,
+  main: blockLengthMain,
   unload: unloadBlockLength,
   defaultEnabled: false,
   suboptions: {

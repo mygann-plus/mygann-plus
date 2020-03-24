@@ -75,7 +75,7 @@ async function insertPercentages() {
   }
 }
 
-async function calculateGradePercentage(opts: void, unloaderContext: UnloaderContext) {
+async function calculateGradePercentageMain(opts: void, unloaderContext: UnloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
@@ -92,6 +92,6 @@ async function unloadCalculateGradePercentage() {
 export default registerModule('{896c2bee-bcb9-4d9b-8edd-5c6b6a01df22}', {
   name: 'Calculate Grade Percentage',
   description: 'Show the percentage next to assignment grades in progress',
-  main: calculateGradePercentage,
+  main: calculateGradePercentageMain,
   unload: unloadCalculateGradePercentage,
 });

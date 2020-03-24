@@ -120,7 +120,7 @@ function toggleButtonDisabled(button: HTMLElement, inlineGrades: InlineGrade[]) 
   }
 }
 
-async function inlineAssignmentGrade(
+async function inlineAssignmentGradeMain(
   opts: InlineAssignmentGradeSuboptions, unloaderContext: UnloaderContext,
 ) {
   const filterStatusButton = await waitForLoad(domQuery.filterStatus);
@@ -162,7 +162,7 @@ interface InlineAssignmentGradeSuboptions {
 
 export default registerModule('{0540d147-af76-4f44-a23d-415506e8e777}', {
   name: 'Preview Assignment Grade',
-  main: inlineAssignmentGrade,
+  main: inlineAssignmentGradeMain,
   description: 'Button to preview grade of graded assignments in main assignments list',
   suboptions: {
     showMainbutton: {

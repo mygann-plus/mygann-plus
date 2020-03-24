@@ -18,7 +18,7 @@ function appendDivider() {
   appendDesktopUserMenuElem(<li className="divider" />);
 }
 
-async function userMenuLinks() {
+async function userMenuLinksMain() {
   await waitForLoad(() => getHeader() && getMobileSettingsLink());
 
   appendDivider();
@@ -28,6 +28,6 @@ async function userMenuLinks() {
 
 export default registerModule('{be1f2b48-87d7-4067-adc4-f68fb9f95d3b}', {
   name: 'internal.userMenuLinks',
-  init: userMenuLinks,
+  init: userMenuLinksMain,
   showInOptions: false,
 });

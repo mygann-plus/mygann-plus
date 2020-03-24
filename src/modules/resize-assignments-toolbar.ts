@@ -3,7 +3,7 @@
 import registerModule from '~/core/module';
 import { waitForLoad } from '~/utils/dom';
 
-async function resizeToolbar() {
+async function resizeToolbarMain() {
   await waitForLoad(() => document.querySelector('.col-md-4'));
 
   // bottom row
@@ -25,6 +25,6 @@ async function resizeToolbar() {
 
 export default registerModule('{8581eb62-2d14-4441-8c8c-620d7ea2663b}', {
   name: 'internal.resizeToolbar',
-  main: resizeToolbar,
+  main: resizeToolbarMain,
   showInOptions: false,
 });

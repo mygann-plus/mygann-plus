@@ -13,7 +13,7 @@ const selectors = {
 
 const domQuery = () => document.querySelectorAll('#assignment-center-assignment-items tr');
 
-async function hideAssignment() {
+async function hideAssignmentMain() {
   const assignments = await waitForLoad(domQuery);
   for (const assignment of assignments) {
     const type = getTableRowColumnContent(assignment as HTMLElement, 'Type');
@@ -27,9 +27,9 @@ async function hideCommunityServiceAssignment(opts: void, unloaderContext: Unloa
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
-  hideAssignment();
+  hideAssignmentMain();
 
-  const observer = await addAssignmentTableMutationObserver(hideAssignment);
+  const observer = await addAssignmentTableMutationObserver(hideAssignmentMain);
   unloaderContext.addRemovable(observer);
 }
 

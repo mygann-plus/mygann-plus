@@ -67,7 +67,7 @@ async function insertDetailButtons(unloaderContext: UnloaderContext) {
   }
 }
 
-async function progressAssignmentDetails(opts: void, unloaderContext: UnloaderContext) {
+async function progressAssignmentDetailsMain(opts: void, unloaderContext: UnloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
@@ -86,6 +86,6 @@ async function unloadProgressAssignmentDetails() {
 export default registerModule('{c2e499b8-a71d-4a68-8dba-7120a6c2ca41}', {
   name: 'Progress Assignment Description',
   description: 'See the description of graded assignments in progress',
-  main: progressAssignmentDetails,
+  main: progressAssignmentDetailsMain,
   unload: unloadProgressAssignmentDetails,
 });

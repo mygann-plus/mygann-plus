@@ -28,7 +28,7 @@ async function removeDuplicateAssignments() {
     });
 }
 
-async function fixSemesterSwitch(opts: void, unloaderContext: UnloaderContext) {
+async function fixSemesterSwitchMain(opts: void, unloaderContext: UnloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
   removeDuplicateAssignments();
@@ -46,7 +46,7 @@ function unloadFixSemesterSwitch() {
 
 export default registerModule('{df455955-40f8-4475-9a74-456f8888002d}', {
   name: 'fix.semesterSwitchBug',
-  main: fixSemesterSwitch,
+  main: fixSemesterSwitchMain,
   unload: unloadFixSemesterSwitch,
   showInOptions: false,
 });

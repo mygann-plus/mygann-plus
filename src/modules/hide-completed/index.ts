@@ -103,7 +103,7 @@ const domQuery = {
   mobile: () => document.querySelector('#filter-status-menu'),
 };
 
-async function hideCompleted(
+async function hideCompletedMain(
   suboptions: HideCompletedSuboptions,
   unloaderContext: UnloaderContext,
 ) {
@@ -161,7 +161,7 @@ interface HideCompletedSuboptions {
 export default registerModule('{6394e18f-5b51-44f4-bb3c-1144ab97945a}', {
   name: 'Hide Completed Assignments Button',
   description: 'Button to quickly show or hide completed and graded assignments',
-  main: hideCompleted,
+  main: hideCompletedMain,
   suboptions: {
     persist: {
       name: 'Keep Enabled',

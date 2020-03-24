@@ -131,7 +131,7 @@ async function showDialog() {
   }
 }
 
-async function about() {
+async function aboutMain() {
   const desktopMenuLink = appendDesktopUserMenuLink('About MyGann+', showDialog);
   appendMobileUserMenuLink('About MyGann+', showDialog);
   insertCss(style.toString());
@@ -158,6 +158,6 @@ async function about() {
 
 export default registerModule('{5ffd7ecc-654e-4b3e-a175-9cb468855c43}', {
   name: 'internal.about',
-  init: about,
+  init: aboutMain,
   showInOptions: false,
 });

@@ -107,7 +107,7 @@ async function addCollapseButtons(buttonPosition: string, unloaderContext: Unloa
   }
 }
 
-function collapseAssignmentSections(
+function collapseAssignmentSectionsMain(
   suboptions: CollapseAssignmentSectionsSuboptions,
   unloaderContext: UnloaderContext,
 ) {
@@ -125,7 +125,7 @@ interface CollapseAssignmentSectionsSuboptions {
 
 export default registerModule('{83201f77-2bb8-4f92-a09d-1d113066214c}', {
   name: 'Collapse Assignment Sections',
-  main: collapseAssignmentSections,
+  main: collapseAssignmentSectionsMain,
   suboptions: {
     buttonPosition: {
       type: 'enum',

@@ -29,7 +29,7 @@ function generateArchiveButton() {
   });
 }
 
-async function messageConversationControls(opts: void, unloaderContext: UnloaderContext) {
+async function messageConversationControlsMain(opts: void, unloaderContext: UnloaderContext) {
   const cancelLink = await waitForLoad(domQuery.cancelLink);
 
   const archiveButton = generateArchiveButton();
@@ -40,5 +40,5 @@ async function messageConversationControls(opts: void, unloaderContext: Unloader
 export default registerModule('{13aa861a-02a7-471d-9ee8-b30a0d62e45c}', {
   name: 'Message Conversation Archive',
   description: 'Archive button in the message conversation',
-  main: messageConversationControls,
+  main: messageConversationControlsMain,
 });

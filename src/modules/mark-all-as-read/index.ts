@@ -21,7 +21,7 @@ async function readAll() {
 }
 
 
-async function markAllAsRead(opts: void, unloaderContext: UnloaderContext) {
+async function markAllAsReadMain(opts: void, unloaderContext: UnloaderContext) {
 
   const { button, message } = await addMessageBarButton({
     buttonText: 'Mark All As Read',
@@ -36,5 +36,5 @@ async function markAllAsRead(opts: void, unloaderContext: UnloaderContext) {
 export default registerModule('{23137ce2-c9ae-472a-8692-0c43fde41300}', {
   name: 'Mark All As Read',
   description: 'Button to mark all messages as read',
-  main: markAllAsRead,
+  main: markAllAsReadMain,
 });

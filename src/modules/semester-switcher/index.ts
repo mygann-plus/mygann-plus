@@ -78,7 +78,7 @@ function insertSeasonSwitchButton() {
   return insertSwitchButton(domQuery.activitiesBar, 'Season');
 }
 
-async function semesterSwitcher(opts: void, unloaderContext: UnloaderContext) {
+async function semesterSwitcherMain(opts: void, unloaderContext: UnloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
@@ -108,5 +108,5 @@ async function semesterSwitcher(opts: void, unloaderContext: UnloaderContext) {
 export default registerModule('{9d28ed37-4d06-4ce5-bc25-f10776491e96}', {
   name: 'Semester & Season Switcher',
   description: 'Button to quickly switch semesters and sports seasons.',
-  main: semesterSwitcher,
+  main: semesterSwitcherMain,
 });

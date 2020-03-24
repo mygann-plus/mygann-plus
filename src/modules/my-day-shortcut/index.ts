@@ -51,7 +51,7 @@ const domQuery = {
   myDayMenu: () => document.querySelector('#topnav-containter .topnav .first .subnav'),
 };
 
-async function myDayShortcut(
+async function myDayShortcutMain(
   suboptions: MyDayShortcutSuboptions,
   unloaderContext: UnloaderContext,
 ) {
@@ -85,7 +85,7 @@ interface MyDayShortcutSuboptions {
 export default registerModule('{50310672-9670-48a4-8261-2868a426ace6}', {
   name: 'My Day Shortcut',
   description: 'Go directly to a My Day page by clicking on the My Day header',
-  init: myDayShortcut,
+  init: myDayShortcutMain,
   unload: unloadMyDayShortcut,
   defaultEnabled: false,
   suboptions: {

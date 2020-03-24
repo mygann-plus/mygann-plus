@@ -43,7 +43,7 @@ async function archive() {
 }
 
 
-async function archiveAll(opts: void, unloaderContext: UnloaderContext) {
+async function archiveAllMain(opts: void, unloaderContext: UnloaderContext) {
 
   const existingButton = document.getElementById(selectors.button);
   const text = textMap[window.location.hash];
@@ -70,5 +70,5 @@ async function archiveAll(opts: void, unloaderContext: UnloaderContext) {
 export default registerModule('{ca448b9b-1d12-487e-8afd-1be45ad520b8}', {
   name: 'Archive All',
   description: 'Button to archive and unarchive all messages',
-  main: archiveAll,
+  main: archiveAllMain,
 });

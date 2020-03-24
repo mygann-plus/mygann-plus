@@ -93,7 +93,7 @@ function generateDropdown() {
 
 const domQuery = () => document.querySelector('#roster-reports');
 
-async function classMessage(opts: void, unloaderContext: UnloaderContext) {
+async function classMessageMain(opts: void, unloaderContext: UnloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
@@ -106,5 +106,5 @@ async function classMessage(opts: void, unloaderContext: UnloaderContext) {
 export default registerModule('{eb8d1fe3-70c4-473e-804c-5edc7f81a04b}', {
   name: 'Class Email',
   description: 'Quickly send an email to members of a class',
-  main: classMessage,
+  main: classMessageMain,
 });

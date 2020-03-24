@@ -684,7 +684,7 @@ async function showDialog() {
   dialog.open();
 }
 
-function optionsDialog() {
+function optionsDialogMain() {
   appendDesktopUserMenuLink('MyGann+ Options', showDialog);
   appendMobileUserMenuLink('MyGann+ Options', showDialog);
   insertCss(style.toString());
@@ -692,6 +692,6 @@ function optionsDialog() {
 
 export default registerModule('{6f84183e-607b-4c90-9161-3451b002b541}', {
   name: 'internal.optionsDialog',
-  init: optionsDialog,
+  init: optionsDialogMain,
   showInOptions: false,
 });

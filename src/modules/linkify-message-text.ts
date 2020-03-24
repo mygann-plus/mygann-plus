@@ -18,7 +18,7 @@ function linkifyMessageBody(messageBody: HTMLElement) {
 
 const domQuery = () => document.querySelectorAll('.modal-dialog .message-list-body');
 
-async function linkifyMessageText() {
+async function linkifyMessageTextMain() {
   const messageBodies = await waitForOne(domQuery);
   for (const messageBody of messageBodies) {
     linkifyMessageBody(messageBody as HTMLElement);
@@ -36,6 +36,6 @@ function unloadLinkifyMessageText() {
 export default registerModule('{a0bcd3b0-2b61-4cf9-8435-ee988bd2c95e}', {
   name: 'Message Links',
   description: 'Make links in messages clickable',
-  main: linkifyMessageText,
+  main: linkifyMessageTextMain,
   unload: unloadLinkifyMessageText,
 });

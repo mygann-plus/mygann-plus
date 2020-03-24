@@ -27,12 +27,12 @@ function attachListeners() {
   document.getElementById('app').addEventListener('click', hideDropdownMenu);
 }
 
-function autoCloseDetailStatus() {
+function autoCloseDetailStatusMain() {
   waitForLoad(getDropdownButton).then(attachListeners);
 }
 
 export default registerModule('{1020164f-8a6e-4bb0-aac8-d5acf0e5ad72}', {
   name: 'Auto Close Detail Status',
-  main: autoCloseDetailStatus,
+  main: autoCloseDetailStatusMain,
   showInOptions: false,
 });

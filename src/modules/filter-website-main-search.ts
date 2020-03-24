@@ -16,7 +16,7 @@ function isCollapsed(resultsElem: HTMLElement) {
   return !!resultsElem.querySelector('.collapsed');
 }
 
-async function filterWebsiteMainSearch(options: FilterWebsiteMainSearchSuboptions) {
+async function filterWebsiteMainSearchMain(options: FilterWebsiteMainSearchSuboptions) {
   await waitForLoad(() => document.querySelector('.bb-tile-title'));
 
   const title = document.querySelector('.bb-tile-title') as HTMLElement;
@@ -78,7 +78,7 @@ interface FilterWebsiteMainSearchSuboptions {
 export default registerModule('{d560bad4-1073-4452-ac11-f4466dc19184}', {
   name: 'Filter Website from Search',
   description: 'Hide results from the Gann Website in MyGann searches',
-  main: filterWebsiteMainSearch,
+  main: filterWebsiteMainSearchMain,
   unload: unloadFilterWebsiteMainSearch,
   defaultEnabled: false,
   suboptions: {

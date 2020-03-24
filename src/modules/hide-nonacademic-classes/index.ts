@@ -84,7 +84,7 @@ async function hideProgressPage(hiddenKeywords: string[]) {
   hideClasses(classes, hiddenKeywords);
 }
 
-async function hideNonacademicClasses(
+async function hideNonacademicClassesMain(
   suboptions: HideNonacademicSuboptions,
   unloaderContext: UnloaderContext,
 ) {
@@ -132,7 +132,7 @@ export default registerModule('{e6bf215e-1286-47e7-baac-d17ec598c4f8}', {
   name: 'Hide Non-Academic Classes',
   description: 'Hides the following non-academic "classes" in the classes menu and the progress page: Lunch, Z\'man Kodesh, Mincha, Special Program, Assembly, Hakhel, Clubs/Lunch, Minyan, Community Service, and Breakfast',
   init: initHideNonacademicClasses,
-  main: hideNonacademicClasses,
+  main: hideNonacademicClassesMain,
   unload: unloadedHideNonacademicClasses,
   suboptions: {
     inClassesMenu: {

@@ -44,7 +44,7 @@ function insertRerunNotice() {
   document.querySelector('#areaCancel + .clear').after(notice);
 }
 
-async function oneClickLogin() {
+async function oneClickLoginMain() {
   await waitForLoad(() => getPasswordDiv() && getNextbtn());
 
   getPasswordDiv().style.display = 'block';
@@ -78,5 +78,5 @@ export default registerModule('{6ca82534-e670-490a-8ce1-1d87f48c7c32}', {
     with only one login button (as opposed to post-2018 version, 
     which requires two button clicks: "next", then "login")
   `,
-  main: oneClickLogin,
+  main: oneClickLoginMain,
 });

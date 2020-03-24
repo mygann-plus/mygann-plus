@@ -16,7 +16,7 @@ function createFlyoutBody() {
   );
 }
 
-async function installNotification() {
+async function installNotificationMain() {
   if (await hasInstalled()) {
     if (isMobileView()) {
       const mobileHeaderLink = await waitForLoad(() => (
@@ -44,6 +44,6 @@ async function installNotification() {
 
 export default registerModule('{826e61a8-06b8-458d-825f-e8b8f8ac3a0f}', {
   name: 'internal.installNotification',
-  init: installNotification,
+  init: installNotificationMain,
   showInOptions: false,
 });

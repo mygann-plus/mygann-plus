@@ -236,7 +236,7 @@ async function handleProgressDialogChange(
   insertFirstSemesterButton(firstSemCourseList, markingPeriodId, nonacademicClasses);
 }
 
-async function fullYearAssignments(opts: void, unloaderContext: UnloaderContext) {
+async function fullYearAssignmentsMain(opts: void, unloaderContext: UnloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
@@ -259,6 +259,6 @@ export default registerModule('{705f08d2-de45-434b-bf51-c613e5d39f55}', {
   description: `
     View your graded assignments from the entire year, instead of only the current semester
   `,
-  main: fullYearAssignments,
+  main: fullYearAssignmentsMain,
   unload: unloadFullYearAssignments,
 });

@@ -29,13 +29,13 @@ async function fixHeaders() {
   }
 }
 
-async function fixAssignmentCenterDate() {
+async function fixAssignmentCenterDateMain() {
   fixHeaders();
   addAssignmentTableMutationObserver(fixHeaders);
 }
 
 export default registerModule('{a11ce73b-03d5-4cee-9cd6-2dbd63d38340}', {
   name: 'fix.assignmentCenterDate',
-  main: fixAssignmentCenterDate,
+  main: fixAssignmentCenterDateMain,
   showInOptions: false,
 });

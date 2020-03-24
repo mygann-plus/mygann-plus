@@ -77,7 +77,7 @@ async function runClassEndingTime(unloaderContext: UnloaderContext) {
   // setTimeout(() => recheck(block), 200);
 }
 
-function classEndingTime(opts: void, unloaderContext: UnloaderContext) {
+function classEndingTimeMain(opts: void, unloaderContext: UnloaderContext) {
   runClassEndingTime(unloaderContext);
 
   const interval = setInterval(() => {
@@ -96,5 +96,5 @@ function classEndingTime(opts: void, unloaderContext: UnloaderContext) {
 export default registerModule('{c8a3ea86-ae06-4155-be84-1a91283fe826}', {
   name: 'Class Ending Time',
   description: 'Show how much time is left until the current class ends',
-  main: classEndingTime,
+  main: classEndingTimeMain,
 });

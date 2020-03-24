@@ -87,7 +87,7 @@ async function getNewGradedAssignments(
   });
 }
 
-async function gradeNotifications(
+async function gradeNotificationsMain(
   suboptions: GradeNotificationsSuboptions,
   unloaderContext: UnloaderContext,
 ) {
@@ -123,7 +123,7 @@ interface GradeNotificationsSuboptions {
 
 export default registerModule('{170c6f0e-0a6b-4c6f-96c0-5525aac3dfb5}', {
   name: 'Grade Notifications',
-  main: gradeNotifications,
+  main: gradeNotificationsMain,
   suboptions: {
     pointsThreshold: {
       name: 'Minimum Points Threshold',

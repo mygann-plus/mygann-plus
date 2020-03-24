@@ -8,7 +8,7 @@ const domQuery = {
   nextButton: () => document.querySelector('.chCal-button-next') as HTMLElement,
 };
 
-async function scheduleArrowNavigation(opts: void, unloaderContext: UnloaderContext) {
+async function scheduleArrowNavigationMain(opts: void, unloaderContext: UnloaderContext) {
   await waitForLoad(domQuery.prevButton);
 
   const listener = addEventListener(document.body, 'keydown', (e: KeyboardEvent) => {
@@ -32,6 +32,6 @@ async function scheduleArrowNavigation(opts: void, unloaderContext: UnloaderCont
 export default registerModule('{0087928a-08ae-4c53-8f04-742197234529}', {
   name: 'Schedule Arrow Navigation',
   description: 'Use the arrow keys to switch days in the schedule',
-  main: scheduleArrowNavigation,
+  main: scheduleArrowNavigationMain,
   affectsGlobalState: true,
 });

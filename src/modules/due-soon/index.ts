@@ -127,7 +127,7 @@ function handleButtonClick(
   toggleFiltered(suboptions);
 }
 
-async function dueSoon(suboptions: DueSoonSuboptions) {
+async function dueSoonMain(suboptions: DueSoonSuboptions) {
   insertCss(style.toString());
 
   if (suboptions.persist) {
@@ -170,7 +170,7 @@ interface DueSoonSuboptions {
 export default registerModule('{5351d862-0067-49b5-b4b4-3aa6957db245}', {
   name: 'Due Soon',
   description: 'Button to quickly see assignments due today or tomorrow.',
-  main: dueSoon,
+  main: dueSoonMain,
   suboptions: {
     persist: {
       name: 'Stay enabled after reloading',

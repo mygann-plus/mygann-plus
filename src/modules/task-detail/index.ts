@@ -39,7 +39,7 @@ async function taskDetailPage() {
   });
 }
 
-async function taskDetail(opts: void, unloaderContext: UnloaderContext) {
+async function taskDetailMain(opts: void, unloaderContext: UnloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
@@ -59,7 +59,7 @@ async function unloadTaskDetail() {
 export default registerModule('{fc287488-1185-4395-9e41-9e8e35148f9d}', {
   name: 'Task Details',
   description: 'Add description to "My Tasks"',
-  main: taskDetail,
+  main: taskDetailMain,
   unload: unloadTaskDetail,
   affectsGlobalState: true,
 });

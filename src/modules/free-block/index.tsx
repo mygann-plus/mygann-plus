@@ -175,7 +175,7 @@ async function insertFreeBlock(
   });
 }
 
-async function freeBlock(
+async function freeBlockMain(
   options: FreeBlockSuboptions,
   unloaderContext: UnloaderContext,
 ) {
@@ -198,7 +198,7 @@ interface FreeBlockSuboptions {
 
 export default registerModule('{5a1befbf-8fed-481d-8184-8db72ba22ad1}', {
   name: 'Show Free Blocks in Schedule',
-  main: freeBlock,
+  main: freeBlockMain,
   suboptions: {
     showEndBlocks: {
       name: 'Show Free A/B Blocks',

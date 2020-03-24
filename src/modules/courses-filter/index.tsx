@@ -101,7 +101,7 @@ async function addCoursesFilterBar() {
   }
 }
 
-async function coursesFilter(opts: void, unloaderContext: UnloaderContext) {
+async function coursesFilterMain(opts: void, unloaderContext: UnloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
@@ -125,6 +125,6 @@ function unloadCoursesFilter() {
 export default registerModule('{e2c18d75-5264-4177-97b0-5c6d65fb1496}', {
   name: 'Courses Filter',
   description: 'Search courses in Progress.',
-  main: coursesFilter,
+  main: coursesFilterMain,
   unload: unloadCoursesFilter,
 });

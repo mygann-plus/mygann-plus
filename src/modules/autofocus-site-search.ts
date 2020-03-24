@@ -9,7 +9,7 @@ const domQuery = {
   searchbar: () => document.querySelector('#site-search-input') as HTMLInputElement,
 };
 
-async function autofocusSiteSearch(opts: void, unloaderContext: UnloaderContext) {
+async function autofocusSiteSearchMain(opts: void, unloaderContext: UnloaderContext) {
   const searchButton = await waitForLoad(domQuery.searchButton);
   const searchbar = await waitForLoad(domQuery.searchbar);
 
@@ -23,6 +23,6 @@ async function autofocusSiteSearch(opts: void, unloaderContext: UnloaderContext)
 
 export default registerModule('{84658351-f212-4f93-90b7-4163666cc697}', {
   name: 'fix.autofocusSiteSearch',
-  main: autofocusSiteSearch,
+  main: autofocusSiteSearchMain,
   showInOptions: false,
 });

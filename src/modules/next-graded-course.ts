@@ -134,7 +134,7 @@ const domQuery = () => (
   && document.querySelector('.active')
 );
 
-async function nextGradedCourse(opts: void, unloaderContext: UnloaderContext) {
+async function nextGradedCourseMain(opts: void, unloaderContext: UnloaderContext) {
   await waitForLoad(domQuery);
 
   // List of all courses
@@ -180,5 +180,5 @@ async function nextGradedCourse(opts: void, unloaderContext: UnloaderContext) {
 export default registerModule('{82a191dc-db60-475e-ada5-3c966dd36af5}', {
   name: 'Next Graded Course',
   description: 'Button in grade detail to jump to next and previous graded course',
-  main: nextGradedCourse,
+  main: nextGradedCourseMain,
 });

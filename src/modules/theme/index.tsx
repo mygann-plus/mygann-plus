@@ -98,7 +98,7 @@ function applyFontStyles(font: string, unloaderContext: UnloaderContext) {
   setThemeProperty('font', `"${font}", "Blackbaud Sans","Helvetica Neue",Arial,sans-serif`);
 }
 
-function theme(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
+function themeMain(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
   const { color, font } = options;
 
   if (color !== DEFAULT_COLOR) {
@@ -120,7 +120,7 @@ interface ThemeSuboptions {
 
 export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
   name: 'Theme',
-  init: theme,
+  init: themeMain,
   unload: unloadTheme,
   topLevelOption: true,
   suboptions: {

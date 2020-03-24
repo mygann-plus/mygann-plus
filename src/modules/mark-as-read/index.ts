@@ -37,7 +37,7 @@ function createButton(message: Element) {
 
 const domQuery = () => document.querySelector('.conv-message');
 
-async function markAsRead(opts: void, unloaderContext: UnloaderContext) {
+async function markAsReadMain(opts: void, unloaderContext: UnloaderContext) {
   await waitForLoad(domQuery);
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
@@ -58,5 +58,5 @@ async function markAsRead(opts: void, unloaderContext: UnloaderContext) {
 
 export default registerModule('21382627b-49b0-4573-b812-1de680c03c3b', {
   name: 'Mark As Read',
-  main: markAsRead,
+  main: markAsReadMain,
 });

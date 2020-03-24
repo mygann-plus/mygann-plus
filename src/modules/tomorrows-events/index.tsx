@@ -74,7 +74,7 @@ async function showTomorrowsEvents(unloaderContext: UnloaderContext) {
   unloaderContext.addRemovable(label);
 }
 
-function tomorrowsEvents(opts: void, unloaderContext: UnloaderContext) {
+function tomorrowsEventsMain(opts: void, unloaderContext: UnloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
@@ -89,6 +89,6 @@ function tomorrowsEvents(opts: void, unloaderContext: UnloaderContext) {
 export default registerModule('{2b337dae-cb2f-4627-b3d6-bde7a5f2dc06}', {
   name: 'Tomorrow\'s Events',
   description: 'Show preview of the next day\'s events',
-  main: tomorrowsEvents,
+  main: tomorrowsEventsMain,
   defaultEnabled: false,
 });

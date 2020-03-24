@@ -12,7 +12,7 @@ function isAprilFirst() {
 }
 
 
-function extreme() {
+function extremeMain() {
   insertCss(style.toString());
   if (!isAprilFirst()) {
     return;
@@ -30,7 +30,7 @@ function extreme() {
 
 export default registerModule('{508be51e-75e5-41da-afeb-d7b5cad20e94}', {
   name: 'easteregg.extreme',
-  main: extreme,
+  main: extremeMain,
   defaultEnabled: true,
   showInOptions: false,
 });

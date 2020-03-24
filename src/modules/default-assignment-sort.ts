@@ -16,7 +16,7 @@ const domQuery = (sortType: string) => {
   return header as HTMLElement;
 };
 
-async function defaultAssignmentSort(opts: DefaultAssignmentSortSuboptions) {
+async function defaultAssignmentSortMain(opts: DefaultAssignmentSortSuboptions) {
   const sortHeader = await waitForLoad(() => domQuery(opts.sortType));
   sortHeader.click();
 }
@@ -31,7 +31,7 @@ interface DefaultAssignmentSortSuboptions {
 export default registerModule('{9efc9b14-c418-4d64-8550-cd67766f8194}', {
   name: 'Default Assignment Sort',
   description: 'Set how the order of assignments should be sorted by default',
-  main: defaultAssignmentSort,
+  main: defaultAssignmentSortMain,
   unload: unloadDefaultAssignmentSort,
   suboptions: {
     sortType: {

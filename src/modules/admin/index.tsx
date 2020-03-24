@@ -112,7 +112,7 @@ class AdminPanel {
   }
 }
 
-async function admin() {
+async function adminMain() {
   if (await getUserId() !== String(ADMIN_ID)) {
     return;
   }
@@ -136,7 +136,7 @@ async function admin() {
 
 export default registerModule('{015b4a2e-c33a-44c6-8285-b4c5ca2b4ee6}', {
   name: 'internal.adminPanel',
-  main: admin,
+  main: adminMain,
   showInOptions: false,
   affectsGlobal: true,
 });

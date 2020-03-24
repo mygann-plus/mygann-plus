@@ -31,7 +31,7 @@ async function collapseBox(wrap: HTMLElement) {
   content.classList.remove(selectors.temporaryHiddenBox);
 }
 
-async function autocollapseProgressBoxes(opts: void, unloaderContext: UnloaderContext) {
+async function autocollapseProgressBoxesMain(opts: void, unloaderContext: UnloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
@@ -44,6 +44,6 @@ async function autocollapseProgressBoxes(opts: void, unloaderContext: UnloaderCo
 export default registerModule('{cc6276bc-c12a-49a7-a289-d6c7d5b67398}', {
   name: 'Automatically Collapse Progress Boxes',
   description: 'Automatically collapse performance, conduct, and attendance summary boxes.',
-  main: autocollapseProgressBoxes,
+  main: autocollapseProgressBoxesMain,
   defaultEnabled: false,
 });

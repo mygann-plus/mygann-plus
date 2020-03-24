@@ -76,7 +76,7 @@ async function shouldShowMenu() {
   return serveryMenuItems.length > 0;
 }
 
-async function serveryMenu(opts: void, unloaderContext: UnloaderContext) {
+async function serveryMenuMain(opts: void, unloaderContext: UnloaderContext) {
   // TODO: why is this line commented out?
   // const styles = insertCss(style.toString());
   // unloaderContext.addRemovable(styles);
@@ -95,5 +95,5 @@ async function serveryMenu(opts: void, unloaderContext: UnloaderContext) {
 export default registerModule('{34605f96-a07c-4beb-90e8-933337d192fd}', {
   name: 'Servery Menu',
   description: 'Show the daily servery menu in schedule',
-  main: serveryMenu,
+  main: serveryMenuMain,
 });
