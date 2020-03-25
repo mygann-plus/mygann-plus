@@ -40,6 +40,22 @@ function getClassIdFromRow(row: Element) {
   return link.hash.split('/')[1];
 }
 
+function getZoomIdFromUrl(url: string) {
+  const idRegex = /(?:j|my)\/([^/?]+)/;
+
+  if (!url.includes('zoom.us/')) {
+    return null;
+  }
+
+  const [path] = url.trim().split('zoom.us/').slice(-1);
+  const match = path.match(idRegex);
+  if (!match) {
+    return null;
+  }
+
+  return match[1];
+}
+
 function createEditFlyout(id: string, link: string) {
 
   const handleSaveClick = (flyout: Flyout) => {
@@ -70,6 +86,18 @@ function createEditFlyout(id: string, link: string) {
 
 /* OPEN BUTTON */
 
+function handleOpenClick(link: string) {
+  const id = getZoomIdFromUrl(link);
+
+  if (id) {
+    // Directly open zoom client
+    window.open(`zoommtg://zoom.us/join?confno=${id}`);
+  } else {
+    // fallback if unable to parse ID
+    window.open(link);
+  }
+}
+
 function handleEditClick(id: string, link: string, button: HTMLElement) {
   const flyout = createEditFlyout(id, link);
   flyout.showAtElem(button);
@@ -82,9 +110,7 @@ function handleRemoveClick(id: string) {
 function createOpenZoomLinkButton(id: string, link: string) {
   const button = constructButton({
     textContent: 'Open Zoom',
-    onClick: () => {
-      window.open(link);
-    },
+    onClick: () => handleOpenClick(link),
     className: selectors.openButton.button,
   });
   const dropdown: DropdownMenu = new DropdownMenu([
