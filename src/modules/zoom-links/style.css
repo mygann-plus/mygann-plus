@@ -9,8 +9,17 @@
   border-bottom-left-radius: 0;
   border-top-right-radius: 3px !important;
   border-bottom-right-radius: 3px !important;
-  border-left: 0;
+  border-left-width: 0;
   padding: 4px 7px; 
+}
+
+@media (max-width: 1200px) {
+  /* Dropdown is pushed onto seperate line */
+  .open__dropdown {
+    border-left-width: 1px;
+    border-top-left-radius: 3px; 
+    border-bottom-left-radius: 3px;
+  }
 }
 
 /* EDIT FLYOUT */
