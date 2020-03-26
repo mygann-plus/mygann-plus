@@ -41,9 +41,9 @@ function getClassIdFromRow(row: Element) {
 }
 
 function getZoomIdFromUrl(url: string) {
-  const idRegex = /(?:j|my)\/([^/?]+)/;
+  const idRegex = /j\/([^/?]+)/;
 
-  if (!url.includes('zoom.us/')) {
+  if (!url.includes('zoom.us/j')) {
     return null;
   }
 
