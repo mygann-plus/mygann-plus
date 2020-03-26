@@ -1,3 +1,11 @@
+## 1.13.0
+### Added
+- Zoom Links module
+
+### Fixed
+- Fix Free Blocks for quarentine schedule
+- Fix schedule modules (highlight current class, free blocks, etc) sometimes not appearing
+
 ## 1.12.1
 ### Added
 - April Fools 2020
