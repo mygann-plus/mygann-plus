@@ -40,13 +40,7 @@ export function getBlockLetter(startTime: string, endTime: string) {
   let letters: BlockList = {};
   let blockLetter = '';
 
-  if (day !== 5) { // monday-thursday
-    letters = blockSchedule.week[day - 1];
-  } else { // friday
-    const announcement = document.querySelector('.alert-info div:nth-child(2)');
-    const fridayType = announcement.textContent.split('Friday')[1].split('-')[0].trim();
-    letters = blockSchedule.friday[fridayType];
-  }
+  letters = blockSchedule.week[day - 1]; // temporary overide for quarentine
 
   for (const letter in letters) {
     const time = letters[letter];

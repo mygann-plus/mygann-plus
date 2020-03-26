@@ -74,8 +74,7 @@ function insertBlock(
 }
 
 function getFridayEndTime() {
-  const date = new Date(document.querySelector('.chCal-header-space + h2').textContent);
-  return isDaylightSavings(date) ? '1:45 PM' : '2:35 PM';
+  return '12:00 PM'; // temporary end time, due to quarentine
 }
 
 const domQuery = () => (
