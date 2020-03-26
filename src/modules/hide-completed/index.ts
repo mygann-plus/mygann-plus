@@ -117,7 +117,7 @@ async function hideCompletedMain(
 
   const button = constructButton({
     textContent: 'Hide Completed',
-    iClassName: 'fa fa- check',
+    iClassName: 'fa fa-check',
     onClick: (e: Event) => {
       toggleHidden(e.target as HTMLButtonElement);
     },

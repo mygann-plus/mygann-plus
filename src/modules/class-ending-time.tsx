@@ -49,6 +49,7 @@ async function insertClassEndingTime(blocks: HTMLElement[], unloaderContext: Unl
       const time = addTime(minutes, block.children[0] as HTMLElement);
       if (time) {
         unloaderContext.addRemovable(time);
+        return block;
       }
     }
   }
@@ -63,18 +64,21 @@ const getBlocks = async () => {
 async function runClassEndingTime(unloaderContext: UnloaderContext) {
   const blocks = await getBlocks();
 
+  // schedule sometimes renders multiple times, which removes times
   const recheck = async (block: HTMLElement) => {
     if (!document.body.contains(block)) {
-      insertClassEndingTime(await getBlocks(), unloaderContext);
+      runClassEndingTime(unloaderContext);
     }
   };
 
   const block = await insertClassEndingTime(blocks, unloaderContext);
 
-  // TODO: fix this.
-  // setTimeout(() => recheck(block), 50);
-  // setTimeout(() => recheck(block), 100);
-  // setTimeout(() => recheck(block), 200);
+  if (block) {
+    for (let i = 0; i < 20; i++) {
+      setTimeout(() => recheck(block), i * 50);
+    }
+  }
+
 }
 
 function classEndingTimeMain(opts: void, unloaderContext: UnloaderContext) {

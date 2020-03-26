@@ -48,9 +48,9 @@ async function highlightClass() {
 
   const block = await highlight(getBlocks());
 
-  setTimeout(() => recheck(block), 50);
-  setTimeout(() => recheck(block), 100);
-  setTimeout(() => recheck(block), 200);
+  for (let i = 0; i < 20; i++) {
+    setTimeout(() => recheck(block), i * 50);
+  }
 
 }
 
