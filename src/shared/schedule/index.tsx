@@ -25,11 +25,7 @@ function formatDay(dayString: string) {
 }
 
 export function hasParentWithClassName(element: HTMLElement, classnames: string[]): boolean {
-  const containsClass = (c: string) => element.className.split(' ').indexOf(c) >= 0;
-  if (element.className && classnames.filter(containsClass).length > 0) {
-    return true;
-  }
-  return element.parentNode && hasParentWithClassName(element.parentNode as HTMLElement, classnames);
+  return !!classnames.find(classname => element.closest(`.${classname}`));
 }
 
 // tests if the current day on the schedule is set to today
