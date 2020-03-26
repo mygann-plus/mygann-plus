@@ -1,3 +1,7 @@
+## 1.13.1
+## Fixed
+- Fix Zoom Links not working for custom personal IDs
+
 ## 1.13.0
 ### Added
 - Zoom Links module
