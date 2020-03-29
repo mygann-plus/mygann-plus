@@ -17,10 +17,9 @@ async function simulateEditClick(elemIndex: number) {
   const statusBtn = document.querySelectorAll('.assignment-status-update')[elemIndex].parentNode.children[0] as HTMLElement;
   statusBtn.click();
   const elem = await waitForLoad(() => (
-    document.querySelectorAll('.assignment-status-update')[elemIndex].parentNode
-      .querySelector(`
-        *:nth-child(2) > :nth-child(3) > :first-child .btn
-      `)
+    document
+      .querySelectorAll('.assignment-status-update')[elemIndex]
+      .parentNode.querySelector('[data-value="edit-user-task"]')
   ));
   if (!elem) {
     return setTimeout(() => simulateEditClick(elemIndex));
