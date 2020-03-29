@@ -21,11 +21,6 @@ declare module '*.png' {
 declare module JSX {
   // @ts-ignore workaround for custom JSX pragma
   export type Element = HTMLElement;
-  export interface DOMAttributes<T> {
-    // @ts-ignore workaround for custom JSX pragma
-    onClick?: (event: Event) => void;
-    onCopy?: string;
-  }
 }
 
 declare module 'fetch-reject' {

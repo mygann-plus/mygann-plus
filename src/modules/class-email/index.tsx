@@ -75,7 +75,7 @@ function generateDropdown() {
       onclick: () => showDialog(false),
     },
     {
-      title: 'Students and Teachers', // TODO: "all" or "students and teacher"
+      title: 'Students and Teachers',
       onclick: () => showDialog(true),
     },
   ], {

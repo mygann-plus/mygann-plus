@@ -31,7 +31,6 @@ export default class DropdownMenu {
     };
 
     this.items = items;
-    // TODO: change to default param and spread ?
     this.opts = { ...defaultOpts, ...opts };
     this.dropdownElement = this.generateDropdownHtml();
     this.dropdownWrap = this.generateWrapHtml();

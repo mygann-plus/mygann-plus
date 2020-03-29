@@ -133,7 +133,6 @@ async function dueSoonMain(suboptions: DueSoonSuboptions) {
   if (suboptions.persist) {
     isFiltered = await getIsFiltered();
   } else if (isFiltered === null) {
-    // TODO: can this be changed to set isFiltered as false initially?
     isFiltered = false;
   }
   runFilter(suboptions);

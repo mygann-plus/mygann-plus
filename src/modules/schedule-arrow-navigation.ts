@@ -13,6 +13,7 @@ async function scheduleArrowNavigationMain(opts: void, unloaderContext: Unloader
 
   const listener = addEventListener(document.body, 'keydown', (e: KeyboardEvent) => {
 
+    // don't navigate if user is typing into input
     const focusedInput = document.querySelector('input:focus');
     if (focusedInput) {
       return;
