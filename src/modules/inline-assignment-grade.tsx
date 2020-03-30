@@ -67,7 +67,7 @@ class InlineGrade {
   async show() {
     this.hidden = false;
     if (!this.grade) {
-      this.grade = await getGrade(this.id);
+      this.grade = await getGrade(this.id) || 'No grade';
       this.gradeLabel.textContent = `: ${this.grade}`;
     }
     this.gradeLabel.style.display = 'inline-block';
