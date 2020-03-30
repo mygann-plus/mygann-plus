@@ -198,6 +198,7 @@ class CheckpointsBox {
         const description = editorInst.getDescriptionInput().value;
 
         setCheckpointData(checkpoint.id, name, due, description);
+        editorInst.getWrap().replaceWith(checkpointWrap);
       },
       editorInst => editorInst.getWrap().replaceWith(checkpointWrap),
       true,

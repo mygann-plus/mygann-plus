@@ -20,6 +20,8 @@ const selectors = {
   },
 };
 
+/* Editor for a single checkpoint (either edit or add) */
+
 export default class CheckpointEditor {
 
   private checkpoint: Checkpoint;
