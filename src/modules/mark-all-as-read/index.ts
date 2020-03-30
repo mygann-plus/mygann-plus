@@ -27,6 +27,7 @@ async function markAllAsReadMain(opts: void, unloaderContext: UnloaderContext) {
     buttonText: 'Mark All As Read',
     messageText: 'Marking All As Read',
     onClick: readAll,
+    iconClassName: 'fa fa-envelope-open',
   });
 
   unloaderContext.addRemovable(button);

@@ -47,10 +47,11 @@ interface MessageBarConfig {
   messageText: string;
   onClick: () => void;
   id?: string;
+  iconClassName?: string;
 }
 
 export async function addMessageBarButton({
-  buttonText, messageText, onClick, id,
+  buttonText, messageText, onClick, id, iconClassName,
 }: MessageBarConfig) {
 
   const styles = insertCss(style.toString());
@@ -68,7 +69,7 @@ export async function addMessageBarButton({
   const button = constructButton({
     textContent: buttonText,
     id,
-    iClassName: 'fa fa-archive',
+    iClassName: iconClassName,
     onClick: e => {
       handleButtonClick(e, message, onClick);
     },

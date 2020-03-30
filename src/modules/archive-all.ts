@@ -60,6 +60,7 @@ async function archiveAllMain(opts: void, unloaderContext: UnloaderContext) {
     messageText,
     id: selectors.button,
     onClick: archive,
+    iconClassName: 'fa fa-archive',
   });
 
   unloaderContext.addRemovable(styles);
