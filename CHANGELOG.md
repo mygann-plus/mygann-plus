@@ -1,3 +1,13 @@
+## 1.13.2
+### Changed
+- Use distinct icon in Mark All as Read
+
+### Fixed
+- Fix Improved Status Dropdown not editing tasks
+- Fix Schedule Arrow Navigation interfering with editing Zoom Links
+- Fix ungraded assignments displaying null in Preview Assignment Grade
+- Fix Assignment Checkpoints editor not closing on save if nothing changed
+
 ## 1.13.1
 ## Fixed
 - Fix Zoom Links not working for custom personal IDs
