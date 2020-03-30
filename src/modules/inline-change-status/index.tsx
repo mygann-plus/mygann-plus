@@ -48,7 +48,6 @@ function createOptionElem(name: string, val: string) {
 
 function createDropdown(
   parentNode: HTMLElement,
-  controller: any,
   index: number,
   preVal: string,
   task: boolean,
@@ -91,7 +90,7 @@ function createDropdown(
       return;
     }
     selectElem.remove();
-    createDropdown(parentNode, controller, index, optionNames[Number(selectElem.value) - 1], task);
+    createDropdown(parentNode, index, optionNames[Number(selectElem.value) - 1], task);
     simulateDropdownChange(index, Number(selectElem.value));
   };
 
@@ -112,7 +111,7 @@ function replaceLinks() {
   links.forEach((button, i) => {
     const assignmentRow = button.parentNode.parentNode as HTMLElement;
     assignmentRow.classList.add(selectors.inlined);
-    createDropdown(button.parentNode as HTMLElement, button, i, null, isTask(assignmentRow));
+    createDropdown(button.parentNode as HTMLElement, i, null, isTask(assignmentRow));
   });
 }
 

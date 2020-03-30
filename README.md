@@ -31,7 +31,9 @@
     "$schemaVersion": 1,
     "disabled": [{
         "guid": "{guid of broken module}",
-        "extensionVersion": "broken version"
+        "extensionVersion": "broken version, in semver",
+        "message": "(optional) message to display to user",
+        "_comment_": "internal comment, not displayed to user"
     }]
 }
 ```

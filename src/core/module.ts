@@ -16,7 +16,6 @@ interface ModuleConfig extends ModuleFunctions {
   affectsGlobalState?: boolean;
   suboptions?: Suboptions;
   topLevelOption?: boolean;
-  affectsGlobal?: boolean;
 }
 
 interface SuboptionValidatorData {

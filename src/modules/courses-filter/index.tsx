@@ -18,7 +18,6 @@ const selectors = {
 interface Course {
   elem: HTMLElement;
   name: string;
-  grade: string;
 }
 
 let courses: Course[];
@@ -28,7 +27,6 @@ function generateCourseList(): Course[] {
   return Array.from(rows).map(e => ({
     elem: e as HTMLElement,
     name: e.querySelector('h3').textContent,
-    grade: e.querySelector('.showGrade').textContent.trim(),
   }));
 }
 
