@@ -55,6 +55,7 @@ import fixAssignmentCenterDate from '~/modules/fix-assignment-center-date';
 import defaultAssignmentSort from '~/modules/default-assignment-sort';
 import assignmentCheckpoints from '~/modules/assignment-checkpoints';
 import zoomLinks from '~/modules/zoom-links';
+import hideCourseRequests from '~/modules/hide-course-requests'; // Added by Ilan and Sam
 
 interface ModuleMap {
   [key: string]: Module[]
@@ -96,6 +97,7 @@ const MODULE_MAP: ModuleMap = {
     extreme,
   ],
   '#taskdetail': [taskDetail, assignmentCheckpoints],
+  '#studentmyday': [hideCourseRequests], // Added by Ilan and Sam
   '#studentmyday/schedule': [
     freeBlock,
     highlightCurrentClass,
