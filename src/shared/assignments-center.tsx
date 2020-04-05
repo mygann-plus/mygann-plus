@@ -81,3 +81,7 @@ export function getAssignmentIdFromRow(row: HTMLElement) {
   const update = row.querySelector('.assignment-status-update') as HTMLElement;
   return update ? update.dataset.id : null;
 }
+
+export function getAssignmentRows() {
+  return document.querySelectorAll('#assignment-center-assignment-items > tr');
+}

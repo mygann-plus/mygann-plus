@@ -82,6 +82,7 @@
     "operator-linebreak": "warn",
     "eol-last": "warn",
     "no-trailing-spaces": "warn",
-    "@typescript-eslint/quotes": "warn"
+    "@typescript-eslint/quotes": "warn",
+    "class-methods-use-this": "off"
   }
 }

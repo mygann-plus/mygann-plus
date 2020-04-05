@@ -1,145 +1,177 @@
-import classNames from 'classnames';
-
 import registerModule from '~/core/module';
 import { UnloaderContext } from '~/core/module-loader';
 
-import { waitForLoad, insertCss, createElement } from '~/utils/dom';
-import { addAssignmentTableMutationObserver, isTask } from '~/shared/assignments-center';
+import { waitForLoad, insertCss, createElement, waitForOne } from '~/utils/dom';
+import {
+  addAssignmentTableMutationObserver,
+  isTask,
+  getAssignmentRows,
+} from '~/shared/assignments-center';
 
 import style from './style.css';
 
 const selectors = {
   inlined: style.locals.inlined,
-  dropdown: 'gocp_inline-change-status_dropdown',
 };
 
-async function simulateEditClick(elemIndex: number) {
-  const statusBtn = document.querySelectorAll('.assignment-status-update')[elemIndex].parentNode.children[0] as HTMLElement;
-  statusBtn.click();
-  const elem = await waitForLoad(() => (
-    document
-      .querySelectorAll('.assignment-status-update')[elemIndex]
-      .parentNode.querySelector('[data-value="edit-user-task"]')
-  ));
-  if (!elem) {
-    return setTimeout(() => simulateEditClick(elemIndex));
+function getStatusFromRow(row: HTMLElement) {
+  return row.querySelector('[data-heading="Status"] .label').textContent;
+}
+
+function getOverdueFromRow(row: HTMLElement) {
+  return !!row.querySelector('[data-overdue="true"]');
+}
+
+class StatusDropdown {
+
+  private assignmentRow: HTMLElement;
+  private status: string;
+  private task: boolean;
+  private overdue: boolean;
+
+  private select: HTMLSelectElement;
+
+  constructor(assignmentRow: HTMLElement) {
+    this.assignmentRow = assignmentRow;
+    this.status = getStatusFromRow(assignmentRow);
+    this.overdue = getOverdueFromRow(assignmentRow);
+    this.task = isTask(assignmentRow);
+    this.select = this.createSelect();
   }
-  (elem as HTMLElement).click();
-}
 
-async function simulateDropdownChange(elemIndex: number, index: number) {
-  (document.querySelectorAll('.assignment-status-update')[elemIndex].parentNode.children[0] as HTMLElement).click();
-  const elem = await waitForLoad(() => (
-    document.querySelectorAll('.assignment-status-update')[elemIndex].parentNode
-      .querySelector(`
-        *:nth-child(2) > :nth-child(3) > :first-child > :nth-child(2) > :first-child
-      `) as HTMLSelectElement
-  ));
-  if (!elem) {
-    return setTimeout(() => simulateDropdownChange(elemIndex, index));
+  getSelectElement() {
+    return this.select;
   }
-  elem.selectedIndex = index;
-  elem.dispatchEvent(new Event('change'));
-}
 
-function createOptionElem(name: string, val: string) {
-  return <option value={val}>{name}</option>;
-}
+  remove() {
+    this.select.remove();
+  }
 
-function createDropdown(
-  parentNode: HTMLElement,
-  index: number,
-  preVal: string,
-  task: boolean,
-) {
-  const existingValue = (
-    preVal
-    || document
-      .querySelectorAll('.assignment-status-update')[index]
-      .parentNode.parentNode.children[5].textContent.trim()
-  );
-  const isOverdue = (parentNode.querySelector('button.btn-link') as HTMLElement).dataset.overdue === 'true';
-  // MyGann natively uses non breaking spaces for ONLY in progress labels
-  const optionNames = ['To Do', 'In\u00a0Progress', 'Completed'];
-  if (isOverdue) {
-    optionNames.splice(0, 1);
-    if (existingValue !== 'Overdue') {
-      optionNames.splice(optionNames.indexOf(existingValue), 1);
+  private createSelect() {
+    const options = this.createOptionElements();
+
+    const select = (
+      <select
+        onChange={() => this.handleSelectChange()}
+        className="form-control"
+      >
+        { options }
+      </select>
+    );
+
+    return select as HTMLSelectElement;
+  }
+
+  // Refresh select with new options, based on new status
+  private refreshSelect() {
+    const options = this.createOptionElements();
+    this.select.innerHTML = ''; // remove all children
+    this.select.append(...options);
+  }
+
+  private createOptionElements() {
+    const optionNames = ['To Do', 'In\u00a0Progress', 'Completed'];
+
+    if (this.overdue) {
+      optionNames.splice(0, 1); // Cannot set to "Todo" if status is overdue
+      if (this.status !== 'Overdue') {
+        // only remove current status if assignment is overdue, but not set as "Overdue"
+        optionNames.splice(optionNames.indexOf(this.status), 1);
+      }
+    } else {
+      optionNames.splice(optionNames.indexOf(this.status), 1); // remove current status
     }
-  } else {
-    optionNames.splice(optionNames.indexOf(existingValue), 1);
+
+    const options = [
+      this.createOptionElement('-- Select --', 'select'),
+      this.createOptionElement(optionNames[0], '1'),
+    ];
+
+    if (optionNames[1]) {
+      options.push(this.createOptionElement(optionNames[1], '2'));
+    }
+    if (this.task) {
+      options.push(this.createOptionElement('Edit Task', 'edit-task'));
+    }
+
+    return options;
   }
 
-  const optionElems = [
-    createOptionElem('-- Select --', '0'),
-    createOptionElem(optionNames[0], '1'),
-  ];
-  if (optionNames[1]) {
-    optionElems.push(createOptionElem(optionNames[1], '2'));
+  private createOptionElement(name: string, value: string) {
+    return <option value={value}>{name}</option>;
   }
-  if (task) {
-    optionElems.push(createOptionElem('Edit Task', '10'));
-  }
-  const handleSelectChange = (e: Event) => {
-    const selectElem = e.target as HTMLSelectElement;
-    if (selectElem.value === '0') {
+
+  handleSelectChange() {
+    const { value: newValue } = this.select;
+
+    if (newValue === 'select') { // "-- Select --"
       return;
-    } else if (selectElem.value === '10') {
-      simulateEditClick(index);
-      selectElem.selectedIndex = 0;
+    } else if (newValue === 'edit-task') {
+      this.simulateEditClick();
+      this.select.selectedIndex = 0;
       return;
     }
-    selectElem.remove();
-    createDropdown(parentNode, index, optionNames[Number(selectElem.value) - 1], task);
-    simulateDropdownChange(index, Number(selectElem.value));
-  };
+    this.status = this.select.options[this.select.selectedIndex].textContent;
+    this.refreshSelect();
+    this.simulateDropdownChange(Number(newValue));
+  }
 
-  const selectElem = (
-    <select
-      onChange={(e: any) => handleSelectChange(e)}
-      className={ classNames('form-control', selectors.dropdown) }
-    >
-      { optionElems }
-    </select>
-  );
+  // Click on real (hidden) edit link
+  async simulateEditClick() {
+    this.getHiddenChangeStatusButton().click();
+    const editLink = await waitForLoad(() => (
+      this.assignmentRow.querySelector('[data-value="edit-user-task"]') as HTMLElement
+    ));
+    editLink.click();
+  }
 
-  parentNode.appendChild(selectElem);
+  // Change real (hidden) dropdown
+  async simulateDropdownChange(index: number) {
+    this.getHiddenChangeStatusButton().click();
+    const elem = await waitForLoad(() => (
+      this.assignmentRow
+        .querySelector('.assignment-status-dropdown') as HTMLSelectElement
+    ));
+    elem.selectedIndex = index;
+    elem.dispatchEvent(new Event('change'));
+  }
+
+  // Get real/native MyGann change button
+  private getHiddenChangeStatusButton() {
+    return this.assignmentRow.querySelector('.assignment-status-update') as HTMLElement;
+  }
+
 }
 
-function replaceLinks() {
-  const links = Array.from(document.getElementsByClassName('assignment-status-update'));
-  links.forEach((button, i) => {
-    const assignmentRow = button.parentNode.parentNode as HTMLElement;
-    assignmentRow.classList.add(selectors.inlined);
-    createDropdown(button.parentNode as HTMLElement, i, null, isTask(assignmentRow));
-  });
-}
+function insertChangeStatusDropdowns(unloaderContext: UnloaderContext) {
+  const assignmentRows = getAssignmentRows();
 
-const domQuery = () => document.querySelector('#assignment-center-assignment-items *');
+  for (const row of assignmentRows) {
+    const dropdown = new StatusDropdown(row as HTMLElement);
+
+    const changeStatusColumn = row.querySelector('td:last-child');
+    changeStatusColumn.append(dropdown.getSelectElement());
+    row.classList.add(selectors.inlined);
+
+    unloaderContext.addRemovable(dropdown);
+  }
+}
 
 async function inlineChangeStatusMain(opts: void, unloaderContext: UnloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
-  await waitForLoad(domQuery);
-  replaceLinks();
+  await waitForOne(getAssignmentRows);
+  insertChangeStatusDropdowns(unloaderContext);
 
-  const observer = await addAssignmentTableMutationObserver(replaceLinks);
+  const observer = await addAssignmentTableMutationObserver(() => {
+    insertChangeStatusDropdowns(unloaderContext);
+  });
   unloaderContext.addRemovable(observer);
-}
-
-function unloadInlineChangeStatus() {
-  for (const inlineLink of document.querySelectorAll(`.${selectors.inlined}`)) {
-    inlineLink.classList.remove(selectors.inlined);
-  }
-  for (const dropdown of document.querySelectorAll(`.${selectors.dropdown}`)) {
-    dropdown.remove();
-  }
 }
 
 export default registerModule('{4155f319-a10b-4e4e-8a10-999a43ef9d19}', {
   name: 'Improved Status Dropdown',
   description: 'Show status dropdown directly in assignment, without having to click on "Change Status" link', // eslint-disable-line max-len
   main: inlineChangeStatusMain,
-  unload: unloadInlineChangeStatus,
 });
