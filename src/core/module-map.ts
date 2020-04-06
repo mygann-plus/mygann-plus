@@ -8,7 +8,7 @@ import coursesFilter from '~/modules/courses-filter';
 import filterWebsiteMainSearch from '~/modules/filter-website-main-search';
 import freeBlock from '~/modules/free-block';
 import highlightCurrentClass from '~/modules/highlight-current-class';
-import inlineChangeStatus from '~/modules/inline-change-status';
+import improvedStatusDropdown from '~/modules/improved-status-dropdown';
 import messageNotifications from '~/modules/message-notifications';
 import nextGradedCourse from '~/modules/next-graded-course';
 import searchClassesMenu from '~/modules/search-classes-menu';
@@ -82,7 +82,7 @@ const MODULE_MAP: ModuleMap = {
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus, assignmentCheckpoints],
   '#studentmyday/assignment-center': [
-    inlineChangeStatus,
+    improvedStatusDropdown,
     hideCompleted,
     inlineAssignmentGrade,
     resizeAssignmentsToolbar,
