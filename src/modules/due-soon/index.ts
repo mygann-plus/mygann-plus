@@ -7,6 +7,7 @@ import { getAbsoluteToday } from '~/utils/date';
 import {
   addAssignmentTableMutationObserver,
   appendMobileAssignmentCenterMenuLink,
+  getAssignmentRows,
 } from '~/shared/assignments-center';
 
 import style from './style.css';
@@ -22,7 +23,6 @@ const selectors = {
 
 const domQuery = {
   rangeButton: () => document.querySelector('#custom-view'),
-  assignments: () => document.querySelectorAll('#assignment-center-assignment-items > *'),
   header: {
     main: () => document.querySelector('#small-date-display-label'),
     small: () => document.querySelector('#date-display-label'),
@@ -80,7 +80,7 @@ async function disableDueSoonFilter() {
 }
 
 async function enableDueSoonFilter(dateRange: string) {
-  const assignments = await waitForOne(domQuery.assignments);
+  const assignments = await waitForOne(getAssignmentRows);
   for (const assignment of assignments) {
     const due = assignment.querySelector('[data-heading="Due"]').textContent;
     const dueDate = new Date(due);

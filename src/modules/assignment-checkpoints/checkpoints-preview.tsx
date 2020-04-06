@@ -7,6 +7,7 @@ import {
   addAssignmentTableMutationObserver,
   getAssignmentIdFromRow,
   isTask,
+  getAssignmentRows,
 } from '~/shared/assignments-center';
 
 import {
@@ -34,8 +35,6 @@ const selectors = {
     fadeOut: style.locals.checkpoint__fadeout,
   },
 };
-
-const domQuery = () => document.querySelectorAll('#assignment-center-assignment-items tr');
 
 class CheckpointsPreview {
 
@@ -165,7 +164,7 @@ function addDetailsLink(row: HTMLElement, unloaderContext: UnloaderContext) {
 }
 
 async function insertPreviews(allCheckpoints: Checkpoint[], unloaderContext: UnloaderContext) {
-  const rows = await waitForOne(domQuery);
+  const rows = await waitForOne(getAssignmentRows);
 
   for (const row of rows) {
     addDetailsLink(row, unloaderContext);

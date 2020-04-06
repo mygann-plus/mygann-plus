@@ -3,7 +3,7 @@ import { UnloaderContext } from '~/core/module-loader';
 
 import { waitForLoad, insertCss } from '~/utils/dom';
 import { getTableRowColumnContent } from '~/shared/table';
-import { addAssignmentTableMutationObserver } from '~/shared/assignments-center';
+import { addAssignmentTableMutationObserver, getAssignmentRows } from '~/shared/assignments-center';
 
 import style from './style.css';
 
@@ -11,10 +11,8 @@ const selectors = {
   hiddenAssignment: style.locals['hidden-assignment'],
 };
 
-const domQuery = () => document.querySelectorAll('#assignment-center-assignment-items tr');
-
 async function hideAssignmentMain() {
-  const assignments = await waitForLoad(domQuery);
+  const assignments = await waitForLoad(getAssignmentRows);
   for (const assignment of assignments) {
     const type = getTableRowColumnContent(assignment as HTMLElement, 'Type');
     if (type.trim() === 'Community Service Hours') {
