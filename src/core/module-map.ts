@@ -139,6 +139,7 @@ const SECTION_MAP: SectionMap = {
   '#': 'Entire Site',
   '#login': 'Login',
   '#assignmentdetail': 'Assignment Detail',
+  '#studentmyday': 'All My Day Pages', // Added by Ilan and Sam
   '#studentmyday/assignment-center': 'Assignment Center',
   '#studentmyday/schedule': 'Schedule',
   '#studentmyday/progress': 'Progress',
