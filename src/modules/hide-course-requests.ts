@@ -1,7 +1,7 @@
 import registerModule from '~/core/module';
 import { waitForLoad } from '~/utils/dom';
 
-const domQuery = () => document.querySelector('#course-requests-btn');
+const domQuery = () => document.querySelector('#course-requests-btn') as HTMLElement;
 
 export async function hideCourseRequestsMain() {
   const courseRequestsButton = await waitForLoad(domQuery);
