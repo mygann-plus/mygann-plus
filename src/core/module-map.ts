@@ -55,6 +55,7 @@ import fixAssignmentCenterDate from '~/modules/fix-assignment-center-date';
 import defaultAssignmentSort from '~/modules/default-assignment-sort';
 import assignmentCheckpoints from '~/modules/assignment-checkpoints';
 import zoomLinks from '~/modules/zoom-links';
+import hideCourseRequests from '~/modules/hide-course-requests'; // Added by Ilan and Sam
 
 interface ModuleMap {
   [key: string]: Module[]
@@ -96,6 +97,7 @@ const MODULE_MAP: ModuleMap = {
     extreme,
   ],
   '#taskdetail': [taskDetail, assignmentCheckpoints],
+  '#studentmyday': [hideCourseRequests], // Added by Ilan and Sam
   '#studentmyday/schedule': [
     freeBlock,
     highlightCurrentClass,
@@ -137,6 +139,7 @@ const SECTION_MAP: SectionMap = {
   '#': 'Entire Site',
   '#login': 'Login',
   '#assignmentdetail': 'Assignment Detail',
+  '#studentmyday': 'All My Day Pages', // Added by Ilan and Sam
   '#studentmyday/assignment-center': 'Assignment Center',
   '#studentmyday/schedule': 'Schedule',
   '#studentmyday/progress': 'Progress',
