@@ -130,11 +130,14 @@ class TaskDetailPage {
 
   openEditDialog() {
     this.editDialog = new Dialog('Edit Task Description', this.generateEditDialogBody(), {
-      leftButtons: [{
-        name: 'Save',
-        primary: true,
-        onClick: () => this.saveNewDetails(),
-      }],
+      leftButtons: [
+        {
+          name: 'Save',
+          primary: true,
+          onClick: () => this.saveNewDetails(),
+        },
+        Dialog.buttons.CANCEL,
+      ],
     });
     this.editDialog.open();
     this.editDialog.getBody().querySelector('textarea').focus();
