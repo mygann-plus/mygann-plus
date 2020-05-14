@@ -93,6 +93,7 @@ const MODULE_MAP: ModuleMap = {
     defaultAssignmentSort,
     hideCommunityServiceAssignment,
     assignmentCheckpoints,
+    hideAssignmentTimes,
     extreme,
   ],
   '#taskdetail': [taskDetail, assignmentCheckpoints],
