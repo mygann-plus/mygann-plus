@@ -54,7 +54,7 @@ function hideClasses(classes: Class[], hiddenKeywords: string[]) {
   return visible;
 }
 
-async function hideClassesMenu(hiddenKeywords: string[]) {
+function hideClassesMenu(hiddenKeywords: string[]) {
 
   waitForLoad(getDesktopMenu).then(menu => {
     const classes = getDesktopCourses();

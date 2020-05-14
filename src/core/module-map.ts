@@ -55,6 +55,7 @@ import fixAssignmentCenterDate from '~/modules/fix-assignment-center-date';
 import defaultAssignmentSort from '~/modules/default-assignment-sort';
 import assignmentCheckpoints from '~/modules/assignment-checkpoints';
 import zoomLinks from '~/modules/zoom-links';
+import hideAssignmentTimes from '~/modules/hide-assignment-times';
 
 interface ModuleMap {
   [key: string]: Module[]
