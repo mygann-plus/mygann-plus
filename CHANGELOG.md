@@ -1,3 +1,8 @@
+## 1.14.0
+### Added
+- "Hide Assignment Time" module
+- Add cancel button to task detail edit dialog
+
 ## 1.13.2
 ### Changed
 - Use distinct icon in Mark All as Read
