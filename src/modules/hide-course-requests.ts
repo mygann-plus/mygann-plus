@@ -1,3 +1,5 @@
+/* Futher developments will be uploaded when more information is available */
+
 import registerModule from '~/core/module';
 import { waitForLoad } from '~/utils/dom';
 
