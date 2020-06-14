@@ -9,8 +9,7 @@ const domQuery = {
 };
 
 async function makePanel(quizCode) {
-  let parent = await waitForLoad(domQuery.parent);
-  parent.appendChild(
+  const panel = (
     <div id="quizlet-panel" class="col-md-6 bb-page-content-tile-column">
       <section class="bb-tile">
         <div class="bb-tile-title">
@@ -24,12 +23,16 @@ async function makePanel(quizCode) {
           </div>
         </div>
       </section>
-    </div>,
+    </div>
   );
+
+  let parent = await waitForLoad(domQuery.parent);
+  parent.appendChild(panel);
 }
 
 async function quizletMain() {
   const text = (await waitForLoad(domQuery.detail)).innerText;
+  console.log(text)
   let quizCode = null;
 
   if (text.includes('https://quizlet.com/')) {
