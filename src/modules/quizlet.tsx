@@ -29,17 +29,18 @@ async function makePanel(quizCode) {
 }
 
 async function quizletMain() {
-  const text = (await waitForLoad(domQuery)).innerText;
+  const text = (await waitForLoad(domQuery.detail)).innerText;
+  let quizCode = null;
 
   if (text.includes('https://quizlet.com/')) {
     let split = text.split('/');
-    let quizCode = split[split.indexOf('quizlet.com') + 1];
+    quizCode = split[split.indexOf('quizlet.com') + 1];
   }
-  makePanel(quizCode);
+  await makePanel(quizCode);
 }
 
 export default registerModule('{440b57cd-80bd-457c-b236-3aba21bad418}', {
-  name: 'Open Quizlets in Side Panel',
-  description: 'Quizlet links will automatically open in a side panel for easy access.',
+  name: 'Quizlets',
+  description: 'Quizlet links found in description will open in a side panel for easy access.',
   main: quizletMain,
 });

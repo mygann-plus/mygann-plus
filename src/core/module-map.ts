@@ -86,7 +86,6 @@ const MODULE_MAP: ModuleMap = {
   '#assignmentdetail': [
     autoCloseDetailStatus,
     assignmentCheckpoints,
-    quizlet,
   ],
   '#studentmyday/assignment-center': [
     inlineChangeStatus,
@@ -102,7 +101,7 @@ const MODULE_MAP: ModuleMap = {
     assignmentCheckpoints,
     extreme,
   ],
-  '#taskdetail': [taskDetail, assignmentCheckpoints],
+  '#taskdetail': [taskDetail, assignmentCheckpoints, quizlet],
   '#studentmyday': [hideCourseRequests], // Added by Ilan and Sam
   '#studentmyday/schedule': [
     freeBlock,
