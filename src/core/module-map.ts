@@ -56,6 +56,8 @@ import defaultAssignmentSort from '~/modules/default-assignment-sort';
 import assignmentCheckpoints from '~/modules/assignment-checkpoints';
 import zoomLinks from '~/modules/zoom-links';
 import hideCourseRequests from '~/modules/hide-course-requests'; // Added by Ilan and Sam
+import quizlet from '~/modules/quizlet'; // Added by Ilan and Sam
+
 
 interface ModuleMap {
   [key: string]: Module[]
@@ -81,7 +83,11 @@ const MODULE_MAP: ModuleMap = {
     autofocusSiteSearch,
   ], // universal modules
   '#login': [oneClickLogin],
-  '#assignmentdetail': [autoCloseDetailStatus, assignmentCheckpoints],
+  '#assignmentdetail': [
+    autoCloseDetailStatus,
+    assignmentCheckpoints,
+    quizlet,
+  ],
   '#studentmyday/assignment-center': [
     inlineChangeStatus,
     hideCompleted,
