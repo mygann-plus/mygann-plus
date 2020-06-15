@@ -1,8 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import registerModule from '~/core/module';
-import { waitForLoad, createElement } from '~/utils/dom'; // Tell Ilan that createElement is needed in tsx
-
+import { waitForLoad, createElement } from '~/utils/dom';
 
 const domQuery = {
   detail: () => document.querySelector('.bb-tile-content-section') as HTMLElement,
@@ -10,16 +9,17 @@ const domQuery = {
 };
 
 async function makePanel(quizCode : String) {
-  const panel = (
-    <div id="quizlet-panel" class="col-md-6 bb-page-content-tile-column">
-      <section class="bb-tile">
-        <div class="bb-tile-title">
-          <h2 class="bb-tile-header">Attached Quizlets</h2>
+  const style = { border: 0 };
+  const panel: HTMLElement = (
+    <div id="quizlet-panel" className="col-md-6 bb-page-content-tile-column">
+      <section className="bb-tile">
+        <div className="bb-tile-title">
+          <h2 className="bb-tile-header">Attached Quizlets</h2>
         </div>
-        <div class="bb-tile-content">
+        <div className="bb-tile-content">
           <div>
-            <div class="bb-tile-content-section">
-              <iframe src={`https://quizlet.com/${quizCode}/flashcards/embed?i=1n65lh&x=1jj1`} height="500" width="100%"></iframe>
+            <div className="bb-tile-content-section">
+              <iframe src={`https://quizlet.com/${quizCode}/flashcards/embed?i=1n65lh&x=1jj1`} height="500" width="100%" style={style}></iframe>
             </div>
           </div>
         </div>
@@ -34,14 +34,22 @@ async function makePanel(quizCode : String) {
 
 async function quizletMain() {
   const text = (await waitForLoad(domQuery.detail)).innerText;
-  let quizCode = null;
+  // let quizCode = null;
 
-  if (text.includes('https://quizlet.com/')) {
-    let split = text.split('/');
-    quizCode = split[split.indexOf('quizlet.com') + 1];
+  // if (text.includes('https://quizlet.com/')) {
+  //   let split = text.split('/');
+  //   quizCode = split[split.indexOf('quizlet.com') + 1];
+  // }
+
+  // await makePanel(quizCode);
+
+  // let quizCodes = [];
+  // let matches = str['matchAll'](regexp);
+
+
+  for (let [quizCode] of text.matchAll(/(?<=quizlet\.com\/)\d*/g)) {
+    await makePanel(quizCode);
   }
-
-  await makePanel(quizCode);
 
 }
 
