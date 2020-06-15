@@ -16,11 +16,9 @@ async function makePanel() {
           <h2 className="bb-tile-header">Attached Quizlets</h2>
         </div>
         <div className="bb-tile-content">
-          {/* <div> */}
-            <div id="quizlet-panel-content" className="bb-tile-content-section">
-              {/* iframe(s) to be inserted here */}
-            </div>
-          {/* </div> */}
+          <div id="quizlet-panel-content" className="bb-tile-content-section">
+            {/* iframe(s) to be inserted here */}
+          </div>
         </div>
     </section>
     </div>
@@ -29,20 +27,25 @@ async function makePanel() {
   let parent = await waitForLoad(domQuery.parent);
   parent.appendChild(panel);
   // let content : HTMLElement = document.getElementById('quizlet-panel-content') as HTMLElement;
-  return document.getElementById('quizlet-panel-content'); // why does panel.getElementById throw an error?
+  return document.getElementById('quizlet-panel-content'); // Why does panel.getElementById throw an error?
 }
 
-async function makeIframe(quizCode : String) {
-  const style = { border: 0, height: 500, width: 500 };
+function makeIframe(quizCode : String) {
+  const style = { border: 0, height: '500px', width: '100%' };
   const iframe: HTMLElement = (<iframe src={`https://quizlet.com/${quizCode}/flashcards/embed?i=1n65lh&x=1jj1`} style={style}></iframe>);
-  (document.getElementById('quizlet-panel-content') || await makePanel()).appendChild(iframe);
+  // if (!document.getElementById('quizlet-panel-content')) await makePanel();
+  // (document.getElementById('quizlet-panel-content') || await makePanel()).appendChild(iframe);
+  if (document.getElementById('quizlet-panel-content')) document.getElementById('quizlet-panel-content').appendChild(iframe);
+  // if (false) await makePanel();
+  // else makePanel.then(panel => panel.appendChild(iframe));
+  // else (await makePanel()).appendChild(iframe);
 }
 
 async function quizletMain() {
   const text: String = (await waitForLoad(domQuery.detail)).innerText;
-  // if (text.includes('https://quizlet.com/')) {
-  //   await makePanel();
-  // }
+  if (text.includes('https://quizlet.com/')) {
+    await makePanel();
+  }
 
   // let promises = [];
   for (let [quizCode] of text.matchAll(/(?<=quizlet\.com\/)\d*/g)) {
