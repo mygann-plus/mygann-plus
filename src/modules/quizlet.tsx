@@ -8,8 +8,7 @@ const domQuery = {
   parent: () => document.querySelector('#original-layout-container') as HTMLElement,
 };
 
-async function makePanel(quizCode : String) {
-  const style = { border: 0 };
+async function makePanel() {
   const panel: HTMLElement = (
     <div id="quizlet-panel" className="col-md-6 bb-page-content-tile-column">
       <section className="bb-tile">
@@ -17,39 +16,40 @@ async function makePanel(quizCode : String) {
           <h2 className="bb-tile-header">Attached Quizlets</h2>
         </div>
         <div className="bb-tile-content">
-          <div>
-            <div className="bb-tile-content-section">
-              <iframe src={`https://quizlet.com/${quizCode}/flashcards/embed?i=1n65lh&x=1jj1`} height="500" width="100%" style={style}></iframe>
+          {/* <div> */}
+            <div id="quizlet-panel-content" className="bb-tile-content-section">
+              {/* iframe(s) to be inserted here */}
             </div>
-          </div>
+          {/* </div> */}
         </div>
-      </section>
+    </section>
     </div>
   );
 
   let parent = await waitForLoad(domQuery.parent);
   parent.appendChild(panel);
+  // let content : HTMLElement = document.getElementById('quizlet-panel-content') as HTMLElement;
+  return document.getElementById('quizlet-panel-content'); // why does panel.getElementById throw an error?
+}
 
+async function makeIframe(quizCode : String) {
+  const style = { border: 0, height: 500, width: 500 };
+  const iframe: HTMLElement = (<iframe src={`https://quizlet.com/${quizCode}/flashcards/embed?i=1n65lh&x=1jj1`} style={style}></iframe>);
+  (document.getElementById('quizlet-panel-content') || await makePanel()).appendChild(iframe);
 }
 
 async function quizletMain() {
-  const text = (await waitForLoad(domQuery.detail)).innerText;
-  // let quizCode = null;
-
+  const text: String = (await waitForLoad(domQuery.detail)).innerText;
   // if (text.includes('https://quizlet.com/')) {
-  //   let split = text.split('/');
-  //   quizCode = split[split.indexOf('quizlet.com') + 1];
+  //   await makePanel();
   // }
 
-  // await makePanel(quizCode);
-
-  // let quizCodes = [];
-  // let matches = str['matchAll'](regexp);
-
-
+  // let promises = [];
   for (let [quizCode] of text.matchAll(/(?<=quizlet\.com\/)\d*/g)) {
-    await makePanel(quizCode);
+    makeIframe(quizCode); // removed await
+    // promises.push(makeIframe(quizCode));
   }
+  // await Promise.all(promises);
 
 }
 
