@@ -55,7 +55,7 @@ import fixAssignmentCenterDate from '~/modules/fix-assignment-center-date';
 import defaultAssignmentSort from '~/modules/default-assignment-sort';
 import assignmentCheckpoints from '~/modules/assignment-checkpoints';
 import zoomLinks from '~/modules/zoom-links';
-import hideCourseRequests from '~/modules/hide-course-requests'; // Added by Ilan and Sam
+import customizeNavbar from '~/modules/customize-navbar'; // Added by Ilan and Sam
 import quizlet from '~/modules/quizlet'; // Added by Ilan and Sam
 
 
@@ -81,6 +81,7 @@ const MODULE_MAP: ModuleMap = {
     myDayShortcut,
     theme,
     autofocusSiteSearch,
+    customizeNavbar,
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [
@@ -102,7 +103,6 @@ const MODULE_MAP: ModuleMap = {
     extreme,
   ],
   '#taskdetail': [taskDetail, assignmentCheckpoints, quizlet],
-  '#studentmyday': [hideCourseRequests], // Added by Ilan and Sam
   '#studentmyday/schedule': [
     freeBlock,
     highlightCurrentClass,
