@@ -48,12 +48,37 @@ If a module is critically broken, you can instantly disable the module for every
         "guid": "{guid of broken module}",
         "extensionVersion": "broken version, in semver",
         "message": "(optional) message to display to user",
-        "_comment_": "internal comment, not displayed to user"
+        "_comment": "internal comment, not displayed to user"
     }]
 }
 ```
 
 **Only use remote disable in extreme cases!** If the bug is not critical, do not disable the module.
 
-For example, Improved Status Dropdown stopped working with tasks. This was an appropriate time to use remote disable.
+For example, recently the Improved Status Dropdown made it impossible to edit tasks. This was an appropriate time to use remote disable.
 
+## Releasing a New Version
+
+1. Increment the version
+    * `manifest.json` "version" and "version_name"
+    * `package.json` "version"
+    * `utils/manifest.ts` "version_name"
+    
+    Format of versions: `x.y.z`
+    * For releases that only fix bugs, increment `z`
+    * For releases that add features, increment `y`
+    * For releases that significantly change the way MyGann+ works, increment `x` (this has only happened once, when MyGann+ went from beta to stable. This should be reserved for major overhauls).
+
+2. Update `changelog.md` with new features, changes, or fixes
+3. Update the "Known Issues" page on the GitHub wiki, if applicable.
+4. Commit and push to GitHub, then create a new release (see previous )
+5. Run `npm run build`.
+6. Run `npm run deploy-bookmarklet`
+7. Copy the `dist` folder, the `assets` folder, and the `manifest.json`.into a new folder. Install that folder in Chrome to make sure it works.
+8. Upload the folder to the Chrome Web Store and publish.
+
+## Bookmarklet
+
+The bookmarklet allows non-Chrome users to use MyGann+. To create a MyGann+ bookmarklet, use the following code. 
+
+`javascript:fetch('https://mygann-plus-bookmarklet.surge.sh/dist/content-script.js').then(d=>d.text()).then(eval)`
