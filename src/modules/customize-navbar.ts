@@ -2,7 +2,7 @@
 import registerModule from '~/core/module';
 import { waitForLoad } from '~/utils/dom';
 
-const domQuery = {
+const domQuery = { // DOM queries became incorrect after 'learning progression' tab was added... so sad
   courseRequestsTab: () => document.querySelector('#site-nav-lower > div > ul > li:nth-child(4)') as HTMLElement,
   courseRequestsMyDayDropdown: () => document.querySelector('#topnav-containter > ul > li.oneline.parentitem.first > div.subnav.sec-75-bordercolor.white-bgc.sky-nav > ul > li:nth-child(4)') as HTMLElement,
   courseRequestsSidebar: () => document.querySelector('#site-mobile-sitenav > ul > li:nth-child(1) > div > ul > li:nth-child(4)') as HTMLElement,
@@ -38,9 +38,8 @@ const domQuery = {
   searbarTab: () => document.querySelector('#site-user-nav > div > ul > li.oneline.first') as HTMLElement,
   searchbarSidebar: () => document.querySelector('#site-mobile-search') as HTMLElement,
 
-  topBar: () => document.querySelector('#site-nav-container') as HTMLElement,
-  subNav: () => document.querySelector('#site-nav-lower') as HTMLElement,
-  navBars: () => document.querySelector('#site-top-spacer') as HTMLElement,
+  topNav: () => document.querySelector('#site-nav-container') as HTMLElement,
+  subNavItems: () => document.querySelector('#site-nav-lower > div > ul') as HTMLElement,
 
 };
 
@@ -53,9 +52,6 @@ async function customizeNavigationBarsMain(opts: customizeNavigationBarsSuboptio
   const conductTab = await waitForLoad(domQuery.conductTab);
   const conductMyDayDropdown = await waitForLoad(domQuery.conductMyDayDropdown);
   const conductSidebar = await waitForLoad(domQuery.conductSidebar);
-
-  const myDay = await waitForLoad(domQuery.myDay);
-  const myDaySidebar = await waitForLoad(domQuery.myDaySidebar);
 
   const classesDropdown = await waitForLoad(domQuery.classesDropdown);
   const classesSidebar = await waitForLoad(domQuery.classesSidebar);
@@ -81,9 +77,8 @@ async function customizeNavigationBarsMain(opts: customizeNavigationBarsSuboptio
   const officialNotesTab = await waitForLoad(domQuery.officialNotesTab);
   const officialNotesSidebar = await waitForLoad(domQuery.officialNotesSidebar);
 
-  const topBar = await await waitForLoad(domQuery.topBar);
-  const subNav = await await waitForLoad(domQuery.subNav);
-  const navBars = await await waitForLoad(domQuery.navBars);
+  const topNav = await await waitForLoad(domQuery.topNav);
+  const subNavItems = await await waitForLoad(domQuery.subNavItems);
 
   if (opts.courseRequests) {
     courseRequestsTab.style.display = 'none';
@@ -94,10 +89,6 @@ async function customizeNavigationBarsMain(opts: customizeNavigationBarsSuboptio
     conductTab.style.display = 'none';
     conductMyDayDropdown.style.display = 'none';
     conductSidebar.style.display = 'none';
-  }
-  if (opts.myDay) {
-    myDay.style.display = 'none';
-    myDaySidebar.style.display = 'none';
   }
   if (opts.classes) {
     classesDropdown.style.display = 'none';
@@ -131,23 +122,16 @@ async function customizeNavigationBarsMain(opts: customizeNavigationBarsSuboptio
     officialNotesTab.style.display = 'none';
     officialNotesSidebar.style.display = 'none';
   }
-  if (myDay.style.display === 'none'
-      && classesDropdown.style.display === 'none'
-      && groupsDropdown.style.display === 'none'
-      && resourcesDropdown.style.display === 'none'
-      && newsDropdown.style.display === 'none'
-      && calenderDropdown.style.display === 'none'
-      && directoriesDropdown.style.display === 'none') {
-    topBar.style.display = 'none';
-    subNav.style.top = '46px';
-    navBars.style.height = '134px';
+  if (opts.center) { // centering does not work on news tab
+    topNav.style.textAlign = 'center';
+    subNavItems.style.width = 'max-content';
+    subNavItems.style.textAlign = 'center';
   }
 }
 
 interface customizeNavigationBarsSuboptions {
   courseRequests: boolean;
   conduct: boolean;
-  myDay: boolean;
   classes: boolean;
   groups: boolean;
   resources: boolean;
@@ -156,20 +140,22 @@ interface customizeNavigationBarsSuboptions {
   directories: boolean;
   searchBar: boolean;
   officialNotes: boolean;
+  center: boolean;
 }
 
 export default registerModule('{9efc9b14-c418-4d64-8550-cd67766f8194}', {
   name: 'Customize Navigation Bar',
   description: 'Customize the navigation bar to only display dropdowns, tabs, and buttons that you need.',
+  defaultEnabled: false,
   main: customizeNavigationBarsMain,
   suboptions: {
-    conduct: {
-      name: 'Hide conduct tab',
+    courseRequests: {
+      name: 'Hide course requests tab',
       type: 'boolean',
       defaultValue: false,
     },
-    myDay: {
-      name: 'Hide My Day dropdown',
+    conduct: {
+      name: 'Hide conduct tab',
       type: 'boolean',
       defaultValue: false,
     },
@@ -210,6 +196,11 @@ export default registerModule('{9efc9b14-c418-4d64-8550-cd67766f8194}', {
     },
     officialNotes: {
       name: 'Hide official notes button on top banner',
+      type: 'boolean',
+      defaultValue: false,
+    },
+    center: {
+      name: 'Center navigation bars',
       type: 'boolean',
       defaultValue: false,
     },
