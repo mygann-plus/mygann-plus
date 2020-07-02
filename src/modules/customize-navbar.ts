@@ -37,10 +37,6 @@ const domQuery = { // DOM queries became incorrect after 'learning progression' 
 
   searbarTab: () => document.querySelector('#site-user-nav > div > ul > li.oneline.first') as HTMLElement,
   searchbarSidebar: () => document.querySelector('#site-mobile-search') as HTMLElement,
-
-  topNav: () => document.querySelector('#site-nav-container') as HTMLElement,
-  subNavItems: () => document.querySelector('#site-nav-lower > div > ul') as HTMLElement,
-
 };
 
 
@@ -76,9 +72,6 @@ async function customizeNavigationBarsMain(opts: customizeNavigationBarsSuboptio
 
   const officialNotesTab = await waitForLoad(domQuery.officialNotesTab);
   const officialNotesSidebar = await waitForLoad(domQuery.officialNotesSidebar);
-
-  const topNav = await await waitForLoad(domQuery.topNav);
-  const subNavItems = await await waitForLoad(domQuery.subNavItems);
 
   if (opts.courseRequests) {
     courseRequestsTab.style.display = 'none';
@@ -122,11 +115,6 @@ async function customizeNavigationBarsMain(opts: customizeNavigationBarsSuboptio
     officialNotesTab.style.display = 'none';
     officialNotesSidebar.style.display = 'none';
   }
-  if (opts.center) { // centering does not work on news tab
-    topNav.style.textAlign = 'center';
-    subNavItems.style.width = 'max-content';
-    subNavItems.style.textAlign = 'center';
-  }
 }
 
 interface customizeNavigationBarsSuboptions {
@@ -140,7 +128,6 @@ interface customizeNavigationBarsSuboptions {
   directories: boolean;
   searchBar: boolean;
   officialNotes: boolean;
-  center: boolean;
 }
 
 export default registerModule('{9efc9b14-c418-4d64-8550-cd67766f8194}', {
@@ -196,11 +183,6 @@ export default registerModule('{9efc9b14-c418-4d64-8550-cd67766f8194}', {
     },
     officialNotes: {
       name: 'Hide official notes button on top banner',
-      type: 'boolean',
-      defaultValue: false,
-    },
-    center: {
-      name: 'Center navigation bars',
       type: 'boolean',
       defaultValue: false,
     },
