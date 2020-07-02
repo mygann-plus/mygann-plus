@@ -2,12 +2,12 @@
 import registerModule from '~/core/module';
 import { waitForLoad } from '~/utils/dom';
 
-const domQuery = { // DOM queries became incorrect after 'learning progression' tab was added... so sad
-  courseRequestsTab: () => document.querySelector('#site-nav-lower > div > ul > li:nth-child(4)') as HTMLElement,
+const domQuery = { // DOM queries became incorrect after 'learning progression' tab was added...
+  courseRequestsTab: () => document.querySelector('#site-nav-lower > div > ul > li:nth-child(5)') as HTMLElement, // should be (4) when learning progression tab is gone
   courseRequestsMyDayDropdown: () => document.querySelector('#topnav-containter > ul > li.oneline.parentitem.first > div.subnav.sec-75-bordercolor.white-bgc.sky-nav > ul > li:nth-child(4)') as HTMLElement,
   courseRequestsSidebar: () => document.querySelector('#site-mobile-sitenav > ul > li:nth-child(1) > div > ul > li:nth-child(4)') as HTMLElement,
 
-  conductTab: () => document.querySelector('#site-nav-lower > div > ul > li:nth-child(5)') as HTMLElement,
+  conductTab: () => document.querySelector('#site-nav-lower > div > ul > li:nth-child(6)') as HTMLElement, // should be (5) when learning progression tab is gone
   conductMyDayDropdown: () => document.querySelector('#topnav-containter > ul > li.oneline.parentitem.first > div.subnav.sec-75-bordercolor.white-bgc.sky-nav > ul > li.last') as HTMLElement,
   conductSidebar: () => document.querySelector('#site-mobile-sitenav > ul > li:nth-child(1) > div > ul > li:nth-child(5)') as HTMLElement,
 
