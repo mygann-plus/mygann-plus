@@ -6,9 +6,11 @@ import { createElement, insertCss, waitForLoad } from '~/utils/dom';
 
 import style from './style.css';
 import fontStyle from './font-style.css';
+import darkStyle from './dark-style.css';
 
 const DEFAULT_COLOR = constants.primaryMaroon;
 const DEFAULT_FONT = '';
+const DEFAULT_THEME = false; // False is light theme, true is dark them
 
 // CSS Property Utilities
 
@@ -98,8 +100,13 @@ function applyFontStyles(font: string, unloaderContext: UnloaderContext) {
   setThemeProperty('font', `"${font}", "Blackbaud Sans","Helvetica Neue",Arial,sans-serif`);
 }
 
+function applyDarkStyles(unloaderContext: UnloaderContext) {
+  const darkStyles = insertCss(darkStyle.toString());
+  unloaderContext.addRemovable(darkStyles);
+}
+
 function themeMain(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
-  const { color, font } = options;
+  const { color, font, darkTheme } = options;
 
   if (color !== DEFAULT_COLOR) {
     applyColorStyles(color, unloaderContext);
@@ -107,13 +114,16 @@ function themeMain(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
   if (font !== DEFAULT_FONT) {
     applyFontStyles(font, unloaderContext);
   }
-
+  if (darkTheme !== DEFAULT_THEME) {
+    applyDarkStyles(unloaderContext);
+  }
 }
 
-// empty unloader to prevent unnecessary reload if no styles were initially applied
+// Empty unloader to prevent unnecessary reload if no styles were initially applied
 function unloadTheme() {}
 
 interface ThemeSuboptions {
+  darkTheme: boolean;
   color: string;
   font: string;
 }
@@ -124,6 +134,11 @@ export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
   unload: unloadTheme,
   topLevelOption: true,
   suboptions: {
+    darkTheme: {
+      name: 'Dark Theme',
+      type: 'boolean',
+      defaultValue: false,
+    },
     color: {
       name: 'Color',
       type: 'color',

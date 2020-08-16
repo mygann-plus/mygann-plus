@@ -1,0 +1,46 @@
+/* 
+dark grey: rgb(52, 52, 64)
+light grey: rgb(52, 52, 64) 
+*/
+
+/*
+Selectors to change
+#site-login-main-wrapper // login screen form background
+*/
+
+/*
+All the ugly yellow
+.sec-15-fgc
+.sec-15-fgc:hover
+*/
+
+/* 
+border: black;
+background-color: rgb(53, 53, 53);
+text: white;
+*/
+
+:global #site-login-main-wrapper {
+    background-color:  rgb(53, 53, 53) !important;
+    border: 2px solid black !important;
+}
+
+:global .control-label {
+    color: white !important;
+}
+
+:global .form-control {
+    background-color: rgb(58, 58, 58) !important;
+    color: white;
+    border: 2px solid black !important;
+}
+
+:global .pri-100-fgc {
+    color: white !important;
+}
+
+:global #site-login-header {
+    border-top: 2px solid black !important;
+    border-right: 2px solid black !important;
+    border-left: 2px solid black !important;
+}
