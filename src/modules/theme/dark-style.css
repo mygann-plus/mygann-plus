@@ -23,10 +23,7 @@ text: white;
 :global #site-login-main-wrapper {
     background-color:  rgb(53, 53, 53) !important;
     border: 2px solid black !important;
-}
-
-:global .control-label {
-    color: white !important;
+    color: white;
 }
 
 :global .form-control {
@@ -44,3 +41,18 @@ text: white;
     border-right: 2px solid black !important;
     border-left: 2px solid black !important;
 }
+
+:global .app-mobile-pusher,
+:global .sec-15-bgc, 
+:global .sec-15-bgc-hover:hover,
+:global html {
+    background-color: rgb(30, 30, 30) !important;
+}
+
+:global [class*="sky-nav"] {
+    background-color: rgb(53, 53, 53) !important;
+    color: white;
+}
+
+/* bb-tile-title for panel headers */
+/* bb-tile-content-section for panel bodies*/
