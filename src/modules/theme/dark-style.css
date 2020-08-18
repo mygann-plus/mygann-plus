@@ -6,10 +6,11 @@
 
 :global .form-control,
 :global .btn, 
-:global .input-sm {
+:global .input-sm,
+:global .chCal-button-content {
     background-color: rgb(58, 58, 58) !important;
     color: white;
-    border: 2px solid black !important;
+    border: 1px solid black !important;
 }
 
 :global .pri-100-fgc {
@@ -52,4 +53,9 @@
     background-color: rgb(53, 53, 53) !important;
     color: white !important;
     border: 1px solid black;
+}
+
+
+:global .popContainerStraight {
+    color: rgb(0, 124, 166);
 }
