@@ -1,6 +1,10 @@
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
+  plugins: [
+    new Dotenv(),
+  ],
   entry: {
     'content-script': path.resolve(__dirname, '../src/index.ts'),
     'install-watch': path.resolve(__dirname, '../src/core/install-watch.ts'),
