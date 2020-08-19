@@ -1,7 +1,7 @@
 :global #site-login-main-wrapper {
     background-color:  rgb(53, 53, 53) !important;
     border: 2px solid black !important;
-    color: white;
+    color: white !important;
 }
 
 :global .form-control,
@@ -9,7 +9,7 @@
 :global .input-sm,
 :global .chCal-button-content {
     background-color: rgb(58, 58, 58) !important;
-    color: white;
+    color: white !important;
     border: 1px solid black !important;
 }
 
