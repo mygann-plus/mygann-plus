@@ -56,6 +56,7 @@ import defaultAssignmentSort from '~/modules/default-assignment-sort';
 import assignmentCheckpoints from '~/modules/assignment-checkpoints';
 import zoomLinks from '~/modules/zoom-links';
 import hideAssignmentTimes from '~/modules/hide-assignment-times';
+import avatars from '~/modules/avatars';
 
 interface ModuleMap {
   [key: string]: Module[]
@@ -79,6 +80,7 @@ const MODULE_MAP: ModuleMap = {
     myDayShortcut,
     theme,
     autofocusSiteSearch,
+    avatars,
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus, assignmentCheckpoints],

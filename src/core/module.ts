@@ -44,6 +44,7 @@ type ColorSuboption = BaseSuboption<'color', string>;
 type TextareaSuboption = BaseSuboption<'textarea', string>;
 type EmailSuboption = BaseSuboption<'email', string>;
 type PasswordSuboption = BaseSuboption<'password', string>;
+type FileSuboption = BaseSuboption<'file', File>
 
 interface NumberSuboption extends BaseSuboption<'number', number> {
   min?: number;
@@ -66,7 +67,7 @@ export type Suboption = (
   NumberSuboption | EnumSuboption |
   ComboSuboption | ColorSuboption |
   TextareaSuboption | EmailSuboption |
-  PasswordSuboption
+  PasswordSuboption | FileSuboption
 )
 
 type Suboptions = {
