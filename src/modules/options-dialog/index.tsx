@@ -116,6 +116,9 @@ function createSuboptionInput(suboption: Suboption) {
     case 'color':
       input = <input type="color"></input>;
       break;
+    case 'file':
+      input = <input type="file" style={{ display: 'inline', width: 'auto' }}></input>;
+      break;
     default:
       input = <input type="text"></input>;
       break;
