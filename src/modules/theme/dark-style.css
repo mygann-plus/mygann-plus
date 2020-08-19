@@ -52,10 +52,15 @@
 :global .well {
     background-color: rgb(53, 53, 53) !important;
     color: white !important;
-    border: 1px solid black;
+    border: 1px solid black !important;
 }
 
+:global #courses #communitiesContainer .row:nth-child(odd),
+:global #courses #athleticsContainer .row:nth-child(odd),
+:global #courses #advisoryContainer .row:nth-child(odd){
+	background-color: rgb(43, 43, 43) !important;
+}
 
 :global .popContainerStraight {
-    color: rgb(0, 124, 166);
+    color: rgb(0, 124, 166) !important;
 }
