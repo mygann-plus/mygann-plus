@@ -27,8 +27,8 @@ async function findImage(studentId: string): Promise<any> {
 
 // delete current custom image if it exists
 async function resetImage(): Promise<void> {
-  const userId = await getUserId();
-  const currentImage = await findImage(userId);
+  const userId: string = await getUserId();
+  const currentImage: Object = await findImage(userId);
 
   if (currentImage === undefined) {
     // error finding it
@@ -44,9 +44,9 @@ async function resetImage(): Promise<void> {
 
 // delete current custom student image and replace it with a new one
 async function changeImage(newImage: File): Promise<void> { // to change to add url option set newImage: string | File
-  const userId = await getUserId();
+  const userId: string = await getUserId();
 
-  let body = new FormData(); // Options for the upload
+  let body: FormData = new FormData(); // Options for the upload
   // body.set('type', newImage instanceof String ? 'URL' : 'File'); // Set the upload type to correct setting
   body.set('type', 'File');
   body.set('image', newImage);
