@@ -5,27 +5,39 @@ import { getUserId } from '~/utils/user';
 
 const headers: Headers = new Headers({ Authorization: `Bearer ${process.env.ACCESS_TOKEN}` });
 
+function handleError(error: Error) {
+
+}
+
 // Return the link for the image with the title of the given ID
 async function findImage(studentId: string): Promise<any> {
   if (studentId === null) return {}; // may happen if no id is found in the picture with the change attempt
 
-  const images = await fetch('https://api.imgur.com/3/account/mygannplus/images', {
+  const response = await fetch('https://api.imgur.com/3/account/mygannplus/images', {
     method: 'GET',
     headers,
-  })
-    .then(r => r.json());
-  return (images.data.find((image: any) => image.title === studentId) || {}); // tries to find image and return with property, if it can't find image, it returns undefined ({}.property === undefined)
+  });
+
+  if (response.ok) {
+    const images = await response.json();
+    return (images.data.find((image: any) => image.title === studentId) || {}); // tries to find image and return with property, if it can't find image, it returns undefined ({}.property === undefined)
+  }
+  // handle error
 }
 
+// delete current custom image if it exists
 async function resetImage(): Promise<void> {
   const userId = await getUserId();
+  const currentImage = await findImage(userId);
 
-  const currentImage = (await findImage(userId)).deletehash; // delete current custom image if it exists
-  if (currentImage) {
-    fetch(`https://api.imgur.com/3/account/mygannplus/image/${currentImage}`, {
+  if (currentImage === undefined) {
+    // error finding it
+  }
+
+  if (currentImage !== {}) { // findImage returns an empty object if the image could not be found
+    fetch(`https://api.imgur.com/3/account/mygannplus/image/${currentImage.deletehash}`, {
       method: 'DELETE',
       headers,
-      // body: new FormData(), // Body is required and must be in this format, so it can use an empty FormData. But actually I think that it doesn't need a body
     }); // delete current image from imgur
   }
 }
