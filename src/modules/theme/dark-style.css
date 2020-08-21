@@ -6,11 +6,11 @@
 
 :global .form-control,
 :global .btn, 
-:global .input-sm,
-:global .chCal-button-content {
+:global .input-sm {
     background-color: rgb(58, 58, 58) !important;
     color: white !important;
     border: 1px solid black !important;
+    border-radius: 3px !important;
 }
 
 :global .pri-100-fgc {
@@ -64,3 +64,23 @@
 :global .popContainerStraight {
     color: rgb(0, 124, 166) !important;
 }
+
+:global .table > thead > tr > th, 
+:global .table > thead > tr > td, 
+:global .table > tbody > tr > th, 
+:global .table > tbody > tr > td, 
+:global .table > tfoot > tr > th, 
+:global .table > tfoot > tr > td {
+    padding-top: 1px solid black !important;
+    padding-bottom: 1px solid black !important;
+}
+
+:global .table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: rgb(43, 43, 43) !important;
+}
+
+:global .table-striped > tbody > tr:nth-of-type(even) {
+    background-color: rgb(53, 53, 53) !important;
+}
+
+/* .table>caption+thead>tr:first-child>th, .table>caption+thead>tr:first-child>td, .table>colgroup+thead>tr:first-child>th, .table>colgroup+thead>tr:first-child>td, .table>thead:first-child>tr:first-child>th, .table>thead:first-child>tr:first-child>td */
