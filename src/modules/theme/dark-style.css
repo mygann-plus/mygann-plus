@@ -54,7 +54,8 @@
     color: white !important;
     border: 1px solid black !important;
 }
-
+ 
+/* To work fully these need to only zebra stripe the rows with only the row class */
 :global #courses #coursesContainer .row:nth-of-type(odd),
 :global #courses #communitiesContainer .row:nth-of-type(odd),
 :global #courses #athleticsContainer .row:nth-of-type(odd),
