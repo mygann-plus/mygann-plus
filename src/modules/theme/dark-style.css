@@ -1,6 +1,6 @@
 :global #site-login-main-wrapper {
     background-color:  rgb(53, 53, 53) !important;
-    border: 2px solid black !important;
+    border: 1px solid black !important;
     color: white !important;
 }
 
@@ -18,9 +18,9 @@
 }
 
 :global #site-login-header {
-    border-top: 2px solid black !important;
-    border-right: 2px solid black !important;
-    border-left: 2px solid black !important;
+    border-top: 1px solid black !important;
+    border-right: 1px solid black !important;
+    border-left: 1px solid black !important;
 }
 
 :global .app-mobile-pusher,
@@ -35,7 +35,7 @@
 }
 
 :global .bb-tile-title {
-    border-top: 4px solid black !important;
+    border-top: 1px solid black !important;
 }
 
 :global .bb-tile-content-section,
@@ -55,14 +55,19 @@
     border: 1px solid black !important;
 }
 
-:global #courses #communitiesContainer .row:nth-child(odd),
-:global #courses #athleticsContainer .row:nth-child(odd),
-:global #courses #advisoryContainer .row:nth-child(odd){
+:global #courses #coursesContainer .row:nth-of-type(odd),
+:global #courses #communitiesContainer .row:nth-of-type(odd),
+:global #courses #athleticsContainer .row:nth-of-type(odd),
+:global #courses #advisoryContainer .row:nth-of-type(odd){
 	background-color: rgb(43, 43, 43) !important;
 }
 
 :global .popContainerStraight {
     color: rgb(0, 124, 166) !important;
+}
+
+:global .bb-tile hr {
+    border-top: 1px solid black;
 }
 
 :global .table > thead > tr > th, 
@@ -90,6 +95,7 @@
 :global .table > thead:first-child > tr:first-child > th, 
 :global .table > thead:first-child > tr:first-child > td {
     border-right: none !important;
+    border-radius: 0px !important;
     background-color: rgb(43, 43, 43) !important;
     color: white !important;
 }
@@ -104,7 +110,7 @@
 :global .chCal-corner-right {
     border: 1px solid black !important;
     border-radius: 3px !important;
-    padding: 3px 6px !important;
+    padding: 6px 12px !important;
     background-color: rgb(58, 58, 58) !important;
 }
 
@@ -114,8 +120,14 @@
     background-color: rgb(58, 58, 58) !important;
 }
 
+:global .chCal-button-content {
+    padding: 0px !important;
+    line-height: 1.428571429 !important;
+    height: auto !important;
+}
+
 :global .chCal-button-effect {
-    display: none;
+    display: none !important;
 }
 
 :global #schedule-header > div > div > div > div:nth-child(2) > div {
