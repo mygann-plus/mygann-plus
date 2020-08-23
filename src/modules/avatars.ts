@@ -2,12 +2,23 @@ import registerModule from '~/core/module';
 import { UnloaderContext } from '~/core/module-loader';
 
 import { getUserId } from '~/utils/user';
+import { waitForLoad, waitForOne } from '~/utils/dom';
+
+const domQuery = {
+  avatarContainers: () => [
+    document.querySelector('#directory-results') as HTMLElement,
+    document.querySelector('#RosterCardContainer') as HTMLElement,
+    document.querySelector('#activity-stream') as HTMLElement,
+  ],
+  header: () => document.querySelector('#account-nav > div > img') as HTMLImageElement,
+};
+// activitiesfeed container-fluid
 
 const headers: Headers = new Headers({ Authorization: `Bearer ${process.env.ACCESS_TOKEN}` });
 
-function handleError(error: Error) {
+// function handleError(error: Error) {
 
-}
+// }
 
 // Return the link for the image with the title of the given ID
 async function findImage(studentId: string): Promise<any> {
@@ -28,7 +39,7 @@ async function findImage(studentId: string): Promise<any> {
 // delete current custom image if it exists
 async function resetImage(): Promise<void> {
   const userId: string = await getUserId();
-  const currentImage: Object = await findImage(userId);
+  const currentImage = await findImage(userId);
 
   if (currentImage === undefined) {
     // error finding it
@@ -61,7 +72,7 @@ async function changeImage(newImage: File): Promise<void> { // to change to add 
   }); // upload to imgur
 }
 
-let obs = new MutationObserver(async mutationList => {
+const obs = new MutationObserver(async mutationList => {
   for (let mutation of mutationList) {
     for (let node of mutation.addedNodes) {
       if (node instanceof HTMLImageElement) {
@@ -73,9 +84,16 @@ let obs = new MutationObserver(async mutationList => {
   }
 });
 
-// obs.observe() whatever it needs to depeding on the page
-function avatarMain() {
+async function avatarInit() {
+  const img: HTMLImageElement = await waitForLoad(domQuery.header);
+  img.src = await findImage(await getUserId());
+}
 
+// obs.observe() whatever it needs to depeding on the page
+async function avatarMain() {
+  const [container]: HTMLElement[] = await waitForOne(domQuery.avatarContainers);
+  const options: MutationObserverInit = { subtree: true, childList: true };
+  obs.observe(container, options);
 }
 
 export default registerModule('{df198a10-fcff-4e1b-8c8d-daf9630b4c99}', {
