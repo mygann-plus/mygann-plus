@@ -116,8 +116,16 @@ function createSuboptionInput(suboption: Suboption) {
     case 'color':
       input = <input type="color"></input>;
       break;
+    case 'image':
+      input =
+        <div>
+          <input type="file" style={{ display: 'none' }} accept="image/*" />
+          <label htmlFor="file">Select file</label>
+          <img id="image" />
+        </div>;
+      break;
     case 'file':
-      input = <input type="file" style={{ display: 'inline', width: 'auto' }}></input>;
+      input = <input type="file"></input>;
       break;
     default:
       input = <input type="text"></input>;
@@ -125,6 +133,9 @@ function createSuboptionInput(suboption: Suboption) {
   }
   return input;
 }
+
+
+
 
 function getSuboptionValue(suboptElem: HTMLElement, suboption: Suboption) {
   switch (suboption.type) {
@@ -143,6 +154,12 @@ function setSuboptionValue(suboptElem: HTMLElement, suboption: Suboption, value:
       break;
     case 'combo':
       suboptElem.querySelector('input').value = value;
+      break;
+    case 'image':
+      (document.getElementById('image') as HTMLImageElement).src = value;
+      break;
+    case 'file':
+
       break;
     default:
       (suboptElem as HTMLInputElement).value = value;
@@ -416,7 +433,7 @@ class OptionsDialog {
         <div className={selectors.module.extraOptions}>
           {
             Object.keys(module.config.suboptions).map(suboptName => (
-              this.createSuboptionView(module, suboptName)
+              this.createSuboptionView(modu le, suboptName)
             ))
           }
         </div>

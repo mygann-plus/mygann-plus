@@ -1,4 +1,4 @@
-import registerModule from '~/core/module';
+// Since this file is called avatrs, here is a few https://qph.fs.quoracdn.net/main-qimg-e1e810238d157952188f43748f8e9f08
 import { UnloaderContext } from '~/core/module-loader';
 
 import { getUserId } from '~/utils/user';
@@ -10,6 +10,9 @@ const domQuery = {
     document.querySelector('#RosterCardContainer') as HTMLElement,
     document.querySelector('#activity-stream') as HTMLElement,
   ],
+  // directory: () => document.querySelector('#directory-results') as HTMLElement,
+  // roster: () => document.querySelector('#RosterCardContainer') as HTMLElement,
+  // activity: () => document.querySelector('#activity-stream') as HTMLElement,
   header: () => document.querySelector('#account-nav > div > img') as HTMLImageElement,
 };
 // activitiesfeed container-fluid
@@ -91,7 +94,9 @@ async function avatarInit() {
 
 // obs.observe() whatever it needs to depeding on the page
 async function avatarMain() {
-  const [container]: HTMLElement[] = await waitForOne(domQuery.avatarContainers);
+  const [container]: HTMLElement[] = await waitForOne(domQuery.avatarContainers, true);
+  // console.log(container); // null
+
   const options: MutationObserverInit = { subtree: true, childList: true };
   obs.observe(container, options);
 }
@@ -103,7 +108,7 @@ export default registerModule('{df198a10-fcff-4e1b-8c8d-daf9630b4c99}', {
   suboptions: {
     avatar: {
       name: 'Choose your picture',
-      type: 'file',
+      type: 'image',
       defaultValue: null,
     },
   },
