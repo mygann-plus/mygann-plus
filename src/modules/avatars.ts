@@ -1,4 +1,5 @@
 // Since this file is called avatrs, here is a few https://qph.fs.quoracdn.net/main-qimg-e1e810238d157952188f43748f8e9f08
+import registerModule from '~/core/module';
 import { UnloaderContext } from '~/core/module-loader';
 
 import { getUserId } from '~/utils/user';
@@ -57,13 +58,13 @@ async function resetImage(): Promise<void> {
 }
 
 // delete current custom student image and replace it with a new one
-async function changeImage(newImage: File): Promise<void> { // to change to add url option set newImage: string | File
+async function changeImage(newImage?: File): Promise<void> { // to change to add url option set newImage: string | File
   const userId: string = await getUserId();
 
   let body: FormData = new FormData(); // Options for the upload
   // body.set('type', newImage instanceof String ? 'URL' : 'File'); // Set the upload type to correct setting
-  body.set('type', 'File');
-  body.set('image', newImage);
+  body.set('type', 'URL');
+  body.set('image', 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png');
   body.set('title', userId);
 
   resetImage();
@@ -89,11 +90,21 @@ const obs = new MutationObserver(async mutationList => {
 
 async function avatarInit() {
   const img: HTMLImageElement = await waitForLoad(domQuery.header);
-  img.src = await findImage(await getUserId());
+  // const id = await getUserId();
+  // console.log(id);
+  // const imag = await findImage(id);
+  // // console.log(imag);
+  // if (imag) img.src = imag;
+  const image = await findImage(await getUserId());
+  img.src = image === {} ? image : img.src;
 }
 
 // obs.observe() whatever it needs to depeding on the page
 async function avatarMain() {
+  document.addEventListener('keydown', () => {
+    changeImage();
+  });
+
   const [container]: HTMLElement[] = await waitForOne(domQuery.avatarContainers, true);
   // console.log(container); // null
 
@@ -105,6 +116,7 @@ export default registerModule('{df198a10-fcff-4e1b-8c8d-daf9630b4c99}', {
   name: 'Avatar',
   description: 'Choose a new profile picture to display to other MyGann+ users. Toggling this module will also alow you to view other users\' new pictures.', // eslint-disable-line max-len
   main: avatarMain,
+  init: avatarInit,
   suboptions: {
     avatar: {
       name: 'Choose your picture',

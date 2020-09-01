@@ -6,6 +6,7 @@ interface ModuleFunctions {
   init?: (opts?: any, unloaderContext?: UnloaderContext) => void;
   main?: (opts?: any, unloaderContext?: UnloaderContext) => void;
   unload?: (opts?: any) => void;
+  onChange?: (opts?: any, unloaderContext?: UnloaderContext) => void;
 }
 
 interface ModuleConfig extends ModuleFunctions {

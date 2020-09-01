@@ -117,12 +117,15 @@ function createSuboptionInput(suboption: Suboption) {
       input = <input type="color"></input>;
       break;
     case 'image':
-      input =
+      input = (
         <div>
-          <input type="file" style={{ display: 'none' }} accept="image/*" />
-          <label htmlFor="file">Select file</label>
+          <input id="file" type="file" style={{ display: 'none' }} accept="image/*" />
+          <button>
+              <label htmlFor="file">Select file</label>
+          </button>
           <img id="image" />
-        </div>;
+        </div>
+      );
       break;
     case 'file':
       input = <input type="file"></input>;
@@ -134,14 +137,12 @@ function createSuboptionInput(suboption: Suboption) {
   return input;
 }
 
-
-
-
 function getSuboptionValue(suboptElem: HTMLElement, suboption: Suboption) {
   switch (suboption.type) {
     case 'boolean':
       return suboptElem.querySelector('input').checked;
     case 'combo':
+    case 'image':
       return suboptElem.querySelector('input').value;
     default:
       return (suboptElem as HTMLInputElement).value;
@@ -156,10 +157,10 @@ function setSuboptionValue(suboptElem: HTMLElement, suboption: Suboption, value:
       suboptElem.querySelector('input').value = value;
       break;
     case 'image':
-      (document.getElementById('image') as HTMLImageElement).src = value;
+      console.log(value);
+      (suboptElem.querySelector('#image') as HTMLImageElement).src = value;
       break;
     case 'file':
-
       break;
     default:
       (suboptElem as HTMLInputElement).value = value;
@@ -433,7 +434,7 @@ class OptionsDialog {
         <div className={selectors.module.extraOptions}>
           {
             Object.keys(module.config.suboptions).map(suboptName => (
-              this.createSuboptionView(modu le, suboptName)
+              this.createSuboptionView(module, suboptName)
             ))
           }
         </div>
@@ -691,6 +692,7 @@ class OptionsDialog {
 }
 
 async function saveOptions(newOptions: AllOptions) {
+  
   return setFlattenedOptions(newOptions);
 }
 function getDefaultOptions() {
