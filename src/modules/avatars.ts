@@ -10,10 +10,9 @@ const domQuery = {
     document.querySelector('#directory-results') as HTMLElement,
     document.querySelector('#RosterCardContainer') as HTMLElement,
     document.querySelector('#activity-stream') as HTMLElement,
+    document.querySelector('#communitiesContainer') as HTMLElement,
   ],
-  // directory: () => document.querySelector('#directory-results') as HTMLElement,
-  // roster: () => document.querySelector('#RosterCardContainer') as HTMLElement,
-  // activity: () => document.querySelector('#activity-stream') as HTMLElement,
+  
   header: () => document.querySelector('#account-nav > div > img') as HTMLImageElement,
 };
 // activitiesfeed container-fluid
@@ -63,8 +62,8 @@ async function changeImage(newImage?: File): Promise<void> { // to change to add
 
   let body: FormData = new FormData(); // Options for the upload
   // body.set('type', newImage instanceof String ? 'URL' : 'File'); // Set the upload type to correct setting
-  body.set('type', 'URL');
-  body.set('image', 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png');
+  body.set('type', 'URL'); // FIX
+  body.set('image', newImage || 'https://cdn.vox-cdn.com/thumbor/JIiyI6Iu-RK2uLTVqgWWrqp7kh8=/1400x1050/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/20104095/legend_korra.png'); // FIX
   body.set('title', userId);
 
   resetImage();
@@ -78,11 +77,20 @@ async function changeImage(newImage?: File): Promise<void> { // to change to add
 
 const obs = new MutationObserver(async mutationList => {
   for (let mutation of mutationList) {
-    for (let node of mutation.addedNodes) {
-      if (node instanceof HTMLImageElement) {
+    for (let newNode of mutation.addedNodes) {
+      // if (newNode instanceof HTMLTableRowElement || true) {
+      if (newNode instanceof HTMLElement) {
+      // let node: HTMLImageElement = newNode.firstElementChild.firstElementChild.firstElementChild as HTMLImageElement; // eslint-disable-line max-len
+      // console.log(newNode === document.querySelector("#directory-items-container > tbody > tr:nth-child(2)"));
+        let images: NodeListOf<HTMLImageElement> = newNode.querySelectorAll('.bb-avatar-image');
+        // console.log(node);
+        // if (node === null) return;
+        // if (images.length === 0) return;
         // node.src.match(/(?<=user)\d+/) // node.src.match(/\d{4,}/)[0]
-        let [studentId] = /\d{4,}/.exec(node.src) || [null]; // find the first string of 4+ digits, otherwise null. null is in an array since studentId should be the first element of the exec array
-        node.src = (await findImage(studentId)).link || node.src; // sets src to imgur image if it can find it for the current students id, otherwise leaves it alone
+        for (const image of images) {
+          let [studentId] = /\d{4,}/.exec(image.src) || [null]; // find the first string of 4+ digits, otherwise null. null is in an array since studentId should be the first element of the exec array
+          image.src = (await findImage(studentId)).link || image.src; // sets src to imgur image if it can find it for the current students id, otherwise leaves it alone
+        }
       }
     }
   }
@@ -90,24 +98,17 @@ const obs = new MutationObserver(async mutationList => {
 
 async function avatarInit() {
   const img: HTMLImageElement = await waitForLoad(domQuery.header);
-  // const id = await getUserId();
-  // console.log(id);
-  // const imag = await findImage(id);
-  // // console.log(imag);
-  // if (imag) img.src = imag;
   const image = await findImage(await getUserId());
-  img.src = image === {} ? image : img.src;
+  img.src = image.link || img.src; // sets the src to the custom image if it exists
 }
 
 // obs.observe() whatever it needs to depeding on the page
 async function avatarMain() {
-  document.addEventListener('keydown', () => {
-    changeImage();
-  });
+  // document.addEventListener('keydown', () => {
+  //   changeImage();
+  // });
 
   const [container]: HTMLElement[] = await waitForOne(domQuery.avatarContainers, true);
-  // console.log(container); // null
-
   const options: MutationObserverInit = { subtree: true, childList: true };
   obs.observe(container, options);
 }
