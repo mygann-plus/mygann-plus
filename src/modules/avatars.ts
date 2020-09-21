@@ -12,7 +12,7 @@ const domQuery = {
     document.querySelector('#activity-stream') as HTMLElement,
     document.querySelector('#communitiesContainer') as HTMLElement,
   ],
-  
+
   header: () => document.querySelector('#account-nav > div > img') as HTMLImageElement,
 };
 // activitiesfeed container-fluid
