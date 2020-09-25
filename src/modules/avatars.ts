@@ -5,6 +5,17 @@ import { getUserId } from '~/utils/user';
 import { waitForLoad, waitForOne } from '~/utils/dom';
 import { getImgurImage, changeImage, resetImage } from '~/utils/imgur'; // replace with import *
 
+// todo
+// local path preview
+// fancy auth
+// change setting from local path to imgur path on settings save
+// defaultValue and reset
+// onChange function
+
+interface HTMLFileInputElement extends Omit<HTMLInputElement, 'value'> { // extends everything in HTMLInputElement except value
+  value: File;
+}
+
 const domQuery = {
   avatarContainers: () => [
     document.querySelector('#directory-results') as HTMLElement,
@@ -48,12 +59,13 @@ export default registerModule('{df198a10-fcff-4e1b-8c8d-daf9630b4c99}', {
   description: 'Choose a new profile picture to display to other MyGann+ users. Toggling this module will also alow you to view other users\' new pictures.', // eslint-disable-line max-len
   main: avatarMain,
   init: avatarInit,
-  onChange: () => null,
   suboptions: {
     avatar: {
       name: 'Choose your picture',
       type: 'image',
       defaultValue: null,
+      id: 'avatarImage',
+      onChange: () => changeImage((document.querySelector('#avatarImage') as HTMLFileInputElement).value as File), // changeImage(currentSelectedImage || null)
     },
   },
 });

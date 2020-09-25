@@ -6,7 +6,6 @@ interface ModuleFunctions {
   init?: (opts?: any, unloaderContext?: UnloaderContext) => void;
   main?: (opts?: any, unloaderContext?: UnloaderContext) => void;
   unload?: (opts?: any) => void;
-  onChange?: (opts?: any, unloaderContext?: UnloaderContext) => void;
 }
 
 interface ModuleConfig extends ModuleFunctions {
@@ -36,7 +35,9 @@ interface BaseSuboption<TypeName, DefaultValue> {
   htmlDescription?: boolean;
   dependent?: string;
   resettable?: boolean;
+  id?: string,
   validator?: SuboptionValidatorFunction;
+  onChange?: (opts?: any, unloaderContext?: UnloaderContext) => void;
 }
 
 type StringSuboption = BaseSuboption<'string', string>;
@@ -63,7 +64,6 @@ interface ComboSuboption extends BaseSuboption<'combo', string> {
   presetValues: string[];
 }
 
-
 export type Suboption = (
   StringSuboption | BooleanSuboption |
   NumberSuboption | EnumSuboption |
@@ -81,7 +81,6 @@ export interface Module extends ModuleFunctions {
   guid: string,
   config: Exclude<ModuleConfig, 'init' | 'main' | 'unload'>
 }
-
 
 export default function registerModule(guid: string, moduleConfig: ModuleConfig): Module {
 

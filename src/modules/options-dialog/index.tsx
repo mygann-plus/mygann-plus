@@ -67,16 +67,16 @@ function createSuboptionInput(suboption: Suboption) {
   let input;
   switch (suboption.type) {
     case 'string':
-      input = <input />;
+      input = <input id={suboption.id} />;
       break;
     case 'number':
-      input = <input type="number" min={suboption.min} max={suboption.max} />;
+      input = <input id={suboption.id} type="number" min={suboption.min} max={suboption.max} />;
       break;
     case 'enum':
       input = (
         <select>
           {Object.keys(suboption.enumValues).map(enumKey => (
-            <option value={enumKey}>{suboption.enumValues[enumKey]}</option>
+            <option id={suboption.id} value={enumKey}>{suboption.enumValues[enumKey]}</option>
           ))}
         </select>
       );
@@ -89,7 +89,7 @@ function createSuboptionInput(suboption: Suboption) {
           <datalist id={id}>
             {
               suboption.presetValues.map(value => (
-                <option value={value} />
+                <option id={suboption.id} value={value} />
               ))
             }
           </datalist>
@@ -99,36 +99,30 @@ function createSuboptionInput(suboption: Suboption) {
     case 'boolean':
       input = (
         <label className="bb-check-wrapper">
-          <input type="checkbox" />
+          <input id={suboption.id} type="checkbox" />
           <span className="bb-check-checkbox"></span>
         </label>
       );
       break;
     case 'textarea':
-      input = <textarea />;
+      input = <textarea id={suboption.id} />;
       break;
     case 'email':
-      input = <input type="email"></input>;
+      input = <input id={suboption.id} type="email"></input>;
       break;
     case 'password':
-      input = <input type="password"></input>;
+      input = <input id={suboption.id} type="password"></input>;
       break;
     case 'color':
-      input = <input type="color"></input>;
+      input = <input id={suboption.id} type="color"></input>;
       break;
     case 'image':
       input = (
-        <div>
-          <input id="file" type="file" style={{ display: 'none' }} accept="image/*" />
-          <button>
-              <label htmlFor="file">Select file</label>
-          </button>
-          <img id="image" />
-        </div>
+        <input id={suboption.id} type="file" accept="image/*" />
       );
       break;
     case 'file':
-      input = <input type="file"></input>;
+      input = <input id={suboption.id} type="file"></input>;
       break;
     default:
       input = <input type="text"></input>;
@@ -157,7 +151,6 @@ function setSuboptionValue(suboptElem: HTMLElement, suboption: Suboption, value:
       suboptElem.querySelector('input').value = value;
       break;
     case 'image':
-      console.log(value);
       (suboptElem.querySelector('#image') as HTMLImageElement).src = value;
       break;
     case 'file':
@@ -692,7 +685,8 @@ class OptionsDialog {
 }
 
 async function saveOptions(newOptions: AllOptions) {
-  
+  console.log('Save options!');
+
   return setFlattenedOptions(newOptions);
 }
 function getDefaultOptions() {
