@@ -62,7 +62,7 @@ typings/
 .env
 
 # authorization code
-data/imgur-authorization/
+data/imgur-authorization/*
 
 # End of https://www.gitignore.io/api/node
 .cache
