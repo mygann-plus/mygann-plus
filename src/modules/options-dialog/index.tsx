@@ -24,6 +24,8 @@ import fuzzyMatch from '~/utils/search';
 
 import style from './style.css';
 
+import { changeImage } from '~/utils/imgur'
+
 const selectors = {
   searchbarWrap: style.locals['searchbar-wrap'],
   searchbar: style.locals.searchbar,
@@ -64,7 +66,7 @@ const selectors = {
 const formatDescription = (desc: string) => desc.replace(/\n/g, ' ');
 
 function createSuboptionInput(suboption: Suboption) {
-  let input;
+  let input: HTMLElement;
   switch (suboption.type) {
     case 'string':
       input = <input id={suboption.id} />;
@@ -118,8 +120,18 @@ function createSuboptionInput(suboption: Suboption) {
       break;
     case 'image':
       input = (
-        <input id={suboption.id} type="file" accept="image/*" />
+        <div>
+          <input id={suboption.id} type="file" accept="image/*" style={{ display: 'none' }}/>
+          <button><label htmlFor={suboption.id} style={{marginBottom: '0px', fontWeight: 'normal'}}>Choose Avatar</label></button>
+          <button id="button">Save</button>
+          <button id="butten" style={{marginLeft: '9px'}}>Reset to Defualt</button>
+        </div>
       );
+      
+      let file = () => input.querySelector('input').files[0];
+      (input.querySelector('#button') as HTMLButtonElement).onclick = () => { changeImage(file()); }
+      (input.querySelector('#butten') as HTMLButtonElement).onclick = () => changeImage(null);
+
       break;
     case 'file':
       input = <input id={suboption.id} type="file"></input>;
@@ -136,8 +148,10 @@ function getSuboptionValue(suboptElem: HTMLElement, suboption: Suboption) {
     case 'boolean':
       return suboptElem.querySelector('input').checked;
     case 'combo':
-    case 'image':
+    // case 'image':
       return suboptElem.querySelector('input').value;
+    case 'image':
+      
     default:
       return (suboptElem as HTMLInputElement).value;
   }
@@ -151,7 +165,7 @@ function setSuboptionValue(suboptElem: HTMLElement, suboption: Suboption, value:
       suboptElem.querySelector('input').value = value;
       break;
     case 'image':
-      (suboptElem.querySelector('#image') as HTMLImageElement).src = value;
+      // (suboptElem.querySelector('#image') as HTMLImageElement).src = value;
       break;
     case 'file':
       break;
@@ -685,8 +699,6 @@ class OptionsDialog {
 }
 
 async function saveOptions(newOptions: AllOptions) {
-  console.log('Save options!');
-
   return setFlattenedOptions(newOptions);
 }
 function getDefaultOptions() {

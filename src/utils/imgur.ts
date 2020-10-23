@@ -31,22 +31,33 @@ interface imgurImage {
   in_gallery: boolean,
 }
 
+// http://mygannplus-data.surge.sh/imgur-authorization/authorization.json
+// const token = (async () => {
+//   const response = await fetch('http://mygannplus-data.surge.sh/imgur-authorization/authorization.json'); // eslint-disable-line max-len
+//   const data = await response.json();
+//   return data.code;
+// })();
+
 const headers: Headers = new Headers({ Authorization: `Bearer ${process.env.ACCESS_TOKEN}` });
 
-// eslint-disable-next-line max-len
-const imgurResponse: Promise<imgurResponse> = fetch('https://api.imgur.com/3/account/mygannplus/images', {
-  method: 'GET',
-  headers,
-}).then(res => res.json());
+async function getImgurRresponse(): Promise<imgurResponse> {
+  const res = await fetch('https://api.imgur.com/3/account/mygannplus/images', {
+    method: 'GET',
+    headers,
+  });
+  return await res.json();
+}
 
+// eslint-disable-next-line max-len
+const imgurResponse: Promise<imgurResponse> = getImgurRresponse();
 // return the object constaining information about an image on imgur
-export const getImgurImage = async (studentId: string): Promise<imgurImage> =>
-  (await imgurResponse).data.find((image: imgurImage) => image.title === studentId) || null; // eslint-disable-line implicit-arrow-linebreak
+export const getImgurImage = async (studentId: string, reset: boolean=false): Promise<imgurImage> =>
+  (await (reset ? getImgurRresponse() : imgurResponse)).data.find((image: imgurImage) => image.title === studentId) || null; // eslint-disable-line implicit-arrow-linebreak
 
 // delete the user's current custom image if it exists
-export async function resetImage(): Promise<void> {
+async function resetImage(): Promise<void> {
   const userId: string = await getUserId();
-  const currentImage: imgurImage = await getImgurImage(userId);
+  const currentImage: imgurImage = await getImgurImage(userId, true);
 
   if (currentImage !== null) { // findImage returns null if the image could not be found
     fetch(`https://api.imgur.com/3/account/mygannplus/image/${currentImage.deletehash}`, {
@@ -58,8 +69,9 @@ export async function resetImage(): Promise<void> {
 
 // delete current custom student image and replace it with a new one
 export async function changeImage(newImage: File): Promise<void> { // to change to add url option set newImage: string | File
+
   resetImage(); // delete the current custom image if it exists
-  if (newImage === null) return; // can happen if the user resets the setting to the default value (null) then saves
+  if (newImage === null) { console.log('well shit'); return; } // can happen if the user resets the setting to the default value (null) then saves
 
   const userId: string = await getUserId();
   const body: FormData = new FormData(); // Options for the upload
@@ -68,6 +80,8 @@ export async function changeImage(newImage: File): Promise<void> { // to change 
   body.set('type', 'File');
   body.set('image', newImage);
   body.set('title', userId);
+
+  console.log('I got this far');
 
   fetch('https://api.imgur.com/3/image', {
     method: 'POST',
