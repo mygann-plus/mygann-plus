@@ -1,5 +1,6 @@
 import { loadModule } from '~/core/module-loader';
 import { getUserId } from '~/utils/user';
+import { fetchRawData } from '~/utils/fetch'
 
 interface imgurResponse {
   data: imgurImage[]
@@ -30,15 +31,20 @@ interface imgurImage {
   vote: string,
   in_gallery: boolean,
 }
+//http://mygannplus-data.surge.sh
 
 // http://mygannplus-data.surge.sh/imgur-authorization/authorization.json
-// const token = (async () => {
-//   const response = await fetch('http://mygannplus-data.surge.sh/imgur-authorization/authorization.json'); // eslint-disable-line max-len
-//   const data = await response.json();
-//   return data.code;
-// })();
+const headers: any = (async () => {
+  const data = await fetchRawData('/imgur-authorization/authorization.json'); // eslint-disable-line max-len
+  // const data = await response.json();
+  // console.log(data.code);
+  // return data.code;
+  const token = data.code;
+  return new Headers({ Authorization: `Bearer ${token}` });
+})();
+// console.log(token);
 
-const headers: Headers = new Headers({ Authorization: `Bearer ${process.env.ACCESS_TOKEN}` });
+// const headers: Headers = new Headers({ Authorization: `Bearer ${token}` });
 
 async function getImgurRresponse(): Promise<imgurResponse> {
   const res = await fetch('https://api.imgur.com/3/account/mygannplus/images', {
