@@ -1,3 +1,37 @@
+/* 
+
+progress page (striping and such)
+message page
+message popup
+directory
+assignment center 
+ - header
+ - range dropdown
+ - document dropdown
+ - filter popups
+grade detail
+disable for course requests or do course requests bar
+
+class pages and groups
+ - bullatin board
+ - assignment view
+ - roster
+
+finish resources page
+disable for news
+
+do profile tabs
+ profile
+  - contact card
+   --relationships
+  - official notes
+  - assignments
+  - schedule
+  - progress
+
+
+*/
+
 :global #site-login-main-wrapper {
     background-color:  rgb(53, 53, 53) !important;
     border: 1px solid black !important;
