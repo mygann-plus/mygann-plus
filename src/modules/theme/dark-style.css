@@ -1,11 +1,9 @@
 /* 
 
-progress page (striping and such)
 message page
 message popup
 directory
 assignment center 
- - header
  - range dropdown
  - document dropdown
  - filter popups
@@ -167,4 +165,38 @@ do profile tabs
 
 :global #schedule-header > div > div > div > div:nth-child(2) > div {
     padding-bottom: 6px;
+}
+
+:global a:hover {
+    color:#1490ba !important;
+}
+
+
+:global .dropdown-menu>li>a {
+    color: white !important;
+    background-color: rgb(53, 53, 53) !important;
+}
+
+:global .bb-action-bar {
+    color: white !important;
+    background-color: rgb(53, 53, 53) !important;
+    border-color: black !important;
+}
+
+:global .bb-section-heading { 
+    color: white !important;
+}
+
+
+:global .bb-tile-content {
+   background-color: black !important; 
+}
+
+
+:global .bb-tile hr {
+    border-top: 0px !important;
+}
+
+:global #courses #coursesContainer .row:hover {
+    background-color: rgb(33, 33, 33) !important; 
 }
