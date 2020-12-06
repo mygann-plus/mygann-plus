@@ -11,7 +11,3 @@ export async function getUserId(): Promise<string> {
   const profileLink = await waitForLoad(domQuery.profileLink);
   return profileLink.href.split('profile/')[1].split('/')[0];
 }
-
-export async function getUserProfile(): Promise<string> {
-  return (await waitForLoad(domQuery.profileImage)).src;
-}
