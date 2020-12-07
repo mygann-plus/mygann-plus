@@ -2,7 +2,7 @@ import registerModule from '~/core/module';
 
 import { getUserId } from '~/utils/user';
 import { waitForLoad, waitForOne, createElement } from '~/utils/dom';
-import { getImgurImage } from '~/utils/imgur';
+import { getImgurImage, changeImage, resetImage } from '~/utils/imgur';
 import { watch } from 'fs';
 
 const domQuery = {
@@ -58,6 +58,19 @@ let buttons = (
     <button className="btn btn-default" id="reset" style={{marginLeft: "5px"}}>Reset</button>
   </span>
 )
+
+let file = () => buttons.querySelector('input').files[0];
+const save = buttons.querySelector('#save') as HTMLButtonElement;
+const reset = buttons.querySelector('#reset') as HTMLButtonElement;
+
+save.onclick = async function () {
+  await changeImage(file());
+  window.location.reload();
+};
+reset.onclick = async function () {
+  await resetImage(null);
+  window.location.reload();
+};
 
 async function replace(container: HTMLElement): Promise<void> {
   const images: NodeListOf<HTMLImageElement> = container.querySelectorAll('.bb-avatar-image');

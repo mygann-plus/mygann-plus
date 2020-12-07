@@ -53,7 +53,7 @@ export const getImgurImage = async (studentId: string, reset: boolean = false): 
 };
 
 // Delete the user's current custom image if it exists
-async function resetImage(): Promise<void> {
+export async function resetImage(): Promise<void> {
   const userId: string = await getUserId();
   const currentImage: imgurImage = await getImgurImage(userId, true);
 
@@ -69,7 +69,6 @@ async function resetImage(): Promise<void> {
 export async function changeImage(newImage: File): Promise<void> { // To change to add url option set newImage: string | File
   imgurResponse = getImgurResponse();
   resetImage(); // Delete the current custom image if it exists
-  if (newImage === null) { return; } // Can happen if the user resets the setting to the default value (null) then saves
 
   const userId: string = await getUserId();
   const body: FormData = new FormData(); // Options for the upload
