@@ -48,21 +48,16 @@ const domQuery = {
 //   return null;
 // }
 
-
 let buttons = (
-  <div>
+  <span style={{display: "inline-block", marginTop: "10px"}}>
     <input id="input" type="file" accept="image/*" style={{ display: 'none' }}/>
-    <button>
-      <label htmlFor="input" style={{ marginBottom: '0px', fontWeight: 'normal' }}>
-      <i className="fas fa-user-circle"></i>Choose Avatar</label>
+    <button className="btn btn-default" style={{ marginLeft: "10px", borderTopRightRadius: "0px", borderBottomRightRadius: "0px" }}>
+      <label htmlFor="input" style={{ marginBottom: '0px', fontWeight: 'normal' }}>Choose Avatar</label>
     </button>
-    <button id="save">Save</button>
-    <button id="reset" style={{ marginLeft: '9px' }}>Reset to Defualt</button>
-  </div>
+    <button className="btn btn-default" id="save" style={{borderTopLeftRadius: "0px", borderBottomLeftRadius: "0px"}}>Save</button>
+    <button className="btn btn-default" id="reset" style={{marginLeft: "5px"}}>Reset</button>
+  </span>
 )
-
-// add classes 'btn' and 'btn-default'
-// div may need to be <span>
 
 async function replace(container: HTMLElement): Promise<void> {
   const images: NodeListOf<HTMLImageElement> = container.querySelectorAll('.bb-avatar-image');
@@ -74,7 +69,7 @@ async function replace(container: HTMLElement): Promise<void> {
 }
 
 const obs = new MutationObserver(async mutationList => {
-  
+
   for (let mutation of mutationList) { // For each mutation
     for (let newNode of mutation.addedNodes) { // For each new node
       if (newNode instanceof HTMLElement) {
@@ -82,7 +77,7 @@ const obs = new MutationObserver(async mutationList => {
       }
     }
   }
-  
+
 });
 
 async function avatarInit() {
@@ -98,17 +93,15 @@ async function avatarMain() {
   replace(container);
   const options: MutationObserverInit = { subtree: true, childList: true };
   obs.observe(container, options); // only on directory?
-  // if (location.href.endsWith('contactcard')) {
-    // if your on the profile page
-  console.log('works?');
-  //(await waitForLoad(domQuery.profileImageContainer)).appendChild(buttons);
-  // }
+  if (location.href.endsWith('contactcard')) {
+    (await waitForLoad(domQuery.profileImageContainer)).appendChild(buttons);
+  }
 }
 
 /* eslint-disable max-len */
 export default registerModule('{df198a10-fcff-4e1b-8c8d-daf9630b4c99}', {
-  name: 'Avatars [Beta]',
-  description: 'Allows user to change their profile picture and view other students changed pictures. To change picture, navigate to your profile page and click "Change Avatar" and then "Save"',
+  name: 'Avatars (Beta)',
+  description: 'Allows user to change their profile picture and view other students changed pictures. To change picture, navigate to your profile page and click "Change Avatar" and then "Save."',
   main: avatarMain,
   init: avatarInit,
 });
