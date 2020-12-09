@@ -1,4 +1,3 @@
-import { loadModule } from '~/core/module-loader';
 import { getUserId } from '~/utils/user';
 import { fetchRawData } from '~/utils/fetch';
 

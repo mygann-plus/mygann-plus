@@ -3,7 +3,6 @@ import registerModule from '~/core/module';
 import { getUserId } from '~/utils/user';
 import { waitForLoad, waitForOne, createElement } from '~/utils/dom';
 import { getImgurImage, changeImage, resetImage } from '~/utils/imgur';
-import { watch } from 'fs';
 
 const domQuery = {
   avatarContainers: () => [
@@ -16,8 +15,6 @@ const domQuery = {
   ],
 
   header: () => document.querySelector('.bb-avatar-image-nav') as HTMLImageElement,
-  
-  profileImageContainer: () => document.querySelector("#contact-col-left > div > section > div > div.bb-tile-content > div > div")
 };
 
 // // insert into class="row" at top
@@ -51,13 +48,13 @@ const domQuery = {
 let buttons = (
   <span style={{display: "inline-block", marginTop: "10px"}}>
     <input id="input" type="file" accept="image/*" style={{ display: 'none' }}/>
-    <button className="btn btn-default" style={{ marginLeft: "10px", borderTopRightRadius: "0px", borderBottomRightRadius: "0px" }}>
+    <button className="btn btn-default" style={{ marginLeft: "15px", borderTopRightRadius: "0px", borderBottomRightRadius: "0px" }}>
       <label htmlFor="input" style={{ marginBottom: '0px', fontWeight: 'normal' }}>Choose Avatar</label>
     </button>
     <button className="btn btn-default" id="save" style={{borderTopLeftRadius: "0px", borderBottomLeftRadius: "0px"}}>Save</button>
     <button className="btn btn-default" id="reset" style={{marginLeft: "5px"}}>Reset</button>
   </span>
-)
+);
 
 let file = () => buttons.querySelector('input').files[0];
 const save = buttons.querySelector('#save') as HTMLButtonElement;
@@ -67,8 +64,9 @@ save.onclick = async function () {
   await changeImage(file());
   window.location.reload();
 };
+
 reset.onclick = async function () {
-  await resetImage(null);
+  await resetImage();
   window.location.reload();
 };
 
@@ -107,14 +105,15 @@ async function avatarMain() {
   const options: MutationObserverInit = { subtree: true, childList: true };
   obs.observe(container, options); // only on directory?
   if (location.href.endsWith('contactcard')) {
-    (await waitForLoad(domQuery.profileImageContainer)).appendChild(buttons);
+    (await waitForLoad(() => document.querySelector('#contact-col-left > div > section > div > div.bb-tile-content > div > div') as HTMLElement)).appendChild(buttons);
   }
 }
 
 /* eslint-disable max-len */
 export default registerModule('{df198a10-fcff-4e1b-8c8d-daf9630b4c99}', {
   name: 'Avatars (Beta)',
-  description: 'Allows user to change their profile picture and view other students changed pictures. To change picture, navigate to your profile page and click "Change Avatar" and then "Save."',
+  description: 'Allows user to change their profile picture and view other students\' changed pictures. To change your picture, navigate to your profile page, click "Change Avatar" and then "Save."',
+  defaultEnabled: true,
   main: avatarMain,
   init: avatarInit,
 });
