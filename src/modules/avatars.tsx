@@ -109,10 +109,10 @@ async function avatarMain() {
   }
 }
 
-/* eslint-disable max-len */
 export default registerModule('{df198a10-fcff-4e1b-8c8d-daf9630b4c99}', {
   name: 'Avatars (Beta)',
-  description: 'Allows user to change their profile picture and view other students\' changed pictures. To change your picture, navigate to your profile page, click "Change Avatar" and then "Save."',
+  description: `Allows user to change their profile picture and view other students' changed pictures. 
+  To change your picture, navigate to your profile page, click "Change Avatar" and then "Save."`,
   defaultEnabled: true,
   main: avatarMain,
   init: avatarInit,
