@@ -6,5 +6,4 @@ eval(localStorage.getItem('MyGannPlus')); // try running it immediatly
   localStorage.setItem('MyGannPlus', text); // updste the localStorage
 })();
 
-// Minified (by me so might not be great)
-eval(localStorage.getItem('MyGannPlus'));fetch('https://mygann-plus-bookmarklet.surge.sh/dist/content-script.js').then(d=>d.text()).then(s=>{localStorage.getItem('MyGannPlus')??eval(s);localStorage.setItem('MyGannPlus',s);});
+// minified in fetchContentScript.min.js
