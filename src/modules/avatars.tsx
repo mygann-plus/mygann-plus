@@ -1,5 +1,4 @@
 import registerModule from '~/core/module';
-
 import { getUserId } from '~/utils/user';
 import { waitForLoad, waitForOne, createElement } from '~/utils/dom';
 import { getImgurImage, changeImage, resetImage } from '~/utils/imgur';
@@ -14,36 +13,10 @@ const domQuery = {
     document.querySelector('#contact-col-left > div > section') as HTMLElement, // profile image
   ],
 
-  header: () => document.querySelector('.bb-avatar-image-nav') as HTMLImageElement,
+  header: () => document.querySelector('.bb-avatar-image-nav') as HTMLImageElement, // sticky header
+  sidebarImg: () => document.querySelector('#mobile-account-nav > span.iHolder.pull-left.ddd > img') as HTMLImageElement, // image in minimized screen menu
+  profile: () => document.querySelector('#contact-col-left > div > section > div > div.bb-tile-content > div > div') as HTMLElement, // for profile buttons
 };
-
-// // insert into class="row" at top
-// async function createRosterImage(studentId: string): Promise<HTMLDivElement> {
-//   const imgurImage = await getImgurImage(studentId);
-//   if (imgurImage) {
-//     return (
-//       <div className="col-md-4" style={{ verticalAlign: 'top', paddingTop: '35px' }}>
-//         <div className="bb-avatar-wrapper">
-//           <img alt="Profile Picture" src={imgurImage.link} className="bb-avatar-image" />
-//         </div>
-//       </div>
-//     ) as HTMLDivElement;
-//   }
-//   return null;
-// }
-
-// // insert into td at top
-// async function createDirImage(studentId: string): Promise<HTMLDivElement> {
-//   const imgurImage = await getImgurImage(studentId);
-//   if (imgurImage) {
-//     return (
-//       <div className="bb-avatar-wrapper">
-//         <img src={imgurImage.link} className="bb-avatar-image" />
-//       </div>
-//     ) as HTMLDivElement;
-//   }
-//   return null;
-// }
 
 let buttons = (
   <span style={{display: "inline-block", marginTop: "10px"}}>
@@ -80,40 +53,39 @@ async function replace(container: HTMLElement): Promise<void> {
 }
 
 const obs = new MutationObserver(async mutationList => {
-
-  for (let mutation of mutationList) { // For each mutation
-    for (let newNode of mutation.addedNodes) { // For each new node
+  for (let mutation of mutationList) {
+    for (let newNode of mutation.addedNodes) {
       if (newNode instanceof HTMLElement) {
         replace(newNode);
       }
     }
   }
-
 });
 
 async function avatarInit() {
-  const img: HTMLImageElement = await waitForLoad(domQuery.header);
-  const imgurImage = await getImgurImage(await getUserId());
-  img.src = imgurImage?.link || img.src;
-  const obs = new MutationObserver(() => img.src = imgurImage?.link || img.src);
-  obs.observe(img, { attributes: true });
+  const imgs: HTMLImageElement[] = [await waitForLoad(domQuery.header), await waitForLoad(domQuery.sidebarImg)];
+  for (const img of imgs) {
+    const imgurImage = await getImgurImage(await getUserId());
+    img.src = imgurImage?.link || img.src;
+    const obs = new MutationObserver(() => img.src = imgurImage?.link || img.src);
+    obs.observe(img, { attributes: true });
+  }
 }
 
 async function avatarMain() {
   const [container]: HTMLElement[] = await waitForOne(domQuery.avatarContainers, true);
   replace(container);
   const options: MutationObserverInit = { subtree: true, childList: true };
-  obs.observe(container, options); // only on directory?
+  obs.observe(container, options);
   if (location.href.endsWith('contactcard')) {
-    (await waitForLoad(() => document.querySelector('#contact-col-left > div > section > div > div.bb-tile-content > div > div') as HTMLElement)).appendChild(buttons); // makes website SUPER slow, need to fix before release.
-    // Putting dom here made the page load better but every time you sign into the website for the first time the entire thing crashes.
+    (await waitForLoad(domQuery.profile)).appendChild(buttons);
   }
 }
 
 export default registerModule('{df198a10-fcff-4e1b-8c8d-daf9630b4c99}', {
   name: 'Avatars (Beta)',
   description: `Allows user to change their profile picture and view other students' changed pictures. 
-  To change your picture, navigate to your profile page, click "Change Avatar" and then "Save."`,
+  To change your picture, navigate to your profile page, click "Change Avatar" and then click "Save."`,
   defaultEnabled: true,
   main: avatarMain,
   init: avatarInit,

@@ -80,5 +80,5 @@ export async function changeImage(newImage: File): Promise<void> { // To change 
     method: 'POST',
     headers: await headers,
     body,
-  }); // upload to imgur
+  }); // Upload to imgur
 }
