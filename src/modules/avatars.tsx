@@ -105,7 +105,8 @@ async function avatarMain() {
   const options: MutationObserverInit = { subtree: true, childList: true };
   obs.observe(container, options); // only on directory?
   if (location.href.endsWith('contactcard')) {
-    (await waitForLoad(() => document.querySelector('#contact-col-left > div > section > div > div.bb-tile-content > div > div') as HTMLElement)).appendChild(buttons);
+    (await waitForLoad(() => document.querySelector('#contact-col-left > div > section > div > div.bb-tile-content > div > div') as HTMLElement)).appendChild(buttons); // makes website SUPER slow, need to fix before release.
+    // Putting dom here made the page load better but every time you sign into the website for the first time the entire thing crashes.
   }
 }
 
