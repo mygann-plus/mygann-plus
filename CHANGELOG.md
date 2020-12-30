@@ -1,3 +1,10 @@
+## 1.15.0
+## Added
+- "Avatars" module, which allows user to upload a new profile picture (to be seen by other MyGann+ users)
+
+### Changed
+- Updates occur instantly by fetching served content script instead of waiting for the chrome web store to update
+
 ## 1.14.0
 ### Added
 - "Hide Assignment Time" module

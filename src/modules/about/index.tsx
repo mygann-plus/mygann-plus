@@ -7,7 +7,7 @@ import { hasUpdated, addInstallStateChangeListener, clearInstallState } from '~/
 import { createElement, insertCss, constructButton } from '~/utils/dom';
 import Dialog from '~/utils/dialog';
 import Flyout from '~/utils/flyout';
-import getManifest from '~/utils/manifest';
+import manifest from '~/utils/manifest';
 
 import { appendDesktopUserMenuLink, appendMobileUserMenuLink, getHeader } from '~/shared/user-menu';
 
@@ -18,11 +18,11 @@ import selectors from './selectors';
 import style from './style.css';
 
 function getDescription() {
-  return `${getManifest().description}.`;
+  return `${manifest.description}.`;
 }
 
 function getVersionString() {
-  return getManifest().version_name;
+  return manifest.version_name;
 }
 
 function isEqualVersion(tag: string, version: string) {

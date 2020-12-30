@@ -4,7 +4,7 @@ import { Module } from '~/core/module'; // eslint-disable-line import/no-cycle
 
 import storage from '~/utils/storage';
 import { fetchRawData } from '~/utils/fetch';
-import getManifest from '~/utils/manifest';
+import manifest from '~/utils/manifest';
 
 interface DisabledModule {
   guid: string;
@@ -26,7 +26,7 @@ export async function fetchRemoteDisabled() {
 }
 
 export async function getRemoteDisabledStatus(module: Module) {
-  const extensionVersion = getManifest().version_name;
+  const extensionVersion = manifest.version_name;
   const storedDisabled: DisabledModule[] = await storage.get(
     REMOTE_DISABLE_STORAGE_KEY,
     REMOTE_DISABLE_STORAGE_SCHEMA_VERSION,

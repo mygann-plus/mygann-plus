@@ -5,7 +5,7 @@ import { getLoadedModules } from '~/core/module-loader';
 
 import { createElement } from '~/utils/dom';
 import { fetchJson, fetchApi } from '~/utils/fetch';
-import getManifest from '~/utils/manifest';
+import manifest from '~/utils/manifest';
 
 import selectors from './selectors';
 
@@ -39,7 +39,7 @@ async function getUserByName(name: string) {
 async function uploadDebugData() {
   const debugData = {
     loadedModules: stringifyModulesData(getLoadedModules()),
-    version: getManifest().version_name,
+    version: manifest.version_name,
   };
   const response = await fetchJson('https://api.myjson.com/bins', {
     method: 'POST',
