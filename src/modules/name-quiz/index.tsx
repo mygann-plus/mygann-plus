@@ -19,6 +19,8 @@ import {
   Nicknames,
 } from './name-quiz-modal';
 
+import { getImgurImage } from '~/utils/imgur';
+
 const getRandomItem = (arr: any[]) => arr[Math.floor(Math.random() * arr.length)];
 const normalizeName = (name: string) => name.toLowerCase().trim();
 const getFirstName = (fullName: string) => fullName.split(' ')[0];
@@ -360,7 +362,7 @@ async function runGame(unloaderContext: UnloaderContext) {
     .map(async (student: any) => ({
       name: student.name,
       nickname: student.nickName,
-      image: await getCDNImageUrl(`user/${student.userPhotoLarge}?resize=200,200`),
+      image: (await getImgurImage(student.Id)).link || await getCDNImageUrl(`user/${student.userPhotoLarge}?resize=200,200`),
     })));
 
   if (!students.length) {

@@ -88,6 +88,7 @@ function createAboutBody() {
       </p>
       <div id={selectors.releaseNotes}>Loading...</div>
       <p><b>Created By:</b> Matan Kotler-Berkowitz</p>
+      <p><b>Continued By:</b> Samuel Hirsh & Ilan Sperber</p>
       <hr className="divider" />
 
       <h2 className={selectors.sectionTitle}>Contact</h2>
@@ -103,7 +104,7 @@ function createAboutBody() {
           { createBugReportUi() }
         </li>
         <li>
-          Suggestions, Requests, or Other Comments: Please email or talk to <a href="mailto:20mkotlerberkowitz@gannacademy.org">Matan Kotler-Berkowitz</a>.
+          Suggestions, Requests, or Other Comments: Please email or talk to <a href="mailto:22shirsh@gannacademy.org">Samuel Hirsh</a> or <a href="mailto:22isperber@gannacademy.org">Ilan Sperber</a>.
         </li>
       </ul>
 
