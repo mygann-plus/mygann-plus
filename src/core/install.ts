@@ -40,11 +40,13 @@ export async function hasInstalled() {
   return data.installState === installStates.INSTALL;
 }
 export async function hasUpdated() {
-  const data = await getInstallData();
-  return data.installState === installStates.UPDATE;
+  // const data = await getInstallData();
+  // return data.installState === installStates.UPDATE;
+  return localStorage.getItem('MyGannPlusUpdated') === 'true';
 }
 export function clearInstallState() {
-  return markInstallState('');
+  // return markInstallState('');
+  return localStorage.setItem('MyGannPlusUpdated', 'false');
 }
 export function addInstallStateChangeListener(listener: StorageChangeListener<string>) {
   return storage.addChangeListener<InstallState>(INSTALL_KEY, data => {

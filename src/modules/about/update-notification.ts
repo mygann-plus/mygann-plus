@@ -1,13 +1,3 @@
-/*
-Move idea to install.ts
-export async function shouldShowNotification() {
-  return localStorage.getItem('MyGannPlusUpdated') === 'true';
-}
-
-export function disableNotification() {
-  localStorage.setItem('MyGannPlusUpdated', 'false');
-}
-*/
 import storage from '~/utils/storage';
 
 const SHOW_NOTIFICATION_KEY = 'show_update_notification';
