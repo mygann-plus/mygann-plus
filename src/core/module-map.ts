@@ -57,7 +57,6 @@ import assignmentCheckpoints from '~/modules/assignment-checkpoints';
 import zoomLinks from '~/modules/zoom-links';
 import hideAssignmentTimes from '~/modules/hide-assignment-times';
 import avatars from '~/modules/avatars';
-import customizeNavigationBar from '~/modules/customize-navigation-bars';
 
 interface ModuleMap {
   [key: string]: Module[]
@@ -82,7 +81,6 @@ const MODULE_MAP: ModuleMap = {
     theme,
     autofocusSiteSearch,
     avatars,
-    customizeNavigationBar,
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus, assignmentCheckpoints],

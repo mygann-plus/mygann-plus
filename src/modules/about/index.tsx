@@ -154,6 +154,14 @@ async function aboutMain() {
         changeListener.remove();
       }
     });
+
+    // const changeListener = window.addEventListener('storage', () => {
+    //   if (localStorage.getItem('MyGannPlusUpdated') === 'false') {
+    //     avatarBadge.remove();
+    //     linkBadge.remove();
+    //     // window.removeEventListener('storage', changeListener); // would have to be done by making callback a named function, not worth it
+    //   }
+    // });
   }
 }
 

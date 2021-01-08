@@ -24,7 +24,7 @@ let buttons = (
     <button className="btn btn-default" style={{ marginLeft: "15px", borderTopRightRadius: "0px", borderBottomRightRadius: "0px" }}>
       <label htmlFor="input" style={{ marginBottom: '0px', fontWeight: 'normal' }}>Choose Avatar</label>
     </button>
-    <button className="btn btn-default" id="save" style={{borderTopLeftRadius: "0px", borderBottomLeftRadius: "0px"}}>Save</button>
+    <button className="btn btn-default" id="save" style={{borderLeft: '0px', borderTopLeftRadius: "0px", borderBottomLeftRadius: "0px"}}>Save</button>
     <button className="btn btn-default" id="reset" style={{marginLeft: "5px"}}>Reset</button>
   </span>
 );
@@ -77,13 +77,13 @@ async function avatarMain() {
   replace(container);
   const options: MutationObserverInit = { subtree: true, childList: true };
   obs.observe(container, options);
-  if (location.href.endsWith('contactcard')) {
+  if (location.href.endsWith(`${await getUserId()}/contactcard`)) {
     (await waitForLoad(domQuery.profile)).appendChild(buttons);
-  }
+  } 
 }
 
 export default registerModule('{df198a10-fcff-4e1b-8c8d-daf9630b4c99}', {
-  name: 'Avatars (Beta)',
+  name: 'Avatars',
   description: `Allows user to change their profile picture and view other students' changed pictures. 
   To change your picture, navigate to your profile page, click "Change Avatar" and then click "Save."`,
   defaultEnabled: true,

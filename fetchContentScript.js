@@ -5,7 +5,7 @@ eval(localStorage.getItem('MyGannPlus')); // try running it immediatly
   const res = await fetch('https://mygann-plus-bookmarklet.surge.sh/dist/content-script.js');
   const text = await res.text();
   if (localStorage.getItem('MyGannPlus') === null) eval(text); // if there was nothing to run run it now
-  if (localStorage.getItem('MyGannPlus') !== text) localStorage.setItem('MyGannPlusUpdated', 'true')
+  if (localStorage.getItem('MyGannPlus') !== text) localStorage.setItem('MyGannPlusUpdated', 'true');
   localStorage.setItem('MyGannPlus', text); // update the localStorage
 })();
 

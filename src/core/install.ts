@@ -45,7 +45,7 @@ export async function hasUpdated() {
   return localStorage.getItem('MyGannPlusUpdated') === 'true';
 }
 export function clearInstallState() {
-  // return markInstallState('');
+  markInstallState('');
   return localStorage.setItem('MyGannPlusUpdated', 'false');
 }
 export function addInstallStateChangeListener(listener: StorageChangeListener<string>) {

@@ -56,7 +56,7 @@ export async function resetImage(): Promise<void> {
   const userId: string = await getUserId();
   const currentImage: imgurImage = await getImgurImage(userId, true);
 
-  if (currentImage !== null) { // findImage returns null if the image could not be found
+  if (currentImage) { // findImage returns null if the image could not be found
     fetch(`https://api.imgur.com/3/account/mygannplus/image/${currentImage.deletehash}`, {
       method: 'DELETE',
       headers: await headers,
