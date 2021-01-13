@@ -1,7 +1,7 @@
 import registerModule from '~/core/module';
 import { getUserId } from '~/utils/user';
 import { waitForLoad, waitForOne, createElement } from '~/utils/dom';
-import { getImgurImage, changeImage, resetImage } from '~/utils/imgur';
+import { getImgurImage, changeImage } from '~/utils/imgur';
 
 const domQuery = {
   avatarContainers: () => [
@@ -35,12 +35,11 @@ const reset = buttons.querySelector('#reset') as HTMLButtonElement;
 
 save.onclick = async function () {
   await changeImage(file());
-  window.location.reload();
 };
 
 reset.onclick = async function () {
-  await resetImage();
-  window.location.reload();
+  await changeImage(null);
+  // window.location.reload();
 };
 
 async function replace(container: HTMLElement): Promise<void> {
@@ -79,7 +78,7 @@ async function avatarMain() {
   obs.observe(container, options);
   if (location.href.endsWith(`${await getUserId()}/contactcard`)) {
     (await waitForLoad(domQuery.profile)).appendChild(buttons);
-  } 
+  }
 }
 
 export default registerModule('{df198a10-fcff-4e1b-8c8d-daf9630b4c99}', {
