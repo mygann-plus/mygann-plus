@@ -26,20 +26,33 @@ let buttons = (
     </button>
     <button className="btn btn-default" id="save" style={{borderLeft: '0px', borderTopLeftRadius: "0px", borderBottomLeftRadius: "0px"}}>Save</button>
     <button className="btn btn-default" id="reset" style={{marginLeft: "5px"}}>Reset</button>
+    <button className="btn btn-default" id="reload" style={{marginLeft: "5px", visibility: "hidden"}}>Reload</button>
   </span>
 );
 
 let file = () => buttons.querySelector('input').files[0];
-const save = buttons.querySelector('#save') as HTMLButtonElement;
+//const save = buttons.querySelector('#save') as HTMLButtonElement;
 const reset = buttons.querySelector('#reset') as HTMLButtonElement;
+const reload = buttons.querySelector('#reload') as HTMLButtonElement;
+const actualInput = buttons.querySelector('#input') as HTMLButtonElement;
 
-save.onclick = async function () {
-  await changeImage(file());
-};
+actualInput.addEventListener('input', function (evt) {
+  changeImage(file());
+  reload.style.visibility = 'visible';
+});
+
+// save.onclick = async function () {
+//   await changeImage(file());
+//   reload.style.visibility = 'visible';
+// };
 
 reset.onclick = async function () {
   await changeImage(null);
-  // window.location.reload();
+  reload.style.visibility = 'visible';
+};
+
+reload.onclick = async function () {
+  window.location.reload();
 };
 
 async function replace(container: HTMLElement): Promise<void> {
