@@ -25,7 +25,7 @@ let buttons = (
       <label htmlFor="input" style={{ marginBottom: '0px', fontWeight: 'normal' }}>Choose Avatar</label>
     </button>
     <button className="btn btn-default" id="save" style={{borderLeft: '0px', borderTopLeftRadius: "0px", borderBottomLeftRadius: "0px"}}>Save</button>
-    <button className="btn btn-default" id="reset" style={{marginLeft: "5px"}}>Reset</button>
+    {/* <button className="btn btn-default" id="reset" style={{marginLeft: "5px"}}>Reset</button> */}
     <button className="btn btn-default" id="reload" style={{marginLeft: "5px", visibility: "hidden"}}>Reload</button>
   </span>
 );
