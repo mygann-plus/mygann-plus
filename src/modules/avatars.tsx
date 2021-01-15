@@ -22,20 +22,20 @@ const domQuery = {
 let buttons = (
   <span style={{ display: 'inline-block', marginTop: '10px' }}>
     <input id="input" type="file" accept="image/*" style={{ display: 'none' }}/>
-    <button className="btn btn-default btn-primary" style={{ marginLeft: '15px' }}>
-      <label htmlFor="input" style={{ marginBottom: '0px', fontWeight: 'normal' }}>Choose Avatar</label>
+    <button className="btn btn-default btn-primary" style={{ marginLeft: '15px', padding: '0px' }}>
+      <label htmlFor="input" style={{ marginBottom: '0px', fontWeight: 'normal', padding: '6px 12px' }}>Choose Avatar</label>
     </button>
     <button className="btn btn-default" id="reset" style={{ marginLeft: '5px' }}>Reset</button>
-    <button className="btn btn-default" id="reload" style={{ marginLeft: '5px', visibility: 'hidden' }}>Save</button>
+    <button className="btn btn-default" id="reload" style={{ marginLeft: '5px', visibility: 'hidden' }}>Reload</button>
   </span>
 );
 
-const actualInput = buttons.querySelector('#input') as HTMLInputElement;
-let file = () => actualInput.files[0];
+const input = buttons.querySelector('#input') as HTMLInputElement;
+let file = () => input.files[0];
 const reset = buttons.querySelector('#reset') as HTMLButtonElement;
 const reload = buttons.querySelector('#reload') as HTMLButtonElement;
 
-actualInput.addEventListener('input', () => {
+input.addEventListener('input', () => {
   changeImage(file());
   reload.style.visibility = 'visible';
 });
