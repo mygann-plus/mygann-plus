@@ -21,30 +21,23 @@ const domQuery = {
 let buttons = (
   <span style={{display: "inline-block", marginTop: "10px"}}>
     <input id="input" type="file" accept="image/*" style={{ display: 'none' }}/>
-    <button className="btn btn-default" style={{ marginLeft: "15px", borderTopRightRadius: "0px", borderBottomRightRadius: "0px" }}>
+    <button className="btn btn-default btn-primary" style={{ marginLeft: "15px" }}>
       <label htmlFor="input" style={{ marginBottom: '0px', fontWeight: 'normal' }}>Choose Avatar</label>
     </button>
-    <button className="btn btn-default" id="save" style={{borderLeft: '0px', borderTopLeftRadius: "0px", borderBottomLeftRadius: "0px"}}>Save</button>
-    {/* <button className="btn btn-default" id="reset" style={{marginLeft: "5px"}}>Reset</button> */}
-    <button className="btn btn-default" id="reload" style={{marginLeft: "5px", visibility: "hidden"}}>Reload</button>
+    <button className="btn btn-default" id="reset" style={ {marginLeft: "5px" }}>Reset</button>
+    <button className="btn btn-default" id="reload" style={{ marginLeft: "5px", visibility: "hidden"}}>Reload</button>
   </span>
 );
 
-let file = () => buttons.querySelector('input').files[0];
-//const save = buttons.querySelector('#save') as HTMLButtonElement;
+const actualInput = buttons.querySelector('#input') as HTMLInputElement;
+let file = () => actualInput.files[0];
 const reset = buttons.querySelector('#reset') as HTMLButtonElement;
 const reload = buttons.querySelector('#reload') as HTMLButtonElement;
-const actualInput = buttons.querySelector('#input') as HTMLButtonElement;
 
 actualInput.addEventListener('input', function (evt) {
   changeImage(file());
   reload.style.visibility = 'visible';
 });
-
-// save.onclick = async function () {
-//   await changeImage(file());
-//   reload.style.visibility = 'visible';
-// };
 
 reset.onclick = async function () {
   await changeImage(null);
@@ -58,9 +51,9 @@ reload.onclick = async function () {
 async function replace(container: HTMLElement): Promise<void> {
   const images: NodeListOf<HTMLImageElement> = container.querySelectorAll('.bb-avatar-image');
   for (const image of images) {
-    const [studentId] = /(?<=user)\d+/.exec(image.src) || [null]; // Find the student id from the url, otherwise null. null is in an array since studentId should be the first element of the exec array
+    const [studentId] = /(?<=user)\d+/.exec(image.src) || [null];
     let newImage = await getImgurImage(studentId);
-    image.src = newImage?.link || image.src; // Sets src to imgur image if it can find it for the current students id, otherwise leaves it alone
+    image.src = newImage?.link || image.src;
   }
 }
 
