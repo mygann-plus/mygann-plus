@@ -32,7 +32,7 @@ interface imgurImage {
 }
 
 const headers: Promise<Headers> = (async () => {
-  const data = await fetchRawData('/imgur-authorization/authorization.json'); // eslint-disable-line max-len
+  const data = await fetchRawData('/imgur-authorization/authorization.json');
   return new Headers({ Authorization: `Bearer ${data.code}` });
 })();
 
@@ -46,39 +46,30 @@ async function getImgurResponse(): Promise<imgurResponse> {
 
 let imgurResponse: Promise<imgurResponse> = getImgurResponse();
 
-// Return the object containing information about an image on imgur
-export const getImgurImage = async (studentId: string, reset: boolean = false): Promise<imgurImage> => {
+export const getImgurImage = async (studentId: string): Promise<imgurImage> => {
   return (await imgurResponse).data.find((image: imgurImage) => image.title === studentId);
 };
 
-// Delete the user's current custom image if it exists
 async function resetImage(): Promise<void> {
   const userId: string = await getUserId();
   const currentImage: imgurImage = await getImgurImage(userId, true);
 
-  if (currentImage) { // findImage returns null if the image could not be found
+  if (currentImage) {
     fetch(`https://api.imgur.com/3/account/mygannplus/image/${currentImage.deletehash}`, {
       method: 'DELETE',
       headers: await headers,
-    }); // Delete current image from imgur
+    });
   }
 }
 
-// Delete current custom student image and replace it with a new one
-export async function changeImage(newImage: File): Promise<void> { // To change to add url option set newImage: string | File
+export async function changeImage(newImage: File): Promise<void> {
   imgurResponse = getImgurResponse();
-  console.log('Current image being deleted')
-  resetImage(); // Delete the current custom image if it exists
+  resetImage();
 
-  if (newImage === null) {
-    console.log('Not uploading new image'); 
-    return;
-  }
-
-  console.log('Uploading new image')
+  if (newImage === null) return;
 
   const userId: string = await getUserId();
-  const body: FormData = new FormData(); // Options for the upload
+  const body: FormData = new FormData();
 
   body.set('type', 'File');
   body.set('image', newImage);
@@ -88,5 +79,5 @@ export async function changeImage(newImage: File): Promise<void> { // To change 
     method: 'POST',
     headers: await headers,
     body,
-  }); // Upload to imgur
+  });
 }

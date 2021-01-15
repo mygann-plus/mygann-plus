@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import registerModule from '~/core/module';
 import { getUserId } from '~/utils/user';
 import { waitForLoad, waitForOne, createElement } from '~/utils/dom';
@@ -19,13 +20,13 @@ const domQuery = {
 };
 
 let buttons = (
-  <span style={{display: "inline-block", marginTop: "10px"}}>
+  <span style={{ display: 'inline-block', marginTop: '10px' }}>
     <input id="input" type="file" accept="image/*" style={{ display: 'none' }}/>
-    <button className="btn btn-default btn-primary" style={{ marginLeft: "15px" }}>
+    <button className="btn btn-default btn-primary" style={{ marginLeft: '15px' }}>
       <label htmlFor="input" style={{ marginBottom: '0px', fontWeight: 'normal' }}>Choose Avatar</label>
     </button>
-    <button className="btn btn-default" id="reset" style={ {marginLeft: "5px" }}>Reset</button>
-    <button className="btn btn-default" id="reload" style={{ marginLeft: "5px", visibility: "hidden"}}>Reload</button>
+    <button className="btn btn-default" id="reset" style={{ marginLeft: '5px' }}>Reset</button>
+    <button className="btn btn-default" id="reload" style={{ marginLeft: '5px', visibility: 'hidden' }}>Save</button>
   </span>
 );
 
@@ -34,7 +35,7 @@ let file = () => actualInput.files[0];
 const reset = buttons.querySelector('#reset') as HTMLButtonElement;
 const reload = buttons.querySelector('#reload') as HTMLButtonElement;
 
-actualInput.addEventListener('input', function (evt) {
+actualInput.addEventListener('input', () => {
   changeImage(file());
   reload.style.visibility = 'visible';
 });
@@ -82,7 +83,7 @@ async function avatarMain() {
   replace(container);
   const options: MutationObserverInit = { subtree: true, childList: true };
   obs.observe(container, options);
-  if (location.href.endsWith(`${await getUserId()}/contactcard`)) {
+  if (window.location.href.endsWith(`${await getUserId()}/contactcard`)) {
     (await waitForLoad(domQuery.profile)).appendChild(buttons);
   }
 }
