@@ -52,7 +52,7 @@ export const getImgurImage = async (studentId: string): Promise<imgurImage> => {
 
 async function resetImage(): Promise<void> {
   const userId: string = await getUserId();
-  const currentImage: imgurImage = await getImgurImage(userId, true);
+  const currentImage: imgurImage = await getImgurImage(userId);
 
   if (currentImage) {
     fetch(`https://api.imgur.com/3/account/mygannplus/image/${currentImage.deletehash}`, {
