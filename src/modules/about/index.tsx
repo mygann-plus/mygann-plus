@@ -147,21 +147,18 @@ async function aboutMain() {
     const linkBadge = <span className={selectors.updateBadge} id={selectors.desktopLinkBadge} />;
     desktopMenuLink.appendChild(linkBadge);
 
-    const changeListener = addInstallStateChangeListener(({ newValue }) => {
-      if (!newValue) {
-        avatarBadge.remove();
-        linkBadge.remove();
-        changeListener.remove();
-      }
-    });
-
-    // const changeListener = window.addEventListener('storage', () => {
-    //   if (localStorage.getItem('MyGannPlusUpdated') === 'false') {
+    // const changeListener = addInstallStateChangeListener(({ newValue }) => {
+    //   if (!newValue) {
     //     avatarBadge.remove();
     //     linkBadge.remove();
-    //     // window.removeEventListener('storage', changeListener); // would have to be done by making callback a named function, not worth it
+    //     changeListener.remove();
     //   }
     // });
+
+    const changeListener = window.addEventListener('ClearTheDot', () => {
+      avatarBadge.remove();
+      linkBadge.remove();
+    });
   }
 }
 
