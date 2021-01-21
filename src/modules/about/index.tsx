@@ -155,7 +155,7 @@ async function aboutMain() {
     //   }
     // });
 
-    const changeListener = window.addEventListener('ClearTheDot', () => {
+    const changeListener = document.addEventListener('ClearTheDot', () => {
       avatarBadge.remove();
       linkBadge.remove();
     });

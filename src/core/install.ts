@@ -1,6 +1,5 @@
 import storage, { StorageChangeListener } from '~/utils/storage';
-import { dotNumber } from '~/utils/manifest'
-import stringStripHtml from 'string-strip-html';
+import { dotNumber } from '~/utils/manifest';
 
 const INSTALL_KEY = 'install';
 const SCHEMA_VERSION = 2;
@@ -44,18 +43,14 @@ export async function hasInstalled() {
 }
 
 export async function hasUpdated() {
-  // const data = await getInstallData();
-  // return data.installState === installStates.UPDATE;
-  // return localStorage.getItem('MyGannPlusUpdated') === 'true';
-  return localStorage.getItem('dotNumber') !== dotNumber;
+  return localStorage.getItem('MyGannPlusDotNumber') !== dotNumber;
 }
 
 export function clearInstallState() {
   markInstallState('');
   const event = new Event('ClearTheDot');
   document.dispatchEvent(event);
-  // return localStorage.setItem('MyGannPlusUpdated', 'false');
-  return localStorage.setItem('dotNumber', dotNumber);
+  return localStorage.setItem('MyGannPlusDotNumber', dotNumber);
 }
 
 export function addInstallStateChangeListener(listener: StorageChangeListener<string>) {

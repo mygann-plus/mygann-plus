@@ -25,8 +25,8 @@ let buttons = (
     <button className="btn btn-default btn-primary" style={{ marginLeft: '15px', padding: '0px' }}>
       <label htmlFor="input" style={{ marginBottom: '0px', fontWeight: 'normal', padding: '6px 12px' }}>Choose Avatar</label>
     </button>
+    <button className="btn btn-default" id="save" style={{ borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }}>Save</button>
     <button className="btn btn-default" id="reset" style={{ marginLeft: '5px' }}>Reset</button>
-    <button className="btn btn-default" id="reload" style={{ marginLeft: '5px', visibility: 'hidden' }}>Reload</button>
   </span>
 );
 
@@ -34,25 +34,30 @@ const input = buttons.querySelector('#input') as HTMLInputElement;
 let file = () => input.files[0];
 const reset = buttons.querySelector('#reset') as HTMLButtonElement;
 const reload = buttons.querySelector('#reload') as HTMLButtonElement;
+const save = buttons.querySelector('#save') as HTMLButtonElement;
 
-input.addEventListener('input', () => {
-  changeImage(file());
-  reload.style.visibility = 'visible';
-});
+save.onclick = async function() {
+  await changeImage(file());
+  replace(await waitForLoad(domQuery.profile)); // worked
+  avatarInit();
+  // avatarInit();
+  // avatarMain();
+};
+
 
 reset.onclick = async function () {
   await changeImage(null);
-  reload.style.visibility = 'visible';
-};
-
-reload.onclick = async function () {
-  window.location.reload();
+  replace(await waitForLoad(domQuery.profile)); // worked
+  avatarInit();
+  // avatarInit();
+  // avatarMain();
 };
 
 async function replace(container: HTMLElement): Promise<void> {
   const images: NodeListOf<HTMLImageElement> = container.querySelectorAll('.bb-avatar-image');
   for (const image of images) {
-    const [studentId] = /(?<=user)\d+/.exec(image.src) || [null];
+    const [studentId] = /(?<=user)\d+/.exec(image.src) || [await getUserId()];
+    console.log(studentId)
     let newImage = await getImgurImage(studentId);
     image.src = newImage?.link || image.src;
   }
@@ -73,8 +78,8 @@ async function avatarInit() {
   for (const img of imgs) {
     const imgurImage = await getImgurImage(await getUserId());
     img.src = imgurImage?.link || img.src;
-    const obs = new MutationObserver(() => img.src = imgurImage?.link || img.src);
-    obs.observe(img, { attributes: true });
+    // const obs = new MutationObserver(() => img.src = imgurImage?.link || img.src);
+    // obs.observe(img, { attributes: true });
   }
 }
 

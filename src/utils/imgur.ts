@@ -63,7 +63,6 @@ async function resetImage(): Promise<void> {
 }
 
 export async function changeImage(newImage: File): Promise<void> {
-  imgurResponse = getImgurResponse();
   resetImage();
 
   if (newImage === null) return;
@@ -75,9 +74,13 @@ export async function changeImage(newImage: File): Promise<void> {
   body.set('image', newImage);
   body.set('title', userId);
 
-  fetch('https://api.imgur.com/3/image', {
+  const response = await fetch('https://api.imgur.com/3/image', {
     method: 'POST',
     headers: await headers,
     body,
   });
+
+  // console.log(
+
+  imgurResponse = getImgurResponse();
 }

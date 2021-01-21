@@ -1,4 +1,5 @@
-export const dotNumber = '1';
+export const dotNumber = '3';
+console.log(dotNumber);
 
 const manifest: chrome.runtime.Manifest = {
   version_name: '1.15.0',

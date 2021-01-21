@@ -362,7 +362,7 @@ async function runGame(unloaderContext: UnloaderContext) {
     .map(async (student: any) => ({
       name: student.name,
       nickname: student.nickName,
-      image: (await getImgurImage(student.Id)).link || await getCDNImageUrl(`user/${student.userPhotoLarge}?resize=200,200`),
+      image: ((await getImgurImage(student.Id.toString()))?.link || await getCDNImageUrl(`user/${student.userPhotoLarge}`)) + '?resize=200,200',
     })));
 
   if (!students.length) {
