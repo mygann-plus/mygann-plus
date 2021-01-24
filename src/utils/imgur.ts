@@ -80,7 +80,5 @@ export async function changeImage(newImage: File): Promise<void> {
     body,
   });
 
-  // console.log(
-
-  imgurResponse = getImgurResponse();
+  //imgurResponse = getImgurResponse();
 }

@@ -17,51 +17,90 @@ const domQuery = {
   header: () => document.querySelector('.bb-avatar-image-nav') as HTMLImageElement, // sticky header
   sidebarImg: () => document.querySelector('#mobile-account-nav > span.iHolder.pull-left.ddd > img') as HTMLImageElement, // image in minimized screen menu
   profile: () => document.querySelector('#contact-col-left > div > section > div > div.bb-tile-content > div > div') as HTMLElement, // for profile buttons
-};
 
-let buttons = (
-  <span style={{ display: 'inline-block', marginTop: '10px' }}>
-    <input id="input" type="file" accept="image/*" style={{ display: 'none' }}/>
-    <button className="btn btn-default btn-primary" style={{ marginLeft: '15px', padding: '0px' }}>
-      <label htmlFor="input" style={{ marginBottom: '0px', fontWeight: 'normal', padding: '6px 12px' }}>Choose Avatar</label>
-    </button>
-    <button className="btn btn-default" id="save" style={{ borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }}>Save</button>
-    <button className="btn btn-default" id="reset" style={{ marginLeft: '5px' }}>Reset</button>
-  </span>
-);
-
-const input = buttons.querySelector('#input') as HTMLInputElement;
-let file = () => input.files[0];
-const reset = buttons.querySelector('#reset') as HTMLButtonElement;
-const reload = buttons.querySelector('#reload') as HTMLButtonElement;
-const save = buttons.querySelector('#save') as HTMLButtonElement;
-
-save.onclick = async function() {
-  await changeImage(file());
-  replace(await waitForLoad(domQuery.profile)); // worked
-  avatarInit();
-  // avatarInit();
-  // avatarMain();
-};
-
-
-reset.onclick = async function () {
-  await changeImage(null);
-  replace(await waitForLoad(domQuery.profile)); // worked
-  avatarInit();
-  // avatarInit();
-  // avatarMain();
+  profileDirect: () => document.querySelector('#contact-card-large-img') as HTMLImageElement, // actual image element for direct source change
+  bio: () => document.querySelector('#contact-col-left > div > section > div > div.bb-tile-content > div > div > div.col-md-7') as HTMLElement,
 };
 
 async function replace(container: HTMLElement): Promise<void> {
   const images: NodeListOf<HTMLImageElement> = container.querySelectorAll('.bb-avatar-image');
   for (const image of images) {
-    const [studentId] = /(?<=user)\d+/.exec(image.src) || [await getUserId()];
-    console.log(studentId)
+    if (window.location.href.endsWith(`${await getUserId()}/contactcard`) && FIRST_TIME) {
+      DEFAULT_IMAGE = image.src;
+      FIRST_TIME = false;
+    }
+    const [studentId] = /(?<=user)\d+/.exec(image.src) || [null];
     let newImage = await getImgurImage(studentId);
     image.src = newImage?.link || image.src;
   }
 }
+
+let buttons = (
+  <span style={{ display: 'inline-block', marginTop: '10px' }}>
+    <p id="message" style={{ marginLeft: '15px' }}>Choose a new avatar!</p>
+    <input id="input" type="file" accept="image/*" style={{ display: 'none' }}/>
+    <button className="btn btn-default" style={{ marginLeft: '15px', padding: '0px', borderTopRightRadius: '0px', borderBottomRightRadius: '0px' }}>
+      <label htmlFor="input" style={{ marginBottom: '0px', fontWeight: 'normal', padding: '6px 12px' }}>Choose Avatar</label>
+    </button>
+    <button className="btn btn-default" id="reset" style={{ borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }}>Reset</button>
+    <button className="btn btn-default" id="save" style={{ marginLeft: '5px' }}>Save</button>
+  </span>
+);
+
+const input = buttons.querySelector('#input') as HTMLInputElement;
+const reset = buttons.querySelector('#reset') as HTMLButtonElement;
+const save = buttons.querySelector('#save') as HTMLButtonElement;
+const message = buttons.querySelector('#message') as HTMLButtonElement;
+
+input.value = null;
+
+let file = () => input.files[0];
+
+let RESET_CLICKED = false;
+let DEFAULT_IMAGE: string = null;
+let FIRST_TIME = true;
+
+save.onclick = async () => {
+  if (file()) {
+    message.innerText = 'Uploading...';
+    await changeImage(file());
+    input.value = null;
+    message.innerText = 'Image has succesfully uploaded.';
+  } else if (RESET_CLICKED) {
+    message.innerText = 'Resetting...';
+    await changeImage(null);
+    (await waitForLoad(domQuery.header)).src = DEFAULT_IMAGE;
+    RESET_CLICKED = true;
+    message.innerText = 'Image has succesfully reset.';
+  }
+};
+
+input.addEventListener('input', async (event) => {
+  await preview(event);
+  let inputValueArr = input.value.split('\\');
+  message.innerHTML = `Previewing ${inputValueArr[inputValueArr.length - 1]}`;
+});
+
+async function preview(event) {
+  let selectedFile = event.target.files[0];
+  let reader = new FileReader();
+  let changeHeader = await waitForLoad(domQuery.header);
+  let changeProfile = await waitForLoad(domQuery.profileDirect);
+
+  reader.onload = function (event) {
+    changeHeader.src = event.target.result;
+    changeProfile.src = event.target.result;
+  };
+
+  reader.readAsDataURL(selectedFile);
+}
+
+reset.onclick = async function () {
+  RESET_CLICKED = true;
+  (await waitForLoad(domQuery.profileDirect)).src = DEFAULT_IMAGE;
+  (await waitForLoad(domQuery.header)).src = DEFAULT_IMAGE;
+  message.innerHTML = 'Previewing your default Gann image.';
+};
 
 const obs = new MutationObserver(async mutationList => {
   for (let mutation of mutationList) {
@@ -78,8 +117,6 @@ async function avatarInit() {
   for (const img of imgs) {
     const imgurImage = await getImgurImage(await getUserId());
     img.src = imgurImage?.link || img.src;
-    // const obs = new MutationObserver(() => img.src = imgurImage?.link || img.src);
-    // obs.observe(img, { attributes: true });
   }
 }
 
