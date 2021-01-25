@@ -31,6 +31,7 @@ async function replace(container: HTMLElement): Promise<void> {
     }
     const [studentId] = /(?<=user)\d+/.exec(image.src) || [null];
     let newImage = await getImgurImage(studentId);
+    console.log(studentId + ' qwert ', newImage);
     image.src = newImage?.link || image.src;
   }
 }
@@ -123,7 +124,7 @@ async function avatarInit() {
 async function avatarMain() {
   const [container]: HTMLElement[] = await waitForOne(domQuery.avatarContainers, true);
   replace(container);
-  const options: MutationObserverInit = { subtree: true, childList: true };
+  const options: MutationObserverInit = { subtree: true, childList: true, attributes: true };
   obs.observe(container, options);
   if (window.location.href.endsWith(`${await getUserId()}/contactcard`)) {
     (await waitForLoad(domQuery.profile)).appendChild(buttons);
