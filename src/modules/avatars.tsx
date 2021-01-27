@@ -38,7 +38,7 @@ async function replace(container: HTMLElement): Promise<void> {
 
 let buttons = (
   <span style={{ display: 'inline-block', marginTop: '10px' }}>
-    <p id="message" style={{ marginLeft: '15px' }}>Choose a new avatar!</p>
+    <p id="message" style={{ marginLeft: '15px' }}></p>
     <input id="input" type="file" accept="image/*" style={{ display: 'none' }}/>
     <button className="btn btn-default" style={{ marginLeft: '15px', padding: '0px', borderTopRightRadius: '0px', borderBottomRightRadius: '0px' }}>
       <label htmlFor="input" style={{ marginBottom: '0px', fontWeight: 'normal', padding: '6px 12px' }}>Choose Avatar</label>
