@@ -31,7 +31,7 @@ async function replace(container: HTMLElement): Promise<void> {
     }
     const [studentId] = /(?<=user)\d+/.exec(image.src) || [null];
     let newImage = await getImgurImage(studentId);
-    console.log(studentId + ' qwert ', newImage);
+    console.log(studentId + '<-- student ID | New Image -->', newImage);
     image.src = newImage?.link || image.src;
   }
 }
@@ -134,7 +134,7 @@ async function avatarMain() {
 export default registerModule('{df198a10-fcff-4e1b-8c8d-daf9630b4c99}', {
   name: 'Avatars',
   description: `Allows user to change their profile picture and view other students' changed pictures. 
-  To change your picture, navigate to your profile page, click "Change Avatar" and then click "Save."`,
+  To change your picture, navigate to your profile page, click "Choose Avatar" and then click "Save."`,
   defaultEnabled: true,
   main: avatarMain,
   init: avatarInit,
