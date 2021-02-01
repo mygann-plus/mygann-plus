@@ -4,8 +4,15 @@ import { getUserId } from '~/utils/user';
 import { waitForLoad, waitForOne, createElement } from '~/utils/dom';
 import { getImgurImage, changeImage } from '~/utils/imgur';
 
+// TODO
+// Fix directory
+// Make header image not preview (optional)
+// Make contact card images chang
+// RELEASE!!!
+
 const domQuery = {
   avatarContainers: () => [
+    document.querySelector('#overview > div.student-header-body > div.pull-left.bb-avatar-wrapper.mr-10') as HTMLElement,
     document.querySelector('.directory-results-container') as HTMLElement, // directory
     document.querySelector('#RosterCardContainer') as HTMLElement, // class rosters
     document.querySelector('#communitiesContainer') as HTMLElement, // community container
@@ -31,8 +38,11 @@ async function replace(container: HTMLElement): Promise<void> {
     }
     const [studentId] = /(?<=user)\d+/.exec(image.src) || [null];
     let newImage = await getImgurImage(studentId);
-    console.log(studentId + '<-- student ID | New Image -->', newImage);
-    image.src = newImage?.link || image.src;
+    console.log(image.src + '<-- This is a stupid string -->' + studentId + '<-- student ID | New Image -->', newImage);
+    // image.src = newImage?.link || image.src;
+    if (newImage) {
+      image.src = newImage.link;
+    }
   }
 }
 
@@ -122,6 +132,7 @@ async function avatarInit() {
 }
 
 async function avatarMain() {
+  console.log('rtihgsljfgkvnlkkgvjb,h,k.u,jvghbguycjfghvcdhgjftykuhkgyuftjydrdtryktjtgyftkkkkkkkkkkkkkkkkuiisdf');
   const [container]: HTMLElement[] = await waitForOne(domQuery.avatarContainers, true);
   replace(container);
   const options: MutationObserverInit = { subtree: true, childList: true, attributes: true };
