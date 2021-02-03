@@ -3,19 +3,18 @@ import classNames from 'classnames';
 
 import log from '~/utils/log';
 
-// eslint-disable-next-line max-len
-export function waitForLoad<T>(condition: () => T, root = document.body /* , filterElements?: T[] */): Promise<T> {
+export function waitForLoad<T>(condition: () => T, root = document.body): Promise<T> {
 
   return new Promise(res => {
 
     const resolvedCondition = condition();
-    if (resolvedCondition /* && !filterElements.includes(resolvedCondition) */) {
+    if (resolvedCondition) {
       return res(resolvedCondition);
     }
 
     const observer = new MutationObserver(() => {
       const resolvedCondition = condition(); // eslint-disable-line no-shadow
-      if (resolvedCondition /* && !filterElements.includes(resolvedCondition) */) {
+      if (resolvedCondition) {
         res(resolvedCondition);
         observer.disconnect();
       }
@@ -33,7 +32,6 @@ export function waitForLoad<T>(condition: () => T, root = document.body /* , fil
 export function waitForOne(
   condition: () => NodeList | HTMLElement[],
   filterNull?: boolean,
-  filterElements?: HTMLElement[],
   root = document.body,
 ): Promise<HTMLElement[]> {
   return waitForLoad(() => {
@@ -48,7 +46,7 @@ export function waitForOne(
       }
       return Array.from(resolvedCondition) as HTMLElement[];
     }
-  }, root, filterElements);
+  }, root);
 }
 
 export function createElement(tagName: string, props: any, ...children: any[]) {
