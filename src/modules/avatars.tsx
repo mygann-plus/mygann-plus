@@ -5,15 +5,28 @@ import { waitForLoad, waitForOne, createElement, insertCss } from '~/utils/dom';
 import { getImgurImage, changeImage } from '~/utils/imgur';
 
 const domQuery = {
-  avatarContainers: () => [
-    document.querySelector('#overview > div.student-header-body > div.pull-left.bb-avatar-wrapper.mr-10') as HTMLElement,
-    document.querySelector('.directory-results-container') as HTMLElement, // directory
-    document.querySelector('#RosterCardContainer') as HTMLElement, // class rosters
-    document.querySelector('#communitiesContainer') as HTMLElement, // community container
-    document.querySelector('#activity-stream') as HTMLElement, // news
-    document.querySelector('#athleticteammaincontainer') as HTMLElement, // athletics roster
-    document.querySelector('#contact-col-left > div > section') as HTMLElement, // profile image
-  ],
+  // avatarContainers: () => [
+  //   document.querySelector('#overview > div.student-header-body > div.pull-left.bb-avatar-wrapper.mr-10') as HTMLElement,
+  //   document.querySelector('.directory-results-container') as HTMLElement, // directory
+  //   document.querySelector('#RosterCardContainer') as HTMLElement, // class rosters
+  //   document.querySelector('#communitiesContainer') as HTMLElement, // community container
+  //   document.querySelector('#activity-stream') as HTMLElement, // news
+  //   document.querySelector('#athleticteammaincontainer') as HTMLElement, // athletics roster
+  //   document.querySelector('#contact-col-left > div > section') as HTMLElement, // profile image
+  // ],
+
+  avatarContainer: (nononode: HTMLElement) => (): HTMLElement => {
+    const container = document.querySelector(`
+      #overview > div.student-header-body > div.pull-left.bb-avatar-wrapper.mr-10,
+      .directory-results-container,
+      #RosterCardContainer,
+      #communitiesContainer,
+      #activity-stream,
+      #athleticteammaincontainer,
+      #contact-col-left > div > section
+    `) as HTMLElement;
+    return container !== nononode && container; // return the found node as long as it's not the no no node(tm)
+  },
 
   image: () => document.querySelector('.bb-avatar-image') as HTMLElement, // every instance of image
 
@@ -127,6 +140,7 @@ async function avatarInit() {
   for (const img of imgs) {
     const imgurImage = await getImgurImage(await getUserId());
     img.src = imgurImage?.link || img.src;
+    let a: string = undefined;
   }
 }
 
@@ -147,21 +161,14 @@ async function avatarMain() {
   // previousContainer = container;
   // console.log('3', container, previousContainer, container === previousContainer);
 
-  [container] = await waitForOne(domQuery.avatarContainers, false, [container]);
+  [container] = await waitForOne(domQuery.avatarContainers(container), false);
+  console.log(container);
 
   replace(container);
   // const options: MutationObserverInit = { subtree: true, childList: true, attributes: true };
   // obs.observe(container, options);
   if (window.location.href.endsWith(`${await getUserId()}/contactcard`)) {
     (await waitForLoad(domQuery.profile)).appendChild(buttons);
-  }
-
-  if (window.location.href.endsWith('802')) {
-    let currentDocumentTimestamp = new Date(performance.timing.domLoading).getTime();
-    let now = Date.now();
-    let delay = 5000;
-    let plusTenSec = currentDocumentTimestamp + delay;
-    if (now > plusTenSec) window.location.reload();
   }
 }
 
