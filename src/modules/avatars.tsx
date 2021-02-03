@@ -1,14 +1,8 @@
 /* eslint-disable max-len */
 import registerModule from '~/core/module';
 import { getUserId } from '~/utils/user';
-import { waitForLoad, waitForOne, createElement } from '~/utils/dom';
+import { waitForLoad, waitForOne, createElement, insertCss } from '~/utils/dom';
 import { getImgurImage, changeImage } from '~/utils/imgur';
-
-// TODO
-// Fix directory
-// Make header image not preview (optional)
-// Make contact card images chang
-// RELEASE!!!
 
 const domQuery = {
   avatarContainers: () => [
@@ -21,6 +15,8 @@ const domQuery = {
     document.querySelector('#contact-col-left > div > section') as HTMLElement, // profile image
   ],
 
+  image: () => document.querySelector('.bb-avatar-image') as HTMLElement, // every instance of image
+
   header: () => document.querySelector('.bb-avatar-image-nav') as HTMLImageElement, // sticky header
   sidebarImg: () => document.querySelector('#mobile-account-nav > span.iHolder.pull-left.ddd > img') as HTMLImageElement, // image in minimized screen menu
   profile: () => document.querySelector('#contact-col-left > div > section > div > div.bb-tile-content > div > div') as HTMLElement, // for profile buttons
@@ -32,13 +28,9 @@ const domQuery = {
 async function replace(container: HTMLElement): Promise<void> {
   const images: NodeListOf<HTMLImageElement> = container.querySelectorAll('.bb-avatar-image');
   for (const image of images) {
-    if (window.location.href.endsWith(`${await getUserId()}/contactcard`) && FIRST_TIME) {
-      DEFAULT_IMAGE = image.src;
-      FIRST_TIME = false;
-    }
     const [studentId] = /(?<=user)\d+/.exec(image.src) || [null];
     let newImage = await getImgurImage(studentId);
-    console.log(image.src + '<-- This is a stupid string -->' + studentId + '<-- student ID | New Image -->', newImage);
+    // console.log(`${image.src}<-- This is a stupid string -->${studentId}<-- student ID | New Image -->`, newImage);
     // image.src = newImage?.link || image.src;
     if (newImage) {
       image.src = newImage.link;
@@ -68,49 +60,55 @@ input.value = null;
 let file = () => input.files[0];
 
 let RESET_CLICKED = false;
-let DEFAULT_IMAGE: string = null;
-let FIRST_TIME = true;
+let DEFAULT_IMAGE: string;
+
+function showMessage(newMessage: string) {
+  message.innerText = newMessage;
+}
 
 save.onclick = async () => {
   if (file()) {
-    message.innerText = 'Uploading...';
+    showMessage('Uploading...');
     await changeImage(file());
+    const imgs: HTMLImageElement[] = [await waitForLoad(domQuery.header), await waitForLoad(domQuery.sidebarImg)];
+    for (const img of imgs) {
+      const imgurImage = await getImgurImage(await getUserId());
+      img.src = imgurImage?.link || img.src;
+    }
     input.value = null;
-    message.innerText = 'Image has succesfully uploaded.';
+    showMessage('Image has succesfully uploaded.');
   } else if (RESET_CLICKED) {
-    message.innerText = 'Resetting...';
+    showMessage('Resetting...');
     await changeImage(null);
-    (await waitForLoad(domQuery.header)).src = DEFAULT_IMAGE;
-    RESET_CLICKED = true;
-    message.innerText = 'Image has succesfully reset.';
+    (await waitForLoad(domQuery.header)).src = `${DEFAULT_IMAGE}?resize=75,75`;
+    RESET_CLICKED = false;
+    showMessage('Image has succesfully reset.');
+  } else {
+    showMessage('Upload an image before clicking save.');
   }
 };
 
-input.addEventListener('input', async (event) => {
-  await preview(event);
-  let inputValueArr = input.value.split('\\');
-  message.innerHTML = `Previewing ${inputValueArr[inputValueArr.length - 1]}`;
-});
-
-async function preview(event) {
-  let selectedFile = event.target.files[0];
+async function preview(image: File) {
   let reader = new FileReader();
-  let changeHeader = await waitForLoad(domQuery.header);
   let changeProfile = await waitForLoad(domQuery.profileDirect);
 
-  reader.onload = function (event) {
-    changeHeader.src = event.target.result;
-    changeProfile.src = event.target.result;
+  reader.onload = (event: ProgressEvent) => {
+    changeProfile.src = (event.target as FileReader).result as string;
   };
 
-  reader.readAsDataURL(selectedFile);
+  reader.readAsDataURL(image);
 }
+
+input.addEventListener('input', async (event: InputEvent) => {
+  await preview((event.target as HTMLInputElement).files[0]);
+  let inputValueArr = input.value.split('\\');
+  showMessage(`Previewing ${inputValueArr[inputValueArr.length - 1]}`);
+});
 
 reset.onclick = async function () {
   RESET_CLICKED = true;
-  (await waitForLoad(domQuery.profileDirect)).src = DEFAULT_IMAGE;
-  (await waitForLoad(domQuery.header)).src = DEFAULT_IMAGE;
-  message.innerHTML = 'Previewing your default Gann image.';
+  (await waitForLoad(domQuery.profileDirect)).src = `${DEFAULT_IMAGE}?resize=200,200`;
+  showMessage('Previewing your default Gann image.');
 };
 
 const obs = new MutationObserver(async mutationList => {
@@ -125,20 +123,45 @@ const obs = new MutationObserver(async mutationList => {
 
 async function avatarInit() {
   const imgs: HTMLImageElement[] = [await waitForLoad(domQuery.header), await waitForLoad(domQuery.sidebarImg)];
+  [DEFAULT_IMAGE] = imgs[0].src.split('?');
   for (const img of imgs) {
     const imgurImage = await getImgurImage(await getUserId());
     img.src = imgurImage?.link || img.src;
   }
 }
 
+// const croppingCss = '.bb-avatar-img, .bb-avatar-image-nav, #mobile-account-nav > span.iHolder.pull-left.ddd > img { object-fit: cover; }';
+const croppingCss = 'img[src~="imgur"] { visibility: hidden !important; }';
+
+let container: HTMLElement;
+let previousContainer: HTMLElement;
+
 async function avatarMain() {
-  console.log('rtihgsljfgkvnlkkgvjb,h,k.u,jvghbguycjfghvcdhgjftykuhkgyuftjydrdtryktjtgyftkkkkkkkkkkkkkkkkuiisdf');
-  const [container]: HTMLElement[] = await waitForOne(domQuery.avatarContainers, true);
+  insertCss(croppingCss);
+
+  // let container: HTMLElement;
+  // let previousContainer: HTMLElement;
+  // console.log('1', container, previousContainer, container === previousContainer);
+  // [container] = await waitForOne(domQuery.avatarContainers, true, [previousContainer]);
+  // console.log('2', container, previousContainer, container === previousContainer);
+  // previousContainer = container;
+  // console.log('3', container, previousContainer, container === previousContainer);
+
+  [container] = await waitForOne(domQuery.avatarContainers, false, [container]);
+
   replace(container);
-  const options: MutationObserverInit = { subtree: true, childList: true, attributes: true };
-  obs.observe(container, options);
+  // const options: MutationObserverInit = { subtree: true, childList: true, attributes: true };
+  // obs.observe(container, options);
   if (window.location.href.endsWith(`${await getUserId()}/contactcard`)) {
     (await waitForLoad(domQuery.profile)).appendChild(buttons);
+  }
+
+  if (window.location.href.endsWith('802')) {
+    let currentDocumentTimestamp = new Date(performance.timing.domLoading).getTime();
+    let now = Date.now();
+    let delay = 5000;
+    let plusTenSec = currentDocumentTimestamp + delay;
+    if (now > plusTenSec) window.location.reload();
   }
 }
 
