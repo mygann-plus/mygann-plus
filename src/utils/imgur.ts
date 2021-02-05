@@ -74,7 +74,7 @@ export async function changeImage(newImage: File): Promise<void> {
   body.set('image', newImage);
   body.set('title', userId);
 
-  const response = await fetch('https://api.imgur.com/3/image', {
+  await fetch('https://api.imgur.com/3/image', {
     method: 'POST',
     headers: await headers,
     body,

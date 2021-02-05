@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import registerModule from '~/core/module';
 import { getUserId } from '~/utils/user';
-import { waitForLoad, waitForOne, createElement, insertCss } from '~/utils/dom';
+import { waitForLoad, createElement, insertCss } from '~/utils/dom';
 import { getImgurImage, changeImage } from '~/utils/imgur';
 
 const domQuery = {
@@ -15,7 +15,7 @@ const domQuery = {
   //   document.querySelector('#contact-col-left > div > section') as HTMLElement, // profile image
   // ],
 
-  avatarContainer: (nononode: HTMLElement) => (): HTMLElement => {
+  avatarContainer: (nononode: HTMLElement) => (): HTMLElement => { // return the first element it finds from this list as long as it's not the no no node(tm)
     const container = document.querySelector(`
       #overview > div.student-header-body > div.pull-left.bb-avatar-wrapper.mr-10,
       .directory-results-container,
@@ -25,7 +25,7 @@ const domQuery = {
       #athleticteammaincontainer,
       #contact-col-left > div > section
     `) as HTMLElement;
-    return container !== nononode && container; // return the found node as long as it's not the no no node(tm)
+    return container !== nononode && container;
   },
 
   image: () => document.querySelector('.bb-avatar-image') as HTMLElement, // every instance of image
@@ -41,13 +41,11 @@ const domQuery = {
 async function replace(container: HTMLElement): Promise<void> {
   const images: NodeListOf<HTMLImageElement> = container.querySelectorAll('.bb-avatar-image');
   for (const image of images) {
-    const [studentId] = /(?<=user)\d+/.exec(image.src) || [null];
+    const [studentId] = /(?<=user)\d+/.exec(image.src);
+    if (!studentId) return;
     let newImage = await getImgurImage(studentId);
     // console.log(`${image.src}<-- This is a stupid string -->${studentId}<-- student ID | New Image -->`, newImage);
-    // image.src = newImage?.link || image.src;
-    if (newImage) {
-      image.src = newImage.link;
-    }
+    image.src = newImage?.link || image.src;
   }
 }
 
@@ -133,25 +131,26 @@ const obs = new MutationObserver(async mutationList => {
     }
   }
 });
+const options: MutationObserverInit = { subtree: true, childList: true, attributes: true };
+
+const croppingCss = 'img[src~="imgur"] { visibility: hidden !important; }';
 
 async function avatarInit() {
+  insertCss(croppingCss);
   const imgs: HTMLImageElement[] = [await waitForLoad(domQuery.header), await waitForLoad(domQuery.sidebarImg)];
   [DEFAULT_IMAGE] = imgs[0].src.split('?');
   for (const img of imgs) {
     const imgurImage = await getImgurImage(await getUserId());
     img.src = imgurImage?.link || img.src;
-    let a: string = undefined;
   }
 }
 
 // const croppingCss = '.bb-avatar-img, .bb-avatar-image-nav, #mobile-account-nav > span.iHolder.pull-left.ddd > img { object-fit: cover; }';
-const croppingCss = 'img[src~="imgur"] { visibility: hidden !important; }';
 
 let container: HTMLElement;
-let previousContainer: HTMLElement;
 
 async function avatarMain() {
-  insertCss(croppingCss);
+  obs.disconnect();
 
   // let container: HTMLElement;
   // let previousContainer: HTMLElement;
@@ -161,12 +160,13 @@ async function avatarMain() {
   // previousContainer = container;
   // console.log('3', container, previousContainer, container === previousContainer);
 
-  [container] = await waitForOne(domQuery.avatarContainers(container), false);
-  console.log(container);
+  // [container] = await waitForOne(domQuery.avatarContainers(container), false);
+  // console.log(container);
+
+  container = await waitForLoad(domQuery.avatarContainer(container));
 
   replace(container);
-  // const options: MutationObserverInit = { subtree: true, childList: true, attributes: true };
-  // obs.observe(container, options);
+  obs.observe(container, options);
   if (window.location.href.endsWith(`${await getUserId()}/contactcard`)) {
     (await waitForLoad(domQuery.profile)).appendChild(buttons);
   }
