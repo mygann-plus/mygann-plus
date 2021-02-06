@@ -1,21 +1,15 @@
 /* eslint-disable max-len */
 import registerModule from '~/core/module';
 import { getUserId } from '~/utils/user';
-import { waitForLoad, createElement, insertCss } from '~/utils/dom';
+import { waitForLoad, createElement } from '~/utils/dom';
 import { getImgurImage, changeImage } from '~/utils/imgur';
 
-const domQuery = {
-  // avatarContainers: () => [
-  //   document.querySelector('#overview > div.student-header-body > div.pull-left.bb-avatar-wrapper.mr-10') as HTMLElement,
-  //   document.querySelector('.directory-results-container') as HTMLElement, // directory
-  //   document.querySelector('#RosterCardContainer') as HTMLElement, // class rosters
-  //   document.querySelector('#communitiesContainer') as HTMLElement, // community container
-  //   document.querySelector('#activity-stream') as HTMLElement, // news
-  //   document.querySelector('#athleticteammaincontainer') as HTMLElement, // athletics roster
-  //   document.querySelector('#contact-col-left > div > section') as HTMLElement, // profile image
-  // ],
+// TODO
+// Other peoples contact card
+// Clear images on reset from no reload pages
 
-  avatarContainer: (nononode: HTMLElement) => (): HTMLElement => { // return the first element it finds from this list as long as it's not the no no node(tm)
+const domQuery = {
+  avatarContainer: (nononode: HTMLElement) => (): HTMLElement => {
     const container = document.querySelector(`
       #overview > div.student-header-body > div.pull-left.bb-avatar-wrapper.mr-10,
       .directory-results-container,
@@ -44,20 +38,22 @@ async function replace(container: HTMLElement): Promise<void> {
     const [studentId] = /(?<=user)\d+/.exec(image.src);
     if (!studentId) return;
     let newImage = await getImgurImage(studentId);
-    // console.log(`${image.src}<-- This is a stupid string -->${studentId}<-- student ID | New Image -->`, newImage);
     image.src = newImage?.link || image.src;
+    image.style.objectFit = 'cover';
   }
 }
 
 let buttons = (
   <span style={{ display: 'inline-block', marginTop: '10px' }}>
     <p id="message" style={{ marginLeft: '15px' }}></p>
-    <input id="input" type="file" accept="image/*" style={{ display: 'none' }}/>
-    <button className="btn btn-default" style={{ marginLeft: '15px', padding: '0px', borderTopRightRadius: '0px', borderBottomRightRadius: '0px' }}>
-      <label htmlFor="input" style={{ marginBottom: '0px', fontWeight: 'normal', padding: '6px 12px' }}>Choose Avatar</label>
-    </button>
-    <button className="btn btn-default" id="reset" style={{ borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }}>Reset</button>
-    <button className="btn btn-default" id="save" style={{ marginLeft: '5px' }}>Save</button>
+    <span>
+      <input id="input" type="file" accept="image/*" style={{ display: 'none' }}/>
+      <button className="btn btn-default" style={{ marginLeft: '15px', padding: '0px', borderTopRightRadius: '0px', borderBottomRightRadius: '0px' }}>
+        <label htmlFor="input" style={{ marginBottom: '0px', fontWeight: 'normal', padding: '6px 12px' }}>Choose Avatar</label>
+      </button>
+      <button className="btn btn-default" id="reset" style={{ borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }}>Reset</button>
+      <button className="btn btn-default" id="save" style={{ marginLeft: '5px' }}>Save</button>
+    </span>
   </span>
 );
 
@@ -131,43 +127,30 @@ const obs = new MutationObserver(async mutationList => {
     }
   }
 });
+
 const options: MutationObserverInit = { subtree: true, childList: true, attributes: true };
 
-const croppingCss = 'img[src~="imgur"] { visibility: hidden !important; }';
-
 async function avatarInit() {
-  insertCss(croppingCss);
   const imgs: HTMLImageElement[] = [await waitForLoad(domQuery.header), await waitForLoad(domQuery.sidebarImg)];
   [DEFAULT_IMAGE] = imgs[0].src.split('?');
   for (const img of imgs) {
     const imgurImage = await getImgurImage(await getUserId());
     img.src = imgurImage?.link || img.src;
+    img.style.objectFit = 'cover';
   }
 }
-
-// const croppingCss = '.bb-avatar-img, .bb-avatar-image-nav, #mobile-account-nav > span.iHolder.pull-left.ddd > img { object-fit: cover; }';
 
 let container: HTMLElement;
 
 async function avatarMain() {
   obs.disconnect();
 
-  // let container: HTMLElement;
-  // let previousContainer: HTMLElement;
-  // console.log('1', container, previousContainer, container === previousContainer);
-  // [container] = await waitForOne(domQuery.avatarContainers, true, [previousContainer]);
-  // console.log('2', container, previousContainer, container === previousContainer);
-  // previousContainer = container;
-  // console.log('3', container, previousContainer, container === previousContainer);
-
-  // [container] = await waitForOne(domQuery.avatarContainers(container), false);
-  // console.log(container);
-
   container = await waitForLoad(domQuery.avatarContainer(container));
 
   replace(container);
   obs.observe(container, options);
   if (window.location.href.endsWith(`${await getUserId()}/contactcard`)) {
+    (await waitForLoad(domQuery.bio)).style.display = 'none';
     (await waitForLoad(domQuery.profile)).appendChild(buttons);
   }
 }
