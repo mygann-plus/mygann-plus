@@ -55,30 +55,32 @@ async function resetImage(): Promise<void> {
   const currentImage: imgurImage = await getImgurImage(userId);
 
   if (currentImage) {
-    fetch(`https://api.imgur.com/3/account/mygannplus/image/${currentImage.deletehash}`, {
+    await fetch(`https://api.imgur.com/3/account/mygannplus/image/${currentImage.deletehash}`, {
       method: 'DELETE',
       headers: await headers,
     });
   }
 }
 
-export async function changeImage(newImage: File): Promise<void> {
-  resetImage();
+export async function changeImage(newImage: File | string): Promise<void> {
+  await resetImage();
 
-  if (newImage === null) return;
+  if (newImage !== null) {
 
-  const userId: string = await getUserId();
-  const body: FormData = new FormData();
+    const userId: string = await getUserId();
+    const body: FormData = new FormData();
 
-  body.set('type', 'File');
-  body.set('image', newImage);
-  body.set('title', userId);
+    body.set('type', newImage instanceof File ? 'File' : 'URL');
+    body.set('image', newImage);
+    body.set('title', userId);
 
-  await fetch('https://api.imgur.com/3/image', {
-    method: 'POST',
-    headers: await headers,
-    body,
-  });
+    await fetch('https://api.imgur.com/3/image', {
+      method: 'POST',
+      headers: await headers,
+      body,
+    });
+
+  }
 
   imgurResponse = getImgurResponse();
 }

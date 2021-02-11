@@ -1,0 +1,51 @@
+#buttons-container img, :global(#contact-card-large-img), :global(img[src*='imgur']) {
+  object-fit: cover;
+}
+
+.exampleImage {
+  display: inline;
+  width: 52px;
+  height: 52px;
+  object-fit: covert;
+  border-radius: 50%;
+  padding: 5px; 
+}
+
+.exampleImage:hover {
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+#buttons-container {
+  display: inline-block;
+  margin-top: 15px;
+}
+
+#buttons-container #message {
+  margin-left: 15px;
+}
+
+#buttons-container input {
+  display: none;
+}
+
+#upload-btn {
+  margin-left: 15px;
+  padding: 0;
+}
+
+#upload-btn > label {
+  margin-bottom: 0;
+  font-weight: normal;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+#buttons-container > button {
+  margin-left: 5px;
+}
+
+#buttons-container > div {
+  margin-top: 15px;
+  margin-left: 15px;
+}

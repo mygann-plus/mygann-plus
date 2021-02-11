@@ -3,7 +3,7 @@ import registerModule from '~/core/module';
 import { getUserId } from '~/utils/user';
 import { waitForLoad, createElement, insertCss } from '~/utils/dom';
 import { getImgurImage, changeImage } from '~/utils/imgur';
-import { Children } from 'react';
+// import { Children } from 'react';
 
 // TODO
 // Other peoples contact card
@@ -24,14 +24,11 @@ const domQuery = {
   },
 
   image: () => document.querySelector('.bb-avatar-image') as HTMLElement, // every instance of image
-
   header: () => document.querySelector('.bb-avatar-image-nav') as HTMLImageElement, // sticky header
   sidebarImg: () => document.querySelector('#mobile-account-nav > span.iHolder.pull-left.ddd > img') as HTMLImageElement, // image in minimized screen menu
   profile: () => document.querySelector('#contact-col-left > div > section > div > div.bb-tile-content > div > div') as HTMLElement, // for profile buttons
-
   profileDirect: () => document.querySelector('#contact-card-large-img') as HTMLImageElement, // actual image element for direct source change
   bio: () => document.querySelector('#contact-col-left > div > section > div > div.bb-tile-content > div > div > div.col-md-7') as HTMLElement,
-
   about: () => document.querySelector('#contact-col-left > div > section > div > div:nth-child(1) > h2') as HTMLElement, // about header in profile
 };
 
@@ -107,78 +104,97 @@ const save = buttons.querySelector('#save') as HTMLButtonElement;
 const message = buttons.querySelector('#message') as HTMLButtonElement;
 const exampleImagesContainer = buttons.querySelector('#exampleImagesContainer') as HTMLButtonElement;
 
+let RESET_CLICKED = false;
+let DEFAULT_IMAGE: string;
+let SELECTED_IMAGE: string | File = null;
+
+async function preview(image: File | string) {
+  let changeProfile = await waitForLoad(domQuery.profileDirect);
+
+  if (typeof image === 'string') {
+    changeProfile.src = image;
+  } else {
+
+    let reader = new FileReader();
+
+    reader.onload = (event: ProgressEvent) => {
+      changeProfile.src = (event.target as FileReader).result as string;
+    };
+
+    reader.readAsDataURL(image);
+  }
+}
+
+function selectImage(image: File | string) {
+  SELECTED_IMAGE = image;
+  preview(SELECTED_IMAGE);
+}
+
 for (let exampleSource of exampleImages) {
-  let image = new Image();
-  image.src = exampleSource;
-  image.className = 'exampleImage';
+  const image = <img
+    src={exampleSource}
+    className="exampleImage"
+    onClick={evt => { selectImage(evt.currentTarget.src); }}
+  />;
   exampleImagesContainer.append(image);
 }
 
+// exampleImages.map(image => <img src={exampleSource} className="exampleImage" onClick={e => { selectImage(e.currentTarget.src); }}></img>)
+
 input.value = null;
 
-let file = () => input.files[0];
-
-let RESET_CLICKED = false;
-let DEFAULT_IMAGE: string;
-let SELECTED_IMAGE = null;
+// let file = () => input.files[0];
 
 function showMessage(newMessage: string) {
   message.innerText = newMessage;
 }
 
-document.addEventListener('mousedown', () => {
-  for (let i = 0, len = exampleImagesContainer.children.length; i < len; i++) {
-    (function (index) {
-      ((exampleImagesContainer.children[i] as HTMLElement).onclick) = async () => {
-        showMessage('Previewing image.');
-        fetch(exampleImages[index])
-          .then(response => {
-            return response.blob();
-          }).then(blob => {
-            preview(blob);
-            SELECTED_IMAGE = blob;
-          });
-      };
-    }(i));
-  }
-});
+// document.addEventListener('mousedown', () => {
+//   for (let i = 0, len = exampleImagesContainer.children.length; i < len; i++) {
+//     (function (index) {
+//       ((exampleImagesContainer.children[i] as HTMLElement).onclick) = async () => {
+//         showMessage('Previewing image.');
+//         fetch(exampleImages[index])
+//           .then(response => {
+//             return response.blob();
+//           }).then(blob => {
+//             preview(blob as File);
+//             SELECTED_IMAGE = blob;
+//           });
+//       };
+//     }(i));
+//   }
+// });
 
 save.onclick = async () => {
-  if (file() || SELECTED_IMAGE) {
+  // if (file() || SELECTED_IMAGE) {
+  if (SELECTED_IMAGE) {
     showMessage('Uploading...');
-    await changeImage(SELECTED_IMAGE || file());
-    const imgs: HTMLImageElement[] = [await waitForLoad(domQuery.header), await waitForLoad(domQuery.sidebarImg)];
-    for (const img of imgs) {
-      const imgurImage = await getImgurImage(await getUserId());
-      img.src = imgurImage?.link || img.src;
-    }
+    // await changeImage(SELECTED_IMAGE || file());
+    await changeImage(SELECTED_IMAGE);
     SELECTED_IMAGE = null;
     input.value = null;
     showMessage('Image has succesfully uploaded.');
   } else if (RESET_CLICKED) {
     showMessage('Resetting...');
     await changeImage(null);
-    (await waitForLoad(domQuery.header)).src = `${DEFAULT_IMAGE}?resize=75,75`;
+    // (await waitForLoad(domQuery.header)).src = `${DEFAULT_IMAGE}?resize=75,75`;
     RESET_CLICKED = false;
     showMessage('Image has succesfully reset.');
   } else {
     showMessage('Upload an image before clicking save.');
+    return;
+  }
+  const imgs: HTMLImageElement[] = [await waitForLoad(domQuery.header), await waitForLoad(domQuery.sidebarImg)];
+  for (const img of imgs) {
+    const imgurImage = await getImgurImage(await getUserId());
+    img.src = imgurImage.link || `${DEFAULT_IMAGE}?resize=75,75`;
   }
 };
 
-async function preview(image: File) {
-  let reader = new FileReader();
-  let changeProfile = await waitForLoad(domQuery.profileDirect);
-
-  reader.onload = (event: ProgressEvent) => {
-    changeProfile.src = (event.target as FileReader).result as string;
-  };
-
-  reader.readAsDataURL(image);
-}
-
 input.addEventListener('input', async (event: InputEvent) => {
-  await preview((event.target as HTMLInputElement).files[0]);
+  // await preview((event.target as HTMLInputElement).files[0]);
+  selectImage((event.target as HTMLInputElement).files[0]);
   let inputValueArr = input.value.split('\\');
   showMessage(`Previewing ${inputValueArr[inputValueArr.length - 1]}`);
 });
