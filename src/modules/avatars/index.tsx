@@ -15,18 +15,17 @@ const selectors = {
 const domQuery = {
   avatarContainer: (nononode: HTMLElement) => (): HTMLElement => {
     const container = document.querySelector(`
-      #overview > div.student-header-body > div.pull-left.bb-avatar-wrapper.mr-10,
-      .directory-results-container,
-      #RosterCardContainer,
-      #communitiesContainer,
-      #activity-stream,
-      #athleticteammaincontainer,
-      #contact-col-left > div > section
-    `) as HTMLElement;
+    #overview > div.student-header-body > div.pull-left.bb-avatar-wrapper.mr-10,
+    .directory-results-container,
+    #RosterCardContainer,
+    #communitiesContainer,
+    #activity-stream,
+    #athleticteammaincontainer,
+    #contact-col-left > div > section
+  `) as HTMLElement;
     return container !== nononode && container;
   },
 
-  image: () => document.querySelector('.bb-avatar-image') as HTMLElement, // every instance of image
   header: () => document.querySelector('.bb-avatar-image-nav') as HTMLImageElement, // sticky header
   sidebarImg: () => document.querySelector('#mobile-account-nav > span.iHolder.pull-left.ddd > img') as HTMLImageElement, // image in minimized screen menu
   profile: () => document.querySelector('#contact-col-left > div > section > div > div.bb-tile-content > div > div') as HTMLElement, // for profile buttons
@@ -37,7 +36,6 @@ const domQuery = {
 
 async function replace(container: HTMLElement): Promise<void> {
   const images: NodeListOf<HTMLImageElement> = container.querySelectorAll('.bb-avatar-image');
-  document.querySelector('[src="https://bbk12e1-cdn.myschoolcdn.com/ftpimages/591/user/large_user5374605_3455955_777.JPG?resize=200,200"]')?.remove();
   for (const image of images) {
     const [studentId] = /(?<=user)\d+/.exec(image.src) || [null];
     let newImage = await getImgurImage(studentId);
@@ -168,7 +166,7 @@ const obs = new MutationObserver(async mutationList => {
   }
 });
 
-const options: MutationObserverInit = { subtree: true, childList: true };
+const options: MutationObserverInit = { childList: true, subtree: true };
 
 async function avatarInit() {
   insertCss(style.toString());
