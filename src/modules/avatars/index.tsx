@@ -42,7 +42,6 @@ async function replace(container: HTMLElement): Promise<void> {
     const [studentId] = /(?<=user)\d+/.exec(image.src) || [null];
     let newImage = await getImgurImage(studentId);
     image.src = newImage?.link || image.src;
-    // image.classList.add('cover');
   }
 }
 

@@ -18,10 +18,10 @@
 
 #buttons-container {
   display: inline-block;
-  margin-top: 15px;
+  margin-top: 5px;
 }
 
-#buttons-container #message {
+#message {
   margin-left: 15px;
 }
 
@@ -41,7 +41,7 @@
   cursor: pointer;
 }
 
-#buttons-container > button {
+#buttons-container > span > button {
   margin-left: 5px;
 }
 
