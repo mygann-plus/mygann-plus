@@ -30,7 +30,7 @@ const domQuery = {
   sidebarImg: () => document.querySelector('#mobile-account-nav > span.iHolder.pull-left.ddd > img') as HTMLImageElement, // image in minimized screen menu
   profile: () => document.querySelector('#contact-col-left > div > section > div > div.bb-tile-content > div > div') as HTMLElement, // for profile buttons
   profileDirect: () => document.querySelector('#contact-card-large-img') as HTMLImageElement, // actual image element for direct source change
-  bio: () => document.querySelector('#contact-col-left > div > section > div > div.bb-tile-content > div > div > div.col-md-7') as HTMLElement,
+  bio: () => document.querySelector('#contact-col-left > div > section > div > div.bb-tile-content > div > div > div.col-md-7') as HTMLElement, // profile bio
   about: () => document.querySelector('#contact-col-left > div > section > div > div:nth-child(1) > h2') as HTMLElement, // about header in profile
 };
 
@@ -197,7 +197,7 @@ async function avatarMain() {
 
 export default registerModule('{df198a10-fcff-4e1b-8c8d-daf9630b4c99}', {
   name: 'Avatars',
-  description: 'Allows users to change their profile picture and view other students\' new pictures. To change your picture, navigate to your profile page.',
+  description: 'Allows user to change their profile picture and view other students\' new pictures. To change your picture, navigate to your profile page.',
   defaultEnabled: true,
   main: avatarMain,
   init: avatarInit,
