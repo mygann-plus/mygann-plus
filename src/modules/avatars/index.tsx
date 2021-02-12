@@ -20,7 +20,7 @@ const domQuery = {
     #RosterCardContainer,
     #communitiesContainer,
     #activity-stream,
-    #athleticteammaincontainer,
+    #athleticteammaincontainer > div > div > div > section > div.bb-tile-content > div > table.table.table-condensed.table-striped.table-mobile-stacked.full-first-row.hidden-phone.hidden-tablet > tbody,
     #contact-col-left > div > section
   `) as HTMLElement;
     return container !== nononode && container;
@@ -55,15 +55,15 @@ let exampleImages = [
   'https://images.template.net/wp-content/uploads/2016/06/28100451/Black-and-White-Patterns.jpg',
   'https://st.depositphotos.com/1451970/2314/v/600/depositphotos_23149542-stock-illustration-geometric-seamless-pattern.jpg',
   'https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHw%3D&w=1000&q=80',
-  'https://images.unsplash.com/photo-1495578942200-c5f5d2137def?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHw%3D&w=1000&q=80',
+  'https://image.freepik.com/free-psd/abstract-background-design_1297-78.jpg',
   'https://cdn.shopify.com/s/files/1/1916/6049/products/colorful_geo1_large.jpg?v=1543181150',
 
-  'https://i1.adis.ws/i/canon/canon-pro-ambassador-exchange-landscapes-1-1140?w=1140&qlt=70&fmt=jpg&fmt.options=interlaced&bg=rgb(255,255,255)',
-  'https://eco-business.imgix.net/uploads/ebmedia/fileuploads/shutterstock_158925020.jpg?fit=crop&h=960&ixlib=django-1.2.0&w=1440',
-  'https://i0.wp.com/environment.umn.edu/wp-content/uploads/2016/04/global_landscapes_initiative_directory_pages.jpg?fit=847%2C328',
-  'https://images.ctfassets.net/u0haasspfa6q/2sMNoIuT9uGQjKd7UQ2SMQ/1bb98e383745b240920678ea2daa32e5/sell_landscape_photography_online',
-  'https://renzlandscapes.com/wp-content/uploads/2016/02/1a-1024x768.jpg',
-  'https://media-exp1.licdn.com/dms/image/C511BAQHKVJfYvoDBHQ/company-background_10000/0/1519809258043?e=2159024400&v=beta&t=YKoskyj_LQ8xRFU5PoPUU2-UritcDq8h_aHlg0jtd90',
+  'https://i.pinimg.com/originals/d6/2a/fc/d62afc028ef952f5b4c60f1b7d904963.gif',
+  'https://buffer.com/library/content/images/library/wp-content/uploads/2016/06/giphy.gif',
+  'https://cdn.dribbble.com/users/1770290/screenshots/6183149/bg_79.gif',
+  'https://dod6qkb6gz8ef.cloudfront.net/app/uploads/2020/09/08145740/Domcake-Dancing-Alien.gif',
+  'https://i.imgur.com/XFCfLnt.gif',
+  'https://i.pinimg.com/originals/de/62/d3/de62d38abae31e2430263462427ecbe7.gif',
 ];
 
 let RESET_CLICKED = false;
@@ -104,7 +104,7 @@ let buttons = (
             let inputValueArr = (target as HTMLInputElement).value.split('\\');
             showMessage(`Previewing ${inputValueArr[inputValueArr.length - 1]}`);
           }} />
-          Upload Avatar
+          Custom Avatar
         </label>
       </button>
       <button className="btn btn-default" onClick={async () => {
@@ -142,7 +142,7 @@ let buttons = (
       {exampleImages.map(image => <img
         src={image}
         className={selectors.exampleImage}
-        onClick={evt => { selectImage(evt.currentTarget.src); }}
+        onClick={evt => { selectImage(evt.currentTarget.src); showMessage('Previewing image.'); }}
       />)}
     </div>
   </span>
@@ -159,7 +159,6 @@ const obs = new MutationObserver(async mutationList => {
   for (let mutation of mutationList) {
     for (let newNode of mutation.addedNodes) {
       if (newNode instanceof HTMLElement) {
-        console.log('observed!', newNode);
         replace(newNode);
       }
     }
@@ -190,14 +189,18 @@ async function avatarMain() {
   if (window.location.href.endsWith(`${await getUserId()}/contactcard`)) {
     (await waitForLoad(domQuery.bio)).remove();
     (await waitForLoad(domQuery.about)).innerText = 'MyGann+ Avatars';
+    SELECTED_IMAGE = null;
+    message.removeAttribute('innerText');
     (await waitForLoad(domQuery.profile)).appendChild(buttons);
-  }
+  } else if (window.location.href.endsWith('/contactcard')) replace((await waitForLoad(domQuery.profileDirect)).parentElement);
 }
 
 export default registerModule('{df198a10-fcff-4e1b-8c8d-daf9630b4c99}', {
   name: 'Avatars',
-  description: `Allows user to change their profile picture and view other students' changed pictures.
-  To change your picture, navigate to your profile page, click "Upload Avatar" and then click "Save."`,
+  description: `Allows users to change their profile picture and view other 
+  students' new pictures. To change your picture, navigate to your profile 
+  page, click "Custom Avatar" to upload a local file or choose an image 
+  from the image library. Click "Save" to confirm your selection.`,
   defaultEnabled: true,
   main: avatarMain,
   init: avatarInit,
