@@ -197,10 +197,7 @@ async function avatarMain() {
 
 export default registerModule('{df198a10-fcff-4e1b-8c8d-daf9630b4c99}', {
   name: 'Avatars',
-  description: `Allows users to change their profile picture and view other 
-  students' new pictures. To change your picture, navigate to your profile 
-  page, click "Custom Avatar" to upload a local file or choose an image 
-  from the image library. Click "Save" to confirm your selection.`,
+  description: 'Allows users to change their profile picture and view other students\' new pictures. To change your picture, navigate to your profile page.',
   defaultEnabled: true,
   main: avatarMain,
   init: avatarInit,
