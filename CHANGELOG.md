@@ -1,5 +1,5 @@
 ## 1.15.0
-## Added
+### Added
 - "Avatars" module, which allows user to upload a new profile picture (to be seen by other MyGann+ users)
 
 ### Changed
