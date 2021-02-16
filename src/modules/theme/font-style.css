@@ -1,3 +1,0 @@
-*:not(:global .fa):not([class*="p3icon"]):not(:global .caret) {
-  font-family: var(--gocp-theme-font) !important;
-}

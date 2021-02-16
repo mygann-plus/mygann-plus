@@ -1,4 +1,0 @@
-button.active-button, li.active-button a, li.active-button:hover a {
-  color: white !important;
-  background: var(--success-green) !important;
-}

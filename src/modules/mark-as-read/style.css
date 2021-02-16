@@ -1,8 +1,0 @@
-/* date label, which gets pushed left by new button */
-:global .cell-message .pull-right {
-  text-align: right;
-}
-
-.button {
-  margin-right: 5px;
-}

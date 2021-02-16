@@ -1,7 +1,0 @@
-.inlined :global(.popover) {
-  visibility: hidden;
-}
-
-.inlined :global(.assignment-status-update) {
-  display: none;
-}

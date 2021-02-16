@@ -1,6 +1,0 @@
-:global .oneline > a[href="#message/officialnotes"] {
-  background-color: transparent !important;
-}
-:global .oneline > a[href="#message/inbox"] {
-  background-color: rgba(0,0,0,.4);
-}
