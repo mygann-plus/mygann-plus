@@ -7,7 +7,7 @@ import { isBookmarklet } from '~/utils/bookmarklet';
  * @param {string} assetName Asset name, relative to assets/
  * @returns {string} Full URL of asset
  */
-export function getAssetUrl(assetName: string) {
+export function getAssetUrl(assetName: string): string {
   if (isBookmarklet()) {
     return `https://mygann-plus-bookmarklet.surge.sh/${assetName}`;
   } else {

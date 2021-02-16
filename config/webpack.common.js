@@ -24,7 +24,7 @@ module.exports = {
         },
       },
       {
-        test: /\.png|\.jpe?g$/,
+        test: /(\.png|\.jpe?g)|\.mp3$/,
         loader: 'file-loader',
         options: {
           outputPath: '/assets',

@@ -4,6 +4,10 @@ import { Module } from './module';
 import userMenuLinks from '~/modules/user-menu-links'; // eslint-disable-line import/no-cycle
 import admin from '~/modules/admin';
 
+import flashlight from '~/modules/flashlight';
+import music from '~/modules/music';
+import shuffle from '~/modules/shuffle';
+
 interface ModuleMap {
   [key: string]: Module[]
 }
@@ -15,6 +19,9 @@ interface SectionMap {
 const MODULE_MAP: ModuleMap = {
   '#': [
     userMenuLinks, // options dialog and about
+    flashlight,
+    music,
+    shuffle,
   ], // universal modules
   '#login': [],
   '#assignmentdetail': [],

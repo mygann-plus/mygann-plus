@@ -18,6 +18,11 @@ declare module '*.png' {
   export = fileName;
 }
 
+declare module '*.mp3' {
+  const fileName: string;
+  export = fileName;
+}
+
 declare module JSX {
   // @ts-ignore workaround for custom JSX pragma
   export type Element = HTMLElement;
