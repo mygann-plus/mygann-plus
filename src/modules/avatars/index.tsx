@@ -190,7 +190,8 @@ async function avatarMain() {
     (await waitForLoad(domQuery.bio)).remove();
     (await waitForLoad(domQuery.about)).innerText = 'MyGann+ Avatars';
     SELECTED_IMAGE = null;
-    message.removeAttribute('innerText');
+    // message.removeAttribute('innerText');
+    message.innerText = '';
     (await waitForLoad(domQuery.profile)).appendChild(buttons);
   } else if (window.location.href.endsWith('/contactcard')) replace((await waitForLoad(domQuery.profileDirect)).parentElement);
 }
