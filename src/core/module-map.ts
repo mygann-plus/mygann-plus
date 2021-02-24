@@ -8,6 +8,10 @@ import flashlight from '~/modules/flashlight';
 import music from '~/modules/music';
 import shuffle from '~/modules/shuffle';
 
+import hideAssignments from '~/modules/hideAssignments';
+import zmanKodesh from '~/modules/zmanKodesh';
+import threeClickLogin from '~/modules/login';
+
 interface ModuleMap {
   [key: string]: Module[]
 }
@@ -23,14 +27,14 @@ const MODULE_MAP: ModuleMap = {
     music,
     shuffle,
   ], // universal modules
-  '#login': [],
+  '#login': [threeClickLogin],
   '#assignmentdetail': [],
   '#studentmyday/assignment-center': [
-
+    hideAssignments,
   ],
   '#taskdetail': [],
   '#studentmyday/schedule': [
-
+    zmanKodesh,
   ],
   '#myday/schedule-performance': [],
   '#studentmyday/progress': [

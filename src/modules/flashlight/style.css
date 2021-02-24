@@ -5,9 +5,9 @@
   --cursorY: 50vh;
 }
 
-* {
+/* * {
   cursor: none !important;
-}
+} */
 
 :root:before {
   z-index: 1102; /* above site header and dialogues why did they code it like this */
@@ -18,7 +18,7 @@
   position: fixed;
   pointer-events: none;
   background: radial-gradient(
-    circle 10vmax at var(--cursorX) var(--cursorY),
+    circle 15vmax at var(--cursorX) var(--cursorY),
     rgba(0,0,0,0) 0%,
     rgba(0,0,0,.5) 80%,
     rgba(0,0,0,1) 100%

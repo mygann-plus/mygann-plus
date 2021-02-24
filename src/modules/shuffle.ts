@@ -1,6 +1,6 @@
 import registerModule from '~/core/module';
 import { waitForLoad } from '~/utils/dom';
-import { getUserId } from '~/utils/user';
+// import { getUserId } from '~/utils/user';
 import { shuffle } from '~/utils/array';
 
 const domQuery = {
@@ -14,8 +14,8 @@ async function getLinks() {
     '#studentmyday/schedule',
     '#studentmyday/assignment-center',
     '#studentmyday/course-requests',
-    '/sis-conduct/student',
-    `/ems-checklists/student/mydayview/${await getUserId()}`,
+    // '/sis-conduct/student',
+    // `/ems-checklists/student/mydayview/${await getUserId()}`,
   ];
 }
 
@@ -38,7 +38,7 @@ async function shuffleMain() {
   for (let list of unawaitedLists) {
     list.then(el => {
       shuffle(links);
-      for (let index = 0; index < 6; index++) {
+      for (let index = 0; index < 4; index++) {
         (el.children[index].firstElementChild as HTMLLinkElement).href = links[index];
       }
     });
