@@ -19,7 +19,7 @@ const video = (
 );
 
 function adsMain() {
-  
+
 }
 
 export default registerModule('{1cb3afb6-1134-47e9-8cdf-57a94701460e}', {

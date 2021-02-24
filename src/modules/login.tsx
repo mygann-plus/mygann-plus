@@ -27,7 +27,7 @@ async function loginMain() {
       loginBtn.style.display = ''; // show it
     }
     }>
-      <input type="button" value="Are your sure?" className="btn btn-default btn-primary btn-lg" />
+      <span><input type="button" value="Confirm" className="btn btn-default btn-primary btn-lg" /></span>
     </span>
   );
 
@@ -35,6 +35,6 @@ async function loginMain() {
 }
 
 export default registerModule('{8b019bdf-7d0f-4db5-a5ba-abb3b8711392}', {
-  name: 'Three click login',
+  name: 'Three Click Login',
   main: loginMain,
 });
