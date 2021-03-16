@@ -1,0 +1,35 @@
+{
+
+  "manifest_version": 2,
+  "name": "MyGann+ Testng",
+  "version": "1.15.0",
+  "minimum_chrome_version": "60",
+  
+  "description": "A collection of modules that improve your MyGann experience",
+  "version_name": "1.15.0",
+  
+  "icons": {
+    "128": "assets/icons/icon128.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["https://gannacademy.myschoolapp.com/app/*"],
+      "js": ["dist/content-script.js"]
+    }
+   ],
+
+   "background": {
+     "scripts": ["dist/install-watch.js"],
+     "persistent": false
+   },
+
+  "permissions": [
+    "storage"
+  ],
+
+  "web_accessible_resources": [
+    "dist/assets/*"
+  ]
+
+}
