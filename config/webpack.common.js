@@ -5,10 +5,10 @@ module.exports = {
     'content-script': path.resolve(__dirname, '../src/index.ts'),
     'install-watch': path.resolve(__dirname, '../src/core/install-watch.ts'),
   },
-  output: {
-    path: path.resolve(__dirname, '../dist'),
-    publicPath: '/dist',
-  },
+  // output: {
+  //   path: path.resolve(__dirname, '../dist'),
+  //   publicPath: '/dist',
+  // },
   module: {
     rules: [
       {
