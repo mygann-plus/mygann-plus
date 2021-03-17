@@ -57,6 +57,7 @@ import assignmentCheckpoints from '~/modules/assignment-checkpoints';
 import zoomLinks from '~/modules/zoom-links';
 import hideAssignmentTimes from '~/modules/hide-assignment-times';
 import avatars from '~/modules/avatars';
+import autoSearchDirectory from '~/modules/auto-search-directory';
 
 interface ModuleMap {
   [key: string]: Module[]
@@ -127,6 +128,7 @@ const MODULE_MAP: ModuleMap = {
   '#message/archive': [fixArchiveHighlight],
   '#message/compose': [exitCompose],
   '#message/conversation': [linkifyMessageText, messageConversationControls],
+  '#directory': [autoSearchDirectory],
   '#directory/800': [teacherOffices],
   '#searchresults/summary': [filterWebsiteMainSearch],
   '#academicclass': [classEmail, nameQuiz],
@@ -148,6 +150,7 @@ const SECTION_MAP: SectionMap = {
   '#message/inbox': 'Messages Inbox',
   '#message/compose': 'Message Compose',
   '#message/conversation': 'Message Conversation',
+  '#directory': 'Directory',
   '#directory/800': 'Faculty & Staff Directory',
   '#searchresults/summary': 'Search Results Summary',
   '#academicclass': 'Academic Class Page',
