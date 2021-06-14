@@ -46,7 +46,8 @@ function hideClasses(classes: Class[], hiddenKeywords: string[]) {
   for (const classObj of classes) {
     const matches = hiddenKeywords.find(c => classObj.title.includes(c));
     if (matches) {
-      classObj.elem.classList.add(selectors.hidden);
+      // classObj.elem.classList.add(selectors.hidden);
+      classObj.elem.remove(); // replaced adding the hidden selector with removing because this way the automatic alternate gray/white highlight updates the changes properly
     } else {
       visible.push(classObj);
     }
