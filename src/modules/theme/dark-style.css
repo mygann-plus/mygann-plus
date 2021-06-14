@@ -1,52 +1,20 @@
-/* 
-
-message page
-message popup
-directory
-assignment center 
- - range dropdown
- - document dropdown
- - filter popups
-grade detail
-disable for course requests or do course requests bar
-
-class pages and groups
- - bullatin board
- - assignment view
- - roster
-
-finish resources page
-disable for news
-
-do profile tabs
- profile
-  - contact card
-   --relationships
-  - official notes
-  - assignments
-  - schedule
-  - progress
-
-
-*/
-
 :global #site-login-main-wrapper {
-    background-color:  rgb(53, 53, 53) !important;
+    background-color:  rgb(53, 54, 58) !important;
     border: 1px solid black !important;
-    color: white !important;
+    color: rgb(232, 234, 237) !important;
 }
 
 :global .form-control,
 :global .btn, 
 :global .input-sm {
-    background-color: rgb(58, 58, 58) !important;
-    color: white !important;
+    background-color: rgb(60, 64, 67) !important;
+    color: rgb(232, 234, 237) !important;
     border: 1px solid black !important;
     border-radius: 3px;
 }
 
 :global .pri-100-fgc {
-    color: white !important;
+    color: rgb(232, 234, 237) !important;
 }
 
 :global #site-login-header {
@@ -59,7 +27,7 @@ do profile tabs
 :global .sec-15-bgc, 
 :global .sec-15-bgc-hover:hover,
 :global html {
-    background-color: rgb(30, 30, 30) !important;
+    background-color: rgb(33, 34, 38) !important;
 }
 
 :global .bb-tile-content {
@@ -67,27 +35,26 @@ do profile tabs
 }
 
 :global .bb-tile-title {
-    border-top: 1px solid black !important;
+    border-top: 4px solid black !important;
 }
 
 :global .bb-tile-content-section,
 :global .bb-tile-title {
-    background-color: rgb(53, 53, 53) !important;
-    color: white !important;
+    background-color: rgb(53, 54, 58) !important;
+    color: rgb(232, 234, 237) !important;
 }
 
 :global .bb-tile,
 :global .bb-tile-header {
-    color: white !important;
+    color: rgb(232, 234, 237) !important;
 }
 
 :global .well {
-    background-color: rgb(53, 53, 53) !important;
-    color: white !important;
+    background-color: rgb(53, 54, 58) !important;
+    color: rgb(232, 234, 237) !important;
     border: 1px solid black !important;
 }
  
-/* To work fully these need to only zebra stripe the rows with only the row class */
 :global #courses #coursesContainer .row:nth-of-type(odd),
 :global #courses #communitiesContainer .row:nth-of-type(odd),
 :global #courses #athleticsContainer .row:nth-of-type(odd),
@@ -95,8 +62,15 @@ do profile tabs
 	background-color: rgb(43, 43, 43) !important;
 }
 
+:global #courses #coursesContainer .row:hover,
+:global #courses #communitiesContainer .row:hover,
+:global #courses #athleticsContainer .row:hover,
+:global #courses #advisoryContainer .row:hover {
+	background-color: rgb(74, 80, 86) !important;
+}
+
 :global .popContainerStraight {
-    color: rgb(0, 124, 166) !important;
+    color: rgb(138, 180, 248) !important;
 }
 
 :global .bb-tile hr {
@@ -114,7 +88,7 @@ do profile tabs
 }
 
 :global .table-striped > tbody > tr:nth-of-type(odd) {
-    background-color: rgb(53, 53, 53) !important;
+    background-color: rgb(53, 54, 58) !important;
 }
 
 :global .table-striped > tbody > tr:nth-of-type(even) {
@@ -130,11 +104,11 @@ do profile tabs
     border-right: none !important;
     border-radius: 0px !important;
     background-color: rgb(43, 43, 43) !important;
-    color: white !important;
+    color: rgb(232, 234, 237) !important;
 }
 
 :global .sky-wait-mask {
-    background-color: rgb(53, 53, 53)
+    background-color: rgb(53, 54, 58)
 }
 
 :global .chCal-button,
@@ -144,13 +118,13 @@ do profile tabs
     border: 1px solid black !important;
     border-radius: 3px;
     padding: 6px 12px !important;
-    background-color: rgb(58, 58, 58) !important;
+    background-color: rgb(60, 64, 67) !important;
 }
 
 :global .chCal-button-inner {
     border: none !important;
-    color: white !important; 
-    background-color: rgb(58, 58, 58) !important;
+    color: rgb(232, 234, 237) !important; 
+    background-color: rgb(60, 64, 67) !important;
 }
 
 :global .chCal-button-content {
@@ -167,24 +141,19 @@ do profile tabs
     padding-bottom: 6px;
 }
 
-:global a:hover {
-    color:#1490ba !important;
-}
-
-
 :global .dropdown-menu>li>a {
-    color: white !important;
-    background-color: rgb(53, 53, 53) !important;
+    color: rgb(232, 234, 237) !important;
+    background-color: rgb(53, 54, 58) !important;
 }
 
 :global .bb-action-bar {
-    color: white !important;
-    background-color: rgb(53, 53, 53) !important;
+    color: rgb(232, 234, 237) !important;
+    background-color: rgb(53, 54, 58) !important;
     border-color: black !important;
 }
 
 :global .bb-section-heading { 
-    color: white !important;
+    color: rgb(232, 234, 237) !important;
 }
 
 
@@ -197,6 +166,11 @@ do profile tabs
     border-top: 0px !important;
 }
 
-:global #courses #coursesContainer .row:hover {
-    background-color: rgb(33, 33, 33) !important; 
+:global a,
+:global #accordionSchedules > tr.gocp_free-block_block > td:nth-child(3) > h4 {
+    color:rgb(138, 180, 248) !important;
+}
+
+:global a:hover {
+    color:rgb(108, 150, 218) !important;
 }
