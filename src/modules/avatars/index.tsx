@@ -177,7 +177,7 @@ async function avatarInit() {
     img.src = imgurImage?.link || img.src;
   }
   if (shouldShowAvatarsDialog()) {
-    createPopup();
+    // createPopup();
   }
 }
 

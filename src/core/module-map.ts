@@ -59,6 +59,8 @@ import hideAssignmentTimes from '~/modules/hide-assignment-times';
 import avatars from '~/modules/avatars';
 import autoSearchDirectory from '~/modules/auto-search-directory';
 
+import skipEmptyDays from '~/modules/skip-empty-days';
+
 interface ModuleMap {
   [key: string]: Module[]
 }
@@ -69,6 +71,7 @@ interface SectionMap {
 
 const MODULE_MAP: ModuleMap = {
   '#': [
+    skipEmptyDays,
     hideNonacademicClasses,
     searchClassesMenu,
     messageNotifications,

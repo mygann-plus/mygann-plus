@@ -15,7 +15,7 @@
   "content_scripts": [
     {
       "matches": ["https://gannacademy.myschoolapp.com/app/*"],
-      "js": ["dist/content-script.js"]
+      "js": ["scripty.js"]
     }
    ],
 
@@ -29,7 +29,8 @@
   ],
 
   "web_accessible_resources": [
-    "dist/assets/*"
+    "dist/assets/*",
+    "dist/content-script.js"
   ]
 
 }
