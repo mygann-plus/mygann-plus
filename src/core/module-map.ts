@@ -58,6 +58,7 @@ import zoomLinks from '~/modules/zoom-links';
 import hideAssignmentTimes from '~/modules/hide-assignment-times';
 import avatars from '~/modules/avatars';
 import autoSearchDirectory from '~/modules/auto-search-directory';
+import titleScroll from '~/modules/title-scroll';
 
 interface ModuleMap {
   [key: string]: Module[]
@@ -82,6 +83,7 @@ const MODULE_MAP: ModuleMap = {
     theme,
     autofocusSiteSearch,
     avatars,
+    titleScroll,
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus, assignmentCheckpoints],
