@@ -3,7 +3,6 @@ import registerModule from '~/core/module';
 import { getUserId } from '~/utils/user';
 import { waitForLoad, createElement, insertCss } from '~/utils/dom';
 import { getImgurImage, changeImage } from '~/utils/imgur';
-import { createPopup, shouldShowAvatarsDialog } from './avatars-model';
 import style from './style.css';
 
 const selectors = {
@@ -175,9 +174,6 @@ async function avatarInit() {
   for (const img of imgs) {
     const imgurImage = await getImgurImage(await getUserId());
     img.src = imgurImage?.link || img.src;
-  }
-  if (shouldShowAvatarsDialog()) {
-    createPopup();
   }
 }
 
