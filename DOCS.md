@@ -61,6 +61,7 @@ For example, recently the Improved Status Dropdown made it impossible to edit ta
 
 1. Increment the version
     * `manifest.json` "version" and "version_name"
+    * `test/manifest.json` "version" and "version_name"
     * `package.json` "version"
     * `utils/manifest.ts` "version_name"
     
