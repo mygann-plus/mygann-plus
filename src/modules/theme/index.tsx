@@ -124,6 +124,14 @@ export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
   unload: unloadTheme,
   topLevelOption: true,
   suboptions: {
+<<<<<<< Updated upstream
+=======
+    darkTheme: {
+      name: 'Dark Theme (Beta)',
+      type: 'boolean',
+      defaultValue: false,
+    },
+>>>>>>> Stashed changes
     color: {
       name: 'Color',
       type: 'color',

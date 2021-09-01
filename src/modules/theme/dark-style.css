@@ -1,0 +1,529 @@
+:global *,
+:global *:focus,
+:global *:focus-visible,
+:global .btn-default:hover, 
+:global .btn-default:focus, 
+:global .btn-default.focus, 
+:global .btn-default:active, 
+:global .btn-default.active, 
+:global .open>.btn-default.dropdown-toggle, 
+:global .tox .tox-tbtn:hover {
+    outline: none !important;
+}
+
+:global #site-login-main-wrapper {
+    background-color:  rgb(53, 54, 58) !important;
+    border: 1px solid rgb(28, 28, 28) !important;
+    color: rgb(232, 234, 237) !important;
+}
+
+:global .form-control,
+:global .btn, 
+:global .input-sm {
+    background-color: rgb(62, 62, 69) !important;
+    color: rgb(232, 234, 237) !important;
+    border: 1px solid rgb(28, 28, 28) !important;
+    border-radius: 3px;
+}
+
+:global input,
+:global select {
+    background-color: rgb(62, 62, 69) !important;
+    color: rgb(232, 234, 237) !important;
+    border: 1px solid rgb(28, 28, 28) !important;
+}
+
+:global .btn-link {
+    background-color: transparent !important;
+    border: transparent !important;
+    color: rgb(138, 180, 248) !important;
+}
+
+:global .btn-default:hover, 
+:global .btn-default:focus, 
+:global .btn-default.focus, 
+:global .btn-default:active, 
+:global .btn-default.active, 
+:global .open>.btn-default.dropdown-toggle,
+:global .tox 
+:global .tox-tbtn:hover {
+    background-color: rgb(47, 47, 54) !important;
+}
+
+:global .pri-100-fgc {
+    color: rgb(232, 234, 237) !important;
+}
+
+:global #site-login-header {
+    border-top: 1px solid rgb(28, 28, 28) !important;
+    border-right: 1px solid rgb(28, 28, 28) !important;
+    border-left: 1px solid rgb(28, 28, 28) !important;
+}
+
+:global .app-mobile-pusher,
+:global .sec-15-bgc, 
+:global .sec-15-bgc-hover:hover,
+:global html {
+    background-color: rgb(33, 34, 38) !important;
+}
+
+:global .bb-tile-content {
+    border-top: 1px solid rgb(28, 28, 28) !important; 
+}
+
+:global .bb-tile-title {
+    border-top: 4px solid rgb(28, 28, 28) !important;
+}
+
+:global .bb-tile-content-section,
+:global .bb-tile-title {
+    background-color: rgb(53, 54, 58) !important;
+    color: rgb(232, 234, 237) !important;
+}
+
+:global .bb-tile,
+:global .bb-tile-header {
+    color: rgb(232, 234, 237) !important;
+}
+
+:global .well {
+    background-color: rgb(53, 54, 58) !important;
+    color: rgb(232, 234, 237) !important;
+    border: 1px solid rgb(28, 28, 28) !important;
+}
+ 
+:global #courses #coursesContainer .row:nth-of-type(odd),
+:global #courses #communitiesContainer .row:nth-of-type(odd),
+:global #courses #athleticsContainer .row:nth-of-type(odd),
+:global #courses #activitiesContainer .row:nth-of-type(odd),
+:global #courses #advisoryContainer .row:nth-of-type(odd){
+	background-color: rgb(43, 43, 43) !important;
+}
+
+:global #courses #coursesContainer .row:hover,
+:global #courses #communitiesContainer .row:hover,
+:global #courses #athleticsContainer .row:hover,
+:global #courses #activitiesContainer .row:nth-of-type(odd):hover,
+:global #courses #advisoryContainer .row:hover {
+	background-color: rgb(64, 70, 76) !important;
+}
+
+:global .popContainerStraight {
+    color: rgb(138, 180, 248) !important;
+}
+
+:global .bb-tile hr {
+    border-top: 1px solid rgb(28, 28, 28);
+}
+
+:global .table > thead > tr > th, 
+:global .table > thead > tr > td, 
+:global .table > tbody > tr > th, 
+:global .table > tbody > tr > td, 
+:global .table > tfoot > tr > th, 
+:global .table > tfoot > tr > td {
+    border-top: 1px solid rgb(28, 28, 28) !important;
+    border-bottom: 1px solid rgb(28, 28, 28) !important;
+}
+
+:global .table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: rgb(53, 54, 58) !important;
+}
+
+:global .table-striped > tbody > tr:nth-of-type(even) {
+    background-color: rgb(43, 43, 43) !important;
+}
+
+:global .table > caption + thead > tr:first-child > th, 
+:global .table > caption + thead > tr:first-child > td, 
+:global .table > colgroup + thead >tr:first-child > th, 
+:global .table > colgroup + thead > tr:first-child > td, 
+:global .table > thead:first-child > tr:first-child > th, 
+:global .table > thead:first-child > tr:first-child > td {
+    border-right: none !important;
+    border-radius: 0px !important;
+    background-color: rgb(43, 43, 43) !important;
+    color: rgb(232, 234, 237) !important;
+}
+
+:global .sky-wait-mask {
+    background-color: rgb(53, 54, 58)
+}
+
+:global .chCal-button,
+:global .chCal-button-week,
+:global .chCal-corner-right {
+    border: 1px solid rgb(28, 28, 28) !important;
+    border-radius: 3px;
+    padding: 6px 12px !important;
+    background-color: rgb(62, 62, 69) !important;
+}
+
+:global .chCal-button:hover,
+:global .chCal-button-week:hover,
+:global .chCal-state-default:hover,
+:global .chCal-corner-right:hover {
+    background-color: rgb(47, 47, 54) !important
+}
+
+:global .chCal-button-inner {
+    border: none !important;
+    color: rgb(232, 234, 237) !important; 
+}
+
+:global .chCal-button-content {
+    padding: 0px !important;
+    line-height: 1.428571429 !important;
+    height: auto !important;
+}
+
+:global .chCal-state-default, 
+:global .chCal-state-default .chCal-button-inner {
+    background-color: transparent;
+}
+
+:global .chCal-button-effect {
+    display: none !important;
+}
+
+:global #schedule-header > div > div > div > div:nth-child(2) > div {
+    padding-bottom: 6px;
+}
+
+:global .dropdown-menu>li>a {
+    color: rgb(232, 234, 237) !important;
+    background-color: rgb(53, 54, 58) !important;
+}
+
+:global .bb-action-bar {
+    color: rgb(232, 234, 237) !important;
+    background-color: rgb(53, 54, 58) !important;
+    border-color: rgb(28, 28, 28) !important;
+}
+
+:global .bb-section-heading { 
+    color: rgb(232, 234, 237) !important;
+}
+
+
+:global .bb-tile-content {
+   background-color: rgb(28, 28, 28) !important; 
+}
+
+
+:global .bb-tile hr {
+    border-top: 0px !important;
+}
+
+:global a,
+:global #accordionSchedules > tr.gocp_free-block_block > td:nth-child(3) > h4,
+:global .p3Blue, 
+:global .p3icon-message, 
+:global .p3icon-learningProfile, 
+:global .p3icon-notification, 
+:global .p3icon-waived, 
+:global .p3icon-dropbox,
+:global .gradebook-analysis h6,
+:global #site-login-footer > div > a {
+    color:rgb(138, 180, 248) !important;
+}
+
+:global a:not(.btn-default):hover,
+:global #site-login-footer > div > a:hover {
+    color:rgb(108, 150, 218) !important;
+}
+
+:global .label-success,
+:global .progress-bar {
+    background-color: rgba(143, 205, 92, 0.66) !important;
+}
+
+:global .label-important {
+    background-color: rgb(205, 207, 210, 0.46) !important;
+}
+
+:global .label-todo {
+    background-color: rgba(142, 102, 221, 0.66) !important;
+}
+
+:global .label-warning {
+    background-color: rgba(242, 177, 87, 0.78) !important;
+}
+
+:global .label-danger {
+    background-color: rgb(248, 106, 78, 0.66) !important;
+}
+
+:global .alert-info {
+    background-color: rgb(138, 180, 248) !important;
+    border-color: rgb(108, 150, 218) !important;
+}
+
+:global .form-control:focus, 
+:global .form-control:focus.ng-invalid {
+    box-shadow: 0 0 8px rgb(138, 180, 248) !important;
+}
+
+:global .modal-body {
+   background-color: rgb(33, 34, 38) !important;
+   color: rgb(232, 234, 237) !important;
+}
+
+:global #chart > svg > g > g > g.nv-x.nv-axis > g > g > g > text,
+:global #chart > svg > g > g > g.nv-y.nv-axis > g > g > text,
+:global #chart > svg > g > g > g.nv-y.nv-axis > g > g:nth-child(1) > g > text,
+:global #chart > svg > g > g > g.nv-legendWrap > g > g > g > text,
+:global #chart > div {
+    fill: rgb(232, 234, 237) !important;
+    stroke: transparent !important;
+}
+
+:global .tick,
+:global .nvd3 .nv-axis path {
+    stroke: rgb(28, 28, 28) !important
+}
+
+:global .progress {
+    background-color: rgb(62, 62, 69) !important;
+}
+
+:global #chart > svg > g > g > g.nv-barsWrap > g > g > g > g,
+:global #chart > svg > g > g > g.nv-legendWrap > g > g > g > circle {
+    fill: rgb(138, 180, 248) !important;
+    stroke: rgb(138, 180, 248) !important;
+}
+
+:global #site-modal > div > div > div.modal-body > div.row > div.col-md-10 > hr {
+    color: rgb(18, 18, 18) !important;
+}
+
+:global .modal-footer {
+    background-color: rgb(73 74 78) !important;
+    border-top-color: inherit !important;
+}
+
+:global .modal-content {
+    background-color: rgb(53 54 58) !important;
+}
+:global .modal-header {
+    background-color: rgb(73 74 78) !important;
+    border-bottom-color: inherit !important;
+}
+
+:global .gradebook-analysis .margin-5 {
+    color: transparent !important;
+}
+
+:global #site-modal > div > div > div.modal-body > div.row > div.col-md-2 > div > h6,
+:global #site-modal > div > div > div.modal-body > div.row > div.col-md-10 > div:nth-child(3) > div > h6,
+:global .skyui-modal .modal-header .close, 
+:global .bb-modal .modal-header .close,
+:global .modal-header .bb-dialog-header,
+:global #text_ifr,
+:global .tox .tox-tbtn--bespoke .tox-tbtn__select-label,
+:global #main-bulletin > div > div > div > h3,
+:global .p3icon-delete:before {
+    color: rgb(232, 234, 237) !important;
+}
+
+:global .margin-5 {
+    visibility: hidden;
+}
+
+:global ul.token-input-list,
+:global ul.token-input-list li input,
+:global .tox .tox-edit-area__iframe {
+    background-color: rgb(62, 62, 69) !important;
+    border-color: rgb(28, 28, 28) !important;
+}
+
+:global .tox .tox-toolbar, 
+:global .tox .tox-toolbar__overflow, 
+:global .tox .tox-toolbar__primary {
+    background-color: rgb(43, 43, 43) !important;
+}
+
+:global .tox .tox-tbtn svg {
+    fill: rgb(232, 234, 237) !important;
+}
+
+:global .tox-tinymce,
+:global .tox:not([dir=rtl]) .tox-toolbar__group:not(:last-of-type) {
+    border-color: rgb(28, 28, 28) !important;
+}
+
+:global #site-login-footer > div > a,
+:global .skyui-modal .control-label.required:after, 
+:global .bb-modal .control-label.required:after {
+    color: rgb(138, 180, 248) !important;
+}
+:global #contact-relationship > div > section > div.bb-tile-content > div {
+    padding: 0px !important;
+}
+
+:global #recipient-container > div > ul {
+    border-radius: 3px;
+}
+
+:global #schedule-maker-bulletin .emergency-bulletin-container, 
+:global #emergency-bulletin .emergency-bulletin-container, 
+:global #main-bulletin .main-bulletin-container {
+    background-color: rgb(64, 70, 76) !important;
+    border-bottom:rgb(28, 28, 28) !important;;
+}
+
+:global .Wu0vvpUp2mlIsGDFDPbAF {
+    background-color: rgb(53, 54, 58) !important;
+    color: rgb(232, 234, 237) !important;
+    border: 1px solid rgb(28, 28, 28) !important;
+}
+
+:global ._3oSGOyQV4I5bXJUZm801-X input:checked + ._2y_ypRgUnRwN6ceHJywXhL,
+:global .bb-check-wrapper input:checked+.bb-check-checkbox, 
+:global .bb-check-wrapper input:checked+.bb-check-radio {
+    /* background-color: rgb(138, 180, 248) !important */
+    background-color: rgba(143, 205, 92, 0.66) !important;
+
+}
+
+:global ._3d7TChn6X8bHge-TpEs--d {
+    background-color: rgb(63, 64, 68) !important;
+    border-right: 1px solid rgb(28, 28, 28) !important;
+    border-left: 1px solid rgb(28, 28, 28) !important;
+    border-bottom: 1px solid rgb(28, 28, 28) !important;
+}
+
+:global .I8iYVqqZ08mmZTu3KQVx9 ._3d7TChn6X8bHge-TpEs--d::before {
+    border-top: 1px solid rgb(28, 28, 28) !important;
+}
+
+:global ._2y_ypRgUnRwN6ceHJywXhL,
+:global .bb-check-checkbox, 
+:global .bb-check-radio {
+    background-color: rgb(205, 207, 210, 0.46) !important;
+    border: 1px solid rgb(28, 28, 28) !important;
+}
+
+:global #_2SMV_aL8wNyOOtnvrMqVY_::placeholder,
+:global .fa-exchange:before,
+:global ._2AczUYGLGl_Oja-JMv1bUE::placeholder {
+    color: rgb(232, 234, 237) !important;
+}
+
+:global #_2SMV_aL8wNyOOtnvrMqVY_ { 
+    background-color: inherit !important;
+    border-right: none !important;
+    border-left: none !important;
+    border-top: none !important;
+    border-bottom: 1px solid rgb(232, 234, 237) !important;
+}
+
+:global #token-input-recipient {
+    border: 0px !important
+}
+
+:global .tox .tox-tbtn:active,
+:global .tox .tox-tbtn--enabled, 
+:global .tox .tox-tbtn--enabled:hover {
+    background-color: rgb(33, 34, 38) !important;
+}
+
+:global #compose-message-display > form > fieldset > div > div > div > div > div > div > div.tox-editor-container > div.tox-editor-header > div.tox-toolbar-overlord > div.tox-toolbar__overflow.tox-toolbar__overflow--open > div:nth-child(1) > button {
+    background-color: rgb(33, 34, 38) !important;
+}
+
+:global .imgNice, 
+:global .img-frame,
+:global .whiteContainer1 {
+    border: 1px solid rgb(232, 234, 237) !important;
+}
+
+
+:global .popover-content {
+    color: rgb(232, 234, 237) !important;
+    background-color: rgb(53, 54, 58) !important;
+    margin-bottom: 1px !important;
+}
+
+
+:global .popover.bottom>.arrow:after {
+    border-bottom-color: rgb(138, 180, 248) !important;
+}
+
+:global .popover.bottom {
+    border-top: 10px solid rgb(138, 180, 248) !important;
+}
+
+:global .popover.fade.bottom._14ANBfFjnEw97n7vvhWbUR.in {
+    /* padding: 0px !important; */
+    border-color: rgb(138, 180, 248) !important;
+    background-color: rgb(53, 54, 58) !important;
+}
+
+:global ._2AczUYGLGl_Oja-JMv1bUE {
+    background-color: rgb(62, 62, 69) !important;
+    border-color: rgb(28, 28, 28) !important;
+}
+
+:global .nvtooltip {
+    background-color: rgb(33, 34, 38) !important;
+    border-color:rgb(28, 28, 28) !important;
+}
+
+:global .nav.nav-tabs>li.active>a, 
+:global .nav.nav-tabs>li.active>a:hover, 
+:global .nav.nav-tabs>li.active>a:focus, 
+:global .nav.nav-tabs ul.dropdown-menu>li.active>a, 
+:global .nav.nav-tabs ul.dropdown-menu>li.active>a:hover, 
+:global .nav.nav-tabs ul.dropdown-menu>li.active>a:focus, 
+:global .nav-tabs.nav-justified>li.active>a, 
+:global .nav-tabs.nav-justified>li.active>a:hover, 
+:global .nav-tabs.nav-justified>li.active>a:focus, 
+:global .nav-tabs.nav-justified ul.dropdown-menu>li.active>a, 
+:global .nav-tabs.nav-justified ul.dropdown-menu>li.active>a:hover, 
+:global .nav-tabs.nav-justified ul.dropdown-menu>li.active>a:focus {
+    background-color: rgb(138, 180, 248) !important;
+}
+
+:global .nav.nav-tabs>li>a:hover, 
+:global .nav.nav-tabs ul.dropdown-menu>li>a:hover, 
+:global .nav-tabs.nav-justified>li>a:hover, 
+:global .nav-tabs.nav-justified ul.dropdown-menu>li>a:hover {
+    background-color: rgb(108, 150, 218) !important;
+    border-bottom-color: rgb(138, 180, 248) !important;
+}
+
+:global .nav.nav-tabs, 
+:global .nav-tabs.nav-justified {
+    border-bottom: 2px solid rgb(138, 180, 248) !important;
+}
+
+:global #schedule-header > div > div > div.week-nav > ul > li > a > span.hidden-lg,
+:global #schedule-header > div > div > div.week-nav > ul > li > a > span.hidden-xs.hidden-sm.hidden-md,
+:global #parent-child-navigator > div > ul > li > a {
+    color: rgb(232, 234, 237) !important;
+}
+
+:global ul.nav.nav-tabs {
+    margin-bottom: 10px;
+}
+
+:global .dropdown-menu.pull-right.range-dropdown.p-5 {
+    background-color: rgb(43, 43, 43) !important;
+}
+
+
+:global .dropdown-menu {
+    border: 1px solid black;
+    box-shadow: none;
+}
+
+:global button._2lVx85HSWbUcRGAS6mufII, 
+:global li._2lVx85HSWbUcRGAS6mufII a, 
+:global li._2lVx85HSWbUcRGAS6mufII:hover a {
+    background-color:rgba(143, 205, 92, 0.66) !important;
+}
+
+:global #assignment-center-header-view > div > div > div:nth-child(3) > div > div.col-md-9 > div > button:nth-child(4):hover {
+    background-color:rgba(143, 205, 92, 0.66) !important;
+}
