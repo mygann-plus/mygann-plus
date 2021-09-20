@@ -214,7 +214,7 @@ export default registerModule('{5a1befbf-8fed-481d-8184-8db72ba22ad1}', {
       type: 'enum',
       defaultValue: '',
       enumValues: {
-        C: 'C', D: 'D', E: 'E', F: 'F', G: 'G', H: 'H', I: 'I', J: 'J',
+        C: 'C', D: 'D', E: 'E', F: 'F', G: 'G', // H: 'H', I: 'I', J: 'J', // blocks only go up to G 2021-2022
       },
       dependent: 'independentStudy', // will only show if independentStudy is true
     },
