@@ -33,6 +33,25 @@ export function fetchJson(url: string, opts: RequestInit = {}) {
     .then(r => r.json());
 }
 
+const apis: { [name: string]: (...params: any[]) => string; } = {
+  // calender(startDate: string, endDate: string) { return `/api/dummyCalender?start=${startDate}&end=${endDate}`; },
+  calender: (startDate: string, endDate: string) => `/api/dummyCalender?start=${startDate}&end=${endDate}`,
+  daySchedule: (date: string) => `/api/dummyDayCalendar?date=${date}`,
+  todaysStuff: () => '/api/dummyStuff',
+};
+
+let fetched: { [name: string]: Promise<any>; } = {};
+
+export function updateApi(name: string, ...params: any[]) {
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  fetched[name] = fetchApi(apis[name](...params));
+}
+
+export function getApi(name: string) {
+  if (!fetched[name]) updateApi(name);
+  return fetched[name];
+}
+
 export function fetchApi(endpoint: string, opts: RequestInit = {}) {
   if (!endpoint.startsWith('/')) {
     throw new Error('Endpoint must start with /');
