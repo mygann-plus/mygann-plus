@@ -35,6 +35,6 @@ export default registerModule('{f724b60d-6d47-4497-a71e-a40d7990a2f4}', {
   description: 'Display class time remaining in scrolling tab title',
   defaultEnabled: false,
   suboptions: {},
-  init: titleScrollMain,
+  main: titleScrollMain,
   unload: unloadTitleScroll,
 });
