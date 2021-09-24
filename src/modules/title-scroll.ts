@@ -4,19 +4,16 @@ import { isCurrentTime } from '~/shared/schedule';
 
 async function titleScrollMain() {
   const date = new Date();
-  const month = date.getMonth();
-  const day = date.getDay();
+
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
   const year = date.getFullYear();
 
-  const DAY_SCHEDULE_ENDPOINT = `/api/schedule/MyDayCalendarStudentList/?scheduleDate=${month}%2F${day}%2F${year}`; // eslint disable-line max-len
-  const data = await fetchApi(DAY_SCHEDULE_ENDPOINT);
-
-  const currentClass = data.find((block: any) => isCurrentTime(`${block.MyDayStartTime}-${block.MyDayEndTime}`)); // test at school
-
-  console.log('a' + currentClass)
+  const endpoint = `/api/schedule/MyDayCalendarStudentList/?scheduleDate=${month}%2F${day}%2F${year}`;
+  const data = await fetchApi(endpoint);
+  const currentClass = data.find((block: any) => isCurrentTime(`${block.MyDayStartTime}-${block.MyDayEndTime}`));
 
   if (!currentClass) return;
-
 }
 
 function scrollTitle(title: string) {
