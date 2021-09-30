@@ -2,7 +2,7 @@ import { createElement } from '~/utils/dom';
 
 // runs code body in script so it can access p3/podiumApp variables. Escape to add outside variables, not they will be converted to string
 // export default function runWithPodiumApp(body: string) {
-export default function runWithPodiumApp(f: (p3: any, ...params: string[]) => void, ...params: string[]) {
+export default function runWithPodiumApp(f: (p3: any, $: any, ...params: string[]) => void, ...params: string[]) {
   const script = (
     <script className=".mygannplus-script">
       {/* runs in a function so that it doesn't affect global states/variables */}
@@ -10,7 +10,8 @@ export default function runWithPodiumApp(f: (p3: any, ...params: string[]) => vo
       {/* (function () &#123;
         {body}
       &#125;()); */}
-      ({f}(p3, {params.map(s => `'${s}'`).join(',')}));
+      {/* ({f}(p3, {params.map(s => `'${s}'`).join(',')})); */}
+      ({f})(p3, $);
     </script>
   );
   console.log(script);
