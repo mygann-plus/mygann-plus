@@ -11,6 +11,18 @@ async function getClass() {
 
   const endpoint = `/api/schedule/MyDayCalendarStudentList/?scheduleDate=${month}%2F${day}%2F${year}`;
   const data = await fetchApi(endpoint);
+
+  // for (let block in data) {
+  //   if (isCurrentTime(`${data[block].MyDayStartTime}-${data[block].MyDayEndTime}`)) {
+  //     console.log('current', data[block].MyDayEndTime);
+  //     break;
+  //   } else if (data[block + 1] !== undefined) {
+  //     if (isCurrentTime(`${data[block].MyDayEndTime}-${data[block + 1].MyDayStartTime}`)) {
+  //       console.log('next', data[block], data[block + 1], block);
+  //     }
+  //   }
+  // }
+
   const currentClass = data.find((block: any) => isCurrentTime(`${block.MyDayStartTime}-${block.MyDayEndTime}`));
   const nextClass = data[data.findIndex((nextBlock: any) => nextBlock === currentClass) + 1];
 
