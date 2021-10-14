@@ -11,6 +11,6 @@ export default function runWithPodiumApp(f: (window: any) => void) {
     </script>
   );
   log('log', script);
-  document.head.appendChild(script);
+  document.head.appendChild(script); // end of head means all the podiumApp scripts run first, but they don't start initializing (in theory if mygann+ loaded slowly they might, this would be a problem...)
   script.remove(); // no need to clutter up the DOM with these script tags
 }
