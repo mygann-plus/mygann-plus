@@ -10,7 +10,6 @@ async function getClass() {
 
   const endpoint = `/api/schedule/MyDayCalendarStudentList/?scheduleDate=${month}%2F${day}%2F${year}`;
   const data = await fetchApi(endpoint);
-
   let endTime: string = '';
   let period: number = 0;
 
@@ -51,7 +50,7 @@ async function titleScrollMain() {
       return;
     }
 
-    document.title = period ? `${minutesRemaining} min remaining` : `${minutesRemaining} min before next class`;;
+    document.title = period ? `${minutesRemaining} min remaining` : `${minutesRemaining} min before next class`;
   }, 30);
 }
 
