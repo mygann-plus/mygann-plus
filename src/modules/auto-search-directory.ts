@@ -14,6 +14,6 @@ async function autoSearchMain() {
 
 export default registerModule('{c225ac4b-9352-4fd3-9229-4f21f1246618}', {
   name: 'Directory Auto Search',
-  description: 'Automatically search the directory as you type',
+  description: 'Automatically reloads the directory as you type for quicker searching',
   main: autoSearchMain,
 });
