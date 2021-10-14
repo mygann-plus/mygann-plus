@@ -83,6 +83,10 @@ function skipEmptyMain() {
 }
 
 export default registerModule('{42efc8ef-9de0-4eef-8e74-ba18f568b8a3}', {
-  name: 'skippy',
+  name: 'Smart Schedule',
+  description: `
+  Automatically switches schedule to next date with classes. 
+  (For example, schedule will display Monday's classes when 
+  checked on Saturday night.)`,
   init: skipEmptyMain,
 });
