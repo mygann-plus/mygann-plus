@@ -16,6 +16,7 @@ interface ModuleConfig extends ModuleFunctions {
   affectsGlobalState?: boolean;
   suboptions?: Suboptions;
   topLevelOption?: boolean;
+  stayLoaded?: boolean;
 }
 
 interface SuboptionValidatorData {
@@ -89,6 +90,7 @@ export default function registerModule(guid: string, moduleConfig: ModuleConfig)
     affectsGlobalState: !!moduleConfig.init, // modules with init fn are assumed to be global
     suboptions: {},
     topLevelOption: false,
+    stayLoaded: false,
   };
 
   const {
