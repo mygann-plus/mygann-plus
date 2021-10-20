@@ -147,17 +147,12 @@ async function aboutMain() {
     const linkBadge = <span className={selectors.updateBadge} id={selectors.desktopLinkBadge} />;
     desktopMenuLink.appendChild(linkBadge);
 
-    // const changeListener = addInstallStateChangeListener(({ newValue }) => {
-    //   if (!newValue) {
-    //     avatarBadge.remove();
-    //     linkBadge.remove();
-    //     changeListener.remove();
-    //   }
-    // });
-
-    const changeListener = document.addEventListener('ClearTheDot', () => {
-      avatarBadge.remove();
-      linkBadge.remove();
+    const changeListener = addInstallStateChangeListener(({ newValue }) => {
+      if (!newValue) {
+        avatarBadge.remove();
+        linkBadge.remove();
+        changeListener.remove();
+      }
     });
   }
 }
