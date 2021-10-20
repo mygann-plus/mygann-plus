@@ -83,7 +83,6 @@ const MODULE_MAP: ModuleMap = {
     theme,
     autofocusSiteSearch,
     avatars,
-    // skipDays,
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus, assignmentCheckpoints],

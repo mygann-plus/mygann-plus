@@ -13,19 +13,6 @@ const selectors = {
 };
 
 const domQuery = {
-  avatarContainer: (nononode: HTMLElement) => (): HTMLElement => {
-    const container = document.querySelector(`
-    #overview > div.student-header-body > div.pull-left.bb-avatar-wrapper.mr-10,
-    .directory-results-container,
-    #RosterCardContainer,
-    #communitiesContainer,
-    #activity-stream,
-    #athleticteammaincontainer > div > div > div > section > div.bb-tile-content > div > table.table.table-condensed.table-striped.table-mobile-stacked.full-first-row.hidden-phone.hidden-tablet > tbody,
-    #contact-col-left > div > section
-  `) as HTMLElement;
-    return container !== nononode && container;
-  },
-
   header: () => document.querySelector('.bb-avatar-image-nav') as HTMLImageElement, // sticky header
   sidebarImg: () => document.querySelector('#mobile-account-nav > span.iHolder.pull-left.ddd > img') as HTMLImageElement, // image in minimized screen menu
   profile: () => document.querySelector('#contact-col-left > div > section > div > div.bb-tile-content > div > div') as HTMLElement, // for profile buttons
@@ -155,18 +142,6 @@ function showMessage(newMessage: string) {
   message.innerText = newMessage;
 }
 
-const obs = new MutationObserver(async mutationList => {
-  for (let mutation of mutationList) {
-    for (let newNode of mutation.addedNodes) {
-      if (newNode instanceof HTMLElement) {
-        replace(newNode);
-      }
-    }
-  }
-});
-
-const options: MutationObserverInit = { childList: true, subtree: true };
-
 async function avatarInit() {
   insertCss(style.toString());
   const imgs: HTMLImageElement[] = [await waitForLoad(domQuery.header), await waitForLoad(domQuery.sidebarImg)];
@@ -175,25 +150,27 @@ async function avatarInit() {
     const imgurImage = await getImgurImage(await getUserId());
     img.src = imgurImage?.link || img.src;
   }
+  const obs = new MutationObserver(async mutationList => {
+    for (let mutation of mutationList) {
+      for (let newNode of mutation.addedNodes) {
+        if (newNode instanceof HTMLElement) {
+          replace(newNode);
+        }
+      }
+    }
+  });
+  replace(document.body);
+  obs.observe(document.body, { childList: true, subtree: true });
 }
 
-let container: HTMLElement;
-
 async function avatarMain() {
-  obs.disconnect();
-
-  container = await waitForLoad(domQuery.avatarContainer(container));
-  replace(container);
-  obs.observe(container, options);
-
   if (window.location.href.endsWith(`${await getUserId()}/contactcard`)) {
     (await waitForLoad(domQuery.bio)).remove();
     (await waitForLoad(domQuery.about)).innerText = 'MyGann+ Avatars';
     SELECTED_IMAGE = null;
-    // message.removeAttribute('innerText');
     message.innerText = '';
     (await waitForLoad(domQuery.profile)).appendChild(buttons);
-  } else if (window.location.href.endsWith('/contactcard')) replace((await waitForLoad(domQuery.profileDirect)).parentElement);
+  }
 }
 
 export default registerModule('{df198a10-fcff-4e1b-8c8d-daf9630b4c99}', {
