@@ -58,6 +58,7 @@ import zoomLinks from '~/modules/zoom-links';
 import hideAssignmentTimes from '~/modules/hide-assignment-times';
 import avatars from '~/modules/avatars';
 import autoSearchDirectory from '~/modules/auto-search-directory';
+import skipDays from '~/modules/skip-days';
 
 interface ModuleMap {
   [key: string]: Module[]
@@ -111,6 +112,7 @@ const MODULE_MAP: ModuleMap = {
     scheduleArrowNavigation,
     zoomLinks,
     extreme,
+    skipDays,
   ],
   '#myday/schedule-performance': [classEndingTime],
   '#studentmyday/progress': [
