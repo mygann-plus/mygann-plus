@@ -36,7 +36,7 @@ function unloadModules(oldHash: string, newHash: string) {
   const oldModules = modulesForHash(oldHash);
   const newModules = modulesForHash(newHash);
 
-  const unloadedModules = new Set([...oldModules].filter(m => !newModules.has(m) && !m.config.stayLoaded));
+  const unloadedModules = new Set([...oldModules].filter(m => !newModules.has(m)));
 
   for (const module of unloadedModules) {
     if (!softUnloadModule(module)) { // module affects global state

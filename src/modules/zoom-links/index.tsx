@@ -221,7 +221,6 @@ async function zoomLinksMain(opts: void, unloaderContext: UnloaderContext) {
 
 export default registerModule('{3cd3ae38-b06d-4017-8692-f72d8d314810}', {
   name: 'Zoom Link',
-  defaultEnabled: false,
   main: zoomLinksMain,
   unload: unloadZoomLinks,
 });

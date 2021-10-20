@@ -1,17 +1,3 @@
-## 1.16.0
-### Added
-- "Smart Schedule" module, which sets schedule date to next date with classes
-- "Directory Quick Search" module, which returns results as you type for quicker searching
-
-## Changed
-- Updated teacher offices
-- Added test extension
-- Fixed webpack
-- Removed unnecessary lines in Avatars code
-
-## Fixed
-- Fixed improper Avatars loading on module toggle
-
 ## 1.15.0
 ### Added
 - "Avatars" module, which allows user to upload a new profile picture (to be seen by other MyGann+ users)
