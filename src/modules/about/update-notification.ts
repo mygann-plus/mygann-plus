@@ -7,7 +7,6 @@ export async function shouldShowNotification() {
   const shouldShow = await storage.get(SHOW_NOTIFICATION_KEY, SCHEMA_VERSION);
   return shouldShow !== false;
 }
-
 export function disableNotification() {
   return storage.set(SHOW_NOTIFICATION_KEY, false, SCHEMA_VERSION);
 }
