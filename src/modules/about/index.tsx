@@ -51,7 +51,6 @@ async function insertReleaseNotes(dialogBody: HTMLElement) {
   }
 }
 
-
 function showUpdateFlyout(aboutBody: HTMLElement) {
   const releaseNotesLink = aboutBody.querySelector(`#${selectors.releaseNotesLink}`) as HTMLElement;
 

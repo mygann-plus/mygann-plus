@@ -1,4 +1,5 @@
 import storage, { StorageChangeListener } from '~/utils/storage';
+import manifest from '~/utils/manifest';
 
 const INSTALL_KEY = 'install';
 const SCHEMA_VERSION = 2;
@@ -27,8 +28,15 @@ function migrate(oldSchemaVersion: number, oldState: string) {
   };
 }
 
+function isPatch(prevVersion: string, curVersion: string) {
+  if (prevVersion === null) return false;
+  const [prevMajor, prevMinor, prevPatch] = prevVersion.split('.');
+  const [curMajor, curMinor, curPatch] = curVersion.split('.');
+  return prevMajor === curMajor && prevMinor === curMinor && prevPatch !== curPatch;
+}
+
 // in general it is better to use methods like hasUpdated since they are easier and automatically update the data
-export async function getInstallData(): Promise<InstallState> {
+async function getInstallData(): Promise<InstallState> {
   const data = await storage.get(INSTALL_KEY, SCHEMA_VERSION, migrate);
   return data || {};
 }
@@ -70,13 +78,27 @@ export async function getInstallTimestamp() {
   const data = await getInstallData();
   return data.installTimestamp;
 }
-// eslint-disable-next-line max-len
-export async function setLatestVersion(latestVersion: string, update: boolean, data: InstallState = null) {
-  data = data ?? await getInstallData();
-  const installState = update ? installStates.UPDATE : data.installState;
-  return storage.set(INSTALL_KEY, {
-    installTimestamp: data.installTimestamp,
-    latestVersion,
-    installState,
-  }, SCHEMA_VERSION);
+
+async function checkForUpdates() {
+  const data = await getInstallData();
+  if (!data.installTimestamp) { // it has never been installed. after everyone has definately gotten the latestVersion property that can be used to check install
+    await firstInstall(manifest.version_name);
+  } else if (
+    !data.installState
+    || data.installState === installStates.PATCH
+    || !data.latestVersion
+  ) { // if the install state is empty, patch, or if latestVersion hasn't been initialized. basically it is not already marked as updated or installed
+    const oldVersion = data.latestVersion || '1.16.1'; // 1.16.1 is the update that latestVersion was added, so it should
+    const newVersion = manifest.version_name;
+    if (newVersion !== oldVersion) {
+      const isUpdate = !isPatch(oldVersion, newVersion);
+      // await setLatestVersion(newVersion, isUpdate, data);
+      await storage.set(INSTALL_KEY, {
+        installTimestamp: data.installTimestamp,
+        latestVersion: newVersion,
+        installState: isUpdate ? installStates.UPDATE : data.installState,
+      }, SCHEMA_VERSION);
+    } // if oldVersion === newVersion nothing is needed since state will be cleared while setting oldVersion
+  }
 }
+
