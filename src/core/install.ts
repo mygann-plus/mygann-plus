@@ -18,6 +18,7 @@ export const installStates = {
 interface InstallState {
   installState: string;
   installTimestamp: string; // DateTime String
+  latestVersion: string; // the latest version MyGann+ knows so it knows if it has updated
 }
 
 function migrate(oldSchemaVersion: number, oldState: string) {
@@ -26,7 +27,8 @@ function migrate(oldSchemaVersion: number, oldState: string) {
   };
 }
 
-async function getInstallData() {
+// in general it is better to use methods like hasUpdated since they are easier and automatically update the data
+export async function getInstallData(): Promise<InstallState> {
   const data = await storage.get(INSTALL_KEY, SCHEMA_VERSION, migrate);
   return data || {};
 }
@@ -55,11 +57,20 @@ export function addInstallStateChangeListener(listener: StorageChangeListener<st
   });
 }
 
-export async function markInstallTimestamp(timestamp: string) {
-  const data = await getInstallData();
-  return storage.set(INSTALL_KEY, { ...data, installTimestamp: timestamp }, SCHEMA_VERSION);
+export async function firstInstall(currentVersion: string) {
+  const now = new Date();
+  const timestamp = `${now.toLocaleDateString('en-US')} ${now.toLocaleTimeString()}`;
+  return storage.set(INSTALL_KEY, {
+    installTimestamp: timestamp,
+    installState: installStates.INSTALL,
+    latestVersion: currentVersion,
+  }, SCHEMA_VERSION);
 }
 export async function getInstallTimestamp() {
   const data = await getInstallData();
   return data.installTimestamp;
+}
+export async function setLatestVersion(latestVersion: string, data: InstallState = null) {
+  data = data ?? await getInstallData();
+  return storage.set(INSTALL_KEY, { ...data, latestVersion }, SCHEMA_VERSION);
 }
