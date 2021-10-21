@@ -74,7 +74,7 @@ async function doSet(data: any) {
 }
 
 function doDelete(property: string) {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     if (isBookmarklet()) {
       localStorage.removeItem(property);
       resolve();
@@ -146,7 +146,6 @@ async function get(property: string, schemaVersion: number, migrate?: MigrateFun
 
   return object[DATA_KEY];
 }
-
 
 function set(key: string, value: any, schemaVersion: number) {
   warnSchema(schemaVersion);

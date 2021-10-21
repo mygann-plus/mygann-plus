@@ -96,7 +96,7 @@ export default async function runExtension() {
   addOptionsChangeListener(applyNewOptions);
   loadModules(getHash(window.location.href));
 
-  window.addEventListener('hashchange', e => {
+  window.addEventListener('hashchange', (e: HashChangeEvent) => {
     fetchRemoteDisabled();
     const newHash = getHash(e.newURL);
     const oldHash = getHash(e.oldURL);

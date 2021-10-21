@@ -1,5 +1,4 @@
 import {
-  markInstallState,
   installStates,
   firstInstall,
   getInstallData,

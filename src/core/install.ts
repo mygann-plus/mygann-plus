@@ -70,8 +70,13 @@ export async function getInstallTimestamp() {
   const data = await getInstallData();
   return data.installTimestamp;
 }
+// eslint-disable-next-line max-len
 export async function setLatestVersion(latestVersion: string, update: boolean, data: InstallState = null) {
   data = data ?? await getInstallData();
   const installState = update ? installStates.UPDATE : data.installState;
-  return storage.set(INSTALL_KEY, { installTimestamp: data.installTimestamp, latestVersion, installState }, SCHEMA_VERSION);
+  return storage.set(INSTALL_KEY, {
+    installTimestamp: data.installTimestamp,
+    latestVersion,
+    installState,
+  }, SCHEMA_VERSION);
 }
