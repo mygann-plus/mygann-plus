@@ -32,15 +32,14 @@ export default async function checkForUpdates() {
   if (!data.installTimestamp) { // it has never been installed
     firstInstall(manifest.version_name);
   } else if (!data.latestVersion) { // after everyone has definately gotten the latestVersion property this can be used to check install
-    setLatestVersion(manifest.version_name, data);
+    setLatestVersion(manifest.version_name, false, data);
   } else if (data.installState !== installStates.UPDATE
              && data.installState !== installStates.INSTALL) { // if it was already marked updated this is unnecessary
     const oldVersion = data.latestVersion;
     const newVersion = manifest.version_name;
     if (newVersion !== oldVersion) {
       const isUpdate = !isPatch(oldVersion, newVersion);
-      await markInstallState(isUpdate ? installStates.UPDATE : installStates.PATCH);
-      setLatestVersion(newVersion);
+      setLatestVersion(newVersion, isUpdate, data);
     } // if oldVersion === newVersion nothing is needed since state will be cleared while setting oldVersion
   }
 }

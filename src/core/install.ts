@@ -70,7 +70,8 @@ export async function getInstallTimestamp() {
   const data = await getInstallData();
   return data.installTimestamp;
 }
-export async function setLatestVersion(latestVersion: string, data: InstallState = null) {
+export async function setLatestVersion(latestVersion: string, update: boolean, data: InstallState = null) {
   data = data ?? await getInstallData();
-  return storage.set(INSTALL_KEY, { ...data, latestVersion }, SCHEMA_VERSION);
+  const installState = update ? installStates.UPDATE : data.installState;
+  return storage.set(INSTALL_KEY, { installTimestamp: data.installTimestamp, latestVersion, installState }, SCHEMA_VERSION);
 }
