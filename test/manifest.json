@@ -19,6 +19,11 @@
     }
    ],
 
+   "background": {
+     "scripts": ["dist/install-watch.js"],
+     "persistent": false
+   },
+
   "permissions": [
     "storage"
   ],

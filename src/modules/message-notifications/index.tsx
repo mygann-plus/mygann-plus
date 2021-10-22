@@ -49,7 +49,7 @@ class MessageNotification {
   public messageElem: HTMLElement;
   private main: HTMLElement;
 
-  constructor(message: Message, disappearTime: number, onRemove: Function, showLinkButton: boolean) { // eslint-disable-line max-len
+  constructor(message: Message, disappearTime: number, onRemove: Function, showLinkButton: boolean) {
     const bodyText = formatBodyText(message.body);
 
     this.urls = findLinks(bodyText).map(x => x.href);
@@ -157,7 +157,7 @@ function createWrapper() {
 
 const activeNotifications: MessageNotification[] = [];
 
-function generateNotifications(messages: Message[], disappearTime: number, showLinkButton: boolean) { // eslint-disable-line max-len
+function generateNotifications(messages: Message[], disappearTime: number, showLinkButton: boolean) {
   const { hash } = window.location;
   if (hash.startsWith('#message') && !hash.includes('conversation')) {
     // activeNotifications is spliced when .removeMessage is called

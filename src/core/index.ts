@@ -21,7 +21,6 @@ import setCssVars from '~/utils/css-vars';
 import log from '~/utils/log';
 import { isBookmarklet, markBookmarkletLoaded, isBookmarletLoaded } from '~/utils/bookmarklet';
 import { ChangeListenerData } from '~/utils/storage';
-import checkForUpdates from './install-watch';
 
 function getHash(url: string) {
   return new URL(url).hash || '#';
@@ -89,7 +88,6 @@ export default async function runExtension() {
     markBookmarkletLoaded();
   }
 
-  await checkForUpdates();
   await initializeOptions();
   fetchRemoteDisabled();
   setCssVars();
