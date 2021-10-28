@@ -1,7 +1,19 @@
+import manifest from '~/utils/manifest';
 import storage, { StorageChangeListener } from '~/utils/storage';
 
 const INSTALL_KEY = 'install';
 const SCHEMA_VERSION = 2;
+
+const PREVIOUS_VERSION_KEY = 'lastSeen';
+const PREVIOUS_VERSION_SCHEMA = 1;
+
+async function getPreviousVersion() {
+  return await storage.get(PREVIOUS_VERSION_KEY, PREVIOUS_VERSION_SCHEMA) || '1.16.0';
+}
+
+function setPreviousVersion(version: string) {
+  return storage.set(PREVIOUS_VERSION_KEY, version, PREVIOUS_VERSION_SCHEMA);
+}
 
 export const installStates = {
   INSTALL: 'install',
@@ -63,3 +75,25 @@ export async function getInstallTimestamp() {
   const data = await getInstallData();
   return data.installTimestamp;
 }
+
+function isPatch(prevVersion: string, curVersion: string) {
+  const [prevMajor, prevMinor, prevPatch] = prevVersion.split('.');
+  const [curMajor, curMinor, curPatch] = curVersion.split('.');
+  return prevMajor === curMajor && prevMinor === curMinor && prevPatch !== curPatch;
+}
+
+async function checkForUpdates() {
+  const previousVersion = await getPreviousVersion();
+  const currentVersion = manifest.version_name;
+  console.log(previousVersion, currentVersion, await hasUpdated(), await hasInstalled());
+  if (previousVersion !== currentVersion) {
+    console.log('hi');
+    if (!await hasUpdated() && !await hasInstalled()) {
+      const isUpdate = !isPatch(previousVersion, currentVersion);
+      await markInstallState(isUpdate ? installStates.UPDATE : installStates.PATCH);
+    }
+    setPreviousVersion(currentVersion);
+  }
+}
+
+checkForUpdates();
