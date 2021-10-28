@@ -17,6 +17,7 @@ const selectors = {
 };
 
 const sparkleChance = 1 / 12;
+let showConfetti: boolean;
 
 function getOverdueFromRow(row: HTMLElement) {
   return !!row.querySelector('[data-overdue="true"]');
@@ -112,6 +113,7 @@ class StatusDropdown {
   }
 
   private showConfetti() {
+    if (!showConfetti) return;
     const random = Math.random();
     if (random < sparkleChance) {
       party.sparkles(this.statusElement);
@@ -178,7 +180,11 @@ function insertChangeStatusDropdowns(unloaderContext: UnloaderContext) {
   }
 }
 
-async function improvedStatusDropdownMain(opts: void, unloaderContext: UnloaderContext) {
+async function improvedStatusDropdownMain(
+  opts: ImprovedStatusSuboptions,
+  unloaderContext: UnloaderContext,
+) {
+  showConfetti = opts.showConfetti;
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
@@ -191,8 +197,20 @@ async function improvedStatusDropdownMain(opts: void, unloaderContext: UnloaderC
   unloaderContext.addRemovable(observer);
 }
 
+interface ImprovedStatusSuboptions {
+  showConfetti: boolean;
+}
+
 export default registerModule('{4155f319-a10b-4e4e-8a10-999a43ef9d19}', {
   name: 'Improved Status Dropdown',
   description: 'Show status dropdown directly in assignment, without having to click on "Change Status" link', // eslint-disable-line max-len
   main: improvedStatusDropdownMain,
+  suboptions: {
+    showConfetti: {
+      name: 'Celebrate Assignmnet Completion',
+      description: 'Sparkles and Confetti!',
+      type: 'boolean',
+      defaultValue: true,
+    },
+  },
 });
