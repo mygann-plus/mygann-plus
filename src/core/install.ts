@@ -85,9 +85,7 @@ function isPatch(prevVersion: string, curVersion: string) {
 async function checkForUpdates() {
   const previousVersion = await getPreviousVersion();
   const currentVersion = manifest.version_name;
-  console.log(previousVersion, currentVersion, await hasUpdated(), await hasInstalled());
   if (previousVersion !== currentVersion) {
-    console.log('hi');
     if (!await hasUpdated() && !await hasInstalled()) {
       const isUpdate = !isPatch(previousVersion, currentVersion);
       await markInstallState(isUpdate ? installStates.UPDATE : installStates.PATCH);
