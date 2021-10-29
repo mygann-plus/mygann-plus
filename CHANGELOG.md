@@ -3,8 +3,8 @@
 - Added confetti to Improved Status Dropdown
 
 ### Changed
-- Removed opt-out for notification dot becuase we control you
-- Improved Improved Status Dropdown becuase Improved Status Dropdown was not improved enough
+- Removed opt-out for notification dot because we control you
+- Improved Improved Status Dropdown because Improved Status Dropdown was not improved enough
 
 ### Fixed
 - Fixed notification dot
