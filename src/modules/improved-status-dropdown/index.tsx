@@ -8,23 +8,29 @@ import {
   getAssignmentRows,
 } from '~/shared/assignments-center';
 
+import party from 'party-js';
+
 import style from './style.css';
 
 const selectors = {
   inlined: style.locals.inlined,
 };
 
-function getStatusFromRow(row: HTMLElement) {
-  return row.querySelector('[data-heading="Status"] .label').textContent;
-}
+const sparkleChance = 1 / 12;
+let showConfetti: boolean;
 
 function getOverdueFromRow(row: HTMLElement) {
   return !!row.querySelector('[data-overdue="true"]');
 }
 
+function getStatusButtonFromRow(row: HTMLElement) {
+  return !!row.querySelector('.assignment-status-update');
+}
+
 class StatusDropdown {
 
   private assignmentRow: HTMLElement;
+  private statusElement: HTMLElement;
   private status: string;
   private task: boolean;
   private overdue: boolean;
@@ -33,10 +39,15 @@ class StatusDropdown {
 
   constructor(assignmentRow: HTMLElement) {
     this.assignmentRow = assignmentRow;
-    this.status = getStatusFromRow(assignmentRow);
+    this.statusElement = this.getStatusElement();
+    this.status = this.statusElement.textContent;
     this.overdue = getOverdueFromRow(assignmentRow);
     this.task = isTask(assignmentRow);
     this.select = this.createSelect();
+  }
+
+  private getStatusElement() {
+    return this.assignmentRow.querySelector('[data-heading="Status"] .label') as HTMLElement;
   }
 
   getSelectElement() {
@@ -101,6 +112,16 @@ class StatusDropdown {
     return <option value={value}>{name}</option>;
   }
 
+  private showConfetti() {
+    if (!showConfetti) return;
+    const random = Math.random();
+    if (random < sparkleChance) {
+      party.sparkles(this.statusElement);
+    } else {
+      party.confetti(this.statusElement);
+    }
+  }
+
   handleSelectChange() {
     const { value: newValue } = this.select;
 
@@ -112,6 +133,7 @@ class StatusDropdown {
       return;
     }
     this.status = this.select.options[this.select.selectedIndex].textContent;
+    if (this.status === 'Completed') this.showConfetti();
     this.refreshSelect();
     this.simulateDropdownChange(Number(newValue));
   }
@@ -147,6 +169,7 @@ function insertChangeStatusDropdowns(unloaderContext: UnloaderContext) {
   const assignmentRows = getAssignmentRows();
 
   for (const row of assignmentRows) {
+    if (!getStatusButtonFromRow(row as HTMLElement)) continue; // the new dropdown relies on the old dropdown button, if it doesn't exist skip the assignment
     const dropdown = new StatusDropdown(row as HTMLElement);
 
     const changeStatusColumn = row.querySelector('td:last-child');
@@ -157,7 +180,11 @@ function insertChangeStatusDropdowns(unloaderContext: UnloaderContext) {
   }
 }
 
-async function improvedStatusDropdownMain(opts: void, unloaderContext: UnloaderContext) {
+async function improvedStatusDropdownMain(
+  opts: ImprovedStatusSuboptions,
+  unloaderContext: UnloaderContext,
+) {
+  showConfetti = opts.showConfetti;
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
@@ -170,8 +197,19 @@ async function improvedStatusDropdownMain(opts: void, unloaderContext: UnloaderC
   unloaderContext.addRemovable(observer);
 }
 
+interface ImprovedStatusSuboptions {
+  showConfetti: boolean;
+}
+
 export default registerModule('{4155f319-a10b-4e4e-8a10-999a43ef9d19}', {
   name: 'Improved Status Dropdown',
-  description: 'Show status dropdown directly in assignment, without having to click on "Change Status" link', // eslint-disable-line max-len
+  description: 'Show status dropdown directly in assignment, without having to click on "Change Status" link. Also, confetti.', // eslint-disable-line max-len
   main: improvedStatusDropdownMain,
+  suboptions: {
+    showConfetti: {
+      name: 'Sparkles and Confetti',
+      type: 'boolean',
+      defaultValue: true,
+    },
+  },
 });
