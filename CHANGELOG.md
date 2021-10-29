@@ -1,3 +1,14 @@
+## 1.17.0
+### Added
+- Added confetti to Improved Status Dropdown
+
+### Changed
+- Removed opt-out for notification dot becuase we control you
+- Improved Improved Status Dropdown becuase Improved Status Dropdown was not improved enough
+
+### Fixed
+- Fixed notification dot
+
 ## 1.16.0
 ### Added
 - "Smart Schedule" module, which sets schedule date to next date with classes
