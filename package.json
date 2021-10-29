@@ -55,7 +55,7 @@
     "linkifyjs": "^2.1.6",
     "lodash.clonedeep": "^4.5.0",
     "lodash.unescape": "^4.0.1",
-    "marked": "^0.6.1",
+    "marked": "^0.7.0",
     "party-js": "^2.1.2",
     "path": "^0.12.7",
     "pdf-parse": "^1.1.1",
