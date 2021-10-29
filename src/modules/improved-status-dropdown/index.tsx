@@ -203,12 +203,11 @@ interface ImprovedStatusSuboptions {
 
 export default registerModule('{4155f319-a10b-4e4e-8a10-999a43ef9d19}', {
   name: 'Improved Status Dropdown',
-  description: 'Show status dropdown directly in assignment, without having to click on "Change Status" link', // eslint-disable-line max-len
+  description: 'Show status dropdown directly in assignment, without having to click on "Change Status" link. Also, confetti.', // eslint-disable-line max-len
   main: improvedStatusDropdownMain,
   suboptions: {
     showConfetti: {
-      name: 'Celebrate Assignmnet Completion',
-      description: 'Sparkles and Confetti!',
+      name: 'Sparkles and Confetti',
       type: 'boolean',
       defaultValue: true,
     },
