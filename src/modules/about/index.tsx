@@ -11,7 +11,6 @@ import manifest from '~/utils/manifest';
 
 import { appendDesktopUserMenuLink, appendMobileUserMenuLink, getHeader } from '~/shared/user-menu';
 
-import { shouldShowNotification, disableNotification } from './update-notification';
 import { createBugReportUi, openBugReport } from './bug-report';
 import selectors from './selectors';
 
@@ -60,8 +59,8 @@ function showUpdateFlyout(aboutBody: HTMLElement) {
       <div id={ selectors.updateNotification.buttons }>
         {
           constructButton({
-            textContent: 'Don\'t show again',
-            onClick: () => { disableNotification(); flyout.hide(); },
+            textContent: 'Hide',
+            onClick: () => { flyout.hide(); },
           })
         }
       </div>
@@ -125,7 +124,7 @@ async function showDialog() {
   });
   insertReleaseNotes(body);
   dialog.open();
-  if (await hasUpdated() && await shouldShowNotification()) {
+  if (await hasUpdated()) {
     showUpdateFlyout(dialog.getBody());
     clearInstallState();
   }
@@ -136,7 +135,7 @@ async function aboutMain() {
   appendMobileUserMenuLink('About MyGann+', showDialog);
   insertCss(style.toString());
 
-  if (await hasUpdated() && await shouldShowNotification()) {
+  if (await hasUpdated()) {
     const avatar = getHeader().parentNode.querySelector('.bb-avatar-wrapper-nav');
     const avatarBadge = (
       <span className={selectors.updateBadge} id={selectors.desktopAvatarBadge} />
