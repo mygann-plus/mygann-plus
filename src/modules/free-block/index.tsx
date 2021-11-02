@@ -1,7 +1,6 @@
 import registerModule from '~/core/module';
 import { UnloaderContext } from '~/core/module-loader';
 import {
-  addDayChangeListeners,
   addDayTableLoadedListeners,
   getAnnouncementWrap,
   getDayViewDateString,
@@ -9,7 +8,7 @@ import {
   to24Hr,
 } from '~/shared/schedule';
 import { isDaylightSavings, timeStringToDate } from '~/utils/date';
-import { createElement, insertCss, waitForLoad, waitForOne } from '~/utils/dom';
+import { createElement, insertCss, waitForLoad } from '~/utils/dom';
 import { fetchData } from '~/utils/fetch';
 import log from '~/utils/log';
 
