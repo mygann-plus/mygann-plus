@@ -18,12 +18,14 @@ function removeHighlight() {
   }
 }
 
-const domQuery = () => (
-  document.getElementById('accordionSchedules')
-  && document.getElementById('accordionSchedules').children[0]
-  && document.getElementById('accordionSchedules').children[0].children
-  && document.getElementById('accordionSchedules').children[0].children.length
-);
+// const domQuery = () => (
+//   document.getElementById('accordionSchedules')
+//   && document.getElementById('accordionSchedules').children[0]
+//   && document.getElementById('accordionSchedules').children[0].children
+//   && document.getElementById('accordionSchedules').children[0].children.length
+// );
+
+const domQuery = () => document.getElementById('accordionSchedules')?.children[0]?.children?.length;
 
 async function highlight(blocks: HTMLCollection) {
   for (const block of blocks) {
@@ -62,7 +64,7 @@ function highlightCurrentClassMain(opts: void, unloaderContext: UnloaderContext)
   const interval = setInterval(() => {
     removeHighlight();
     highlightClass();
-  }, 60000);
+  }, 60_000);
 
   unloaderContext.addFunction(() => clearInterval(interval));
 

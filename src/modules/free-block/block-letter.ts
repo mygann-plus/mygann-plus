@@ -46,6 +46,7 @@ export function getBlockLetter(startTime: string, endTime: string) {
     const time = letters[letter];
     if (isCorrectTime(time)) {
       blockLetter = letter;
+      break;
     }
   }
 

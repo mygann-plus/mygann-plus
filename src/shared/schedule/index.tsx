@@ -7,6 +7,7 @@ import {
   insertCss,
 } from '~/utils/dom';
 import DropdownMenu from '~/utils/dropdown-menu';
+import log from '~/utils/log';
 import tick from '~/utils/tick';
 
 import style from './style.css';
@@ -50,6 +51,23 @@ export function addDayChangeListeners(callback: () => void) {
     }
   };
   return addEventListener(document.body, 'click', listener);
+}
+
+export function addDayTableLoadedListeners(callback: () => void) {
+  const scheduleContent = document.querySelector('#col-main > div.ch.schedule-list');
+  if (!scheduleContent) log('warn', 'trying to observe schedule changes before schedule is loaded');
+  const obs = new MutationObserver(mutationList => {
+    for (let record of mutationList) {
+      const newSchedule = Array.from(record.addedNodes as NodeListOf<HTMLElement>).find(
+        node => node instanceof HTMLTableElement || node.className === 'pl-10', // either a table or an empty schedule box
+      );
+      if (newSchedule) {
+        return callback();
+      }
+    }
+  });
+  obs.observe(scheduleContent, { childList: true });
+  return { remove() { obs.disconnect(); } };
 }
 
 export function to24Hr(t: string) {
@@ -101,8 +119,10 @@ export async function getDayViewDateString() {
 }
 
 export function isEmptySchedule() {
-  const scheduleHeader = document.querySelector('.pl-10');
-  return scheduleHeader && scheduleHeader.textContent === 'There is nothing scheduled for this date.';
+  const scheduleHeader = document.querySelector('#col-main > div.ch.schedule-list > div');
+  return (
+    scheduleHeader && scheduleHeader.textContent === 'There is nothing scheduled for this date.'
+  );
 }
 
 export async function isCurrentClass(timeString: string) {

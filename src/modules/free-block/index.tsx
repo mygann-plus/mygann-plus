@@ -1,46 +1,53 @@
 import registerModule from '~/core/module';
 import { UnloaderContext } from '~/core/module-loader';
-
-import { createElement, insertCss, waitForOne } from '~/utils/dom';
 import {
-  compareDate,
-  timeStringToDate,
-  isDaylightSavings,
-  dateTo12HrTimeString,
-} from '~/utils/date';
-
-import { addDayChangeListeners, to24Hr, isEmptySchedule, getCurrentDay } from '~/shared/schedule';
-import { getTableRowColumnContent } from '~/shared/table';
+  addDayChangeListeners,
+  addDayTableLoadedListeners,
+  getAnnouncementWrap,
+  getDayViewDateString,
+  isEmptySchedule,
+  to24Hr,
+} from '~/shared/schedule';
+import { isDaylightSavings, timeStringToDate } from '~/utils/date';
+import { createElement, insertCss, waitForLoad, waitForOne } from '~/utils/dom';
+import { fetchData } from '~/utils/fetch';
+import log from '~/utils/log';
 
 import style from './style.css';
-import { getBlockLetter, getEndBlockLetter, getBlockSchedule } from './block-letter';
 
 const selectors = {
   activity: style.locals.activity,
   block: 'gocp_free-block_block',
 };
 
-// start and end must be 24HR format
-function isConsecutive(start: string, end: string) {
-  const startTime = new Date(`1/1/2000 ${start}`);
-  const endTime = new Date(`1/1/2000 ${end}`);
-  const difference = endTime.getTime() - startTime.getTime(); // difference in milliseconds
-  const minuteDifference = Math.round(difference / 60000);
-  return minuteDifference >= 0 && minuteDifference < 30;
+interface BlockList {
+  [block: string]: string[];
 }
 
-/**
- * @param {string} time 24HR time string
- * @param {number} mins
- * @returns {string} 12HR time string
- */
-function addMinutes(time: string, mins: number) {
-  const newDate = new Date(timeStringToDate(time).getTime() + (mins * 60000));
-  return dateTo12HrTimeString(newDate);
+interface BlockSchedule {
+  week: BlockList[];
+  friday: {
+    [fridayType: string]: BlockList
+  };
+  'friday winter': {
+    [fridayType: string]: BlockList
+  }
+  exceptions: {
+    [date: string]: BlockList
+  };
 }
 
-function insertBlock(
-  elemBefore: HTMLElement,
+const BLOCK_SCHEDULE_PATH = '/free-block/block-schedule.json'; // eslint-disable-line max-len
+const BLOCK_SCHEDULE_SCHEMA = 1;
+
+const blockSchedule: Promise<BlockSchedule> = fetchData(BLOCK_SCHEDULE_PATH, BLOCK_SCHEDULE_SCHEMA);
+
+const domQuery = {
+  classBlocks: () => document.querySelectorAll<HTMLTableRowElement>('#accordionSchedules > *'), // schedule row elements,
+  table: () => document.querySelector('#accordionSchedules'),
+};
+
+function createBlock(
   startTime: string,
   endTime: string,
   blockText: string,
@@ -67,125 +74,100 @@ function insertBlock(
       { createCell('Details', '') }
       { createCell('Attendance', attendance) }
     </tr>
-  );
+  ) as HTMLTableRowElement;
 
-  elemBefore.after(tr);
-  return tr;
+  return {
+    element: tr,
+    startTicks: timeStringToDate(to24Hr(startTime)).getTime(),
+  };
 }
 
-function getFridayEndTime() {
-  return '12:00 PM'; // temporary end time, due to quarentine
+async function getBlockSchedule(date: Date) {
+  let schedule = (await blockSchedule).exceptions[date.toLocaleDateString('en-US')];
+  if (!schedule) {
+    if (date.getDay() === 5) { // if it is friday
+      const regex = /(?<=^- Friday )[ABC](?= \(GANN\)$)/; // get the letter out of Friday X (GANN)
+      const fridayLetter = Array.from( // is it fraday a, b, or c?
+        getAnnouncementWrap().children, // announcement elements (each announcement is wrapped in a div)
+        announcement => regex.exec(announcement.textContent),
+      ).find(Boolean)[0];
+
+      if (!fridayLetter) log('error', 'Could not find the schedule rotation for this fine Friday');
+      const fridayKey = isDaylightSavings(date) ? 'friday winter' : 'friday';
+      schedule = (await blockSchedule)[fridayKey][fridayLetter];
+    } else schedule = (await blockSchedule).week[date.getDay() - 1];
+  }
+  return schedule;
 }
 
-const domQuery = () => (
-  document.querySelectorAll('#accordionSchedules > *')
-);
+async function getMissingBlocks(date: Date, showBlocks: HTMLElement[]) {
+  let allBlocks = await getBlockSchedule(date);
+  return Object.entries(allBlocks).filter(([blockData]) => (
+    !showBlocks.find(blockEl => blockEl.children[1].textContent.includes(blockData))
+  ));
+}
 
 async function insertFreeBlock(
-  options: FreeBlockSuboptions,
+  opts: FreeBlockSuboptions,
   unloaderContext: UnloaderContext,
 ) {
-  if (isEmptySchedule()) {
-    return;
+  // console.log('hi');
+  if (isEmptySchedule()) return;
+  // const blocks = await waitForOne(domQuery.classBlocks);
+  const blocks = Array.from(domQuery.classBlocks());
+  if (document.querySelector(`.${selectors.block}`)) return; // if they're already inserted
+  const blockObjects = blocks.map(element => ({
+    element,
+    startTicks: timeStringToDate(
+      to24Hr((element.firstElementChild.firstChild as Text).data.split('-')[0].trim()),
+    ).getTime(),
+  }));
+  const date = new Date(await getDayViewDateString());
+  const missing = await getMissingBlocks(date, blocks);
+  for (const [blockName, [start, end]] of missing) {
+    if (
+      (!opts.showOptionalZmanKodesh && blockName.includes('Z\'man Kodesh'))
+      || (!opts.showEndBlocks && blockName.includes('Wellness'))
+    ) continue;
+    // insertBefore = the first block that starts after this one ends
+    const endTicks = timeStringToDate(to24Hr(end)).getTime();
+    const insertBefore = blockObjects.find(block => block.startTicks > endTicks);
+    // console.log(document.querySelector('#accordionSchedules'));
+
+    const independentStudy = (
+      opts.independentStudy
+      && opts.independentStudyBlock === blockName
+    );
+    const newBlock = createBlock(
+      start,
+      end,
+      blockName,
+      independentStudy,
+      independentStudy ? opts.independentStudyName : undefined,
+    );
+
+    if (insertBefore) domQuery.table().insertBefore(newBlock.element, insertBefore.element);
+    else domQuery.table().appendChild(newBlock.element);
+    blockObjects.splice(
+      insertBefore ? blockObjects.indexOf(insertBefore) : blockObjects.length, // before insertBefore or at the end
+      0, // delete 0 blocksObjects
+      newBlock, // insert newBlock
+    );
+    unloaderContext.addRemovable(newBlock.element);
   }
-  const blocks = await waitForOne(domQuery);
-  if (document.querySelector(`.${selectors.block}`)) {
-    return;
-  }
-  Array.from(blocks).forEach((elem, i) => {
-    const time = (elem.children[0].childNodes[0] as Text).data.trim();
-    const endTime = time.split('-')[1].trim();
-    const fullEndTime = to24Hr(endTime);
-
-    const recheck = (block: HTMLElement, t: number) => {
-      return new Promise(res => {
-        setTimeout(() => {
-          if (!document.body.contains(block)) {
-            const newBlock = insertFreeBlock(options, unloaderContext);
-            res(newBlock);
-          } else {
-            res(block);
-          }
-        }, t);
-      });
-    };
-
-    const runRecheck = async (block: HTMLElement) => {
-      for (let j = 0; j < 10; j++) {
-        await recheck(block, 50);
-      }
-    };
-
-    if (blocks[i + 1]) {
-      const nextTime = (blocks[i + 1].children[0].childNodes[0] as Text).data.trim();
-      const nextStartTime = nextTime.split('-')[0].trim();
-      const fullNextStartTime = to24Hr(nextStartTime);
-      const endDate = timeStringToDate(fullEndTime);
-      const nextStartDate = timeStringToDate(fullNextStartTime);
-
-      // this catches two blocks overlapping, e.g. during Tuesday advisory lunch
-      const isOverlap = compareDate(endDate, nextStartDate) > 0;
-
-      if (!isConsecutive(fullEndTime, fullNextStartTime) && !isOverlap) {
-        const freeStartTime = addMinutes(fullEndTime, 5);
-        const freeEndTime = addMinutes(fullNextStartTime, -5);
-        const blockLetter = getBlockLetter(freeStartTime, freeEndTime);
-        const independentStudyEnabled = options.independentStudy
-          && blockLetter === options.independentStudyBlock;
-
-        const block = insertBlock(
-          elem,
-          freeStartTime,
-          freeEndTime,
-          `${blockLetter} Block`,
-          independentStudyEnabled,
-          options.independentStudyName,
-        );
-        unloaderContext.addRemovable(block);
-        runRecheck(block);
-      }
-    } else {
-      if (options.showEndBlocks) {
-      // special case for A/B block
-        const blockText = getTableRowColumnContent(blocks[i], 'Block');
-        if (blockText === 'Mincha') {
-          const insertedBlock = insertBlock(elem, '3:55 PM', '5:05 PM', `${getEndBlockLetter()} Block`);
-          unloaderContext.addRemovable(insertedBlock);
-          runRecheck(insertedBlock);
-        }
-      }
-      const fridayEndTime = getFridayEndTime();
-      if (getCurrentDay() === 'Friday' && endTime !== fridayEndTime) {
-        const freeStartTime = addMinutes(fullEndTime, 5);
-        const blockLetter = getBlockLetter(freeStartTime, fridayEndTime);
-        const independentStudyEnabled = blockLetter === options.independentStudyBlock;
-        const insertedBlock = insertBlock(
-          elem,
-          freeStartTime,
-          fridayEndTime,
-          `${blockLetter} Block`,
-          independentStudyEnabled,
-          options.independentStudyName,
-        );
-        unloaderContext.addRemovable(insertedBlock);
-        runRecheck(insertedBlock);
-      }
-    }
-  });
 }
 
 async function freeBlockMain(
-  options: FreeBlockSuboptions,
+  opts: FreeBlockSuboptions,
   unloaderContext: UnloaderContext,
 ) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
-  await getBlockSchedule(); // caches schedule data
-  insertFreeBlock(options, unloaderContext);
-
-  const dayChangeListener = addDayChangeListeners(() => insertFreeBlock(options, unloaderContext));
-  unloaderContext.addRemovable(dayChangeListener);
+  await waitForLoad(domQuery.table);
+  insertFreeBlock(opts, unloaderContext);
+  const listener = addDayTableLoadedListeners(() => insertFreeBlock(opts, unloaderContext));
+  unloaderContext.addRemovable(listener);
 }
 
 interface FreeBlockSuboptions {
@@ -193,6 +175,7 @@ interface FreeBlockSuboptions {
   independentStudy: boolean;
   independentStudyBlock: string;
   independentStudyName: string;
+  showOptionalZmanKodesh: boolean;
 }
 
 export default registerModule('{5a1befbf-8fed-481d-8184-8db72ba22ad1}', {
@@ -200,7 +183,7 @@ export default registerModule('{5a1befbf-8fed-481d-8184-8db72ba22ad1}', {
   main: freeBlockMain,
   suboptions: {
     showEndBlocks: {
-      name: 'Show Free A/B Blocks',
+      name: 'Show Free Wellness Blocks',
       type: 'boolean',
       defaultValue: true,
     },
@@ -214,7 +197,7 @@ export default registerModule('{5a1befbf-8fed-481d-8184-8db72ba22ad1}', {
       type: 'enum',
       defaultValue: '',
       enumValues: {
-        C: 'C', D: 'D', E: 'E', F: 'F', G: 'G', H: 'H', I: 'I', J: 'J',
+        C: 'C Block', D: 'D Block', E: 'E Block', F: 'F Block', G: 'G Block', FlexA: 'Flex A', FlexB: 'Flex B',
       },
       dependent: 'independentStudy', // will only show if independentStudy is true
     },
@@ -223,6 +206,11 @@ export default registerModule('{5a1befbf-8fed-481d-8184-8db72ba22ad1}', {
       type: 'string',
       defaultValue: '',
       dependent: 'independentStudy',
+    },
+    showOptionalZmanKodesh: {
+      name: 'Show optional Z\'man Kodesh',
+      type: 'boolean',
+      defaultValue: false,
     },
   },
 });

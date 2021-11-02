@@ -2,69 +2,98 @@
   "1": {
     "week": [
       {
-        "F": ["8:30 AM", "9:15 AM"],
-        "J": ["9:30 AM", "10:15 AM"],
-        "E": ["10:30 AM", "11:15 AM"],
-        "C": ["12:15 PM", "1:00 PM"],
-        "G": ["1:15 PM", "1:45 PM"]
+        "Z'man Kodesh & Breakfast": ["8:30 AM", "9:15 AM"],
+        "C Block": ["9:20 AM", "10:15 AM"],
+        "D Block": ["10:25 AM", "11:20 AM"],
+        "Flex A/Community Block": ["11:25 AM", "12:10 PM"],
+        "E Block": ["12:45 PM", "1:40 PM"],
+        "F Block": ["1:45 PM", "2:40 PM"],
+        "G Block": ["2:50 PM", "3:45 PM"],
+        "Wellness M/W": ["4:00 PM", "5:00 PM"]
       },
       {
-        "D": ["8:30 AM", "9:15 AM"],
-        "H": ["9:30 AM", "10:15 AM"],
-        "G": ["11:15 AM", "12:00 PM"],
-        "I": ["1:00 PM", "1:45 PM"],
-        "E": ["2:00 PM", "2:30 PM"]
+        "Optional Z'man Kodesh": ["8:30 AM", "8:55 AM"],
+        "E Block": ["9:00 AM", "10:00 AM"],
+        "F Block": ["10:05 AM", "11:05 AM"],
+        "G Block": ["11:15 AM", "12:15 PM"],
+        "C Block": ["12:15 PM", "1:50 PM"],
+        "Flex B/Community Block": ["1:55 PM", "2:30 PM"],
+        "D Block": ["2:40 PM", "3:40 PM"],
+        "Wellness Tu/Th?": ["4:00 PM", "5:00 PM"]
       },
       {
-        "C": ["8:30 AM", "9:15 AM"],
-        "F": ["9:30 AM", "10:15 AM"],
-        "H": ["10:30 AM", "11:15 AM"],
-        "D": ["12:15 PM", "1:00 PM"],
-        "J": ["1:15 PM", "1:45 PM"]
+        "Optional Z'man Kodesh": ["8:30 AM", "8:55 AM"],
+        "D Block": ["9:00 AM", "10:00 AM"],
+        "C Block": ["10:05 AM", "11:05 AM"],
+        "E Block": ["11:15 AM", "12:15 PM"],
+        "G Block": ["12:15 PM", "1:50 PM"],
+        "Flex A/Community Block": ["1:55 PM", "2:30 PM"],
+        "F Block": ["2:40 PM", "3:40 PM"],
+        "Wellness M/W": ["4:00 PM", "5:00 PM"]
       },
       {
-        "G": ["8:30 AM", "9:15 AM"],
-        "J": ["9:30 AM", "10:15 AM"],
-        "I": ["10:30 AM", "11:15 AM"],
-        "E": ["12:15 PM", "1:00 PM"],
-        "F": ["1:15 PM", "1:45 PM"]
-      },
-      {
-        "C": ["8:30 AM", "9:00 AM"],
-        "D": ["9:15 AM", "9:45 AM"],
-        "H": ["10:45 AM", "11:15 AM"],
-        "I": ["11:30 AM", "12:00 PM"]
+        "Z'man Kodesh & Breakfast": ["8:30 AM", "9:15 AM"],
+        "G Block": ["9:20 AM", "10:15 AM"],
+        "F Block": ["10:25 AM", "11:20 AM"],
+        "Flex B/Community Block": ["11:25 AM", "12:10 PM"],
+        "D Block": ["12:45 PM", "1:40 PM"],
+        "C Block": ["1:45 PM", "2:40 PM"],
+        "E Block": ["2:50 PM", "3:45 PM"],
+        "Wellness Tu/Th": ["4:00 PM", "5:00 PM"]
       }
     ],
     "friday": {
       "A": {
-        "C": ["8:45 AM","9:30 AM"],
-        "D": ["12:10 PM","12:55 PM"],
-        "K": ["1:00 PM","1:45 PM"]
+        "Optional Z'man Kodesh": ["8:30 AM", "8:55 AM"],
+        "C Block": ["9:00 AM", "9:55 AM"],
+        "D Block": ["10:50 AM", "11:45 AM"],
+        "Flex A/Community Block": ["12:45 PM", "1:40 PM"],
+        "E Block": ["1:45 PM", "2:40 PM"]
       },
       "B": {
-        "E": ["8:45 AM","9:30 AM"],
-        "F": ["10:25 PM","11:10 PM"],
-        "K": ["12:10 PM", "12:55 PM"],
-        "G": ["1:00 PM","1:45 PM"]
+        "Optional Z'man Kodesh": ["8:30 AM", "8:55 AM"],
+        "F Block": ["9:00 AM", "9:55 AM"],
+        "G Block": ["10:50 AM", "11:45 AM"],
+        "C Block": ["12:45 PM", "1:40 PM"],
+        "D Block": ["1:45 PM", "2:40 PM"]
       },
       "C": {
-        "H": ["8:45 AM","9:30 AM"],
-        "K": ["10:25 AM", "11:10 AM"],
-        "I": ["12:10 PM", "12:55 PM"],
-        "J": ["1:00 PM", "1:45 PM"]
+        "Optional Z'man Kodesh": ["8:30 AM", "8:55 AM"],
+        "E Block": ["9:00 AM", "9:55 AM"],
+        "Flex B/Community Block": ["11:20 AM", "12:15 PM"],
+        "F Block": ["12:45 PM", "1:40 PM"],
+        "G Block": ["1:45 PM", "2:40 PM"]
+      }
+    },
+    "fridayWinter": {
+      "A": {
+        "Optional Z'man Kodesh": ["8:30 AM", "8:55 AM"],
+        "C Block": ["9:00 AM", "9:40 AM"],
+        "D Block": ["10:35 AM", "11:15 AM"],
+        "Flex A/Community Block": ["12:15 PM", "12:55 PM"],
+        "E Block": ["1:00 PM", "1:40 PM"]
+      },
+      "B": {
+        "Optional Z'man Kodesh": ["8:30 AM", "8:55 AM"],
+        "F Block": ["9:00 AM", "9:40 AM"],
+        "G Block": ["10:35 AM", "11:15 AM"],
+        "C Block": ["12:15 PM", "12:55 PM"],
+        "D Block": ["1:00 PM", "1:40 PM"]
+      },
+      "C": {
+        "Optional Z'man Kodesh": ["8:30 AM", "8:55 AM"],
+        "E Block": ["9:00 AM", "9:40 AM"],
+        "Flex B/Community Block": ["10:55 AM", "11:35 AM"],
+        "F Block": ["12:15 PM", "12:55 PM"],
+        "G Block": ["1:00 PM", "1:40 PM"]
       }
     },
     "exceptions": {
-      "6/12/2019": {
-        "I": ["8:45 AM", "9:45 AM"],
-        "J": ["9:50 AM", "10:50 AM"],
-        "K": ["10:55 AM", "11:55 AM"]
-      },
-      "11/22/2019": {
-        "C": ["8:45 AM", "9:30 AM"],
-        "D": ["12:10 PM", "12:55 PM"],
-        "K": ["1:00 PM", "1:45 PM"]
+      "11/4/2021": {
+        "G Block": ["9:20 AM", "10:15 AM"],
+        "F Block": ["10:25 AM", "11:20 AM"],
+        "Flex B/Community Block": ["11:25 AM", "12:10 PM"],
+        "D Block": ["12:10 PM", "1:00 PM"]
       }
     }
   }
