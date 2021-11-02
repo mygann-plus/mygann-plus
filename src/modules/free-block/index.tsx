@@ -130,7 +130,7 @@ async function insertFreeBlock(
     ) continue;
     // insertBefore = the first block that starts after this one ends
     const endTicks = timeStringToDate(to24Hr(end)).getTime();
-    const insertBefore = blockObjects.find(block => block.startTicks > endTicks);
+    const insertBefore = blockObjects.find(block => block.startTicks >= endTicks);
     // console.log(document.querySelector('#accordionSchedules'));
 
     const independentStudy = (
