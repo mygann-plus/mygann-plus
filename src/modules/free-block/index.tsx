@@ -78,6 +78,7 @@ function createBlock(
   return {
     element: tr,
     startTicks: timeStringToDate(to24Hr(startTime)).getTime(),
+    endTicks: timeStringToDate(to24Hr(endTime)).getTime(),
   };
 }
 
@@ -118,6 +119,9 @@ async function insertFreeBlock(
     startTicks: timeStringToDate(
       to24Hr((element.firstElementChild.firstChild as Text).data.split('-')[0].trim()),
     ).getTime(),
+    endTicks: timeStringToDate(
+      to24Hr((element.firstElementChild.firstChild as Text).data.split('-')[1].trim()),
+    ).getTime(),
   }));
   const date = new Date(await getDayViewDateString());
   const missing = await getMissingBlocks(date, blocks);
@@ -143,7 +147,9 @@ async function insertFreeBlock(
     );
 
     if (insertBefore) domQuery.table().insertBefore(newBlock.element, insertBefore.element);
-    else domQuery.table().appendChild(newBlock.element);
+    else if (newBlock.startTicks >= blockObjects[blockObjects.length - 1].endTicks) {
+      domQuery.table().appendChild(newBlock.element);
+    } else continue; // if the new block just does not fit into the schedule (i.e. a welness that doesn't say wellness)
     blockObjects.splice(
       insertBefore ? blockObjects.indexOf(insertBefore) : blockObjects.length, // before insertBefore or at the end
       0, // delete 0 blocksObjects
