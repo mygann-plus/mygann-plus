@@ -110,9 +110,7 @@ async function insertFreeBlock(
   opts: FreeBlockSuboptions,
   unloaderContext: UnloaderContext,
 ) {
-  // console.log('hi');
   if (isEmptySchedule()) return;
-  // const blocks = await waitForOne(domQuery.classBlocks);
   const blocks = Array.from(domQuery.classBlocks());
   if (document.querySelector(`.${selectors.block}`)) return; // if they're already inserted
   const blockObjects = blocks.map(element => ({
@@ -131,7 +129,6 @@ async function insertFreeBlock(
     // insertBefore = the first block that starts after this one ends
     const endTicks = timeStringToDate(to24Hr(end)).getTime();
     const insertBefore = blockObjects.find(block => block.startTicks >= endTicks);
-    // console.log(document.querySelector('#accordionSchedules'));
 
     const independentStudy = (
       opts.independentStudy
