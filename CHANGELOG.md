@@ -1,7 +1,7 @@
 ## 1.17.1
 ### Fixed
 - Fixed free blocks, you guys can chill now
-- Removed the servery menu becuase it hasn't worked since the Obama Administration
+- Removed the servery menu because it hasn't worked since the Obama Administration
 
 ## 1.17.0
 ### Added
