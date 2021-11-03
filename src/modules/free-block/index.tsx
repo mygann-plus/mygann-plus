@@ -50,8 +50,8 @@ function createBlock(
   startTime: string,
   endTime: string,
   blockText: string,
-  independentStudy?: boolean,
-  independentStudyName?: string,
+  // independentStudy?: boolean,
+  // independentStudyName?: string,
 ) {
   const createCell = (heading: string, content: HTMLElement | string) => {
     return <td data-heading={ heading }>{content}</td>;
@@ -59,7 +59,8 @@ function createBlock(
 
   const activity = (
     <h4 className={selectors.activity}>
-      { independentStudy ? independentStudyName : 'Free Block'}
+      {/* { independentStudy ? independentStudyName : 'Free Block'} */}
+      Free Block
     </h4>
   );
   const attendance = <span><span>N/A</span></span>;
@@ -134,16 +135,16 @@ async function insertFreeBlock(
     const endTicks = timeStringToDate(to24Hr(end)).getTime();
     const insertBefore = blockObjects.find(block => block.startTicks >= endTicks);
 
-    const independentStudy = (
-      opts.independentStudy
-      && opts.independentStudyBlock === blockName
-    );
+    // const independentStudy = (
+    //   opts.independentStudy
+    //   && opts.independentStudyBlock === blockName
+    // );
     const newBlock = createBlock(
       start,
       end,
       blockName,
-      independentStudy,
-      independentStudy ? opts.independentStudyName : undefined,
+      // independentStudy,
+      // independentStudy ? opts.independentStudyName : undefined,
     );
 
     if (insertBefore) domQuery.table().insertBefore(newBlock.element, insertBefore.element);
@@ -174,9 +175,9 @@ async function freeBlockMain(
 
 interface FreeBlockSuboptions {
   showEndBlocks: boolean;
-  independentStudy: boolean;
-  independentStudyBlock: string;
-  independentStudyName: string;
+  // independentStudy: boolean;
+  // independentStudyBlock: string;
+  // independentStudyName: string;
   showOptionalZmanKodesh: boolean;
 }
 
@@ -189,26 +190,26 @@ export default registerModule('{5a1befbf-8fed-481d-8184-8db72ba22ad1}', {
       type: 'boolean',
       defaultValue: true,
     },
-    independentStudy: {
-      name: 'Independent Study',
-      type: 'boolean',
-      defaultValue: false,
-    },
-    independentStudyBlock: {
-      name: 'Independent Study Block',
-      type: 'enum',
-      defaultValue: '',
-      enumValues: {
-        C: 'C Block', D: 'D Block', E: 'E Block', F: 'F Block', G: 'G Block', FlexA: 'Flex A', FlexB: 'Flex B',
-      },
-      dependent: 'independentStudy', // will only show if independentStudy is true
-    },
-    independentStudyName: {
-      name: 'Independent Study Name',
-      type: 'string',
-      defaultValue: '',
-      dependent: 'independentStudy',
-    },
+    // independentStudy: {
+    //   name: 'Independent Study',
+    //   type: 'boolean',
+    //   defaultValue: false,
+    // },
+    // independentStudyBlock: {
+    //   name: 'Independent Study Block',
+    //   type: 'enum',
+    //   defaultValue: '',
+    //   enumValues: {
+    //     C: 'C Block', D: 'D Block', E: 'E Block', F: 'F Block', G: 'G Block', FlexA: 'Flex A', FlexB: 'Flex B',
+    //   },
+    //   dependent: 'independentStudy', // will only show if independentStudy is true
+    // },
+    // independentStudyName: {
+    //   name: 'Independent Study Name',
+    //   type: 'string',
+    //   defaultValue: '',
+    //   dependent: 'independentStudy',
+    // },
     showOptionalZmanKodesh: {
       name: 'Show optional Z\'man Kodesh',
       type: 'boolean',
