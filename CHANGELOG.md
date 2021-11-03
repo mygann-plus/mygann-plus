@@ -1,3 +1,11 @@
+## 1.17.2
+### Fixed
+- Fixed free blocks again because they needed to be fixed again
+
+### Removed
+- Removed Zoom Links. Go to class!
+- Removed Independent Study option in Free Block because we value teamwork
+
 ## 1.17.1
 ### Fixed
 - Fixed free blocks, you guys can chill now
