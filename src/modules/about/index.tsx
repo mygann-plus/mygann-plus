@@ -35,18 +35,24 @@ function toggleReleaseNotes(e: Event) {
 async function insertReleaseNotes(dialogBody: HTMLElement) {
   const releaseNotesWrap = dialogBody.querySelector(`#${selectors.releaseNotes}`);
   const endpoint = 'https://api.github.com/repos/matankb/mygann-plus/releases';
-  let releases;
+  let allReleases;
   try {
-    releases = await fetchReject(endpoint).then(d => d.json());
+    allReleases = await fetchReject(endpoint).then(d => d.json());
   } catch (e) {
-    releases = [];
+    allReleases = [];
   }
   const currentVersion = getVersionString();
-  const release = releases.find((r: any) => isEqualVersion(r.tag_name, currentVersion));
-  if (!release) {
+  const [major, minor, curPatch] = currentVersion.split('.');
+  const releases = [];
+  for (let patch = Number(curPatch); patch >= 0; patch--) {
+    const release = allReleases.find((r: any) => isEqualVersion(r.tag_name, `${major}.${minor}.${patch}`));
+    if (release) releases.push(release);
+  }
+  if (!releases.length) {
     releaseNotesWrap.innerHTML = 'There was an issue loading what\'s new. Please try again.';
   } else {
-    releaseNotesWrap.innerHTML = marked(release.body); // parse markdown
+    console.log(releases);
+    releaseNotesWrap.innerHTML = marked(releases.map(r => r.body).join('\n\n')); // parse markdown
   }
 }
 
