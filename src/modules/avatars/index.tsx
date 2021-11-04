@@ -22,7 +22,9 @@ const domQuery = {
 };
 
 async function replace(container: HTMLElement): Promise<void> {
-  const images: NodeListOf<HTMLImageElement> = container.querySelectorAll('.bb-avatar-image');
+  // const images: NodeListOf<HTMLImageElement> = container.querySelectorAll('.bb-avatar-image');
+  const images = container.querySelectorAll<HTMLImageElement>('[class^="bb-avatar-image"]');
+  // const images = container.querySelectorAll<HTMLImageElement>('.bb-avatar-image, .bb-avatar-image-medium');
   for (const image of images) {
     const [studentId] = /(?<=user)\d+/.exec(image.src) || [null];
     let newImage = await getImgurImage(studentId);
