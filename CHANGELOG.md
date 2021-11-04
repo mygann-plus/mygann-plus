@@ -1,3 +1,10 @@
+## 1.17.3
+### Changed
+- All changelogs since confetti update displays
+
+### Fixed
+- Messages now show custom avatars
+
 ## 1.17.2
 ### Fixed
 - Fixed free blocks again because they needed to be fixed again
@@ -6,7 +13,7 @@
 - Removed Zoom Links. Go to class!
 - Removed Independent Study option in Free Block because we value teamwork
 
-## 1.17.1
+## 1.17.1 
 ### Fixed
 - Fixed free blocks, you guys can chill now
 - Removed the servery menu because it hasn't worked since the Obama Administration

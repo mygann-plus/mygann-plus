@@ -2,11 +2,11 @@
 
   "manifest_version": 2,
   "name": "MyGann+",
-  "version": "1.17.2",
+  "version": "1.17.3",
   "minimum_chrome_version": "60",
   
   "description": "A collection of modules that improve your MyGann experience",
-  "version_name": "1.17.2",
+  "version_name": "1.17.3",
   
   "icons": {
     "128": "assets/icons/icon128.png"
