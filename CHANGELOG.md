@@ -1,3 +1,7 @@
+## 1.17.4
+### Changes
+- Nothing changed, we just like to update
+
 ## 1.17.3
 ### Changed
 - All changelogs since confetti update displays
