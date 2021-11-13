@@ -28,7 +28,7 @@ interface BlockSchedule {
   friday: {
     [fridayType: string]: BlockList
   };
-  'friday winter': {
+  fridayWinter: {
     [fridayType: string]: BlockList
   }
   exceptions: {
@@ -91,7 +91,7 @@ async function getBlockSchedule(date: Date) {
       ).find(Boolean)[0];
 
       if (!fridayLetter) log('error', 'Could not find the schedule rotation for this fine Friday');
-      const fridayKey = isDaylightSavings(date) ? 'friday winter' : 'friday';
+      const fridayKey = isDaylightSavings(date) ? 'fridayWinter' : 'friday';
       schedule = (await blockSchedule)[fridayKey][fridayLetter];
     } else schedule = (await blockSchedule).week[date.getDay() - 1];
   }

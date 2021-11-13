@@ -1,3 +1,7 @@
+## 1.17.5
+### Fixed
+- Free block. Again.
+
 ## 1.17.4
 ### Changes
 - Nothing changed, we just like to update
