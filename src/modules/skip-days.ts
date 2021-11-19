@@ -62,7 +62,6 @@ function skipEmptyMain() {
     // overrides
 
     // loading schedule data for a new date
-    // let fetchScheduleDataCopy = Schedule.Us.fetchScheduleData;
     Schedule.Us.fetchScheduleDataOld = Schedule.Us.fetchScheduleData;
     Schedule.Us.fetchScheduleData = function () {
       Schedule.Us.waitForCalendar(() => {
@@ -70,7 +69,6 @@ function skipEmptyMain() {
           let nextEvt = Schedule.Us.getNextEvt(new Date());
           if (nextEvt !== undefined) Schedule.Data.DayViewDate = new Date(nextEvt.get('start'));
         }
-        // fetchScheduleDataCopy();
         Schedule.Us.fetchScheduleDataOld();
       });
     };
