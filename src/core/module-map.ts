@@ -132,6 +132,7 @@ const MODULE_MAP: ModuleMap = {
   '#message/conversation': [linkifyMessageText, messageConversationControls],
   '#directory': [autoSearchDirectory],
   '#directory/800': [teacherOffices],
+  '#mycontacts': [autoSearchDirectory], // directory of contacts
   '#searchresults/summary': [filterWebsiteMainSearch],
   '#academicclass': [classEmail, nameQuiz],
   '#communitypage': [nameQuiz],

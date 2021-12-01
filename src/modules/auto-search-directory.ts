@@ -7,12 +7,16 @@ import { waitForLoad, addEventListener } from '~/utils/dom';
 //   search: () => document.querySelector('#search-directory-button') as HTMLButtonElement, // directory search button
 // };
 
-const domQuery = (selector: string, nononode: HTMLElement) => () => {
-  const el = document.querySelector(selector) as HTMLElement;
-  return el !== nononode && el;
-};
+const BRUSHER_GAMES = true;
 
-let input: HTMLElement;
+function domQuery<T extends Element>(selector: string, nononode: T) {
+  return () => {
+    const el = document.querySelector<T>(selector);
+    return el !== nononode && el;
+  };
+}
+
+let input: HTMLInputElement;
 let search: HTMLElement;
 
 async function autoSearchMain(opts: void, unloaderContext: UnloaderContext) {
@@ -20,6 +24,14 @@ async function autoSearchMain(opts: void, unloaderContext: UnloaderContext) {
   search = await waitForLoad(domQuery('#search-directory-button', search));
   const listener = addEventListener(input, 'input', () => search.click()); // click the search button whenever you type, does not affect focus
   unloaderContext.addRemovable(listener);
+
+  // assasins
+  if (BRUSHER_GAMES) {
+    const header = await waitForLoad<HTMLElement>(() => document.querySelector('#overview'));
+    if (header.innerText.startsWith('Students Directory')) {
+      input.placeholder = 'Looking for your target?';
+    }
+  }
 }
 
 export default registerModule('{c225ac4b-9352-4fd3-9229-4f21f1246618}', {

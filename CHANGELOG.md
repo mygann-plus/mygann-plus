@@ -1,3 +1,10 @@
+## 1.17.6
+### Added
+- "Looking for your target?" since that's definatly why you're looking at the student directory
+
+### Fixed
+- Auto search directory failed when searching contacts since no one ever does that
+
 ## 1.17.5
 ### Fixed
 - Free block. Again.
