@@ -1,3 +1,7 @@
+## 1.17.8
+### Fixed
+- Auto Search Directory now works even when your screen is too small to use properly
+
 ## 1.17.7
 ### Fixed
 - You can now see custom images other than the 50 most recent ones

@@ -17,7 +17,9 @@ function domQuery<T extends Element>(selector: string, nononode: T) {
 }
 
 let input: HTMLInputElement;
+let mobileInput: HTMLInputElement;
 let search: HTMLElement;
+let mobileSearch: HTMLElement;
 
 async function autoSearchMain(opts: void, unloaderContext: UnloaderContext) {
   input = await waitForLoad(domQuery('#search-text-box', input));
@@ -25,11 +27,17 @@ async function autoSearchMain(opts: void, unloaderContext: UnloaderContext) {
   const listener = addEventListener(input, 'input', () => search.click()); // click the search button whenever you type, does not affect focus
   unloaderContext.addRemovable(listener);
 
+  mobileInput = await waitForLoad(domQuery('#mobile-search-text-box', mobileInput));
+  mobileSearch = await waitForLoad(domQuery('#mobile-search-directory-button', mobileSearch));
+  const mobileListener = addEventListener(mobileInput, 'input', () => mobileSearch.click()); // click the search button whenever you type, does not affect focus
+  unloaderContext.addRemovable(mobileListener);
+
   // assasins
   if (BRUSHER_GAMES) {
     const header = await waitForLoad<HTMLElement>(() => document.querySelector('#overview'));
     if (header.innerText.startsWith('Students Directory')) {
       input.placeholder = 'Looking for your target?';
+      mobileInput.placeholder = 'Looking for your target?';
     }
   }
 }
