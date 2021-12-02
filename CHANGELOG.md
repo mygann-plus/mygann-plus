@@ -1,3 +1,7 @@
+## 1.17.7
+### Fixed
+- You can now see custom images other than the 50 most recent ones
+
 ## 1.17.6
 ### Added
 - "Looking for your target?" since that's definatly why you're looking at the student directory

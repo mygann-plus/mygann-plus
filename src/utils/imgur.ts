@@ -36,8 +36,10 @@ const headers: Promise<Headers> = (async () => {
   return new Headers({ Authorization: `Bearer ${data.code}` });
 })();
 
+const ALBUM_ID = 'cOPDfaf'; // album id for user images
+
 async function getImgurResponse(): Promise<imgurResponse> {
-  const res = await fetch('https://api.imgur.com/3/account/mygannplus/images', {
+  const res = await fetch(`https://api.imgur.com/3/album/${ALBUM_ID}/images`, {
     method: 'GET',
     headers: await headers,
   });
@@ -46,9 +48,9 @@ async function getImgurResponse(): Promise<imgurResponse> {
 
 let imgurResponse: Promise<imgurResponse> = getImgurResponse();
 
-export const getImgurImage = async (studentId: string): Promise<imgurImage> => {
+export async function getImgurImage(studentId: string): Promise<imgurImage> {
   return (await imgurResponse).data.find((image: imgurImage) => image.title === studentId);
-};
+}
 
 async function resetImage(): Promise<void> {
   const userId: string = await getUserId();
@@ -71,6 +73,7 @@ export async function changeImage(newImage: File | string): Promise<void> {
     const body: FormData = new FormData();
 
     body.set('type', newImage instanceof File ? 'File' : 'URL');
+    body.set('album', ALBUM_ID);
     body.set('image', newImage);
     body.set('title', userId);
 
@@ -79,7 +82,6 @@ export async function changeImage(newImage: File | string): Promise<void> {
       headers: await headers,
       body,
     });
-
   }
 
   imgurResponse = getImgurResponse();
