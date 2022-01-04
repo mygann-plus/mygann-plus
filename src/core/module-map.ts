@@ -54,7 +54,7 @@ import autocollapseProgressBoxes from '~/modules/autocollapse-progress-boxes';
 import fixAssignmentCenterDate from '~/modules/fix-assignment-center-date';
 import defaultAssignmentSort from '~/modules/default-assignment-sort';
 import assignmentCheckpoints from '~/modules/assignment-checkpoints';
-// import zoomLinks from '~/modules/zoom-links';
+import zoomLinks from '~/modules/zoom-links';
 import hideAssignmentTimes from '~/modules/hide-assignment-times';
 import avatars from '~/modules/avatars';
 import autoSearchDirectory from '~/modules/auto-search-directory';
@@ -110,7 +110,7 @@ const MODULE_MAP: ModuleMap = {
     classEndingTime,
     tomorrowsEvents,
     scheduleArrowNavigation,
-    // zoomLinks,
+    zoomLinks,
     extreme,
     skipDays,
   ],

@@ -4,6 +4,8 @@ import { getUserId } from '~/utils/user';
 import { waitForLoad, createElement, insertCss } from '~/utils/dom';
 import { getImgurImage, changeImage } from '~/utils/imgur';
 import style from './style.css';
+import { appendUserMenuLink } from '~/shared/user-menu';
+import { UnloaderContext } from '~/core/module-loader';
 
 const selectors = {
   buttonsContainer: style.locals['buttons-container'],
@@ -24,10 +26,12 @@ const domQuery = {
 async function replace(container: HTMLElement): Promise<void> {
   // const images: NodeListOf<HTMLImageElement> = container.querySelectorAll('.bb-avatar-image');
   const images = container.querySelectorAll<HTMLImageElement>('[class^="bb-avatar-image"]');
+  // const images = container instanceof HTMLImageElement ? [container] : container.querySelectorAll<HTMLImageElement>('[class^="bb-avatar-image"]');
   // const images = container.querySelectorAll<HTMLImageElement>('.bb-avatar-image, .bb-avatar-image-medium');
   for (const image of images) {
-    const [studentId] = /(?<=user)\d+/.exec(image.src) || [null];
-    let newImage = await getImgurImage(studentId);
+    const studentId = /(?<=user)\d+/.exec(image.src);
+    if (!studentId) continue; // already replaced the image
+    let newImage = await getImgurImage(studentId[0]);
     image.src = newImage?.link || image.src;
   }
 }
@@ -145,11 +149,14 @@ function showMessage(newMessage: string) {
 }
 
 async function avatarInit() {
+  const userId = await getUserId();
+  appendUserMenuLink('Change Profile Image', `#profile/${userId}/contactcard`, true);
   insertCss(style.toString());
+
   const imgs: HTMLImageElement[] = [await waitForLoad(domQuery.header), await waitForLoad(domQuery.sidebarImg)];
   [DEFAULT_IMAGE] = imgs[0].src.split('?');
   for (const img of imgs) {
-    const imgurImage = await getImgurImage(await getUserId());
+    const imgurImage = await getImgurImage(userId);
     img.src = imgurImage?.link || img.src;
   }
   const obs = new MutationObserver(async mutationList => {

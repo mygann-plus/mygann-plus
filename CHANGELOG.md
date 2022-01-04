@@ -1,3 +1,7 @@
+## 1.17.9
+### Removed
+- Looking for target message in directory search. Brusher games has ended, congrats Daniel!
+
 ## 1.17.8
 ### Fixed
 - Auto Search Directory now works even when your screen is too small to use properly

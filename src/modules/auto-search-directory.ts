@@ -1,14 +1,14 @@
 import registerModule from '~/core/module';
 import { UnloaderContext } from '~/core/module-loader';
 import { waitForLoad, addEventListener } from '~/utils/dom';
+import isSchoolEvent from '~/utils/school-events';
 
 // const domQuery = {
 //   input: () => document.querySelector('#search-text-box') as HTMLInputElement, // directory search box
 //   search: () => document.querySelector('#search-directory-button') as HTMLButtonElement, // directory search button
 // };
 
-const BRUSHER_GAMES = true;
-
+// like a normal querySelector but can't be a specefied already existing element
 function domQuery<T extends Element>(selector: string, nononode: T) {
   return () => {
     const el = document.querySelector<T>(selector);
@@ -33,7 +33,7 @@ async function autoSearchMain(opts: void, unloaderContext: UnloaderContext) {
   unloaderContext.addRemovable(mobileListener);
 
   // assasins
-  if (BRUSHER_GAMES) {
+  if (await isSchoolEvent('brusherGames')) {
     const header = await waitForLoad<HTMLElement>(() => document.querySelector('#overview'));
     if (header.innerText.startsWith('Students Directory')) {
       input.placeholder = 'Looking for your target?';

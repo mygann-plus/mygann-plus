@@ -46,7 +46,7 @@ async function getImgurResponse(): Promise<imgurResponse> {
   return res.json();
 }
 
-let imgurResponse: Promise<imgurResponse> = getImgurResponse();
+let imgurResponse: Promise<imgurResponse> = getImgurResponse(); // immediatly start to fetch, no time to lose
 
 export async function getImgurImage(studentId: string): Promise<imgurImage> {
   return (await imgurResponse).data.find((image: imgurImage) => image.title === studentId);

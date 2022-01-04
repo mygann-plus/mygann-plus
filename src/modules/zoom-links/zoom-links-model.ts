@@ -1,4 +1,5 @@
 import storage from '~/utils/storage';
+import { fetchApi } from '~/utils/fetch';
 
 const ZOOM_LINKS_KEY = 'zoom_links';
 const SCHEMA_VERSION = 1;
@@ -16,15 +17,28 @@ export interface ZoomLinks {
   [id: string]: string;
 }
 
+async function guessZoomLink(classId: string) {
+  const zoomLinkRegex = /https:\/\/gannacademy.zoom.us\/(j\/\d{10})|(my\/[A-Za-zÀ-ú0-9.@_]+)/;
+
+  let zoomLink;
+
+  const classLinks = await fetchApi(`/api/link/forsection/${classId}/?format=json&editMode=false&active=false&future=false&expired=false&contextLabelId=2`);
+  zoomLink = classLinks.find((link: any) => zoomLinkRegex.test(link.Url));
+  if (zoomLink) return zoomLink.Url;
+
+  const classAnnouncements = await fetchApi(`/api/announcement/forsection/${classId}/?format=json&editMode=false&active=true&future=false&expired=false&contextLabelId=2`);
+  for (let announcement of classAnnouncements) {
+    zoomLink = zoomLinkRegex.exec(announcement.Description); // check the announcement description
+    if (zoomLink) return zoomLink[0]; // zoomLink would be null or a regex match array, with the first element being the link
+
+    zoomLink = zoomLinkRegex.exec(announcement.Name); // check the announcement name
+    if (zoomLink) return zoomLink[0];
+  }
+}
+
 export async function getZoomLinks(): Promise<ZoomLinks> {
   const data = await storage.get(ZOOM_LINKS_KEY, SCHEMA_VERSION);
   return data ? data.links : {};
-}
-
-// links can be cached to prevent multiple async calls
-export async function getZoomLink(id: string, links?: ZoomLinks) {
-  const allLinks = links || await getZoomLinks();
-  return allLinks[id];
 }
 
 export async function setZoomLink(id: string, link: string) {
@@ -35,6 +49,12 @@ export async function setZoomLink(id: string, link: string) {
       [id]: link,
     },
   }, SCHEMA_VERSION);
+}
+
+// links can be cached to prevent multiple async calls
+export async function getZoomLink(id: string, links?: ZoomLinks) {
+  const allLinks = links || await getZoomLinks();
+  return allLinks[id] || guessZoomLink(id);
 }
 
 export async function removeZoomLink(id: string) {

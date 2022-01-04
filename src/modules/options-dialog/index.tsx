@@ -11,7 +11,7 @@ import {
 } from '~/core/options';
 import { getRemoteDisabledStatus } from '~/core/remote-disable';
 
-import { appendDesktopUserMenuLink, appendMobileUserMenuLink } from '~/shared/user-menu';
+import { appendUserMenuButton } from '~/shared/user-menu';
 
 import {
   createElement,
@@ -685,8 +685,7 @@ async function showDialog() {
 }
 
 function optionsDialogInit() {
-  appendDesktopUserMenuLink('MyGann+ Options', showDialog);
-  appendMobileUserMenuLink('MyGann+ Options', showDialog);
+  appendUserMenuButton('MyGann+ Options', showDialog);
   insertCss(style.toString());
 }
 

@@ -15,6 +15,7 @@ import {
   removeZoomLink,
 } from './zoom-links-model';
 import style from './style.css';
+import isSchoolEvent from '~/utils/school-events';
 
 const selectors = {
   zoomColumn: 'mgp__zoom-links__zoomColumn',
@@ -177,16 +178,18 @@ async function insertZoomLinks(links: ZoomLinks) {
 
   for (const row of scheduleRows) {
     const id = getClassIdFromRow(row);
-    const link = await getZoomLink(id, links);
-    let button;
-    if (link) {
-      button = createOpenZoomLinkButton(id, link);
-    } else {
-      button = createAddZoomLinkButton(id);
-    }
-    const zoomColumn = <td className={selectors.zoomColumn}>{button}</td>;
-    firstZoomColumn = firstZoomColumn || zoomColumn;
-    row.appendChild(zoomColumn);
+    // no await so it doesn't block the
+    getZoomLink(id, links).then(link => {
+      let button;
+      if (link) {
+        button = createOpenZoomLinkButton(id, link);
+      } else {
+        button = createAddZoomLinkButton(id);
+      }
+      const zoomColumn = <td className={selectors.zoomColumn}>{button}</td>;
+      firstZoomColumn = firstZoomColumn || zoomColumn;
+      row.appendChild(zoomColumn);
+    });
   }
 
   for (let i = 0; i < 20; i++) {
@@ -202,7 +205,9 @@ async function unloadZoomLinks() {
   }
 }
 
-async function zoomLinksMain(opts: void, unloaderContext: UnloaderContext) {
+async function zoomLinksMain(opts: zoomLinksSuboptions, unloaderContext: UnloaderContext) {
+  if (!opts.alwaysOn && !await isSchoolEvent('zoomSchool')) return; // only add zoom links if the user said to or its zoom school
+
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
@@ -219,9 +224,19 @@ async function zoomLinksMain(opts: void, unloaderContext: UnloaderContext) {
   });
 }
 
-export default registerModule('{3cd3ae38-b06d-4017-8692-f72d8d314810}', {
-  name: 'Zoom Link',
-  defaultEnabled: false,
+interface zoomLinksSuboptions {
+  alwaysOn: boolean,
+}
+
+export default registerModule('{3dcf8f0c-2b54-4e28-bffa-d12c6a6e8a3a}', {
+  name: 'Zoom Links',
   main: zoomLinksMain,
   unload: unloadZoomLinks,
+  suboptions: {
+    alwaysOn: {
+      name: 'Always show zoom links',
+      type: 'boolean',
+      defaultValue: false,
+    },
+  },
 });

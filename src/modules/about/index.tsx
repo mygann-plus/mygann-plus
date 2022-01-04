@@ -9,7 +9,7 @@ import Dialog from '~/utils/dialog';
 import Flyout from '~/utils/flyout';
 import manifest from '~/utils/manifest';
 
-import { appendDesktopUserMenuLink, appendMobileUserMenuLink, getHeader } from '~/shared/user-menu';
+import { appendUserMenuButton, getHeader } from '~/shared/user-menu';
 
 import { createBugReportUi, openBugReport } from './bug-report';
 import selectors from './selectors';
@@ -137,8 +137,7 @@ async function showDialog() {
 }
 
 async function aboutMain() {
-  const desktopMenuLink = appendDesktopUserMenuLink('About MyGann+', showDialog);
-  appendMobileUserMenuLink('About MyGann+', showDialog);
+  const desktopMenuLink = appendUserMenuButton('About MyGann+', showDialog).desktop;
   insertCss(style.toString());
 
   if (await hasUpdated()) {

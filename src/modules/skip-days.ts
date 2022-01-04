@@ -1,6 +1,6 @@
 /* eslint no-underscore-dangle: ["warn", { "allow": ["_currentMainView"] }] */
 import registerModule from '~/core/module';
-import runWithPodiumApp from '~/utils/podiumApp';
+import runWithPodiumApp from '~/utils/podium-app';
 
 function updateExistingView() {
   // if the page is already schedule, then the methods on that schedule view need to be changed in addition to the prototype

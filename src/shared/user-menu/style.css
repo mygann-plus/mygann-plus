@@ -1,0 +1,13 @@
+#nav {
+  background-color: rgba(0, 0, 0, 0.3);
+  /* border: 1px solid #ccc; */
+  border-radius: 5px;
+}
+
+#pullleft {
+  margin: 10px 12px 12px 12px;
+}
+
+#mygannplusicon {
+  top: 1px !important;
+}

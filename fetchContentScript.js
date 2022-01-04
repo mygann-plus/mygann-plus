@@ -1,6 +1,4 @@
 /* eslint-disable no-eval, no-console */
-console.log('Yes that\'s correct I\'m running perfectly and world is amazing in every way and to demonstrate I\'m printing this wonderful piece of writing that brings happinness, love, empathy, kindness, humility, faith, oppertunity, gratitude, understanding, humor, patience, and joy to the readers big warm heart.'); // eslint-disable-line max-len
-
 async function main() {
   const cachedJs = localStorage.getItem('MyGannPlus');
   eval(cachedJs); // try running it immediatly
