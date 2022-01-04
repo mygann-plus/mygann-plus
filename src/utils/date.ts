@@ -20,9 +20,7 @@ export function compareDateMilliseconds(a: number, b: number) {
 export function timeStringToDate(timeString: string) {
   const date = new Date();
   const [hours, minutes, seconds] = timeString.split(':');
-  date.setHours(Number(hours));
-  date.setMinutes(Number(minutes));
-  date.setSeconds(Number(seconds));
+  date.setHours(Number(hours), Number(minutes), Number(seconds));
   return date;
 }
 
@@ -53,10 +51,7 @@ export function isDaylightSavings(date = new Date()) {
  */
 export function getAbsoluteToday() {
   const today = new Date();
-  today.setHours(0);
-  today.setMinutes(0);
-  today.setSeconds(0);
-  today.setMilliseconds(0);
+  today.setHours(0, 0, 0, 0);
   return today;
 }
 

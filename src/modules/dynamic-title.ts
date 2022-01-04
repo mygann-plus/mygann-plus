@@ -1,57 +1,72 @@
 import registerModule from '~/core/module';
 import { fetchApi } from '~/utils/fetch';
-import { isCurrentTime } from '~/shared/schedule';
+import { isCurrentTime, to24Hr } from '~/shared/schedule';
+import { timeStringToDate } from '~/utils/date';
+
+let cachedSchedule: { schedule: Promise<any[]>, dateString: string };
+function getTodaySchedule() {
+  const date = new Date();
+  const dateString = date.toLocaleDateString();
+  if (cachedSchedule?.dateString !== dateString) { // basically if it has moved to the next day. Go to sleep
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+
+    const endpoint = `/api/schedule/MyDayCalendarStudentList/?scheduleDate=${month}%2F${day}%2F${year}`;
+    cachedSchedule = { schedule: fetchApi(endpoint), dateString };
+  }
+  return cachedSchedule;
+}
 
 async function getClass() {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
+  const schedule = await getTodaySchedule().schedule;
 
-  const endpoint = `/api/schedule/MyDayCalendarStudentList/?scheduleDate=${month}%2F${day}%2F${year}`;
-  const data = await fetchApi(endpoint);
-  let endTime: string = '';
-  let period: number = 0;
+  let endTimeString: string;
+  let period: boolean;
 
-  data.forEach((block: any, index: number) => {
+  schedule.find((block: any, index: number) => {
     if (isCurrentTime(`${block.MyDayStartTime}-${block.MyDayEndTime}`)) {
-      endTime = block.MyDayEndTime;
-      period = 1;
-    } else if (data[index + 1] && isCurrentTime(`${block.MyDayEndTime}-${data[index + 1].MyDayStartTime}`)) {
-      endTime = data[index + 1].MyDayStartTime;
-      period = 0;
-    }
+      endTimeString = block.MyDayEndTime;
+      period = true;
+    } else if (schedule[index + 1] && isCurrentTime(`${block.MyDayEndTime}-${schedule[index + 1].MyDayStartTime}`)) {
+      endTimeString = schedule[index + 1].MyDayStartTime;
+      period = false;
+    } else return false;
+    return true;
   });
 
-  const endTimeString = `1/1/2001 ${endTime}`;
-  const endTimeDate: any = new Date(endTimeString);
+  const endTime = endTimeString && timeStringToDate(to24Hr(endTimeString)).getTime();
 
-  return [endTimeDate, period];
+  return { endTime, period };
+}
+
+function changeTitle(endTime: number, period: boolean) {
+  const now = Date.now();
+  const minutesRemaining = (endTime - now) / 60e3;
+  if (minutesRemaining >= 0) {
+    document.title = `${minutesRemaining} min ${period ? 'remaining' : 'before next class'}`;
+  }
+  return minutesRemaining;
 }
 
 async function titleScrollMain() {
-  let data = await getClass();
-  let endTimeDate = data[0];
-  let period = data[1];
+  const { endTime, period } = await getClass();
 
-  let interval = setInterval(async () => {
-    const date = new Date();
-    const minutes = date.getMinutes();
-    const hours = date.getHours();
-    const noon = hours >= 12 ? 'PM' : 'AM';
+  if (!endTime) {
+    const today = new Date();
+    const now = today.getTime();
+    const midnight = today.setHours(24, 0, 0, 0);
+    return setTimeout(titleScrollMain, midnight - now); // run again at midnight
+  }
 
-    const currentDateString = `1/1/2001 ${hours % 12}:${minutes} ${noon}`;
-    const currentTimeDate: any = new Date(currentDateString);
+  changeTitle(endTime, period);
 
-    let minutesRemaining = (endTimeDate - currentTimeDate) / 60000;
-    if (minutesRemaining < 0) {
+  let interval = setInterval(() => {
+    if (changeTitle(endTime, period) < 0) {
       clearInterval(interval);
       titleScrollMain();
-      return;
     }
-
-    document.title = period ? `${minutesRemaining} min remaining` : `${minutesRemaining} min before next class`;
-  }, 30);
+  }, 30e3);
 }
 
 function unloadTitleScroll() {
@@ -60,7 +75,7 @@ function unloadTitleScroll() {
 
 export default registerModule('{f724b60d-6d47-4497-a71e-a40d7990a2f4}', {
   name: 'Dynamic Title',
-  description: 'Displays time left in class in tab title',
+  description: 'Displays minutes remaining in class in tab title',
   defaultEnabled: false,
   main: titleScrollMain,
   unload: unloadTitleScroll,
