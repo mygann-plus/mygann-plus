@@ -5,6 +5,7 @@ import { createElement, constructButton } from './dom';
 interface DropdownItem {
   title: string;
   onclick: () => void;
+  style?: React.CSSProperties;
 }
 
 interface DropdownConfig {
@@ -85,7 +86,7 @@ export default class DropdownMenu {
     if (item === null) {
       return <li className="divider" />;
     }
-    const itemStyles = { textDecoration: 'none' };
+    const itemStyles = { textDecoration: 'none', ...item.style };
     return (
       <li>
         <a

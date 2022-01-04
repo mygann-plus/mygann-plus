@@ -3,13 +3,14 @@ import style from './style.css';
 
 export const getHeader = () => document.querySelector('.oneline.parentitem.last .subnavtop');
 export const getTopNavbar = () => document.querySelector('#site-user-nav > div > ul');
-export const getMobileSettingsLink = () => document.querySelector('#mobile-settings-link');
+export const getNativeDropdown = () => document.querySelector('.oneline.parentitem .subnav') as HTMLElement;
 export const getMobileAccountLink = () => document.querySelector('#site-mobile-usernav > ul > li:nth-child(3)'); // eslint-disable-line max-len
 
 // add to menu
 const selectors = {
   nav: style.locals.nav,
   pullleft: style.locals.pullleft,
+  hidden: style.locals.hidden,
 };
 
 /* eslint-disable max-len */
@@ -47,6 +48,7 @@ const mobileMenu = (
         Back
       </div>
       <ul>
+        <div className={selectors.hidden}></div>
       </ul>
     </div>
   </li>
@@ -99,7 +101,7 @@ function appendDesktopUserMenuButton(title: string, onClick: () => void, afterDi
   return appendDesktopUserMenuElem(link, afterDiv);
 }
 
-function appendMobileUserMenuButton(title: string, onClick: () => void) {
+function appendMobileUserMenuButton(title: string, onClick: () => void, afterDiv: boolean) {
   const handleClick = (e: Event) => {
     e.preventDefault();
     document.body.click(); // hide mobile nav
@@ -116,14 +118,15 @@ function appendMobileUserMenuButton(title: string, onClick: () => void) {
     </li>
   );
   const ul = mobileMenu.lastElementChild.lastElementChild;
-  ul.appendChild(link);
+  if (afterDiv) ul.appendChild(link);
+  else ul.querySelector(`.${selectors.hidden}`).before(link);
   return link;
 }
 
 export function appendUserMenuButton(title: string, onClick: () => void, afterDiv = false) {
   return {
     desktop: appendDesktopUserMenuButton(title, onClick, afterDiv),
-    mobile: appendMobileUserMenuButton(title, onClick),
+    mobile: appendMobileUserMenuButton(title, onClick, afterDiv),
     remove() {
       this.desktop.remove();
       this.mobile.remove();
@@ -145,21 +148,22 @@ function appendDesktopUserMenuLink(title: string, href: string, afterDiv: boolea
   return appendDesktopUserMenuElem(link, afterDiv);
 }
 
-function appendMobileUserMenuLink(title: string, href: string) {
+function appendMobileUserMenuLink(title: string, href: string, afterDiv: boolean) {
   const link = (
     <li>
       <a href={ href }>{ title }</a>
     </li>
   );
   const ul = mobileMenu.lastElementChild.lastElementChild;
-  ul.appendChild(link);
+  if (afterDiv) ul.appendChild(link);
+  else ul.querySelector(`.${selectors.hidden}`).before(link);
   return link;
 }
 
 export function appendUserMenuLink(title: string, href: string, afterDiv = false) {
   return {
     destop: appendDesktopUserMenuLink(title, href, afterDiv),
-    mobile: appendMobileUserMenuLink(title, href),
+    mobile: appendMobileUserMenuLink(title, href, afterDiv),
     remove() {
       this.desktop.remove();
       this.mobile.remove();

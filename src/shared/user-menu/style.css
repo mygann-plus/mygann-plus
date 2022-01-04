@@ -1,11 +1,15 @@
 #nav {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.3) !important;
   /* border: 1px solid #ccc; */
   border-radius: 5px;
 }
 
 #pullleft {
   margin: 10px 12px 12px 12px;
+}
+
+.hidden {
+  display: none;
 }
 
 :global(.bb-avatar-wrapper-nav) {

@@ -4,11 +4,11 @@ import { loadModule } from '~/core/module-loader';
 import { insertCss, waitForLoad } from '~/utils/dom';
 import {
   getHeader,
-  getMobileSettingsLink,
   desktopMenu,
   getTopNavbar,
   getMobileAccountLink,
-  mobileMenu
+  mobileMenu,
+  getNativeDropdown
 } from '~/shared/user-menu';
 import style from '~/shared/user-menu/style.css';
 
@@ -17,7 +17,7 @@ import about from '~/modules/about';
 
 async function userMenuLinksMain() {
   insertCss(style.toString());
-  await waitForLoad(() => getHeader() && getMobileSettingsLink());
+  await waitForLoad(() => getHeader() && getMobileAccountLink());
 
   const nav = getTopNavbar();
   nav.lastElementChild.classList.remove('last'); // no longer the last element on the topbar
@@ -25,6 +25,8 @@ async function userMenuLinksMain() {
 
   const mobileLink = getMobileAccountLink();
   mobileLink.before(mobileMenu);
+
+  getNativeDropdown().style.zIndex = '1'; // fix menu going behind MyGann+ menu
 
   await loadModule(optionsDialog, true);
   await loadModule(about, true);

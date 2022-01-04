@@ -108,7 +108,7 @@ function handleRemoveClick(id: string) {
   removeZoomLink(id);
 }
 
-function createOpenZoomLinkButton(id: string, link: string) {
+function createOpenZoomLinkButton(id: string, link: string, isFound: boolean) {
   const button = constructButton({
     textContent: 'Open Zoom',
     onClick: () => handleOpenClick(link),
@@ -120,8 +120,9 @@ function createOpenZoomLinkButton(id: string, link: string) {
       onclick: () => handleEditClick(id, link, button),
     },
     {
-      title: 'Remove Link',
-      onclick: () => handleRemoveClick(id),
+      title: isFound ? 'Link found with MyGann+' : 'Remove Link',
+      onclick: isFound ? null : () => handleRemoveClick(id),
+      style: isFound ? { fontStyle: 'italic', pointerEvents: 'none' } : null,
     },
   ], {
     buttonIconClassname: 'fa fa-chevron-down',
@@ -182,7 +183,7 @@ async function insertZoomLinks(links: ZoomLinks) {
     getZoomLink(id, links).then(link => {
       let button;
       if (link) {
-        button = createOpenZoomLinkButton(id, link);
+        button = createOpenZoomLinkButton(id, link, !links[id]);
       } else {
         button = createAddZoomLinkButton(id);
       }

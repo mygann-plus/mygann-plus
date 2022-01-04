@@ -1,6 +1,15 @@
-## 1.17.9
+## 1.18.0
+### Added
+- Re-added Zoom Links
+- Zoom Links module now searches class pages for links and automatically adds them to schedule
+- Control dropdown with MyGann+ Avatars link
+- Description for the Favorites module
+
+### Changed
+- MyGann+ control placement; Moved MyGann+ controls to separate dropdown in top nav
+ 
 ### Removed
-- Looking for target message in directory search. Brusher games has ended, congrats Daniel!
+- "Looking for target" message in directory search. Brusher games ended so keeping it would be creepy... (Congrats Daniel!)
 
 ## 1.17.8
 ### Fixed
@@ -12,7 +21,7 @@
 
 ## 1.17.6
 ### Added
-- "Looking for your target?" since that's definatly why you're looking at the student directory
+- Added "Looking for your target?" in directory search
 
 ### Fixed
 - Auto search directory failed when searching contacts since no one ever does that
