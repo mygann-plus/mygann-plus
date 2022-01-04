@@ -116,7 +116,7 @@ function appendMobileUserMenuButton(title: string, onClick: () => void) {
     </li>
   );
   const ul = mobileMenu.lastElementChild.lastElementChild;
-  ul.insertBefore(link, ul.firstElementChild);
+  ul.appendChild(link);
   return link;
 }
 
@@ -152,7 +152,7 @@ function appendMobileUserMenuLink(title: string, href: string) {
     </li>
   );
   const ul = mobileMenu.lastElementChild.lastElementChild;
-  ul.insertBefore(link, ul.firstElementChild);
+  ul.appendChild(link);
   return link;
 }
 

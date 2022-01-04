@@ -150,7 +150,7 @@ function showMessage(newMessage: string) {
 
 async function avatarInit() {
   const userId = await getUserId();
-  appendUserMenuLink('Change Profile Image', `#profile/${userId}/contactcard`, true);
+  appendUserMenuLink('Featured: Change Profile Picture', `#profile/${userId}/contactcard`, true);
   insertCss(style.toString());
 
   const imgs: HTMLImageElement[] = [await waitForLoad(domQuery.header), await waitForLoad(domQuery.sidebarImg)];
