@@ -19,8 +19,6 @@ async function userMenuLinksMain() {
   insertCss(style.toString());
   await waitForLoad(() => getHeader() && getMobileAccountLink());
 
-  (document.querySelector('#account-nav > span.desc > span') as HTMLElement).style.verticalAlign = 'middle'; // centr account name
-
   const nav = getTopNavbar();
   nav.lastElementChild.classList.remove('last'); // no longer the last element on the topbar
   nav.appendChild(desktopMenu);

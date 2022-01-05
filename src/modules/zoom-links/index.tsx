@@ -179,7 +179,10 @@ async function insertZoomLinks(links: ZoomLinks) {
 
   for (const row of scheduleRows) {
     const id = getClassIdFromRow(row);
-    if (!id) continue; // basically if it was a free block
+    if (!id) { // basically if it was a free block
+      row.appendChild(<td></td>); // so it has the same amount of elements in the table, fixes highlighting bug
+      continue;
+    }
     // no await so it doesn't block the
     getZoomLink(id, links).then(link => {
       let button;
@@ -232,6 +235,7 @@ interface zoomLinksSuboptions {
 
 export default registerModule('{3dcf8f0c-2b54-4e28-bffa-d12c6a6e8a3a}', {
   name: 'Zoom Links',
+  description: 'Show zoom links in schedule. Automatically turns on during zoom school, ',
   main: zoomLinksMain,
   unload: unloadZoomLinks,
   suboptions: {

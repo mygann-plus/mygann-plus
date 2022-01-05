@@ -1,3 +1,7 @@
+## 1.19.1
+### Fixed
+- Fixed a bug where a free block would not be highlighted properly while using zoom links
+
 ## 1.19.0
 ### Added
 - Dynamic Title module that displays time remaining in class in tab title (to enable it go to MyGann+ Options)

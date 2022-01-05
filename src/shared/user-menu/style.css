@@ -15,3 +15,7 @@
 :global(.bb-avatar-wrapper-nav) {
   top: 3px !important;
 }
+
+:global(#account-nav > span.desc > span) {
+  vertical-align: middle;
+}

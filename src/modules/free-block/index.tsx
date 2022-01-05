@@ -39,7 +39,12 @@ interface BlockSchedule {
 const BLOCK_SCHEDULE_PATH = '/free-block/block-schedule.json'; // eslint-disable-line max-len
 const BLOCK_SCHEDULE_SCHEMA = 1;
 
-const blockSchedule: Promise<BlockSchedule> = fetchData(BLOCK_SCHEDULE_PATH, BLOCK_SCHEDULE_SCHEMA);
+let blockSchedule: Promise<BlockSchedule>;
+
+function getFullBlockSchedule() {
+  if (!blockSchedule) blockSchedule = fetchData(BLOCK_SCHEDULE_PATH, BLOCK_SCHEDULE_SCHEMA);
+  return blockSchedule;
+}
 
 const domQuery = {
   classBlocks: () => document.querySelectorAll<HTMLTableRowElement>('#accordionSchedules > *'), // schedule row elements,
@@ -81,7 +86,8 @@ function createBlock(
 }
 
 async function getBlockSchedule(date: Date) {
-  let schedule = (await blockSchedule).exceptions[date.toLocaleDateString('en-US')];
+  const fullSchedule = await getFullBlockSchedule();
+  let schedule = fullSchedule.exceptions[date.toLocaleDateString('en-US')];
   if (!schedule) {
     if (date.getDay() === 5) { // if it is friday
       const regex = /(?<=^- Friday )[ABC](?= \(GANN\)$)/; // get the letter out of Friday X (GANN)
@@ -92,8 +98,8 @@ async function getBlockSchedule(date: Date) {
 
       if (!fridayLetter) log('error', 'Could not find the schedule rotation for this fine Friday');
       const fridayKey = isDaylightSavings(date) ? 'fridayWinter' : 'friday';
-      schedule = (await blockSchedule)[fridayKey][fridayLetter];
-    } else schedule = (await blockSchedule).week[date.getDay() - 1];
+      schedule = fullSchedule[fridayKey][fridayLetter];
+    } else schedule = fullSchedule.week[date.getDay() - 1];
   }
   return schedule;
 }

@@ -3,7 +3,7 @@ import style from './style.css';
 
 export const getHeader = () => document.querySelector('.oneline.parentitem.last .subnavtop');
 export const getTopNavbar = () => document.querySelector('#site-user-nav > div > ul');
-export const getNativeDropdown = () => document.querySelector('.oneline.parentitem .subnav') as HTMLElement;
+export const getNativeDropdown = () => document.querySelector('.oneline.parentitem .subnav') as HTMLElement; // eslint-disable-line max-len
 export const getMobileAccountLink = () => document.querySelector('#site-mobile-usernav > ul > li:nth-child(3)'); // eslint-disable-line max-len
 
 // add to menu
