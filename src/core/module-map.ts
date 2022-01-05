@@ -71,6 +71,8 @@ interface SectionMap {
 
 const MODULE_MAP: ModuleMap = {
   '#': [
+    dynamicTitle,
+    avatars,
     hideNonacademicClasses,
     searchClassesMenu,
     messageNotifications,
@@ -83,8 +85,6 @@ const MODULE_MAP: ModuleMap = {
     myDayShortcut,
     theme,
     autofocusSiteSearch,
-    avatars,
-    dynamicTitle,
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus, assignmentCheckpoints],

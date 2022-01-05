@@ -51,7 +51,6 @@ async function insertReleaseNotes(dialogBody: HTMLElement) {
   if (!releases.length) {
     releaseNotesWrap.innerHTML = 'There was an issue loading what\'s new. Please try again.';
   } else {
-    console.log(releases);
     releaseNotesWrap.innerHTML = marked(releases.map(r => r.body).join('\n\n')); // parse markdown
   }
 }

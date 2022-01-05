@@ -38,7 +38,7 @@ const domQuery = {
 
 function getClassIdFromRow(row: Element) {
   const link = row.querySelector('[data-heading="Activity"] a') as HTMLAnchorElement;
-  return link.hash.split('/')[1];
+  return link?.hash.split('/')[1];
 }
 
 function getZoomIdFromUrl(url: string) {
@@ -179,6 +179,7 @@ async function insertZoomLinks(links: ZoomLinks) {
 
   for (const row of scheduleRows) {
     const id = getClassIdFromRow(row);
+    if (!id) continue; // basically if it was a free block
     // no await so it doesn't block the
     getZoomLink(id, links).then(link => {
       let button;

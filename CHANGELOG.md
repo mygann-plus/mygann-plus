@@ -1,7 +1,20 @@
+## 1.19.0
+### Added
+- Dynamic Title module that displays time remaining in class in tab title (to enable it go to MyGann+ Options)
+
+### Changed
+- Removed console log in about/index.tsx
+- Your name in top nav to vertical alignment
+- Name Quiz no longer uses custom avatars by default. Who looks like a loading sign?
+- Name Quiz can now be hidden by clicking the button again
+
+### Fixed
+- Zoom links stopped working after a free block sometimes
+
 ## 1.18.0
 ### Added
 - Re-added Zoom Links
-- Zoom Links module now searches class pages for links and automatically adds them to schedule
+- Zoom Links module function to search class pages for links and automatically add them to schedule
 - Control dropdown with MyGann+ Avatars link
 - Description for the Favorites module
 
@@ -9,7 +22,7 @@
 - MyGann+ control placement; Moved MyGann+ controls to separate dropdown in top nav
  
 ### Removed
-- "Looking for target" message in directory search. Brusher games ended so keeping it would be creepy... (Congrats Daniel!)
+- "Looking for target" message in directory search. Brusher games has ended, keeping it would be creepy... (Congrats Daniel!)
 
 ## 1.17.8
 ### Fixed
@@ -17,14 +30,14 @@
 
 ## 1.17.7
 ### Fixed
-- You can now see custom images other than the 50 most recent ones
+- Avatars display bug
 
 ## 1.17.6
 ### Added
-- Added "Looking for your target?" in directory search
+- "Looking for your target?" in directory search bar
 
 ### Fixed
-- Auto search directory failed when searching contacts since no one ever does that
+- Auto search directory bug; searching failed with contacts
 
 ## 1.17.5
 ### Fixed

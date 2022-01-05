@@ -99,6 +99,36 @@
         "F Block": ["9:00 AM", "9:40 AM"],
         "G Block": ["12:15 PM", "12:55 PM"],
         "D Block": ["1:00 PM", "1:40 PM"]
+      },
+      "1/4/2022": {
+        "E Block": ["9:00 AM", "9:45 AM"],
+        "F Block": ["10:00 AM", "10:45 AM"],
+        "G Block": ["11:00 AM", "11:45 AM"],
+        "C Block": ["12:30 PM", "1:15 PM"],
+        "Flex B/Community Block": ["1:30 PM", "2:05 PM"],
+        "D Block": ["2:15 PM", "3:00 PM"]
+      },
+      "1/5/2022": {
+        "D Block": ["9:00 AM", "9:45 AM"],
+        "C Block": ["10:00 AM", "10:45 AM"],
+        "E Block": ["11:00 AM", "11:45 AM"],
+        "G Block": ["12:30 PM", "1:15 PM"],
+        "Flex A/Community Block": ["1:30 PM", "2:05 PM"],
+        "F Block": ["2:15 PM", "3:00 PM"]
+      },
+      "1/6/2022": {
+        "G Block": ["9:00 AM", "9:45 AM"],
+        "F Block": ["10:00 AM", "10:45 AM"],
+        "Flex B/Community Block": ["11:00 AM", "11:45 AM"],
+        "D Block": ["12:30 PM", "1:15 PM"],
+        "C Block": ["1:30 PM", "2:05 PM"],
+        "E Block": ["2:15 PM", "3:00 PM"]
+      },
+      "1/7/2021": {
+        "Flex A/Community Block": ["9:00 AM", "9:45 AM"],
+        "E Block": ["10:00 AM", "10:40 AM"],
+        "F Block": ["10:50 AM", "11:30 AM"],
+        "G Block": ["12:50 PM", "1:30 PM"]
       }
     }
   }

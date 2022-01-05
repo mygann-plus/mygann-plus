@@ -62,3 +62,7 @@
 .Multiple-Choice--box {
   margin: 0 5px;
 }
+
+.hidden {
+  display: none;
+}

@@ -8,7 +8,9 @@ const SCHEMA_VERSION = 1;
  * {
  *  nicknames: {
  *    'Full Name \'20': 'Nickname'
- *  }
+ *  },
+ *  mode: mode,
+ *  useImgur: boolean
  * }
 */
 
@@ -48,5 +50,15 @@ export async function getMode() {
 export async function setMode(mode: string) {
   const data = await getNameQuizData();
   data.mode = mode;
+  storage.set(NAME_QUIZ_KEY, data, SCHEMA_VERSION);
+}
+
+export async function shouldUseImgur() {
+  return (await getNameQuizData()).useImgur;
+}
+
+export async function setImgur(useImgur: boolean) {
+  const data = await getNameQuizData();
+  data.useImgur = useImgur;
   storage.set(NAME_QUIZ_KEY, data, SCHEMA_VERSION);
 }

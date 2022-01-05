@@ -17,6 +17,7 @@ import {
   getMode,
   setMode,
   Nicknames,
+  shouldUseImgur,
 } from './name-quiz-modal';
 
 import { getImgurImage } from '~/utils/imgur';
@@ -48,6 +49,7 @@ const selectors = {
     nicknameRemove: style.locals['Settings--nickname-remove'],
     nicknameRow: 'mgp_name-quiz_nickname-row',
   },
+  hidden: style.locals.hidden,
 };
 
 const modes = {
@@ -59,6 +61,7 @@ interface Student {
   name: string;
   nickname: string;
   image: string;
+  imgurImage: string;
 }
 
 interface NameQuizElements {
@@ -79,16 +82,18 @@ class NameQuizGame {
   private shownStudents: Student[];
   private currentStudent: Student;
   private mode: string;
+  private useImgur: boolean;
   private points: number;
   private hintLength: number;
   private turns: number;
   private correctIndex: number;
   private elements: NameQuizElements = {};
 
-  constructor(students: Student[], nicknames: Nicknames, mode: string) {
+  constructor(students: Student[], nicknames: Nicknames, mode: string, useImgur: boolean) {
     this.students = students;
     this.nicknames = nicknames;
     this.mode = mode;
+    this.useImgur = useImgur;
     this.points = 0;
     this.shownStudents = [];
     this.hintLength = 0;
@@ -129,7 +134,7 @@ class NameQuizGame {
       }
     }
     this.currentStudent = student;
-    this.elements.image.src = student.image;
+    this.updateImage();
     if (this.mode === modes.CHOICE) {
       this.generateNewMultipleChoiceBoxes(student);
     }
@@ -219,6 +224,10 @@ class NameQuizGame {
     }
   }
 
+  updateImage() {
+    this.elements.image.src = this.currentStudent[this.useImgur ? 'imgurImage' : 'image'];
+  }
+
   showHint() {
     this.hintLength++;
     const letters = this.getStudentName(this.currentStudent).substring(0, this.hintLength);
@@ -295,6 +304,13 @@ class NameQuizGame {
   generateSettingsDialog() {
     return (
       <div>
+        <input
+          type="checkbox"
+          checked={this.useImgur}
+          onInput={e => { this.useImgur = (e.target as HTMLInputElement).checked; this.updateImage(); } }
+        />
+        <b> Use Custom Avatars</b>
+        <br />
         <b>Mode: </b>
         <select onChange={ e => this.selectMode(e.target.value) }>
           {
@@ -362,7 +378,8 @@ async function runGame(unloaderContext: UnloaderContext) {
     .map(async (student: any) => ({
       name: student.name,
       nickname: student.nickName,
-      image: `${(await getImgurImage(student.Id.toString()))?.link || await getCDNImageUrl(`user/${student.userPhotoLarge}`)}`,
+      image: await getCDNImageUrl(`user/${student.userPhotoLarge}`),
+      imgurImage: (await getImgurImage(student.Id.toString()))?.link,
     })));
 
   if (!students.length) {
@@ -371,7 +388,8 @@ async function runGame(unloaderContext: UnloaderContext) {
 
   const nicknames = await getNicknames();
   const mode = (await getMode()) || modes.CHOICE;
-  const game = new NameQuizGame(students, nicknames, mode);
+  const useImgur = (await shouldUseImgur()) || false;
+  const game = new NameQuizGame(students, nicknames, mode, useImgur);
 
   const [rosterBar] = await waitForOne(() => ([
     document.querySelector('#communitypagecontainer div'),
@@ -386,8 +404,11 @@ async function runGame(unloaderContext: UnloaderContext) {
 }
 
 function handleButtonClick(unloaderContext: UnloaderContext) {
-  if (!document.querySelector(`.${selectors.wrap}`)) {
+  const wrap = document.querySelector(`.${selectors.wrap}`);
+  if (!wrap) {
     runGame(unloaderContext);
+  } else {
+    wrap.classList.toggle(selectors.hidden);
   }
 }
 

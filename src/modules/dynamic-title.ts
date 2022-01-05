@@ -98,7 +98,7 @@ async function titleScrollMain(opts: void, unloaderContext: UnloaderContext) {
       unloadTitleScroll();
       titleScrollMain(opts, unloaderContext);
     }
-  }, 5e3);
+  }, 30e3);
 
   unloaderContext.addFunction(() => clearInterval(interval));
 }

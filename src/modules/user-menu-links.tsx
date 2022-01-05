@@ -8,7 +8,7 @@ import {
   getTopNavbar,
   getMobileAccountLink,
   mobileMenu,
-  getNativeDropdown
+  getNativeDropdown,
 } from '~/shared/user-menu';
 import style from '~/shared/user-menu/style.css';
 
@@ -18,6 +18,8 @@ import about from '~/modules/about';
 async function userMenuLinksMain() {
   insertCss(style.toString());
   await waitForLoad(() => getHeader() && getMobileAccountLink());
+
+  (document.querySelector('#account-nav > span.desc > span') as HTMLElement).style.verticalAlign = 'middle'; // centr account name
 
   const nav = getTopNavbar();
   nav.lastElementChild.classList.remove('last'); // no longer the last element on the topbar
