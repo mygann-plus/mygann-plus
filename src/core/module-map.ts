@@ -59,6 +59,7 @@ import hideAssignmentTimes from '~/modules/hide-assignment-times';
 import avatars from '~/modules/avatars';
 import autoSearchDirectory from '~/modules/auto-search-directory';
 import skipDays from '~/modules/skip-days';
+import dynamicTitle from '~/modules/dynamic-title';
 
 interface ModuleMap {
   [key: string]: Module[]
@@ -83,6 +84,7 @@ const MODULE_MAP: ModuleMap = {
     theme,
     autofocusSiteSearch,
     avatars,
+    dynamicTitle,
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus, assignmentCheckpoints],
