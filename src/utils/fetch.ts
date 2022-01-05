@@ -33,7 +33,9 @@ export function fetchJson(url: string, opts: RequestInit = {}) {
     .then(r => r.json());
 }
 
-export function fetchApi(endpoint: string, opts: RequestInit = {}) {
+let cachedApi: { [endpoint: string]: any } = {};
+
+export function fetchApi(endpoint: string, opts: RequestInit = {}, cache = true) {
   if (!endpoint.startsWith('/')) {
     throw new Error('Endpoint must start with /');
   }
@@ -45,9 +47,17 @@ export function fetchApi(endpoint: string, opts: RequestInit = {}) {
     'content-type': 'application/json',
   }), headers as Headers);
 
-  return fetchJson(`https://gannacademy.myschoolapp.com${endpoint}`, Object.assign(opts, {
+  const fetched = fetchJson(`https://gannacademy.myschoolapp.com${endpoint}`, Object.assign(opts, {
     headers: apiHeaders,
   }));
+
+  fetched.then(data => {
+    if (cachedApi[endpoint]) console.log(`already fetched endpoint ${endpoint}! This time equals the last: ${JSON.stringify(cachedApi[endpoint]) === JSON.stringify(data)}`);
+    else if (cache) cachedApi[endpoint] = data;
+    return data;
+  });
+
+  return fetched;
 }
 
 const DATA_ENDPOINT = 'https://mygannplus-data.surge.sh';
