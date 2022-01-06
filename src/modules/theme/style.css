@@ -304,7 +304,7 @@
 }
 
 :global #site-nav DIV.subnav UL>li>a.active {
-  background-color: var(--gocp-theme-top-gradient) !important;
+  background-color: var(--gocp-theme-highlight) !important;
 }
 
 :global #site-mobile-menu.app-mobile-menu,

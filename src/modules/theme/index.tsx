@@ -96,7 +96,7 @@ async function applyColorStyles(color: string, enhance: boolean, unloaderContext
     setThemeColorProperty('panel-border', createColorObject(primaryColor, 0, 0, 0, 0.4));
     setThemeColorProperty('panel-head', createColorObject(panelBodyDefault, 0, 0, 0, 0.55));
     setThemeColorProperty('panel-body', createColorObject(panelBodyDefault, 0, 0, 0, 0.7));
-    setThemeColorProperty('highlight', createColorObject(primaryColor, 45, 45, 45, 0.1));
+    setThemeColorProperty('highlight', createColorObject(primaryColor, 45, 45, 45, 0.5));
   } else {
     setThemeProperty('body-background', constants.bodyBackgroundDefault);
     setThemeProperty('panel-border', constants.panelBorderDefault);
