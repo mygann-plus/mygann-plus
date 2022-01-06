@@ -1,0 +1,55 @@
+:global .chCal-button,
+:global .chCal-button-week,
+:global .chCal-corner-right {
+    border: 1px solid #ccc !important;
+    border-radius: 3px;
+    padding: 6px 12px !important;
+    background-color: #fff !important;
+    text-transform: capitalize;
+}
+ 
+:global .chCal-button:hover,
+:global .chCal-button-week:hover,
+:global .chCal-state-default:hover,
+:global .chCal-corner-right:hover {
+    background-color: #e6e6e6 !important;
+    border-color: #adadad !important;
+}
+
+:global .chCal-button:active,
+:global .chCal-button-week:active,
+:global .chCal-state-default:active,
+:global .chCal-corner-right:active {
+    outline: 0 !important;
+    background-image: none !important;
+    -webkit-box-shadow: inset 0 3px 5px rgb(0 0 0 / 13%) !important;
+    box-shadow: inset 0 3px 5px rgb(0 0 0 / 13%) !important;
+}
+ 
+:global .chCal-button-inner {
+    border: none !important;
+    color: #333 !important;
+}
+ 
+:global .chCal-button-content {
+    padding: 0px !important;
+    line-height: 1.5 !important;
+    height: auto !important;
+}
+ 
+:global .chCal-state-default,
+:global .chCal-state-default .chCal-button-inner {
+    background-color: transparent;
+}
+ 
+:global .chCal-button-effect {
+    display: none !important;
+}
+
+:global #schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > h2 {
+    vertical-align: 7px !important;
+}
+
+:global #schedule-header > div > div > div > div.pull-right > span.chCal-header-space {
+    display: none !important;
+}

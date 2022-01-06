@@ -60,6 +60,7 @@ import avatars from '~/modules/avatars';
 import autoSearchDirectory from '~/modules/auto-search-directory';
 import skipDays from '~/modules/skip-days';
 import dynamicTitle from '~/modules/dynamic-title';
+import cleanUp from '~/modules/clean-up';
 
 interface ModuleMap {
   [key: string]: Module[]
@@ -85,6 +86,7 @@ const MODULE_MAP: ModuleMap = {
     myDayShortcut,
     theme,
     autofocusSiteSearch,
+    cleanUp,
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus, assignmentCheckpoints],
