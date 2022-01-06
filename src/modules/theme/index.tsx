@@ -69,14 +69,19 @@ async function fontValidator(font: string) {
   }
 }
 
+const domQuery = () => document.querySelector('#app-style style');
+
 async function applyColorStyles(color: string, enhance: boolean, unloaderContext: UnloaderContext) {
-  const themeStyles = insertCss(style.toString());
+  const appStyles = await waitForLoad(domQuery);
+
+  const themeStyles = <style>{ style.toString() }</style>;
+  appStyles.after(themeStyles);
   unloaderContext.addRemovable(themeStyles);
 
   const primaryColor = hexToRgba(color);
 
   const calendarColor = createColorObject(primaryColor, 0, 0, 0, 0.9);
-  const topGradient = createColorObject(primaryColor, 255, 255, 255, 1);
+  const topGradient = createColorObject(primaryColor, 255, 255, 255, 0.6);
   const selectedBorder = createColorObject(primaryColor, 60, 60, 60, 0.9);
 
   setThemeColorProperty('primary', primaryColor);
@@ -92,7 +97,6 @@ async function applyColorStyles(color: string, enhance: boolean, unloaderContext
     setThemeColorProperty('panel-head', createColorObject(panelBodyDefault, 0, 0, 0, 0.55));
     setThemeColorProperty('panel-body', createColorObject(panelBodyDefault, 0, 0, 0, 0.7));
     setThemeColorProperty('highlight', createColorObject(primaryColor, 45, 45, 45, 0.1));
-
   } else {
     setThemeProperty('body-background', constants.bodyBackgroundDefault);
     setThemeProperty('panel-border', constants.panelBorderDefault);
