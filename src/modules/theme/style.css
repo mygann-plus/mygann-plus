@@ -1,3 +1,7 @@
+:global body {
+  background-color: var(--gocp-theme-body-background) !important;
+}
+
 :global #site-header-container {
   background: var(--gocp-theme-primary) !important;
 }
@@ -224,7 +228,7 @@
 
 :global .sec-15-bgc,
 :global .sec-15-bgc-hover:hover {
-  background-color: var(--gocp-theme-top-gradient) !important;
+  background-color: var(--gocp-theme-body-background) !important;
 }
 
 :global .sec-15-boxshadow,
