@@ -74,8 +74,8 @@ const observer = new MutationObserver(([mutation], obs) => {
 });
 
 function unloadTitleScroll() {
-  document.title = lastTitle;
   observer.disconnect();
+  if (!defaultTitle()) document.title = lastTitle;
 }
 
 async function titleScrollMain(opts: void, unloaderContext: UnloaderContext) {
