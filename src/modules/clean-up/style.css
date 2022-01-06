@@ -58,7 +58,7 @@
 }
 
 :global #schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > h2 {
-    vertical-align: 7px !important;
+    vertical-align: 8px !important;
 }
 
 :global #schedule-header > div > div > div > div.pull-right > span.chCal-header-space {

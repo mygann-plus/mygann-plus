@@ -49,7 +49,7 @@ function createColorObject(base: Color, r: number, g: number, b: number, a: numb
     r: base.r + r,
     g: base.g + g,
     b: base.b + b,
-    a: 0 + a,
+    a,
   };
 }
 
@@ -80,7 +80,7 @@ async function applyColorStyles(color: string, enhanced: boolean, unloaderContex
 
   const primaryColor = hexToRgba(color);
   const calendarColor = createColorObject(primaryColor, 0, 0, 0, 0.9);
-  const topGradient = createColorObject(primaryColor, 200, 200, 200, 0.9);
+  const topGradient = createColorObject(primaryColor, 255, 255, 255, 1);
   const selectedBorder = createColorObject(primaryColor, 60, 60, 60, 0.9);
 
   const bodyBackgroundDefault = { r: 243, g: 243, b: 243, a: 1 };
@@ -117,11 +117,11 @@ function applyFontStyles(font: string, unloaderContext: UnloaderContext) {
 }
 
 function themeMain(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
-  let { color, font, enhance } = options;
+  let { color, font, enhanced } = options;
 
   if (color !== DEFAULT_COLOR) {
     color += 'aa';
-    applyColorStyles(color, enhance, unloaderContext);
+    applyColorStyles(color, enhanced, unloaderContext);
   }
   if (font !== DEFAULT_FONT) {
     applyFontStyles(font, unloaderContext);
@@ -135,7 +135,7 @@ function unloadTheme() {}
 interface ThemeSuboptions {
   color: string;
   font: string;
-  enhance: boolean;
+  enhanced: boolean;
 }
 
 export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
@@ -174,10 +174,10 @@ export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
       ],
       validator: fontValidator,
     },
-    enhance: {
-      name: 'Enhance',
+    enhanced: {
+      name: 'Enhanced',
       type: 'boolean',
-      defaultValue: false,
+      defaultValue: true,
     },
   },
 });
