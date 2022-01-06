@@ -95,12 +95,16 @@ async function applyColorStyles(color: string, enhance: boolean, unloaderContext
     setThemeColorProperty('body-background', createColorObject(primaryColor, 0, 0, 0, 0.15));
     setThemeColorProperty('panel-border', createColorObject(primaryColor, 0, 0, 0, 0.4));
     setThemeColorProperty('panel-head', createColorObject(panelBodyDefault, 0, 0, 0, 0.55));
-    setThemeColorProperty('panel-body', createColorObject(panelBodyDefault, 0, 0, 0, 0.8));
+    setThemeColorProperty('panel-body', createColorObject(panelBodyDefault, 0, 0, 0, 0.7));
+    setThemeColorProperty('highlight', createColorObject(primaryColor, 45, 45, 45, 0.1));
+
   } else {
     setThemeProperty('body-background', constants.bodyBackgroundDefault);
     setThemeProperty('panel-border', constants.panelBorderDefault);
     setThemeProperty('panel-head', constants.panelBodyDefault);
     setThemeProperty('panel-body', constants.panelBodyDefault);
+    setThemeProperty('highlight', constants.panelBodyDefault);
+
   }
 }
 
@@ -178,7 +182,7 @@ export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
       name: 'Enhanced',
       type: 'boolean',
       defaultValue: true,
-      description: 'Add the color to the page background and section headers',
+      description: 'Apply theme color to webpage body',
     },
   },
 });

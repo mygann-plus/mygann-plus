@@ -318,3 +318,15 @@
 :global .bb-tile-content {
   background-color: var(--gocp-theme-panel-body) !important;
 }
+
+:global #courses #coursesContainer .row:hover {
+  background-color: var(--gocp-theme-highlight) !important;
+}
+
+:global #courses #advisoryContainer .row:hover {
+  background-color: var(--gocp-theme-highlight) !important;
+}
+
+:global #advisory #advisoryContainer .row:hover {
+  background-color: var(--gocp-theme-highlight) !important;
+}
