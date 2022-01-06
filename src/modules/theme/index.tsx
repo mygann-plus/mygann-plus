@@ -20,32 +20,36 @@ interface Color {
   r: number;
   g: number;
   b: number;
+  a: number;
 }
 
 function setThemeColorProperty(name: string, colorObj: Color) {
   const r = colorObj.r > 255 ? 255 : colorObj.r;
   const g = colorObj.g > 255 ? 255 : colorObj.g;
   const b = colorObj.b > 255 ? 255 : colorObj.b;
-  const rgb = `rgb(${r},${g},${b})`;
-  setThemeProperty(name, rgb);
+  const a = colorObj.a > 1 ? 1 : colorObj.a;
+  const rgba = `rgba(${r},${g},${b},${a})`;
+  setThemeProperty(name, rgba);
 }
 
 // Color Utilities
 
-function hexToRgb(hex: string) {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+function hexToRgba(hex: string) {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return {
     r: parseInt(result[1], 16),
     g: parseInt(result[2], 16),
     b: parseInt(result[3], 16),
+    a: parseInt(result[4], 16),
   };
 }
 
-function createColorObject(base: Color, r: number, g: number, b: number) {
+function createColorObject(base: Color, r: number, g: number, b: number, a: number) {
   return {
     r: base.r + r,
     g: base.g + g,
     b: base.b + b,
+    a: 0 + a,
   };
 }
 
@@ -74,15 +78,17 @@ async function applyColorStyles(color: string, unloaderContext: UnloaderContext)
   appStyles.after(themeStyles);
   unloaderContext.addRemovable(themeStyles);
 
-  const primaryColor = hexToRgb(color);
-  const calendarColor = createColorObject(primaryColor, 30, 30, 30);
-  const topGradient = createColorObject(primaryColor, 230, 230, 230);
-  const selectedBorder = createColorObject(primaryColor, 90, 90, 90);
+  const primaryColor = hexToRgba(color);
+  const calendarColor = createColorObject(primaryColor, 30, 30, 30, 1);
+  const topGradient = createColorObject(primaryColor, 230, 230, 230, 1);
+  const selectedBorder = createColorObject(primaryColor, 90, 90, 90, 1);
+  const bodyBackground = createColorObject(primaryColor, 0, 0, 0, 0.15);
 
   setThemeColorProperty('primary', primaryColor);
   setThemeColorProperty('lighter', calendarColor);
   setThemeColorProperty('top-gradient', topGradient);
   setThemeColorProperty('selected-border', selectedBorder);
+  setThemeColorProperty('body-background', bodyBackground);
 }
 
 function applyFontStyles(font: string, unloaderContext: UnloaderContext) {
@@ -99,9 +105,10 @@ function applyFontStyles(font: string, unloaderContext: UnloaderContext) {
 }
 
 function themeMain(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
-  const { color, font } = options;
+  let { color, font } = options;
 
   if (color !== DEFAULT_COLOR) {
+    color += 'aa';
     applyColorStyles(color, unloaderContext);
   }
   if (font !== DEFAULT_FONT) {
