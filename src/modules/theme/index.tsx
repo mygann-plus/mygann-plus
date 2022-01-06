@@ -81,7 +81,7 @@ async function applyColorStyles(color: string, enhance: boolean, unloaderContext
   const primaryColor = hexToRgba(color);
 
   const calendarColor = createColorObject(primaryColor, 0, 0, 0, 0.9);
-  const topGradient = createColorObject(primaryColor, 255, 255, 255, 0.6);
+  const topGradient = createColorObject(primaryColor, 230, 230, 230, 1);
   const selectedBorder = createColorObject(primaryColor, 60, 60, 60, 0.9);
 
   setThemeColorProperty('primary', primaryColor);

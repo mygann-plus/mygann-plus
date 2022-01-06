@@ -207,7 +207,7 @@
 
 :global .sec-25-bgc,
 :global .sec-25-bgc-hover:hover {
-  background-color: var(--gocp-theme-top-gradient) !important;
+  background-color: var(--gocp-theme-highlight) !important;
 }
 
 :global .sec-25-boxshadow,
@@ -255,6 +255,10 @@
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, var(--gocp-theme-top-gradient)), color-stop(100%, var(--gocp-theme-selected-border))) !important;
   /*Chrome,Safari4+ */
   background-image: -webkit-linear-gradient(top, var(--gocp-theme-top-gradient) 0%, var(--gocp-theme-selected-border) 100%) !important;
+}
+
+:global .subnavbar .nav>li>a {
+  color: var(--gocp-theme-primary);
 }
 
 :global .subnavbar .nav>.active>a,
