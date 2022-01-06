@@ -71,7 +71,7 @@ async function fontValidator(font: string) {
 
 const domQuery = () => document.querySelector('#app-style style');
 
-async function applyColorStyles(color: string, unloaderContext: UnloaderContext) {
+async function applyColorStyles(color: string, enhanced: boolean, unloaderContext: UnloaderContext) {
   const appStyles = await waitForLoad(domQuery);
 
   const themeStyles = <style>{ style.toString() }</style>;
@@ -79,16 +79,28 @@ async function applyColorStyles(color: string, unloaderContext: UnloaderContext)
   unloaderContext.addRemovable(themeStyles);
 
   const primaryColor = hexToRgba(color);
-  const calendarColor = createColorObject(primaryColor, 30, 30, 30, 1);
-  const topGradient = createColorObject(primaryColor, 230, 230, 230, 1);
-  const selectedBorder = createColorObject(primaryColor, 90, 90, 90, 1);
-  const bodyBackground = createColorObject(primaryColor, 0, 0, 0, 0.15);
+  const calendarColor = createColorObject(primaryColor, 0, 0, 0, 0.9);
+  const topGradient = createColorObject(primaryColor, 200, 200, 200, 0.9);
+  const selectedBorder = createColorObject(primaryColor, 60, 60, 60, 0.9);
+
+  const bodyBackgroundDefault = { r: 243, g: 243, b: 243, a: 1 };
+  const panelBorderDefault = { r: 205, g: 207, b: 210, a: 1 };
+  const panelBodyDefault = { r: 255, g: 255, b: 255, a: 1 };
+
+  const bodyBackground = enhanced ? createColorObject(primaryColor, 0, 0, 0, 0.15) : createColorObject(bodyBackgroundDefault, 0, 0, 0, 1);
+  const panelBorder = enhanced ? createColorObject(primaryColor, 0, 0, 0, 0.4) : createColorObject(panelBorderDefault, 0, 0, 0, 1);
+  const panelHead = enhanced ? createColorObject(panelBodyDefault, 0, 0, 0, 0.55) : createColorObject(panelBodyDefault, 0, 0, 0, 1);
+  const panelBody = enhanced ? createColorObject(panelBodyDefault, 0, 0, 0, 0.8) : createColorObject(panelBodyDefault, 0, 0, 0, 1);
 
   setThemeColorProperty('primary', primaryColor);
   setThemeColorProperty('lighter', calendarColor);
   setThemeColorProperty('top-gradient', topGradient);
   setThemeColorProperty('selected-border', selectedBorder);
+
   setThemeColorProperty('body-background', bodyBackground);
+  setThemeColorProperty('panel-border', panelBorder);
+  setThemeColorProperty('panel-head', panelHead);
+  setThemeColorProperty('panel-body', panelBody);
 }
 
 function applyFontStyles(font: string, unloaderContext: UnloaderContext) {
@@ -105,11 +117,11 @@ function applyFontStyles(font: string, unloaderContext: UnloaderContext) {
 }
 
 function themeMain(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
-  let { color, font } = options;
+  let { color, font, enhance } = options;
 
   if (color !== DEFAULT_COLOR) {
     color += 'aa';
-    applyColorStyles(color, unloaderContext);
+    applyColorStyles(color, enhance, unloaderContext);
   }
   if (font !== DEFAULT_FONT) {
     applyFontStyles(font, unloaderContext);
@@ -123,6 +135,7 @@ function unloadTheme() {}
 interface ThemeSuboptions {
   color: string;
   font: string;
+  enhance: boolean;
 }
 
 export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
@@ -160,6 +173,11 @@ export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
         'Open Sans',
       ],
       validator: fontValidator,
+    },
+    enhance: {
+      name: 'Enhance',
+      type: 'boolean',
+      defaultValue: false,
     },
   },
 });

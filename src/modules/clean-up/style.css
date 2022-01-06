@@ -3,7 +3,7 @@
 :global .chCal-corner-right {
     border: 1px solid #ccc !important;
     border-radius: 3px;
-    padding: 6px 12px !important;
+    padding: 5px 11px !important;
     background-color: #fff !important;
     text-transform: capitalize;
 }
@@ -44,6 +44,17 @@
  
 :global .chCal-button-effect {
     display: none !important;
+}
+
+:global #schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-next.chCal-state-default.chCal-corner-right {
+    left: -4px !important;
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+
+:global #schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-prev.chCal-state-default.chCal-corner-left {
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
 }
 
 :global #schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > h2 {

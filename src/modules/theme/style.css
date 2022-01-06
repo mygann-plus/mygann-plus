@@ -1,3 +1,4 @@
+/* Background tint */
 :global body {
   background-color: var(--gocp-theme-body-background) !important;
 }
@@ -305,4 +306,15 @@
 :global #site-mobile-menu.app-mobile-menu,
 :global #site-mobile-menu .app-mobile-level {
   background-color: var(--gocp-theme-primary) !important;
+}
+
+/* Top border of drop down panels */
+:global .bb-tile .bb-tile-title {
+  border-color: var(--gocp-theme-panel-border) !important;
+  background-color: var(--gocp-theme-panel-head) !important;
+}
+
+/* Panel body */
+:global .bb-tile-content {
+  background-color: var(--gocp-theme-panel-body) !important;
 }
