@@ -21,6 +21,7 @@ import setCssVars from '~/utils/css-vars';
 import log from '~/utils/log';
 import { isBookmarklet, markBookmarkletLoaded, isBookmarletLoaded } from '~/utils/bookmarklet';
 import { ChangeListenerData } from '~/utils/storage';
+import { checkForUpdates } from './install';
 
 function getHash(url: string) {
   return new URL(url).hash || '#';
@@ -89,6 +90,7 @@ export default async function runExtension() {
   }
 
   await initializeOptions();
+  checkForUpdates();
   fetchRemoteDisabled();
   setCssVars();
   addOptionsChangeListener(applyNewOptions);
