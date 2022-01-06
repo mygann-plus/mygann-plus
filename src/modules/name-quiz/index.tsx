@@ -423,6 +423,7 @@ async function nameQuizMain(opts: void, unloaderContext: UnloaderContext) {
     textContent: 'Name Quiz',
     onClick: () => handleButtonClick(unloaderContext),
     className: selectors.playButton,
+    small: false,
   });
   termButton.before(button);
   unloaderContext.addRemovable(button);

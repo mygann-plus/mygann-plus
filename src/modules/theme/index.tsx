@@ -35,16 +35,16 @@ function setThemeColorProperty(name: string, colorObj: Color) {
 // Color Utilities
 
 function hexToRgba(hex: string) {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return {
     r: parseInt(result[1], 16),
     g: parseInt(result[2], 16),
     b: parseInt(result[3], 16),
-    a: parseInt(result[4], 16),
+    a: 1, // hex only works at full opacity
   };
 }
 
-function createColorObject(base: Color, r: number, g: number, b: number, a: number) {
+function createColorObject(base: Color, r: number, g: number, b: number, a: number): Color {
   return {
     r: base.r + r,
     g: base.g + g,
@@ -71,7 +71,7 @@ async function fontValidator(font: string) {
 
 const domQuery = () => document.querySelector('#app-style style');
 
-async function applyColorStyles(color: string, enhanced: boolean, unloaderContext: UnloaderContext) {
+async function applyColorStyles(color: string, enhance: boolean, unloaderContext: UnloaderContext) {
   const appStyles = await waitForLoad(domQuery);
 
   const themeStyles = <style>{ style.toString() }</style>;
@@ -79,28 +79,29 @@ async function applyColorStyles(color: string, enhanced: boolean, unloaderContex
   unloaderContext.addRemovable(themeStyles);
 
   const primaryColor = hexToRgba(color);
+
   const calendarColor = createColorObject(primaryColor, 0, 0, 0, 0.9);
   const topGradient = createColorObject(primaryColor, 255, 255, 255, 1);
   const selectedBorder = createColorObject(primaryColor, 60, 60, 60, 0.9);
-
-  const bodyBackgroundDefault = { r: 243, g: 243, b: 243, a: 1 };
-  const panelBorderDefault = { r: 205, g: 207, b: 210, a: 1 };
-  const panelBodyDefault = { r: 255, g: 255, b: 255, a: 1 };
-
-  const bodyBackground = enhanced ? createColorObject(primaryColor, 0, 0, 0, 0.15) : createColorObject(bodyBackgroundDefault, 0, 0, 0, 1);
-  const panelBorder = enhanced ? createColorObject(primaryColor, 0, 0, 0, 0.4) : createColorObject(panelBorderDefault, 0, 0, 0, 1);
-  const panelHead = enhanced ? createColorObject(panelBodyDefault, 0, 0, 0, 0.55) : createColorObject(panelBodyDefault, 0, 0, 0, 1);
-  const panelBody = enhanced ? createColorObject(panelBodyDefault, 0, 0, 0, 0.8) : createColorObject(panelBodyDefault, 0, 0, 0, 1);
 
   setThemeColorProperty('primary', primaryColor);
   setThemeColorProperty('lighter', calendarColor);
   setThemeColorProperty('top-gradient', topGradient);
   setThemeColorProperty('selected-border', selectedBorder);
 
-  setThemeColorProperty('body-background', bodyBackground);
-  setThemeColorProperty('panel-border', panelBorder);
-  setThemeColorProperty('panel-head', panelHead);
-  setThemeColorProperty('panel-body', panelBody);
+  const panelBodyDefault = hexToRgba(constants.panelBodyDefault);
+
+  if (enhance) {
+    setThemeColorProperty('body-background', createColorObject(primaryColor, 0, 0, 0, 0.15));
+    setThemeColorProperty('panel-border', createColorObject(primaryColor, 0, 0, 0, 0.4));
+    setThemeColorProperty('panel-head', createColorObject(panelBodyDefault, 0, 0, 0, 0.55));
+    setThemeColorProperty('panel-body', createColorObject(panelBodyDefault, 0, 0, 0, 0.8));
+  } else {
+    setThemeProperty('body-background', constants.bodyBackgroundDefault);
+    setThemeProperty('panel-border', constants.panelBorderDefault);
+    setThemeProperty('panel-head', constants.panelBodyDefault);
+    setThemeProperty('panel-body', constants.panelBodyDefault);
+  }
 }
 
 function applyFontStyles(font: string, unloaderContext: UnloaderContext) {
@@ -117,10 +118,9 @@ function applyFontStyles(font: string, unloaderContext: UnloaderContext) {
 }
 
 function themeMain(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
-  let { color, font, enhanced } = options;
+  const { color, font, enhanced } = options;
 
   if (color !== DEFAULT_COLOR) {
-    color += 'aa';
     applyColorStyles(color, enhanced, unloaderContext);
   }
   if (font !== DEFAULT_FONT) {
@@ -178,6 +178,7 @@ export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
       name: 'Enhanced',
       type: 'boolean',
       defaultValue: true,
+      description: 'Add the color to the page background and section headers',
     },
   },
 });

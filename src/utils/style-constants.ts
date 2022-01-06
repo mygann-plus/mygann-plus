@@ -13,6 +13,10 @@ const constants: StyleConstants = {
   linkBlue: '#007ca6',
   errorRed: '#cc0000',
 
+  bodyBackgroundDefault: '#f3f3f3',
+  panelBorderDefault: '#cdcfd2',
+  panelBodyDefault: '#ffffff',
+
   maxMobileWidth: '978px',
 };
 

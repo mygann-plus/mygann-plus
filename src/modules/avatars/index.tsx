@@ -23,7 +23,16 @@ const domQuery = {
   about: () => document.querySelector('#contact-col-left > div > section > div > div:nth-child(1) > h2') as HTMLElement, // about header in profile
 };
 
-async function replace(container: HTMLElement): Promise<void> {
+async function setImageToImgur(img: HTMLImageElement, studentId: string) {
+  const newImage = await getImgurImage(studentId);
+  if (newImage) {
+    img.src = newImage.link;
+    return true;
+  }
+  return false;
+}
+
+function replace(container: HTMLElement) {
   // const images: NodeListOf<HTMLImageElement> = container.querySelectorAll('.bb-avatar-image');
   const images = container.querySelectorAll<HTMLImageElement>('[class^="bb-avatar-image"]');
   // const images = container instanceof HTMLImageElement ? [container] : container.querySelectorAll<HTMLImageElement>('[class^="bb-avatar-image"]');
@@ -31,8 +40,7 @@ async function replace(container: HTMLElement): Promise<void> {
   for (const image of images) {
     const studentId = /(?<=user)\d+/.exec(image.src);
     if (!studentId) continue; // already replaced the image
-    let newImage = await getImgurImage(studentId[0]);
-    image.src = newImage?.link || image.src;
+    setImageToImgur(image, studentId[0]);
   }
 }
 
