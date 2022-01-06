@@ -90,7 +90,7 @@ async function getBlockSchedule(date: Date) {
   let schedule = fullSchedule.exceptions[date.toLocaleDateString('en-US')];
   if (!schedule) {
     if (date.getDay() === 5) { // if it is friday
-      const regex = /(?<=^- Friday )[ABC](?= \(GANN\)$)/; // get the letter out of Friday X (GANN)
+      const regex = /(?<=^- Friday (- )?)[ABC](?= \(GANN\)$)/; // get the letter out of Friday X (GANN)
       const fridayLetter = Array.from( // is it fraday a, b, or c?
         getAnnouncementWrap().children, // announcement elements (each announcement is wrapped in a div)
         announcement => regex.exec(announcement.textContent),
