@@ -82,7 +82,7 @@ function isPatch(prevVersion: string, curVersion: string) {
   return prevMajor === curMajor && prevMinor === curMinor && prevPatch !== curPatch;
 }
 
-async function checkForUpdates() {
+export async function checkForUpdates() {
   const previousVersion = await getPreviousVersion();
   const currentVersion = manifest.version_name;
   if (previousVersion !== currentVersion) {
@@ -93,5 +93,3 @@ async function checkForUpdates() {
     setPreviousVersion(currentVersion);
   }
 }
-
-checkForUpdates();

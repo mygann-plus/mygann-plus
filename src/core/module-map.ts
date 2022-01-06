@@ -86,7 +86,6 @@ const MODULE_MAP: ModuleMap = {
     myDayShortcut,
     theme,
     autofocusSiteSearch,
-    cleanUp,
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus, assignmentCheckpoints],
@@ -117,6 +116,7 @@ const MODULE_MAP: ModuleMap = {
     zoomLinks,
     extreme,
     skipDays,
+    cleanUp,
   ],
   '#myday/schedule-performance': [classEndingTime],
   '#studentmyday/progress': [
