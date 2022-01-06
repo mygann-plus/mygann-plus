@@ -69,15 +69,7 @@ async function fontValidator(font: string) {
   }
 }
 
-// const domQuery = () => document.querySelector('#app-style style');
-
 async function applyColorStyles(color: string, enhance: boolean, unloaderContext: UnloaderContext) {
-  // const appStyles = await waitForLoad(domQuery);
-
-  // const themeStyles = <style>{ style.toString() }</style>;
-  // appStyles.after(themeStyles);
-  // unloaderContext.addRemovable(themeStyles);
-
   const themeStyles = insertCss(style.toString());
   unloaderContext.addRemovable(themeStyles);
 
