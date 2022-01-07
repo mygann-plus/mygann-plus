@@ -16,6 +16,7 @@ const constants: StyleConstants = {
   bodyBackgroundDefault: '#f3f3f3',
   panelBorderDefault: '#cdcfd2',
   panelBodyDefault: '#ffffff',
+  defaultProgressHighlight: '#fefed1',
 
   maxMobileWidth: '978px',
 };

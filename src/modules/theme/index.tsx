@@ -102,7 +102,7 @@ async function applyColorStyles(color: string, enhance: boolean, unloaderContext
     setThemeProperty('panel-border', constants.panelBorderDefault);
     setThemeProperty('panel-head', constants.panelBodyDefault);
     setThemeProperty('panel-body', constants.panelBodyDefault);
-    setThemeProperty('highlight', constants.panelBodyDefault);
+    setThemeProperty('highlight', constants.defaultProgressHighlight);
 
   }
 }

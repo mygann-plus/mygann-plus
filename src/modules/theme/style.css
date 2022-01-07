@@ -207,7 +207,7 @@
 
 :global .sec-25-bgc,
 :global .sec-25-bgc-hover:hover {
-  background-color: var(--gocp-theme-highlight) !important;
+  background-color: var(--gocp-theme-lighter) !important;
 }
 
 :global .sec-25-boxshadow,
@@ -257,10 +257,6 @@
   background-image: -webkit-linear-gradient(top, var(--gocp-theme-top-gradient) 0%, var(--gocp-theme-selected-border) 100%) !important;
 }
 
-:global .subnavbar .nav>li>a {
-  color: var(--gocp-theme-primary);
-}
-
 :global .subnavbar .nav>.active>a,
 :global .subnavbar .nav>.active>a:hover {
   border-color: var(--gocp-theme-selected-border) !important;
@@ -304,7 +300,7 @@
 }
 
 :global #site-nav DIV.subnav UL>li>a.active {
-  background-color: var(--gocp-theme-highlight) !important;
+  background-color: var(--gocp-theme-lighter) !important;
 }
 
 :global #site-mobile-menu.app-mobile-menu,
