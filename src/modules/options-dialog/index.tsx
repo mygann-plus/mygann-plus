@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 
 import registerModule, { Suboption, Module } from '~/core/module';
-import { Removable } from '~/core/module-loader';
-import { MODULE_MAP, SECTION_MAP } from '~/core/module-map'; // eslint-disable-line import/no-cycle
+import { getLoadedModules, isModuleLoaded, moduleUnloaderOrNew, Removable, UnloaderContext } from '~/core/module-loader';
+import { modulesForHash, MODULE_MAP, SECTION_MAP } from '~/core/module-map'; // eslint-disable-line import/no-cycle
 import {
   AllOptions,
   getFlattenedOptions,
@@ -197,7 +197,9 @@ class OptionsDialog {
 
   private state: AllOptions;
   private onSave: (state: AllOptions) => void;
-  private getDefaultState: () => AllOptions
+  private getDefaultState: () => AllOptions;
+
+  private previews: { moduleGuid: string, unloaderContext: UnloaderContext };
 
   // [module.guid]: [suboptionKey1, suboptionKey2, ...]
   private dependentSuboptions: {
@@ -226,6 +228,7 @@ class OptionsDialog {
     this.getDefaultState = getDefaultState;
 
     this.dependentSuboptions = {};
+    this.previews = {};
   }
 
   async constructDialog() {
@@ -356,11 +359,20 @@ class OptionsDialog {
       message: remoteDisabledMessage,
     } = await getRemoteDisabledStatus(module);
 
+    const preview = module.config.previewChanges && !remoteDisabled && modulesForHash(window.location.hash).has(module);
+
+    let unloaderContext = preview && moduleUnloaderOrNew(module); // no need for an unloaderContext if it's not previewing
+
     const onToggleChange = (e: Event) => {
       const checkbox = e.target as HTMLInputElement;
       moduleState.enabled = checkbox.checked;
       this.enableSaveButton();
       this.enableUnloadWarning();
+      if (preview) {
+        if (moduleState.enabled) { // was just enabled
+          this
+        }
+      }
     };
 
     const moduleView = (

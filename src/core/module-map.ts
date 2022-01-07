@@ -62,6 +62,8 @@ import skipDays from '~/modules/skip-days';
 import dynamicTitle from '~/modules/dynamic-title';
 import cleanUp from '~/modules/clean-up';
 
+import arcane from '~/modules/test';
+
 interface ModuleMap {
   [key: string]: Module[]
 }
@@ -106,6 +108,7 @@ const MODULE_MAP: ModuleMap = {
   ],
   '#taskdetail': [taskDetail, assignmentCheckpoints],
   '#studentmyday/schedule': [
+    arcane,
     freeBlock,
     highlightCurrentClass,
     // serveryMenu,
@@ -120,6 +123,7 @@ const MODULE_MAP: ModuleMap = {
   ],
   '#myday/schedule-performance': [classEndingTime],
   '#studentmyday/progress': [
+    arcane,
     coursesFilter,
     nextGradedCourse,
     calculateGradePercentage,

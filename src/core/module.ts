@@ -16,7 +16,8 @@ interface ModuleConfig extends ModuleFunctions {
   affectsGlobalState?: boolean;
   suboptions?: Suboptions;
   topLevelOption?: boolean;
-  stayLoaded?: boolean;
+  stayLoaded?: boolean; // don't unload when leaving the page if it affects global state
+  previewChanges?: boolean; // preview changes from options dialouge
 }
 
 interface SuboptionValidatorData {
@@ -91,6 +92,7 @@ export default function registerModule(guid: string, moduleConfig: ModuleConfig)
     suboptions: {},
     topLevelOption: false,
     stayLoaded: false,
+    previewChanges: false,
   };
 
   const {

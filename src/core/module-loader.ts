@@ -72,16 +72,19 @@ export function isModuleLoaded(module: Module) {
   return loadedModules.has(module);
 }
 
+export function moduleUnloaderOrNew(module: Module): UnloaderContext {
+  return isModuleLoaded(module)
+    ? loadedModules.get(module).unloaderContext
+    : new UnloaderContext();
+}
+
 export async function loadModule(module: Module, waitUntilLoaded = false) {
   if ((await getRemoteDisabledStatus(module)).disabled) {
     return;
   }
 
-
   const options = await getOptionsFor(module.guid);
-  const unloaderContext = isModuleLoaded(module)
-    ? loadedModules.get(module).unloaderContext
-    : new UnloaderContext();
+  const unloaderContext = moduleUnloaderOrNew(module);
 
   if (!options.enabled) {
     return false;

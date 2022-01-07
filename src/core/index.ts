@@ -66,7 +66,7 @@ async function applyNewOptions(optionsData: ChangeListenerData<AllOptions>) {
 
   for (const moduleGuid in diff) {
     const module = GUID_MAP[moduleGuid];
-    if ('enabled' in diff[moduleGuid]) {
+    if ('enabled' in diff[moduleGuid]) { // was the module enabled or disabled
       if (diff[moduleGuid].enabled) {
         if (modulesForHash(window.location.hash).has(module)) {
           loadModule(module);
