@@ -1,6 +1,19 @@
-## 1.19.1
+## 1.20.0
+### Added
+- Enhanced theme option to color more of the webpage
+- Improved look for schedule buttons
+- Module to hide letter grade options in progress page
+ 
 ### Fixed
-- Fixed a bug where a free block would not be highlighted properly while using zoom links
+- Improper highlighting on free blocks with zoom links
+- Free block mistakes on Friday schedule (even free blocks are confused how the Friday schedule works)
+- Undefined dynamic title after school day
+ 
+### Changed
+- Theme styles in nav bars
+- Avatar image roster loading to improve performance
+- Name quiz button styling (no button left behind)
+- Theme module to allow alpha channel (we value transparency)
 
 ## 1.19.0
 ### Added

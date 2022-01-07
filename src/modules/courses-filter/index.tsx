@@ -81,7 +81,6 @@ function renderFilterBar() {
   );
 
   document.getElementById('showHideGrade').after(input);
-  document.getElementById('showHideGrade').style.marginRight = '15px';
 
   return input;
 }

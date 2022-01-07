@@ -92,11 +92,11 @@ function skipEmptyMain() {
     prevNextView.navDatePrevious = function (k: any) {
       p3.loadingIcon('.schedule-list');
       $(k.target).closest('.chCal-button').addClass('chCal-state-down');
-      // Schedule.Data.DayViewDate.setDate(Schedule.Data.DayViewDate.getUTCDate() - 1);
       Schedule.Us.waitForCalendar(() => {
         let prevEvt = Schedule.Us.getPrevEvt(Schedule.Data.DayViewDate);
         // console.log('found prev'); // for timing
         if (prevEvt !== undefined) Schedule.Data.DayViewDate = new Date(prevEvt.get('start'));
+        else Schedule.Data.DayViewDate.setDate(Schedule.Data.DayViewDate.getUTCDate() - 1);
         Schedule.Us.fetchScheduleData();
       });
     };

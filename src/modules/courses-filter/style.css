@@ -6,6 +6,7 @@
   width: 234px;
   height: 29.6px;
   display: inline;
+  margin-left: 15px;
 }
 
 @media (max-width: 978px) {

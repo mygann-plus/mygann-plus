@@ -23,16 +23,19 @@ function getTodaySchedule() {
 async function getClass() {
   const schedule = await getTodaySchedule().schedule;
 
-  let endTimeString: string;
   let period: boolean;
+  let endTimeString: string;
 
-  schedule.find((block: any, index: number) => {
-    if (isCurrentTime(`${block.MyDayStartTime}-${block.MyDayEndTime}`)) {
-      endTimeString = block.MyDayEndTime;
+  schedule.find((block, index, sched) => {
+    if (isCurrentTime(`${block.MyDayStartTime}-${block.MyDayEndTime}`)) { // if its during class
       period = true;
-    } else if (schedule[index + 1] && isCurrentTime(`${block.MyDayEndTime}-${schedule[index + 1].MyDayStartTime}`)) {
-      endTimeString = schedule[index + 1].MyDayStartTime;
+      endTimeString = block.MyDayEndTime;
+    } else if (sched[index + 1] && isCurrentTime(`${block.MyDayEndTime}-${sched[index + 1].MyDayStartTime}`)) { // if it's between now and the next class
       period = false;
+      endTimeString = sched[index + 1].MyDayStartTime;
+    } else if (!index && Date.now() < new Date(block.MyDayStartTime).getTime()) { // if it's before the first class
+      period = false;
+      endTimeString = block.MyDayStartTime;
     } else return false;
     return true;
   });

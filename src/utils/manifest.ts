@@ -1,4 +1,4 @@
 export default {
-  version_name: '1.19.0',
+  version_name: '1.20.0',
   description: 'A collection of modules that improve your MyGann experience',
 } as chrome.runtime.Manifest;

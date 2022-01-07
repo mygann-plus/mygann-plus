@@ -61,6 +61,7 @@ import autoSearchDirectory from '~/modules/auto-search-directory';
 import skipDays from '~/modules/skip-days';
 import dynamicTitle from '~/modules/dynamic-title';
 import cleanUp from '~/modules/clean-up';
+import hideProgressGradesButton from '~/modules/hide-grades-button';
 
 interface ModuleMap {
   [key: string]: Module[]
@@ -128,6 +129,7 @@ const MODULE_MAP: ModuleMap = {
     progressAssignmentDetails,
     semesterSwitcher,
     autocollapseProgressBoxes,
+    hideProgressGradesButton,
   ],
   '#message': [archiveAll],
   '#message/inbox': [markAllAsRead, markAsRead, fixArchiveHighlight],

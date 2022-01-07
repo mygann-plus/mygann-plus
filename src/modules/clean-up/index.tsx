@@ -9,8 +9,7 @@ async function cleanUpMain(opts: void, unloaderContext: UnloaderContext) {
 }
 
 export default registerModule('{144550d9-70d8-4518-9f05-9eaa44221d8d}', {
-  name: 'Improved Look',
-  description: 'Refines styling',
+  name: 'Improved Schedule Buttons',
   init: cleanUpMain,
   stayLoaded: true,
 });
