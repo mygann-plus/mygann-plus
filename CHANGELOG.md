@@ -1,3 +1,7 @@
+## 1.20.1
+### Fixed
+- Bad color styling in enhanced theme
+
 ## 1.20.0
 ### Added
 - Enhanced theme option to color more of the webpage

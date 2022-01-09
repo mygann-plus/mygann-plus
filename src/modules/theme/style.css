@@ -207,7 +207,7 @@
 
 :global .sec-25-bgc,
 :global .sec-25-bgc-hover:hover {
-  background-color: var(--gocp-theme-lighter) !important;
+  background-color: var(--gocp-theme-highlight) !important;
 }
 
 :global .sec-25-boxshadow,
