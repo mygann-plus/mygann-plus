@@ -1,3 +1,8 @@
+## 1.20.2
+### Changed
+- Moved Zoom Links Higher in schedule.
+- Enable zoom links by selecting "Always show zoom links" under the "Zoom Links" module
+
 ## 1.20.1
 ### Fixed
 - Bad color styling in enhanced theme
