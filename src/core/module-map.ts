@@ -107,6 +107,7 @@ const MODULE_MAP: ModuleMap = {
   ],
   '#taskdetail': [taskDetail, assignmentCheckpoints],
   '#studentmyday/schedule': [
+    zoomLinks,
     freeBlock,
     highlightCurrentClass,
     // serveryMenu,
@@ -114,7 +115,6 @@ const MODULE_MAP: ModuleMap = {
     classEndingTime,
     tomorrowsEvents,
     scheduleArrowNavigation,
-    zoomLinks,
     extreme,
     skipDays,
     cleanUp,
