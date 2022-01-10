@@ -313,7 +313,8 @@
   background-color: var(--gocp-theme-panel-head) !important;
 }
 
-:global .bb-tile-content {
+:global .bb-tile-content,
+:global #site-login-main-wrapper {
   background-color: var(--gocp-theme-panel-body) !important;
 }
 
@@ -325,3 +326,13 @@
   background-color: var(--gocp-theme-highlight) !important;
 }
 
+:global #schedule-maker-bulletin .emergency-bulletin-container, 
+:global #emergency-bulletin .emergency-bulletin-container, 
+:global #main-bulletin .main-bulletin-container {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+  border-bottom: 1px solid rgba(200, 200, 200, 0.5) !important;
+}
+
+:global #main-bulletin > div > div > div > div.pull-left > h3 > a {
+  color: var(--gocp-theme-lighter) !important;
+}
