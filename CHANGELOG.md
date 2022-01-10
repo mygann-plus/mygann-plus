@@ -1,3 +1,7 @@
+## 1.20.3
+### Changed
+- Coloring of forms notification when using enhanced theme
+
 ## 1.20.2
 ### Changed
 - Moved Zoom Links Higher in schedule.
