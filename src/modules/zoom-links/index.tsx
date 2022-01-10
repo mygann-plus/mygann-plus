@@ -235,12 +235,12 @@ interface zoomLinksSuboptions {
 
 export default registerModule('{3dcf8f0c-2b54-4e28-bffa-d12c6a6e8a3a}', {
   name: 'Zoom Links',
-  description: 'Show zoom links in schedule. Automatically turns on during zoom school, ',
+  description: 'Show Zoom links in schedule. (Automatically turns on during virtual learning)',
   main: zoomLinksMain,
   unload: unloadZoomLinks,
   suboptions: {
     alwaysOn: {
-      name: 'Always show zoom links',
+      name: 'Always show Zoom links',
       type: 'boolean',
       defaultValue: false,
     },
