@@ -1,7 +1,14 @@
-## 1.20.3
+## 1.20.4
 ### Changed
 - Nav highlighting in non-enhanced theme
 - Dynamic Title to "X minutes left" from "X minutes remaining"
+
+### Fixed
+- Inaccuracy in CHANGELOG.md
+
+## 1.20.3
+### Changed
+- Added enhanced theme styling to login page
 
 ## 1.20.2
 ### Changed
