@@ -61,7 +61,7 @@ function displayTime(endTime: number, period: boolean) {
   const now = Date.now();
   const minutesRemaining = Math.ceil((endTime - now) / 60e3);
   if (minutesRemaining >= 0) {
-    changeTitle(`${minutesRemaining} min ${period ? 'remaining' : 'before next class'}`);
+    changeTitle(`${minutesRemaining} min ${period ? 'left' : 'before next class'}`);
   }
   return minutesRemaining;
 }

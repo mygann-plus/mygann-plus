@@ -1,6 +1,7 @@
 ## 1.20.3
 ### Changed
 - Nav highlighting in non-enhanced theme
+- Dynamic Title to "X minutes left" from "X minutes remaining"
 
 ## 1.20.2
 ### Changed
