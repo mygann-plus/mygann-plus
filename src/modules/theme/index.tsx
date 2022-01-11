@@ -83,11 +83,13 @@ async function applyColorStyles(color: string, enhance: boolean, unloaderContext
   const calendarColor = createColorObject(primaryColor, 0, 0, 0, 0.9);
   const topGradient = createColorObject(primaryColor, 230, 230, 230, 1);
   const selectedBorder = createColorObject(primaryColor, 60, 60, 60, 0.9);
+  const navHighlight = createColorObject(primaryColor, 45, 45, 45, 0.3);
 
   setThemeColorProperty('primary', primaryColor);
   setThemeColorProperty('lighter', calendarColor);
   setThemeColorProperty('top-gradient', topGradient);
   setThemeColorProperty('selected-border', selectedBorder);
+  setThemeColorProperty('nav-highlight', navHighlight);
 
   const panelBodyDefault = hexToRgba(constants.panelBodyDefault);
 

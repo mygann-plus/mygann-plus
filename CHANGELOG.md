@@ -1,11 +1,11 @@
 ## 1.20.3
 ### Changed
-- Coloring of forms notification when using enhanced theme
+- Nav highlighting in non-enhanced theme
 
 ## 1.20.2
 ### Changed
-- Moved Zoom Links Higher in schedule.
-- Enable zoom links by selecting "Always show zoom links" under the "Zoom Links" module
+- Moved Zoom Links higher in schedule
+- Enable Zoom links by selecting "Always show Zoom links" under the "Zoom Links" module
 
 ## 1.20.1
 ### Fixed
