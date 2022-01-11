@@ -1,7 +1,3 @@
-## 1.20.4
-### Fixed
-- Colorizing forms notification while not enhanced
-
 ## 1.20.3
 ### Changed
 - Nav highlighting in non-enhanced theme
