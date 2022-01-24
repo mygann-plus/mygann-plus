@@ -1,10 +1,14 @@
-## 1.20.4
+## 1.20.5
 ### Changed
 - Nav highlighting in non-enhanced theme
 - Dynamic Title to "X minutes left" from "X minutes remaining"
 
 ### Fixed
-- Inaccuracy in CHANGELOG.md
+- Changing module settings not updating until reload
+
+## 1.20.4
+### Fixed
+- Colorizing forms notification while not enhanced
 
 ## 1.20.3
 ### Changed
