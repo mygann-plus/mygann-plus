@@ -8,6 +8,7 @@ import {
 } from '~/utils/dom';
 import DropdownMenu from '~/utils/dropdown-menu';
 import log from '~/utils/log';
+import runWithPodiumApp from '~/utils/podium-app';
 import tick from '~/utils/tick';
 
 import style from './style.css';
@@ -68,6 +69,14 @@ export function addDayTableLoadedListeners(callback: () => void) {
   });
   obs.observe(scheduleContent, { childList: true });
   return { remove() { obs.disconnect(); } };
+}
+
+export function changeDate(date: Date | string) {
+  runWithPodiumApp(({ p3 }, dateString) => {
+    let Schedule = p3.module('schedule');
+    Schedule.Data.DayViewDate = new Date(dateString);
+    Schedule.Us.fetchScheduleData();
+  }, date.toString());
 }
 
 export function to24Hr(t: string) {

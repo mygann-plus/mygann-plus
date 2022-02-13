@@ -63,6 +63,8 @@ import dynamicTitle from '~/modules/dynamic-title';
 import cleanUp from '~/modules/clean-up';
 import hideProgressGradesButton from '~/modules/hide-grades-button';
 
+import datePicker from '~/modules/schedule-date-picker';
+
 interface ModuleMap {
   [key: string]: Module[]
 }
@@ -118,6 +120,7 @@ const MODULE_MAP: ModuleMap = {
     extreme,
     skipDays,
     cleanUp,
+    datePicker,
   ],
   '#myday/schedule-performance': [classEndingTime],
   '#studentmyday/progress': [
