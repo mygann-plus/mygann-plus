@@ -13,7 +13,8 @@ function datePickerInit(opts: void, unloaderContext: UnloaderContext) {
     <link
       rel="stylesheet"
       type="text/css"
-      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
   );
   document.head.appendChild(link);
   unloaderContext.addRemovable(link);
