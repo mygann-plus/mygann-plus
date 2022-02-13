@@ -18,7 +18,7 @@ export interface ZoomLinks {
 }
 
 async function guessZoomLink(classId: string) {
-  const zoomLinkRegex = /https:\/\/gannacademy.zoom.us\/(j\/\d{10})|(my\/[A-Za-zÀ-ú0-9.@_]+)/;
+  const zoomLinkRegex = /https:\/\/gannacademy.zoom.us\/(j\/\d{10})|(my\/[A-Za-z0-9.]+)/;
 
   let zoomLink;
 

@@ -1,6 +1,10 @@
 import { UnloaderContext } from '~/core/module-loader'; // eslint-disable-line import/no-cycle
 
-const GUID_MAP = Object.create(null); // use as map
+interface GuidMap {
+  [guid: string]: Module
+}
+
+const GUID_MAP: GuidMap = Object.create(null); // use as map
 
 interface ModuleFunctions {
   init?: (opts?: any, unloaderContext?: UnloaderContext) => void;
@@ -18,6 +22,7 @@ interface ModuleConfig extends ModuleFunctions {
   topLevelOption?: boolean;
   stayLoaded?: boolean; // don't unload when leaving the page if it affects global state
   previewChanges?: boolean; // preview changes from options dialouge
+  unloadForPreview?: (opts?: any) => boolean; // should it unload after a settings change?
 }
 
 interface SuboptionValidatorData {
@@ -62,7 +67,6 @@ interface ComboSuboption extends BaseSuboption<'combo', string> {
   presetValues: string[];
 }
 
-
 export type Suboption = (
   StringSuboption | BooleanSuboption |
   NumberSuboption | EnumSuboption |
@@ -77,9 +81,8 @@ type Suboptions = {
 
 export interface Module extends ModuleFunctions {
   guid: string,
-  config: Exclude<ModuleConfig, 'init' | 'main' | 'unload'>
+  config: Omit<ModuleConfig, 'init' | 'main' | 'unload'>
 }
-
 
 export default function registerModule(guid: string, moduleConfig: ModuleConfig): Module {
 
@@ -93,12 +96,13 @@ export default function registerModule(guid: string, moduleConfig: ModuleConfig)
     topLevelOption: false,
     stayLoaded: false,
     previewChanges: false,
+    unloadForPreview: () => false,
   };
 
   const {
     init, main, unload, ...rest
   } = moduleConfig;
-  const config = { ...defaultConfig, ...rest };
+  const config: ModuleConfig = { ...defaultConfig, ...rest };
 
   if (!guid) {
     throw new Error('Module must be created with GUID');
@@ -110,7 +114,7 @@ export default function registerModule(guid: string, moduleConfig: ModuleConfig)
     throw new Error('Module must be created with function');
   }
 
-  const moduleData = {
+  const moduleData: Module = {
     guid,
     init,
     main,
@@ -121,6 +125,6 @@ export default function registerModule(guid: string, moduleConfig: ModuleConfig)
   return moduleData;
 }
 
-export function getRegisteredModules() {
+export function getRegisteredModules(): GuidMap {
   return { ...GUID_MAP };
 }

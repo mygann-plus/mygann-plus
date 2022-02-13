@@ -1,7 +1,7 @@
 /* eslint-disable import/no-cycle */
 
 import { Module } from '~/core/module';
-import { getOptionsFor } from '~/core/options';
+import { getOptionsFor, ModuleOptions } from '~/core/options';
 import { getRemoteDisabledStatus } from '~/core/remote-disable';
 
 /* eslint-enable import/no-cycle */
@@ -78,12 +78,12 @@ export function moduleUnloaderOrNew(module: Module): UnloaderContext {
     : new UnloaderContext();
 }
 
-export async function loadModule(module: Module, waitUntilLoaded = false) {
+export async function loadModule(module: Module, waitUntilLoaded = false, options?: ModuleOptions) {
   if ((await getRemoteDisabledStatus(module)).disabled) {
     return;
   }
 
-  const options = await getOptionsFor(module.guid);
+  if (!options) options = await getOptionsFor(module.guid); // options will be inserted if it is previewing
   const unloaderContext = moduleUnloaderOrNew(module);
 
   if (!options.enabled) {
@@ -147,6 +147,12 @@ export function hardUnloadModule(module: Module) {
     return true;
   }
   return false;
+}
+
+export function hardUnloadOrRefreshPage(module: Module) {
+  if (!hardUnloadModule(module)) {
+    return window.location.reload();
+  }
 }
 
 export function getLoadedModules() {

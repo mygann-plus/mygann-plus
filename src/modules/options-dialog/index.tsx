@@ -1,7 +1,13 @@
 import classNames from 'classnames';
 
 import registerModule, { Suboption, Module } from '~/core/module';
-import { getLoadedModules, isModuleLoaded, moduleUnloaderOrNew, Removable, UnloaderContext } from '~/core/module-loader';
+import {
+  hardUnloadModule,
+  loadModule,
+  moduleUnloaderOrNew,
+  Removable,
+  UnloaderContext,
+} from '~/core/module-loader';
 import { modulesForHash, MODULE_MAP, SECTION_MAP } from '~/core/module-map'; // eslint-disable-line import/no-cycle
 import {
   AllOptions,
@@ -10,6 +16,7 @@ import {
   mergeDefaultOptions,
 } from '~/core/options';
 import { getRemoteDisabledStatus } from '~/core/remote-disable';
+import log from '~/utils/log';
 
 import { appendUserMenuButton } from '~/shared/user-menu';
 
@@ -23,6 +30,7 @@ import Dialog from '~/utils/dialog';
 import fuzzyMatch from '~/utils/search';
 
 import style from './style.css';
+import getHash from '~/utils/hash';
 
 const selectors = {
   searchbarWrap: style.locals['searchbar-wrap'],
@@ -199,7 +207,7 @@ class OptionsDialog {
   private onSave: (state: AllOptions) => void;
   private getDefaultState: () => AllOptions;
 
-  private previews: { moduleGuid: string, unloaderContext: UnloaderContext };
+  private previews: Set<Module>; // only the options with changes previewed
 
   // [module.guid]: [suboptionKey1, suboptionKey2, ...]
   private dependentSuboptions: {
@@ -228,19 +236,20 @@ class OptionsDialog {
     this.getDefaultState = getDefaultState;
 
     this.dependentSuboptions = {};
-    this.previews = {};
+    this.previews = new Set();
   }
 
   async constructDialog() {
     this.bodyElement = await this.renderBody();
 
     this.dialog = new Dialog('MyGann+ Options', this.bodyElement, {
-      leftButtons: [{
-        name: 'Save',
-        primary: true,
-        onClick: () => this.save(),
-      },
-      Dialog.buttons.CANCEL,
+      leftButtons: [
+        {
+          name: 'Save',
+          primary: true,
+          onClick: () => { this.save(); this.previews.clear(); },
+        },
+        Dialog.buttons.CANCEL,
       ],
       rightButtons: [{
         name: 'Reset Options',
@@ -250,7 +259,16 @@ class OptionsDialog {
           return false;
         },
       }],
-      onClose: () => this.disableUnloadWarning(),
+      onClose: () => {
+        this.disableUnloadWarning();
+        for (let module of this.previews) {
+          if (!hardUnloadModule(module)) {
+            log('error', `Failed to hard unload module '${module.config.name}' while undoing preview`);
+          } else if (modulesForHash(getHash()).has(module)) {
+            loadModule(module);
+          }
+        }
+      },
     });
 
     this.disableSaveButton();
@@ -359,20 +377,12 @@ class OptionsDialog {
       message: remoteDisabledMessage,
     } = await getRemoteDisabledStatus(module);
 
-    const preview = module.config.previewChanges && !remoteDisabled && modulesForHash(window.location.hash).has(module);
-
-    let unloaderContext = preview && moduleUnloaderOrNew(module); // no need for an unloaderContext if it's not previewing
-
     const onToggleChange = (e: Event) => {
       const checkbox = e.target as HTMLInputElement;
       moduleState.enabled = checkbox.checked;
       this.enableSaveButton();
       this.enableUnloadWarning();
-      if (preview) {
-        if (moduleState.enabled) { // was just enabled
-          this
-        }
-      }
+      this.previewModule(module);
     };
 
     const moduleView = (
@@ -473,6 +483,8 @@ class OptionsDialog {
 
         const newValue = getSuboptionValue(input, suboption);
         this.state[module.guid].suboptions[key] = newValue;
+        this.previewModule(module);
+
         oldValue = newValue;
         this.enableSaveButton();
         this.enableUnloadWarning();
@@ -543,11 +555,13 @@ class OptionsDialog {
         resetSuboptionButton.classList.add(selectors.suboption.resetVisible);
       }
 
-      input.addEventListener('change', async () => {
+      input.addEventListener('input', async () => {
+        console.log('grdf');
         const validator = await validateSuboption(input, suboption);
         if (validator.valid) {
           const newValue = getSuboptionValue(input, suboption);
           this.state[module.guid].suboptions[key] = newValue;
+          this.previewModule(module);
           this.enableSaveButton();
           this.enableUnloadWarning();
           if (suboption.resettable && newValue !== suboption.defaultValue) {
@@ -602,6 +616,25 @@ class OptionsDialog {
     }
 
     return topLevelView;
+  }
+
+  previewModule(module: Module) {
+    if (!module.config.previewChanges || !modulesForHash(window.location.hash).has(module)) {
+      return; // if module is not supposed to preview or if it won't do anything on the current page
+    }
+
+    this.previews.add(module);
+    const moduleState = this.state[module.guid];
+
+    // with any change, it should start by unloading (unless it is set not to)
+    // should be able to hardunload the previews (aka needs an unloaderContext)
+    // if (module.config.unloadForPreview(moduleState.suboptions) && !hardUnloadModule(module)) {
+    //   log('error', `Failed to hard unload module '${module.config.name}' while previewing`);
+    // }
+
+    if (moduleState.enabled) {
+      loadModule(module, false, moduleState);
+    }
   }
 
   disableSaveButton() {

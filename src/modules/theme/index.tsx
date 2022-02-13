@@ -133,7 +133,11 @@ function themeMain(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
 }
 
 // empty unloader to prevent unnecessary reload if no styles were initially applied
-function unloadTheme() {}
+function unloadTheme() { }
+
+function themeUnloadOnPreview(opts: ThemeSuboptions) {
+  return opts.color === DEFAULT_COLOR || opts.font === DEFAULT_FONT;
+}
 
 interface ThemeSuboptions {
   color: string;
@@ -146,6 +150,8 @@ export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
   init: themeMain,
   unload: unloadTheme,
   topLevelOption: true,
+  previewChanges: true,
+  unloadForPreview: themeUnloadOnPreview,
   suboptions: {
     color: {
       name: 'Color',

@@ -1,6 +1,6 @@
 import { diff as deepDiff } from 'deep-object-diff';
 
-import { getRegisteredModules, Module } from '~/core/module';
+import { getRegisteredModules } from '~/core/module';
 import { modulesForHash } from '~/core/module-map';
 import { fetchRemoteDisabled } from '~/core/remote-disable';
 import {
@@ -8,6 +8,7 @@ import {
   softUnloadModule,
   hardUnloadModule,
   isModuleLoaded,
+  hardUnloadOrRefreshPage,
 } from '~/core/module-loader';
 import {
   AllOptions,
@@ -22,10 +23,7 @@ import log from '~/utils/log';
 import { isBookmarklet, markBookmarkletLoaded, isBookmarletLoaded } from '~/utils/bookmarklet';
 import { ChangeListenerData } from '~/utils/storage';
 import { checkForUpdates } from './install';
-
-function getHash(url: string) {
-  return new URL(url).hash || '#';
-}
+import getHash from '~/utils/hash';
 
 function loadModules(hash: string) {
   for (const module of modulesForHash(hash)) {
@@ -53,12 +51,6 @@ async function initializeOptions() {
   await setFlattenedOptions(mergeDefaultOptions(optsObj));
 }
 
-function hardUnloadOrRefreshPage(module: Module) {
-  if (!hardUnloadModule(module)) {
-    return window.location.reload();
-  }
-}
-
 async function applyNewOptions(optionsData: ChangeListenerData<AllOptions>) {
   const { oldValue: oldOptions, newValue: newOptions } = optionsData;
   const GUID_MAP = getRegisteredModules();
@@ -66,6 +58,7 @@ async function applyNewOptions(optionsData: ChangeListenerData<AllOptions>) {
 
   for (const moduleGuid in diff) {
     const module = GUID_MAP[moduleGuid];
+    // if (module.config.previewChanges) continue; // it will already be done by the preview
     if ('enabled' in diff[moduleGuid]) { // was the module enabled or disabled
       if (diff[moduleGuid].enabled) {
         if (modulesForHash(window.location.hash).has(module)) {
@@ -74,7 +67,7 @@ async function applyNewOptions(optionsData: ChangeListenerData<AllOptions>) {
       } else {
         hardUnloadOrRefreshPage(module);
       }
-    } else if (isModuleLoaded(module)) {
+    } else if (isModuleLoaded(module)) { // if a suboption was changed
       hardUnloadOrRefreshPage(module);
       loadModule(module);
     }
@@ -94,7 +87,7 @@ export default async function runExtension() {
   fetchRemoteDisabled();
   setCssVars();
   addOptionsChangeListener(applyNewOptions);
-  loadModules(getHash(window.location.href));
+  loadModules(getHash());
 
   window.addEventListener('hashchange', (e: HashChangeEvent) => {
     fetchRemoteDisabled();
