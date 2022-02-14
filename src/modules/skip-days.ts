@@ -43,7 +43,7 @@ function skipEmptyMain() {
       Schedule.Data.fetched.done(callback);
     };
 
-    // TODO: make next event and previous event use binary search (instead of underscore methods) for optimization. getNext generally takes under 1 ms and getPrev generally under 2
+    // TODO: make next event and previous event use binary search (instead of underscore methods) for optimization. getNext generally takes under 1 ms and getPrev generally under 2 // note while going through todos much much later: if it takes under 2 ms why would you optimize it?
     Schedule.Us.getNextEvt = function (date: Date) {
       return Schedule.Data.collectionFullYearCallendar.find(
         (evt: any) => !evt.get('allDay') && date.getTime() < new Date(evt.get('end')).getTime(),
