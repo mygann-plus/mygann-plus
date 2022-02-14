@@ -9,7 +9,7 @@ export default function runWithPodiumApp(
 ) {
   const script = (
     <script className="mygannplus-script">
-      ({fn})(window, &quot;{parameter}&quot;);
+      ({fn})(window, {JSON.stringify(parameter)});
     </script>
   );
   document.head.appendChild(script); // end of head means all the podiumApp scripts run first, but they don't start initializing (in theory if mygann+ loaded slowly they might, so always make sure it works even if mygann+ loads after initializing podiumApp)
