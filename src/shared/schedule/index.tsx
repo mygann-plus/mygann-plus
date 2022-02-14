@@ -36,11 +36,9 @@ export async function isCurrentDay() {
     ? await waitForLoad(() => document.querySelector('#currentday h2'))
     : await waitForLoad(() => document.querySelector('#schedule-header h2'));
 
-  const currentDate = header.textContent.split(', ')[1];
-  const d = new Date().toDateString();
-  const month = d.split(' ')[1];
-  const day = d.split(' ')[2];
-  return currentDate.split(' ')[0].startsWith(month) && formatDay(currentDate.split(' ')[1]) === formatDay(day);
+  const currentDate = header.textContent.split(', ')[1].split(' ');
+  const [month, day] = new Date().toDateString().split(' ');
+  return currentDate[0].startsWith(month) && formatDay(currentDate[1]) === formatDay(day);
 }
 
 export function addDayChangeListeners(callback: () => void) {
