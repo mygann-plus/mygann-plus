@@ -62,7 +62,6 @@ import skipDays from '~/modules/skip-days';
 import dynamicTitle from '~/modules/dynamic-title';
 import cleanUp from '~/modules/clean-up';
 import hideProgressGradesButton from '~/modules/hide-grades-button';
-
 import datePicker from '~/modules/schedule-date-picker';
 
 interface ModuleMap {
