@@ -41,6 +41,13 @@ export async function isCurrentDay() {
   return currentDate[0].startsWith(month) && formatDay(currentDate[1]) === formatDay(day);
 }
 
+export function isEmptySchedule() {
+  const scheduleHeader = document.querySelector('#col-main > div.ch.schedule-list > div');
+  return (
+    scheduleHeader && scheduleHeader.textContent === 'There is nothing scheduled for this date.'
+  );
+}
+
 export function addDayChangeListeners(callback: () => void) {
   const listener = (e: Event) => {
     if (hasParentWithClassName(e.target as HTMLElement, [
@@ -52,21 +59,28 @@ export function addDayChangeListeners(callback: () => void) {
   return addEventListener(document.body, 'click', listener);
 }
 
-export function addDayTableLoadedListeners(callback: () => void) {
+export function addDayTableLoadedListeners(callback: () => void, requireSchedule = true) {
   const scheduleContent = document.querySelector('#col-main > div.ch.schedule-list');
   if (!scheduleContent) log('warn', 'trying to observe schedule changes before schedule is loaded');
   const obs = new MutationObserver(mutationList => {
     for (let record of mutationList) {
-      const newSchedule = Array.from(record.addedNodes as NodeListOf<HTMLElement>).find(
-        node => node instanceof HTMLTableElement || node.className === 'pl-10', // either a table or an empty schedule box
-      );
-      if (newSchedule) {
-        return callback();
+      for (let node of record.addedNodes) {
+        if (node instanceof HTMLTableElement
+          || (!requireSchedule && node.textContent === 'There is nothing scheduled for this date.')) {
+          // if it added the table or it added an empty schedule box and thats ok
+          return callback();
+        }
       }
     }
   });
   obs.observe(scheduleContent, { childList: true });
   return { remove() { obs.disconnect(); } };
+}
+
+export async function addAsyncDayTableLoadedListeners(callback: () => void, requireSchedule = true) {
+  await waitForLoad(() => document.getElementById('accordionSchedules') || isEmptySchedule()); // wait for a possibly empty schedule
+  if (!requireSchedule || !isEmptySchedule()) callback();
+  return addDayTableLoadedListeners(callback, requireSchedule);
 }
 
 export function changeDate(date: Date | string) {
@@ -123,13 +137,6 @@ export async function isDayView() {
 export async function getDayViewDateString() {
   const dateHeader = await waitForLoad(() => document.querySelector('.chCal-header-space + h2'));
   return dateHeader.textContent;
-}
-
-export function isEmptySchedule() {
-  const scheduleHeader = document.querySelector('#col-main > div.ch.schedule-list > div');
-  return (
-    scheduleHeader && scheduleHeader.textContent === 'There is nothing scheduled for this date.'
-  );
 }
 
 export async function isCurrentClass(timeString: string) {

@@ -57,7 +57,7 @@ function createBlock(
   blockText: string,
 ) {
   const createCell = (heading: string, content: HTMLElement | string) => {
-    return <td data-heading={ heading }>{content}</td>;
+    return <td data-heading={heading}>{content}</td>;
   };
 
   const activity = (

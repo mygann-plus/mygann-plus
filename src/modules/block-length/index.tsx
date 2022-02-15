@@ -1,8 +1,8 @@
 import registerModule from '~/core/module';
 import { UnloaderContext } from '~/core/module-loader';
 
-import { createElement, waitForOne } from '~/utils/dom';
-import { to24Hr, isCurrentClass, addDayChangeListeners } from '~/shared/schedule';
+import { createElement } from '~/utils/dom';
+import { to24Hr, isCurrentClass, addAsyncDayTableLoadedListeners } from '~/shared/schedule';
 import { compareDate, timeStringToDate } from '~/utils/date';
 
 const selectors = {
@@ -11,7 +11,7 @@ const selectors = {
 
 function generateBlockLengthLabel(timeString: string) {
   const [start, end] = timeString.split('-').map(t => timeStringToDate(to24Hr(t.trim())));
-  const length = Math.ceil((end.valueOf() - start.valueOf()) / 60000);
+  const length = Math.ceil((end.valueOf() - start.valueOf()) / 60_000);
 
   const span = (
     <span style={{ color: 'gray' }} className={ selectors.blockLengthMain }>
@@ -23,14 +23,12 @@ function generateBlockLengthLabel(timeString: string) {
 }
 
 async function insertBlockLengthLabels(
-  timeElems: HTMLElement[],
-  suboptions: BlockLengthSuboptions,
+  timeElems: NodeListOf<HTMLElement>,
+  { onlyUpcoming }: BlockLengthSuboptions,
 ) {
-  const { onlyUpcoming } = suboptions;
   const labels = [];
 
   for (const timeElem of timeElems) {
-
     const timeString = timeElem.firstChild.textContent; // prevent interference with class ending time
     const startTime = timeString.split('-')[0].trim();
     const date = timeStringToDate(to24Hr(startTime));
@@ -39,6 +37,7 @@ async function insertBlockLengthLabels(
     const isUpcoming = onlyUpcoming ? compareDate(date, now) === 1 : true;
     const isCurrent = await isCurrentClass(timeString);
     const labelExists = timeElem.querySelector(`.${selectors.blockLengthMain}`);
+    console.log(timeString);
 
     if (!isUpcoming || isCurrent || labelExists) {
       continue;
@@ -58,38 +57,21 @@ function removeBlockLengthLabels() {
   }
 }
 
-const domQuery = () => document.querySelectorAll('[data-heading="Time"]');
-
-async function runBlockLength(suboptions: BlockLengthSuboptions) {
-  const timeElems = await waitForOne(domQuery);
-
-  const recheck = (labels: HTMLElement[]) => {
-    if (!document.body.contains(labels[0])) {
-      insertBlockLengthLabels(Array.from(domQuery()) as HTMLElement[], suboptions);
-    }
-  };
-
-  const labels = await insertBlockLengthLabels(timeElems, suboptions);
-
-  setTimeout(() => recheck(labels), 50);
-  setTimeout(() => recheck(labels), 100);
-  setTimeout(() => recheck(labels), 200);
-
-}
-
+const domQuery = () => document.querySelectorAll<HTMLElement>('[data-heading="Time"]');
 
 async function blockLengthMain(
   suboptions: BlockLengthSuboptions,
   unloaderContext: UnloaderContext,
 ) {
-  runBlockLength(suboptions);
-  const dayChangeListener = addDayChangeListeners(() => runBlockLength(suboptions));
+  const dayChangeListener = await addAsyncDayTableLoadedListeners(
+    () => insertBlockLengthLabels(domQuery(), suboptions),
+  );
   unloaderContext.addRemovable(dayChangeListener);
 
   const interval = setInterval(() => {
     removeBlockLengthLabels();
-    runBlockLength(suboptions);
-  }, 60000);
+    insertBlockLengthLabels(domQuery(), suboptions);
+  }, 60_000);
   unloaderContext.addFunction(() => clearInterval(interval));
 }
 

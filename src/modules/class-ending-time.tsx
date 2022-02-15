@@ -5,9 +5,9 @@ import { createElement, waitForOne } from '~/utils/dom';
 import { timeStringToDate } from '~/utils/date';
 import {
   to24Hr,
-  addDayChangeListeners,
   isCurrentClass,
   isFaculty,
+  addDayTableLoadedListeners,
 } from '~/shared/schedule';
 
 function minutesTo(date: string) {
@@ -55,7 +55,7 @@ async function insertClassEndingTime(blocks: HTMLElement[], unloaderContext: Unl
   }
 }
 
-const getBlocks = async () => {
+const getBlocks = () => {
   return isFaculty()
     ? waitForOne(() => document.querySelectorAll('.textright'))
     : waitForOne(() => document.querySelectorAll('#accordionSchedules > *'));
@@ -90,10 +90,14 @@ function classEndingTimeMain(opts: void, unloaderContext: UnloaderContext) {
       timeLabel.remove();
     }
     runClassEndingTime(unloaderContext);
-  }, 60000);
+  }, 60_000);
   unloaderContext.addFunction(() => clearInterval(interval));
 
-  const dayChangeListener = addDayChangeListeners(() => runClassEndingTime(unloaderContext));
+  // const dayChangeListener = addDayChangeListeners(() => runClassEndingTime(unloaderContext));
+  const dayChangeListener = addDayTableLoadedListeners(
+    async () => insertClassEndingTime(await getBlocks(), unloaderContext),
+    true, // require schedule to be loaded
+  );
   unloaderContext.addRemovable(dayChangeListener);
 }
 
