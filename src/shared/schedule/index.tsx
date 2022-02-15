@@ -37,7 +37,7 @@ export async function isCurrentDay() {
     : await waitForLoad(() => document.querySelector('#schedule-header h2'));
 
   const currentDate = header.textContent.split(', ')[1].split(' ');
-  const [month, day] = new Date().toDateString().split(' ');
+  const [, month, day] = new Date().toDateString().split(' ');
   return currentDate[0].startsWith(month) && formatDay(currentDate[1]) === formatDay(day);
 }
 
