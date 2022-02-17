@@ -129,6 +129,12 @@
         "E Block": ["10:00 AM", "10:40 AM"],
         "F Block": ["10:50 AM", "11:30 AM"],
         "G Block": ["12:50 PM", "1:30 PM"]
+      },
+      "2/18/2022": {
+        "E Block": ["9:00 AM", "9:40 AM"],
+        "F Block": ["10:35 AM", "11:15 AM"],
+        "Flex B/Community Block": ["12:15 PM", "12:55 PM"],
+        "G Block": ["1:00 PM", "1:40 PM"]
       }
     }
   }
