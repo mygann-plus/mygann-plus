@@ -1,5 +1,5 @@
 import registerModule from '~/core/module';
-import { UnloaderContext } from '~/core/module-loader';
+import { isModuleLoaded, UnloaderContext } from '~/core/module-loader';
 
 import { createElement } from '~/utils/dom';
 import { to24Hr, isCurrentClass, addAsyncDayTableLoadedListeners } from '~/shared/schedule';
@@ -35,9 +35,8 @@ async function insertBlockLengthLabels(
     const now = new Date();
 
     const isUpcoming = onlyUpcoming ? compareDate(date, now) === 1 : true;
-    const isCurrent = await isCurrentClass(timeString);
+    const isCurrent = await isCurrentClass(timeString) && isModuleLoaded;
     const labelExists = timeElem.querySelector(`.${selectors.blockLengthMain}`);
-    console.log(timeString);
 
     if (!isUpcoming || isCurrent || labelExists) {
       continue;

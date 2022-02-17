@@ -35,13 +35,15 @@ function addTime(minutes: number, parent: HTMLElement) {
   return span;
 }
 
+console.log(<div id="idddd" data-y="co-o-l-!"></div>);
+
 async function insertClassEndingTime(blocks: HTMLElement[], unloaderContext: UnloaderContext) {
   for (const block of blocks) {
     let timeString: string;
     if (isFaculty()) {
       timeString = block.textContent.trim();
     } else {
-      const timeElem = block.children[0].childNodes[0] as Text;
+      const timeElem = block.firstElementChild.firstChild as Text;
       timeString = timeElem.data.trim();
     }
     if (await isCurrentClass(timeString)) {
