@@ -1,8 +1,15 @@
 {
     "$schemaVersion": 1,
-    "disabled": [{
-        "guid": "{4155f319-a10b-4e4e-8a10-999a43ef9d19}",
-        "extensionVersion": "<=1.13.1",
-        "_comment": "Improved status dropdown: Edit tasks not working"
-    }]
+    "disabled": [
+        {
+            "guid": "{4155f319-a10b-4e4e-8a10-999a43ef9d19}",
+            "extensionVersion": "<=1.13.1",
+            "_comment": "Improved status dropdown: Edit tasks not working"
+        },
+        {
+            "guid": "{df198a10-fcff-4e1b-8c8d-daf9630b4c99}",
+            "extensionVersion": "*",
+            "_comment": "Ms. Jacobs"
+        }
+    ]
 }

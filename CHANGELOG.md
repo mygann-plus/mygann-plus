@@ -1,3 +1,7 @@
+## 1.20.6
+### Added
+- Logo in the console
+
 ## 1.20.5
 ### Changed
 - Nav highlighting in non-enhanced theme

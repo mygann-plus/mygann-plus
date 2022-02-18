@@ -62,6 +62,7 @@ import skipDays from '~/modules/skip-days';
 import dynamicTitle from '~/modules/dynamic-title';
 import cleanUp from '~/modules/clean-up';
 import hideProgressGradesButton from '~/modules/hide-grades-button';
+import logo from '~/modules/logo';
 
 interface ModuleMap {
   [key: string]: Module[]
@@ -87,6 +88,7 @@ const MODULE_MAP: ModuleMap = {
     myDayShortcut,
     theme,
     autofocusSiteSearch,
+    logo,
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus, assignmentCheckpoints],
