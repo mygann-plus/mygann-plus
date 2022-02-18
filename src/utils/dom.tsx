@@ -67,6 +67,8 @@ export function createElement(tagName: string, props: any, ...children: any[]) {
       elem.addEventListener(propName.slice(2).toLowerCase(), (e: Event) => listener(e), opts);
     } else if (propName === 'dataset') {
       Object.assign(elem.dataset, prop);
+    } else if (propName.startsWith('data-')) {
+      elem.dataset[propName.split('-')[1]] = prop;
     } else if (propName === 'style') {
       for (const styleProp in prop) {
         // workaround since elem.style is indexed by number

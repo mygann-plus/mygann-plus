@@ -1,7 +1,8 @@
 import registerModule from '~/core/module';
 import { UnloaderContext } from '~/core/module-loader';
 import {
-  addDayTableLoadedListeners,
+  addAsyncDayLoadedListener,
+  addDayLoadedListener,
   getAnnouncementWrap,
   getDayViewDateString,
   isEmptySchedule,
@@ -57,7 +58,7 @@ function createBlock(
   blockText: string,
 ) {
   const createCell = (heading: string, content: HTMLElement | string) => {
-    return <td data-heading={ heading }>{content}</td>;
+    return <td data-heading={heading}>{content}</td>;
   };
 
   const activity = (
@@ -164,9 +165,7 @@ async function freeBlockMain(
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
-  await waitForLoad(domQuery.table);
-  insertFreeBlock(opts, unloaderContext);
-  const listener = addDayTableLoadedListeners(() => insertFreeBlock(opts, unloaderContext));
+  const listener = await addAsyncDayLoadedListener(() => insertFreeBlock(opts, unloaderContext));
   unloaderContext.addRemovable(listener);
 }
 
