@@ -1,6 +1,6 @@
 import { createElement, waitForOne, constructButton } from '~/utils/dom';
 import tick from '~/utils/tick';
-import { addDayChangeListeners } from '~/shared/schedule';
+import { addDayChangeListener } from '~/shared/schedule';
 
 import style from './style.css';
 
@@ -38,5 +38,5 @@ async function insertCancelButtons() {
 
 export default async function cancelClass() {
   insertCancelButtons();
-  addDayChangeListeners(insertCancelButtons);
+  addDayChangeListener(insertCancelButtons);
 }

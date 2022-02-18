@@ -4,7 +4,7 @@ import { UnloaderContext } from '~/core/module-loader';
 import { createElement, waitForOne, constructButton, insertCss } from '~/utils/dom';
 import Flyout from '~/utils/flyout';
 import DropdownMenu from '~/utils/dropdown-menu';
-import { addDayChangeListeners } from '~/shared/schedule';
+import { addDayChangeListener } from '~/shared/schedule';
 
 import {
   ZoomLinks,
@@ -219,7 +219,7 @@ async function zoomLinksMain(opts: zoomLinksSuboptions, unloaderContext: Unloade
   let links = await getZoomLinks();
 
   insertZoomLinks(links);
-  const listener = addDayChangeListeners(() => insertZoomLinks(links));
+  const listener = addDayChangeListener(() => insertZoomLinks(links));
   unloaderContext.addRemovable(listener);
 
   addZoomLinksChangeListener(newLinks => {

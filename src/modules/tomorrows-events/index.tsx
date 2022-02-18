@@ -4,7 +4,7 @@ import { UnloaderContext } from '~/core/module-loader';
 import { fetchApi } from '~/utils/fetch';
 import { createElement, waitForLoad, insertCss } from '~/utils/dom';
 import { getUserId } from '~/utils/user';
-import { isCurrentDay, addDayChangeListeners } from '~/shared/schedule';
+import { isCurrentDay, addDayChangeListener } from '~/shared/schedule';
 
 import style from './style.css';
 
@@ -79,7 +79,7 @@ function tomorrowsEventsMain(opts: void, unloaderContext: UnloaderContext) {
   unloaderContext.addRemovable(styles);
 
   showTomorrowsEvents(unloaderContext);
-  const dayChangeListener = addDayChangeListeners(() => {
+  const dayChangeListener = addDayChangeListener(() => {
     // there's a small delay between button click and date change in dom
     setTimeout(() => showTomorrowsEvents(unloaderContext), 100);
   });

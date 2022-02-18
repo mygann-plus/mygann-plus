@@ -2,7 +2,7 @@ import registerModule from '~/core/module';
 import { UnloaderContext } from '~/core/module-loader';
 
 import { waitForLoad, insertCss } from '~/utils/dom';
-import { addDayChangeListeners, isCurrentClass } from '~/shared/schedule';
+import { addDayChangeListener, isCurrentClass } from '~/shared/schedule';
 
 import style from './style.css';
 
@@ -68,7 +68,7 @@ function highlightCurrentClassMain(opts: void, unloaderContext: UnloaderContext)
 
   unloaderContext.addFunction(() => clearInterval(interval));
 
-  const dayChangeListener = addDayChangeListeners(highlightClass);
+  const dayChangeListener = addDayChangeListener(highlightClass);
   unloaderContext.addRemovable(dayChangeListener);
 }
 

@@ -48,7 +48,7 @@ export function isEmptySchedule() {
   );
 }
 
-export function addDayChangeListeners(callback: () => void) {
+export function addDayChangeListener(callback: () => void) {
   const listener = (e: Event) => {
     if (hasParentWithClassName(e.target as HTMLElement, [
       'chCal-button-next', 'chCal-button-prev', 'chCal-button-today', 'chCal-button-today',
@@ -59,7 +59,7 @@ export function addDayChangeListeners(callback: () => void) {
   return addEventListener(document.body, 'click', listener);
 }
 
-export function addDayTableLoadedListeners(callback: () => void, requireSchedule = true) {
+export function addDayLoadedListener(callback: () => void, requireSchedule = true) {
   const scheduleContent = document.querySelector('#col-main > div.ch.schedule-list');
   if (!scheduleContent) log('warn', 'trying to observe schedule changes before schedule is loaded');
   const obs = new MutationObserver(mutationList => {
@@ -77,10 +77,10 @@ export function addDayTableLoadedListeners(callback: () => void, requireSchedule
   return { remove() { obs.disconnect(); } };
 }
 
-export async function addAsyncDayTableLoadedListeners(callback: () => void, requireSchedule = true) {
+export async function addAsyncDayLoadedListener(callback: () => void, requireSchedule = true) {
   await waitForLoad(() => document.getElementById('accordionSchedules') || isEmptySchedule()); // wait for a possibly empty schedule
   if (!requireSchedule || !isEmptySchedule()) callback();
-  return addDayTableLoadedListeners(callback, requireSchedule);
+  return addDayLoadedListener(callback, requireSchedule);
 }
 
 export function changeDate(date: Date | string) {
@@ -224,7 +224,7 @@ export function insertAnnouncementDropdown(unloaderContext: UnloaderContext) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
   addDropdown(unloaderContext);
-  addDayChangeListeners(() => addDropdown(unloaderContext));
+  addDayChangeListener(() => addDropdown(unloaderContext));
 }
 
 /**

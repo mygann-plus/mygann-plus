@@ -112,7 +112,6 @@ const MODULE_MAP: ModuleMap = {
     freeBlock,
     highlightCurrentClass,
     // serveryMenu,
-    blockLength,
     classEndingTime,
     tomorrowsEvents,
     scheduleArrowNavigation,
