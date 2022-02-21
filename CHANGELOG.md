@@ -1,3 +1,13 @@
+## 1.21.0
+### Added
+- Schedule Date Picker, which allows you to jump to any day in the schedule by clicking the date
+
+### Changed
+- Block Length to a suboption of Class Ending Time
+
+### Fixed
+- Modules on the schedule now load more reliably
+
 ## 1.20.6
 ### Added
 - Logo in the console

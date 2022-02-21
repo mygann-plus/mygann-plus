@@ -8,6 +8,7 @@ import {
   isCurrentClass,
   isFaculty,
   addAsyncDayLoadedListener,
+  isCurrentDay,
 } from '~/shared/schedule';
 
 // block length
@@ -35,7 +36,7 @@ async function insertBlockLengthLabels(
     const date = timeStringToDate(to24Hr(startTime));
     const now = new Date();
 
-    const isUpcoming = !onlyUpcoming || compareDate(date, now) === 1;
+    const isUpcoming = !onlyUpcoming || (compareDate(date, now) === 1 && isCurrentDay());
     const isCurrent = await isCurrentClass(timeString);
     const labelExists = timeElem.querySelector('.gocp_block-length_main');
 
@@ -120,7 +121,7 @@ interface ClassEndingTimeSuboptions {
 
 async function classEndingTimeMain(
   opts: ClassEndingTimeSuboptions,
-  unloaderContext: UnloaderContext
+  unloaderContext: UnloaderContext,
 ) {
   const dayChangeListener = await addAsyncDayLoadedListener(() => {
     insertClassEndingTime(getBlocks(), unloaderContext);
@@ -143,10 +144,16 @@ async function classEndingTimeMain(
   unloaderContext.addFunction(() => clearInterval(interval));
 }
 
+function unloadClassEndingTime() {
+  removeBlockLengthLabels();
+}
+
 export default registerModule('{c8a3ea86-ae06-4155-be84-1a91283fe826}', {
   name: 'Class Ending Time',
-  description: 'Show how much time is left until the current class ends',
+  description: 'Show how much time is left until the current class ends and optionally block length',
   main: classEndingTimeMain,
+  unload: unloadClassEndingTime,
+  affectsGlobalState: true,
   suboptions: {
     blockLength: {
       name: 'Block Length',

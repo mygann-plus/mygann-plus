@@ -38,7 +38,6 @@ import nameQuiz from '~/modules/name-quiz';
 import hideForms from '~/modules/hide-forms';
 import taskDetail from '~/modules/task-detail';
 import myDayShortcut from '~/modules/my-day-shortcut';
-import blockLength from '~/modules/block-length';
 import classEmail from '~/modules/class-email';
 import fixSemesterSwitch from '~/modules/fix-semester-switch';
 import fullYearAssignments from '~/modules/full-year-assignments';
