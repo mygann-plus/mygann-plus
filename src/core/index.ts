@@ -22,6 +22,7 @@ import log from '~/utils/log';
 import { isBookmarklet, markBookmarkletLoaded, isBookmarletLoaded } from '~/utils/bookmarklet';
 import { ChangeListenerData } from '~/utils/storage';
 import { checkForUpdates } from './install';
+import { startMinuteListeners } from '~/utils/tick';
 
 function getHash(url: string) {
   return new URL(url).hash || '#';
@@ -103,4 +104,6 @@ export default async function runExtension() {
     unloadModules(oldHash, newHash);
     loadModules(newHash);
   });
+
+  startMinuteListeners(); // lowest priority
 }

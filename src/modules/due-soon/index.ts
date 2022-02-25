@@ -28,6 +28,8 @@ const domQuery = {
     small: () => document.querySelector('#date-display-label'),
     mobile: () => document.querySelector('#mobile-date-display-label'),
   },
+  todayButton: () => document.querySelector('#button-today') as HTMLElement,
+  activeAssignmentsButton: () => document.querySelectorAll('.assignmentDisplayTypeFilter')[1] as HTMLElement,
 };
 
 const dateRanges = {
@@ -45,13 +47,12 @@ async function setHeadersText(text: string) {
 }
 
 async function normalizeSelectedRange() {
-  // TODO: move to domQuery
-  (document.querySelector('#button-today') as HTMLElement).click();
-  (document.querySelectorAll('.assignmentDisplayTypeFilter')[1] as HTMLElement).click();
+  domQuery.todayButton().click();
+  domQuery.activeAssignmentsButton().click();
   await tick();
 }
 
-// disabled or enables day-range and assigned-due buttons
+// disables or enables day-range and assigned-due buttons
 async function setDateButtonsDisabled(isDisabled: boolean) {
   // TODO: Clean this up
   const buttons = await waitForOne(() => ([

@@ -5,6 +5,7 @@ import { waitForLoad, insertCss } from '~/utils/dom';
 import { addDayChangeListener, isCurrentClass } from '~/shared/schedule';
 
 import style from './style.css';
+import { addMinuteListener } from '~/utils/tick';
 
 const selectors = {
   currentClass: style.locals['current-class'],
@@ -54,12 +55,19 @@ function highlightCurrentClassMain(opts: void, unloaderContext: UnloaderContext)
   unloaderContext.addRemovable(styles);
 
   highlightClass();
-  const interval = setInterval(() => {
+  // const interval = setInterval(() => {
+  //   removeHighlight();
+  //   highlightClass();
+  // }, 60_000);
+
+  // unloaderContext.addFunction(() => clearInterval(interval));
+
+  const interval = addMinuteListener(() => {
     removeHighlight();
     highlightClass();
-  }, 60_000);
+  });
 
-  unloaderContext.addFunction(() => clearInterval(interval));
+  unloaderContext.addRemovable(interval);
 
   const dayChangeListener = addDayChangeListener(highlightClass);
   unloaderContext.addRemovable(dayChangeListener);

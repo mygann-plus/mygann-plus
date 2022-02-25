@@ -10,6 +10,7 @@ import {
   addAsyncDayLoadedListener,
   isCurrentDay,
 } from '~/shared/schedule';
+import { addMinuteListener } from '~/utils/tick';
 
 // block length
 
@@ -131,7 +132,7 @@ async function classEndingTimeMain(
   });
   unloaderContext.addRemovable(dayChangeListener);
 
-  const interval = setInterval(() => {
+  const interval = addMinuteListener(() => {
     const timeLabel = document.getElementById('gocp_class-ending-time_main');
     if (timeLabel) {
       timeLabel.remove();
@@ -140,8 +141,8 @@ async function classEndingTimeMain(
 
     removeBlockLengthLabels();
     insertBlockLengthLabels(getTimeElems(), opts.onlyUpcoming);
-  }, 60_000);
-  unloaderContext.addFunction(() => clearInterval(interval));
+  });
+  unloaderContext.addRemovable(interval);
 }
 
 function unloadClassEndingTime() {
