@@ -1,3 +1,7 @@
+## 1.21.1
+### Fixed
+- Unnecessary code (unloaderContext) in module to fix selected page highlight when viewing archived messages
+
 ## 1.21.0
 ### Added
 - Schedule Date Picker, which allows you to jump to any day in the schedule by clicking the date
