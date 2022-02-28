@@ -135,7 +135,6 @@ async function classEndingTimeMain(
   const interval = addMinuteListener(() => {
     const timeLabel = document.getElementById('gocp_class-ending-time_main');
     if (timeLabel) {
-      // console.log(timeLabel);
       timeLabel.remove();
     }
     insertClassEndingTime(getBlocks(), unloaderContext);
