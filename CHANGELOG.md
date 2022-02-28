@@ -1,3 +1,7 @@
+## 1.21.2
+### Fixed
+- Dynamic Title, Highlight Class, and Class Ending Time modules changing time on slightly different intervals
+
 ## 1.21.1
 ### Fixed
 - Unnecessary code (unloaderContext) in module to fix selected page highlight when viewing archived messages
