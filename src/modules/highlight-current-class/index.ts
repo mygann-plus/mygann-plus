@@ -56,13 +56,6 @@ function highlightCurrentClassMain(opts: void, unloaderContext: UnloaderContext)
 
   highlightClass();
 
-  // const interval = setInterval(() => {
-  //   removeHighlight();
-  //   highlightClass();
-  // }, 60_000);
-
-  // unloaderContext.addFunction(() => clearInterval(interval));
-
   const interval = addMinuteListener(() => {
     removeHighlight();
     highlightClass();
