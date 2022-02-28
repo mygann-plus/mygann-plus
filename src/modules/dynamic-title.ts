@@ -3,6 +3,7 @@ import { fetchApi } from '~/utils/fetch';
 import { isCurrentTime, to24Hr } from '~/shared/schedule';
 import { timeStringToDate } from '~/utils/date';
 import { UnloaderContext } from '~/core/module-loader';
+import { addMinuteListener } from '~/utils/tick';
 
 let cachedSchedule: { schedule: Promise<any[]>, dateString: string };
 function getTodaySchedule() {
@@ -95,15 +96,16 @@ async function titleScrollMain(opts: void, unloaderContext: UnloaderContext) {
   displayTime(endTime, period);
   observer.observe(document.querySelector('title'), config);
 
-  let interval = setInterval(() => {
+  const interval = addMinuteListener(() => {
     if (displayTime(endTime, period) < 0) {
-      clearInterval(interval);
+      // clearInterval(interval);
+      interval.remove();
       unloadTitleScroll();
       titleScrollMain(opts, unloaderContext);
     }
-  }, 30e3);
+  });
 
-  unloaderContext.addFunction(() => clearInterval(interval));
+  unloaderContext.addRemovable(interval);
 }
 
 export default registerModule('{f724b60d-6d47-4497-a71e-a40d7990a2f4}', {
