@@ -15,7 +15,7 @@ export function addMinuteListener(callback: () => void) {
   minuteListeners.push(callback);
   return {
     remove() {
-      minuteListeners.splice(minuteListeners.indexOf(callback), 0);
+      minuteListeners.splice(minuteListeners.indexOf(callback), 1);
     },
   };
 }
