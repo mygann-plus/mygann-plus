@@ -132,27 +132,18 @@ async function classEndingTimeMain(
   });
   unloaderContext.addRemovable(dayChangeListener);
 
-  // const interval = setInterval(() => {
-  //   const timeLabel = document.getElementById('gocp_class-ending-time_main');
-  //   if (timeLabel) {
-  //     timeLabel.remove();
-  //   }
-  //   insertClassEndingTime(getBlocks(), unloaderContext);
-
-  //   removeBlockLengthLabels();
-  //   insertBlockLengthLabels(getTimeElems(), opts.onlyUpcoming);
-  // }, 60_000);
-  // unloaderContext.addFunction(() => clearInterval(interval));
-
   const interval = addMinuteListener(() => {
     const timeLabel = document.getElementById('gocp_class-ending-time_main');
     if (timeLabel) {
+      // console.log(timeLabel);
       timeLabel.remove();
     }
     insertClassEndingTime(getBlocks(), unloaderContext);
 
-    removeBlockLengthLabels();
-    insertBlockLengthLabels(getTimeElems(), opts.onlyUpcoming);
+    if (opts.blockLength) {
+      removeBlockLengthLabels();
+      insertBlockLengthLabels(getTimeElems(), opts.onlyUpcoming);
+    }
   });
   unloaderContext.addRemovable(interval);
 }
