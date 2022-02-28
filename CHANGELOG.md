@@ -1,3 +1,7 @@
+## 1.21.3
+### Fixed
+- Block Length showing upcoming blocks from current time on other days when Only Upcoming Blocks is selected
+
 ## 1.21.2
 ### Fixed
 - Dynamic Title, Highlight Class, and Class Ending Time modules changing time on slightly different intervals

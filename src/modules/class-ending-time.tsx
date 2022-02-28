@@ -37,7 +37,7 @@ async function insertBlockLengthLabels(
     const date = timeStringToDate(to24Hr(startTime));
     const now = new Date();
 
-    const isUpcoming = !onlyUpcoming || (compareDate(date, now) === 1 && isCurrentDay());
+    const isUpcoming = !onlyUpcoming || (compareDate(date, now) === 1 && await isCurrentDay());
     const isCurrent = await isCurrentClass(timeString);
     const labelExists = timeElem.querySelector('.gocp_block-length_main');
 
