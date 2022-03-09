@@ -1,5 +1,6 @@
 import registerModule from '~/core/module';
-import { waitForLoad } from '~/utils/dom';
+import { UnloaderContext } from '~/core/module-loader';
+import { addEventListener, waitForLoad } from '~/utils/dom';
 
 const classnames = {
   DROPDOWN_BUTTON: 'indicator-field p3formWhite dropdown-toggle assignment-status-button',
@@ -24,15 +25,16 @@ function attachListeners() {
       e.preventDefault();
     });
   });
-  document.getElementById('app').addEventListener('click', hideDropdownMenu);
+  return addEventListener(document.getElementById('app'), 'click', hideDropdownMenu);
 }
 
-function autoCloseDetailStatusMain() {
-  waitForLoad(getDropdownButton).then(attachListeners);
+function autoCloseDetailStatusMain(opts: void, unloaderContext: UnloaderContext) {
+  waitForLoad(getDropdownButton).then(attachListeners).then(unloaderContext.addRemovable);
 }
 
 export default registerModule('{1020164f-8a6e-4bb0-aac8-d5acf0e5ad72}', {
-  name: 'Auto Close Detail Status',
+  name: 'fix.autoCloseDetailStatus',
   main: autoCloseDetailStatusMain,
   showInOptions: false,
+  affectsGlobalState: true,
 });
