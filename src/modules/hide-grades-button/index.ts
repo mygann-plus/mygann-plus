@@ -12,6 +12,6 @@ function hideGradesButtonMain() {
 export default registerModule('{fb8c80b5-5323-4132-b512-c3c83d6cc856}', {
   name: 'fix.hideProgressGradesButton',
   init: hideGradesButtonMain,
-  affectsGlobalState: false,
+  stayLoaded: true,
   showInOptions: false,
 });
