@@ -126,7 +126,7 @@ async function hideCompletedMain(
   unloaderContext.addRemovable(button);
 
   const mobileLink = appendMobileAssignmentCenterMenuLink('Hide Completed', (e: Event) => {
-    toggleHidden(e.target as HTMLElement);
+    toggleHidden((e.target as HTMLElement).parentElement);
   }, 0);
   unloaderContext.addRemovable(mobileLink);
 
