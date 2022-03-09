@@ -44,7 +44,7 @@ function repositionDesktopMenu(menu: HTMLElement, visibleClasses: Class[]) {
 function hideClasses(classes: Class[], hiddenKeywords: string[]) {
   const visible = [];
   for (const classObj of classes) {
-    const matches = hiddenKeywords.find(c => classObj.title.includes(c));
+    const matches = hiddenKeywords.some(c => classObj.title.includes(c));
     if (matches) {
       // classObj.elem.classList.add(selectors.hidden);
       classObj.elem.remove(); // replaced adding the hidden selector with removing because this way the automatic alternate gray/white highlight updates the changes properly
@@ -77,7 +77,7 @@ const domQuery = {
 async function hideProgressPage(hiddenKeywords: string[]) {
   const courseElems = await waitForOne(domQuery.progressCourses);
 
-  const classes = Array.from(courseElems).map(elem => ({
+  const classes = Array.from(courseElems, elem => ({
     title: elem.querySelector('h3').textContent.toLowerCase(),
     elem,
   }));

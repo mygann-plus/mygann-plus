@@ -24,7 +24,7 @@ let courses: Course[];
 
 function generateCourseList(): Course[] {
   const rows = document.getElementById('coursesContainer').getElementsByClassName('row');
-  return Array.from(rows).map(e => ({
+  return Array.from(rows, e => ({
     elem: e as HTMLElement,
     name: e.querySelector('h3').textContent,
   }));

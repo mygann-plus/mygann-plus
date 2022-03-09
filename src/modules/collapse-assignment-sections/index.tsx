@@ -76,7 +76,7 @@ function addTableHeaderArrow(table: HTMLElement, id: string, isHidden: boolean) 
 async function addCollapseButtons(buttonPosition: string, unloaderContext: UnloaderContext) {
   const tables = await waitForOne(() => document.querySelectorAll('.modal-body table'));
 
-  const hiddenMap = await Promise.all(Array.from(tables).map(table => {
+  const hiddenMap = await Promise.all(Array.from(tables, table => {
     const { id } = table.previousSibling as HTMLElement;
     return getIsHidden(id, getCourseName());
   }));
