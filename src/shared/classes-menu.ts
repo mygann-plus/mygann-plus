@@ -22,8 +22,8 @@ export function getDesktopCourses() {
 export function getMobileCourses() {
   const elems = Array.from(document.querySelectorAll('.app-mobile-level')[2].children[2].children);
   elems.splice(elems.length - 1, 1);
-  return Array.from(elems)
-    .map(elem => ({
+  return Array.from(elems,
+    elem => ({
       title: elem.firstElementChild.textContent.toLowerCase().trim(),
       elem: elem as HTMLElement,
     }));

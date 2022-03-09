@@ -25,8 +25,8 @@ async function hasSavedDetails(taskId: string) {
 export async function addTaskLinks(unloaderContext: UnloaderContext) {
   await waitForLoad(() => domQuery.tasks().length);
 
-  const tasks = Array.from(domQuery.tasks())
-    .map(statusLink => statusLink.parentNode.parentNode);
+  const tasks = Array.from(domQuery.tasks(),
+    statusLink => statusLink.parentNode.parentNode);
 
   if (isModuleLoaded(assignmentCheckpoints)) {
     return;

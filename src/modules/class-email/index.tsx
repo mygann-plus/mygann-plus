@@ -32,8 +32,8 @@ function copyEmails(e: MouseEvent, emails: string[]) {
 
 function getEmails(includeTeachers: boolean) {
   const emailWraps = document.querySelectorAll('.contactCardP');
-  const emails = Array.from(emailWraps)
-    .map(elem => {
+  const emails = Array.from(emailWraps,
+    elem => {
       const mailtoLink = elem.firstElementChild as HTMLAnchorElement;
       return mailtoLink.href.split('mailto:')[1];
     })

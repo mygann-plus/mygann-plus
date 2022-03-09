@@ -15,8 +15,8 @@ const domQuery = () => document.querySelectorAll('.assignment-status-update');
 async function removeDuplicateAssignments() {
   const assignmentStatusUpdate = await waitForOne(domQuery);
 
-  Array.from(assignmentStatusUpdate)
-    .map(link => ({
+  Array.from(assignmentStatusUpdate,
+    link => ({
       row: link.closest('tr'),
       id: link.dataset.id,
     }))
