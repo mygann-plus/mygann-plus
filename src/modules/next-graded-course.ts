@@ -20,14 +20,20 @@ const selectors = {
 };
 
 interface Course {
-  grade: string;
+  // grade: string;
   class: string;
-  gradedAssignments: any;
-  elem: HTMLElement;
+  // gradedAssignments: any;
+  // elem: HTMLElement;
+  row: HTMLElement;
+}
+
+function getGradeDetailButton(course: Course): HTMLElement {
+  return course.row.querySelector('.showGrade + a.btn.btn-default');
 }
 
 async function selectCourse(course: Course, buttonClassName: string) {
-  (course.elem.parentNode.querySelector('.btn.btn-default') as HTMLElement).click();
+  // (course.elem.parentNode.querySelector('.btn.btn-default') as HTMLElement).click();
+  getGradeDetailButton(course).click();
   await waitForLoad(() => {
     const headerText = document.querySelector('.bb-dialog-header').textContent.trim();
     return headerText === course.class;
@@ -54,7 +60,8 @@ function generateButton(followingCourse: Course, text: string, className: string
 }
 
 const findGraded = (currentCourse: Course) => (course: Course) => (
-  currentCourse && course.gradedAssignments.length > 0 && course.class !== currentCourse.class
+  // currentCourse && course.gradedAssignments.length > 0 && course.class !== currentCourse.class
+  console.log([currentCourse, getGradeDetailButton(course), course.class, currentCourse.class]) || currentCourse && getGradeDetailButton(course) && course.class !== currentCourse.class
 );
 
 function getNextCourse(courses: Course[], course: Course) {
@@ -77,6 +84,8 @@ async function addNextGradedCourseButtons(
   const nextCourse = getNextCourse(courses, currentCourse);
   const prevCourse = getPreviousCourse(courses, currentCourse);
 
+  console.log(currentCourse, nextCourse, prevCourse);
+
   const nextGradedButton = generateButton(
     nextCourse,
     'Next Graded Course',
@@ -97,37 +106,6 @@ async function addNextGradedCourseButtons(
   unloaderContext.addRemovable(prevGradedButton);
 }
 
-// Is course full year, not semester
-function isFullYearCourse(sectionId: number, coursesContext: any) {
-  const course = coursesContext.find((c: any) => (
-    c.CurrentSectionId === sectionId
-  ));
-  // if course is full-year, there will two courses with same SectionId
-  const otherSemesterCourse = coursesContext.find((c: any) => (
-    c.SectionId === course.SectionId && c.CurrentSectionId !== course.CurrentSectionId
-  ));
-  return !!otherSemesterCourse;
-}
-
-async function getCourseGradedAssignments(gradeElem: HTMLElement, coursesContext: any) {
-  const selectedSemesterElem = document.querySelector('.dropdown-menu .active a') as HTMLElement;
-  const isSecondSemester = selectedSemesterElem.textContent.includes('2');
-
-  const markingPeriod = selectedSemesterElem.dataset.value;
-  let sectionId = Number((gradeElem.nextElementSibling as HTMLElement).dataset.analysis);
-  if (isSecondSemester) {
-    const fullYear = isFullYearCourse(sectionId, coursesContext);
-    if (fullYear) {
-      // during second semester, full-year ids are one less than in DOM for unknown reason
-      sectionId = Number(sectionId) - 1;
-    }
-  }
-  const userId = await getUserId();
-  const endpoint = '/api/datadirect/GradeBookPerformanceAssignmentStudentList/';
-  const query = `?sectionId=${sectionId}&markingPeriodId=${markingPeriod}&studentUserId=${userId}`;
-  return fetchApi(endpoint + query);
-}
-
 const domQuery = () => (
   coursesListLoaded()
   && document.querySelector('.btn.btn-default.btn-sm.bold')
@@ -138,17 +116,23 @@ async function nextGradedCourseMain(opts: void, unloaderContext: UnloaderContext
   await waitForLoad(domQuery);
 
   // List of all courses
-  const coursesContext = (await fetchApi('/api/webapp/context')).Groups;
+  // const coursesContext = (await fetchApi('/api/webapp/context')).Groups;
 
-  const gradeElemToObject = async (e: HTMLElement) => ({
-    grade: e.textContent.trim(),
-    class: e.parentNode.parentNode.children[0].children[0].children[0].textContent,
-    gradedAssignments: await getCourseGradedAssignments(e, coursesContext),
-    elem: e,
+  const gradeElemToObject = (e: HTMLElement) => ({
+    // grade: e.textContent.trim(),
+    class: e.querySelector('h3'),
+    // gradedAssignments: await getCourseGradedAssignments(e, coursesContext),
+    // gradedAssignments: 7,
+    // elem: e,
+    row: e,
   });
 
-  const courses = await Promise.all(Array.from(document.getElementsByClassName('showGrade'))
-    .map(gradeElemToObject));
+  const courses: Course[] = Array.from(document.getElementById('coursesContainer').children,
+    gradeElemToObject);
+
+  console.log(courses);
+
+  window.c = courses;
 
   const reAddButtons = (currentCourse: Course, direction: number) => {
     const buttons = document.querySelectorAll(`.${selectors.button}`);
@@ -160,7 +144,9 @@ async function nextGradedCourseMain(opts: void, unloaderContext: UnloaderContext
   };
 
   for (const course of courses) {
-    const gradeDetailButton = course.elem.parentNode.querySelector('.btn.btn-default');
+    // const gradeDetailButton = course.elem.parentNode.querySelector('.btn.btn-default');
+    const gradeDetailButton = getGradeDetailButton(course);
+    if (!gradeDetailButton) continue;
     const gradeDetailListener = addEventListener(gradeDetailButton, 'click', async () => {
       await addNextGradedCourseButtons(courses, course, unloaderContext);
 
