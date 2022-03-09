@@ -60,9 +60,10 @@ function generateSwitchButton(sectionName: string, cb: (e: Event) => void) {
   return switchButton;
 }
 
-async function insertSwitchButton(getParent: () => HTMLElement, sectionName: string) {
+function insertSwitchButton(getParent: () => HTMLElement, sectionName: string) {
   const parent = getParent();
-  const secondSemesterBtn = await waitForLoad(() => domQuery.lastTerm(parent));
+  const secondSemesterBtn = domQuery.lastTerm(parent);
+  if (!secondSemesterBtn) return;
 
   const switchButton = generateSwitchButton(sectionName, () => switchSemesters(parent, getParent));
 
@@ -85,11 +86,16 @@ async function semesterSwitcherMain(opts: void, unloaderContext: UnloaderContext
   await waitForLoad(() => domQuery.coursesBar() && domQuery.activitiesBar());
 
   let semesterSwitchButtonUnloader = unloaderContext.addRemovable(
-    await insertSemesterSwitchButton(),
+    insertSemesterSwitchButton(),
   );
-  let seasonSwitchButtonUnloader = unloaderContext.addRemovable((
-    await insertSeasonSwitchButton()
-  ));
+
+  const seasonSwitchButton = insertSeasonSwitchButton();
+  let seasonSwitchButtonUnloader: { remove: Function; };
+  if (seasonSwitchButton) {
+    seasonSwitchButtonUnloader = unloaderContext.addRemovable(
+      insertSeasonSwitchButton(),
+    );
+  }
 
   const coursesBarObserver = await observeCoursesBar(async () => {
     semesterSwitchButtonUnloader.remove();
