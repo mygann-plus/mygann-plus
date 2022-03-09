@@ -104,7 +104,7 @@ async function semesterSwitcherMain(opts: void, unloaderContext: UnloaderContext
 
   const activitiesBarObserver = await observeActivitiesBar(async () => {
     seasonSwitchButtonUnloader.remove();
-    seasonSwitchButtonUnloader = unloaderContext.addRemovable(await insertSeasonSwitchButton());
+    seasonSwitchButtonUnloader = unloaderContext.addRemovable(insertSeasonSwitchButton());
   });
 
   unloaderContext.addRemovable(coursesBarObserver);
