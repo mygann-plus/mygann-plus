@@ -25,7 +25,7 @@ async function observeSectionBar(id: string, fn: MutationCallback) {
   };
 }
 
-export async function observeCoursesBar(fn: MutationCallback) {
+export function observeCoursesBar(fn: MutationCallback) {
   return observeSectionBar('coursesCollapse', fn);
 }
 

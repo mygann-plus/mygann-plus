@@ -5,7 +5,7 @@ import { UnloaderContext } from '~/core/module-loader';
 
 import fuzzyMatch from '~/utils/search';
 import { createElement, waitForLoad, insertCss } from '~/utils/dom';
-import { coursesListLoaded, observeCoursesBar } from '~/shared/progress';
+import { observeCoursesBar } from '~/shared/progress';
 
 import style from './style.css';
 
@@ -55,7 +55,6 @@ function runFilter() {
   }
 }
 
-
 function handleKeyDown(e: KeyboardEvent) {
   if (e.key === 'Enter') {
     regenerateCoursesList();
@@ -86,8 +85,8 @@ function renderFilterBar() {
 }
 
 const domQuery = () => (
-  coursesListLoaded()
-  && document.getElementById('showHideGrade')
+  // coursesListLoaded()
+  document.getElementById('showHideGrade')
 );
 
 async function addCoursesFilterBar() {
