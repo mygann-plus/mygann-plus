@@ -10,7 +10,6 @@ import freeBlock from '~/modules/free-block';
 import highlightCurrentClass from '~/modules/highlight-current-class';
 import improvedStatusDropdown from '~/modules/improved-status-dropdown';
 import messageNotifications from '~/modules/message-notifications';
-import nextGradedCourse from '~/modules/next-graded-course';
 import searchClassesMenu from '~/modules/search-classes-menu';
 import hideCompleted from '~/modules/hide-completed';
 import tomorrowsEvents from '~/modules/tomorrows-events';
@@ -124,7 +123,6 @@ const MODULE_MAP: ModuleMap = {
   '#myday/schedule-performance': [classEndingTime],
   '#studentmyday/progress': [
     coursesFilter,
-    nextGradedCourse,
     calculateGradePercentage,
     collapseAssignmentSections,
     fullYearAssignments,
