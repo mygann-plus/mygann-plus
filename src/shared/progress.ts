@@ -8,8 +8,7 @@ import { UnloaderContext } from '~/core/module-loader';
 
 export function coursesListLoaded() {
   return document.querySelector('#coursesContainer > *')
-    && document.querySelectorAll('.bb-tile-content-section')[3]
-    && document.querySelectorAll('.bb-tile-content-section')[3].children[0];
+    && document.querySelector('#coursesCollapse > div > div.row');
 }
 
 async function observeSectionBar(id: string, fn: MutationCallback) {
