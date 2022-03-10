@@ -1,12 +1,10 @@
 import registerModule from '~/core/module';
 import { createElement, waitForLoad } from '~/utils/dom';
 import { UnloaderContext } from '~/core/module-loader';
-import { changeDate, getDayViewDateString } from '~/shared/schedule';
+import { changeDate, getDayViewDateString, getPermanentHeader } from '~/shared/schedule';
 
 import flatpickr from 'flatpickr';
 import { BaseOptions } from 'flatpickr/dist/types/options';
-
-const domQuery = () => document.querySelector('#col-main > div:nth-child(1)');
 
 async function datePickerMain(opts: void, unloaderContext: UnloaderContext) {
   const link = (
@@ -40,7 +38,7 @@ async function datePickerMain(opts: void, unloaderContext: UnloaderContext) {
   const startingText = document.querySelector('.chCal-header-space + h2');
   if (startingText) picker = flatpickr(startingText, config); // if it was loaded after schedule
 
-  obs.observe(await waitForLoad(domQuery), { childList: true });
+  obs.observe(await getPermanentHeader(), { childList: true });
 
   unloaderContext.addFunction(() => { obs.disconnect(); picker.destroy(); });
 }

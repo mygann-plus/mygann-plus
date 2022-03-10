@@ -156,6 +156,12 @@
         "Flex A/Community Block": ["1:55 PM", "2:30 PM"],
         "F Block": ["2:40 PM", "3:40 PM"],
         "Wellness M/W": ["4:00 PM", "5:00 PM"]
+      },
+      "3/10/2022": {
+        "E Block": ["9:20 AM", "10:05 AM"],
+        "C Block": ["10:10 AM", "10:55 AM"],
+        "D Block": ["11:00 AM", "11:45 AM"],
+        "F Block": ["12:15 PM", "1:00 PM"]
       }
     }
   }
