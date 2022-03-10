@@ -67,7 +67,7 @@ async function tomorrowsEventsMain(opts: void, unloaderContext: UnloaderContext)
     }
   });
   observer.observe(await getPermanentHeader(), { childList: true });
-  unloaderContext.addFunction(observer.disconnect);
+  unloaderContext.addFunction(() => observer.disconnect());
 }
 
 export default registerModule('{2b337dae-cb2f-4627-b3d6-bde7a5f2dc06}', {
