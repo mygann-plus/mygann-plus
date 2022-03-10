@@ -2,15 +2,9 @@ import registerModule from '~/core/module';
 import { UnloaderContext } from '~/core/module-loader';
 
 import { fetchApi } from '~/utils/fetch';
-import { createElement, waitForLoad, insertCss } from '~/utils/dom';
+import { createElement } from '~/utils/dom';
 import { getUserId } from '~/utils/user';
-import { isCurrentDay, addDayChangeListener } from '~/shared/schedule';
-
-import style from './style.css';
-
-const selectors = {
-  label: style.locals.label,
-};
+import { isCurrentDay, getAnnouncementWrap, getPermanentHeader } from '~/shared/schedule';
 
 function getTomorrowDateString() {
   const date = new Date();
@@ -18,12 +12,7 @@ function getTomorrowDateString() {
   return [date.getMonth() + 1, date.getDate(), date.getFullYear()].join('%2F');
 }
 
-function getAnnouncementWrap() {
-  return document.querySelector('#schedule-header .alert.alert-info');
-}
-
-async function fetchData() {
-
+async function fetchData(): Promise<string[]> {
   const id = await getUserId();
 
   const query = `mydayDate=${getTomorrowDateString()}&viewerId=${id}&viewerPersonaId=2`;
@@ -44,14 +33,7 @@ function createAlertBox() {
   return alertBox;
 }
 
-const domQuery = () => (
-  getAnnouncementWrap()
-  || (document.getElementsByClassName('pl-10')[0]
-  && document.getElementsByClassName('pl-10')[0].textContent === 'There is nothing scheduled for this date.') // eslint-disable-line max-len
-);
-
 async function showTomorrowsEvents(unloaderContext: UnloaderContext) {
-  await waitForLoad(domQuery);
   if (!(await isCurrentDay())) {
     return;
   }
@@ -61,29 +43,31 @@ async function showTomorrowsEvents(unloaderContext: UnloaderContext) {
     return;
   }
 
-  if (!getAnnouncementWrap()) {
-    const alertBox = createAlertBox();
-    unloaderContext.addRemovable(alertBox);
+  let wrap = getAnnouncementWrap();
+
+  if (!wrap) {
+    wrap = createAlertBox();
+    unloaderContext.addRemovable(wrap);
   }
+
   const label = (
-      <div className={selectors.label}>
+      <div style={{ marginLeft: 'auto' }}>
         <i>Tomorrow: { announcements.join('; ') }</i>
       </div>
   );
-  getAnnouncementWrap().appendChild(label);
+  wrap.appendChild(label);
   unloaderContext.addRemovable(label);
 }
 
-function tomorrowsEventsMain(opts: void, unloaderContext: UnloaderContext) {
-  const styles = insertCss(style.toString());
-  unloaderContext.addRemovable(styles);
-
-  showTomorrowsEvents(unloaderContext);
-  const dayChangeListener = addDayChangeListener(() => {
-    // there's a small delay between button click and date change in dom
-    setTimeout(() => showTomorrowsEvents(unloaderContext), 100);
+async function tomorrowsEventsMain(opts: void, unloaderContext: UnloaderContext) {
+  if (document.getElementById('schedule-header')) showTomorrowsEvents(unloaderContext); // if the module was loaded after the schedule
+  const observer = new MutationObserver(([{ addedNodes }]) => {
+    if ((addedNodes[0] as HTMLElement).id === 'schedule-header') {
+      showTomorrowsEvents(unloaderContext);
+    }
   });
-  unloaderContext.addRemovable(dayChangeListener);
+  observer.observe(await getPermanentHeader(), { childList: true });
+  unloaderContext.addFunction(observer.disconnect);
 }
 
 export default registerModule('{2b337dae-cb2f-4627-b3d6-bde7a5f2dc06}', {

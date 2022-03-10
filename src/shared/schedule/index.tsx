@@ -19,6 +19,11 @@ export function getCurrentDay() {
   return document.querySelector('.chCal-header-space + h2').textContent.split(',')[0].trim();
 }
 
+// get the header that does not change when the day changes, useful for observing
+export function getPermanentHeader() {
+  return waitForLoad(() => document.querySelector('#col-main > div:nth-child(1)'));
+}
+
 export function isFaculty() {
   return window.location.hash === '#myday/schedule-performance';
 }
@@ -147,7 +152,7 @@ export async function isCurrentClass(timeString: string) {
 }
 
 export function getAnnouncementWrap() {
-  return document.querySelector('#schedule-header .alert.alert-info');
+  return document.querySelector('#schedule-header .alert.alert-info') as HTMLElement;
 }
 export function createAnnouncementWrap() {
   const alertBox = (
@@ -237,7 +242,7 @@ export function insertAnnouncementDropdown(unloaderContext: UnloaderContext) {
 
 // TODO: Maybe call this function registerAnnouncementDropdownItem for consistency?
 export function registerAnnouncementDropdownLink(link: AnnouncementDropdownItem) {
-  if (announcementDropdownItems.find(item => item.id === link.id)) {
+  if (announcementDropdownItems.some(item => item.id === link.id)) {
     return;
   }
   announcementDropdown.addItem(link);
