@@ -20,10 +20,11 @@ import showNewGradedButton, { removeNewGradedButton } from './grade-notification
 import style from './style.css';
 
 let newGradedAssignments: any[] = [];
+let lastFetchedAssignments: Date;
 
-function clearAllNotifications() {
-  const today = new Date();
-  const nowDateTime = `${today.toLocaleDateString('en-US')} ${today.toLocaleTimeString()}`;
+async function clearAllNotifications() {
+  // const today = new Date();
+  const nowDateTime = `${lastFetchedAssignments.toLocaleDateString('en-US')} ${lastFetchedAssignments.toLocaleTimeString()}`;
   newGradedAssignments = [];
   setLastChecked(nowDateTime);
   removeGradeNotificationBubble();
@@ -71,9 +72,10 @@ async function getNewGradedAssignments(
   const query = `?format=json&filter=2&dateStart=${startDate}&dateEnd=${endDate}&persona=2&statusList=4`;
 
   const assignments = await fetchApi(endpoint + query);
+  lastFetchedAssignments = new Date();
 
-  const assignmentsData = (await Promise.all(assignments
-    .map((assignment: any) => getFullAssignmentData(assignment))));
+  const assignmentsData = await Promise.all(assignments
+    .map((assignment: any) => getFullAssignmentData(assignment)));
 
   return assignmentsData.filter((assignment: any) => {
     if (clearedNotifications.includes(assignment.AssignmentId)) {
