@@ -1,54 +1,23 @@
 import registerModule from '~/core/module';
 import { fetchApi } from '~/utils/fetch';
-import { isCurrentTime, to24Hr } from '~/shared/schedule';
-import { timeStringToDate } from '~/utils/date';
 import { UnloaderContext } from '~/core/module-loader';
 import { addMinuteListener } from '~/utils/tick';
+import { timeStringToDate, to24Hr, isCurrentTime } from '~/utils/date';
+import log from '~/utils/log';
 
-let cachedSchedule: { schedule: Promise<any[]>, dateString: string };
-function getTodaySchedule() {
-  const date = new Date();
-  const dateString = date.toLocaleDateString();
-  if (cachedSchedule?.dateString !== dateString) { // basically if it has moved to the next day. Go to sleep
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-
-    const endpoint = `/api/schedule/MyDayCalendarStudentList/?scheduleDate=${month}%2F${day}%2F${year}`;
-    cachedSchedule = { schedule: fetchApi(endpoint), dateString };
-    // cachedSchedule.schedule.then(data => { data[data.length - 1].MyDayEndTime = '11:00 PM'; }); // to test outside school hours
+function getSchedule(cachedSchedule?: any[]) {
+  const today = new Date().toLocaleDateString();
+  if (cachedSchedule && (cachedSchedule[0].CalendarDate as string).startsWith(today)) {
+    return cachedSchedule;
   }
-  return cachedSchedule;
-}
-
-async function getClass() {
-  const schedule = await getTodaySchedule().schedule;
-
-  let period: boolean;
-  let endTimeString: string;
-
-  schedule.find((block, index, sched) => {
-    if (isCurrentTime(`${block.MyDayStartTime}-${block.MyDayEndTime}`)) { // if its during class
-      period = true;
-      endTimeString = block.MyDayEndTime;
-    } else if (sched[index + 1] && isCurrentTime(`${block.MyDayEndTime}-${sched[index + 1].MyDayStartTime}`)) { // if it's between now and the next class
-      period = false;
-      endTimeString = sched[index + 1].MyDayStartTime;
-    } else if (!index && Date.now() < new Date(block.MyDayStartTime).getTime()) { // if it's before the first class
-      period = false;
-      endTimeString = block.MyDayStartTime;
-    } else return false;
-    return true;
-  });
-
-  const endTime = endTimeString && timeStringToDate(to24Hr(endTimeString)).getTime();
-
-  return { endTime, period };
+  const [month, day, year] = today.split('/');
+  const endpoint = `/api/schedule/MyDayCalendarStudentList/?scheduleDate=${month}%2F${day}%2F${year}`;
+  return fetchApi(endpoint);
 }
 
 // check if the title was changed by MyGann+ or not
 function defaultTitle(title?: string) {
-  return !/\d+ min (remaining)|(before next class)/.test(title || document.title);
+  return !/\d+ min (left)|(before next class)/.test(title || document.title);
 }
 
 // to unload and revert the title
@@ -58,60 +27,58 @@ function changeTitle(newTitle: string) {
   document.title = newTitle;
 }
 
-function displayTime(endTime: number, period: boolean) {
-  const now = Date.now();
-  const minutesRemaining = Math.ceil((endTime - now) / 60e3);
-  if (minutesRemaining >= 0) {
-    changeTitle(`${minutesRemaining} min ${period ? 'left' : 'before next class'}`);
-  }
-  return minutesRemaining;
-}
-
-const config: MutationObserverInit = { childList: true };
-const observer = new MutationObserver(([mutation], obs) => {
-  const oldTitle = (mutation.removedNodes[0] as Text).data;
-  if (!defaultTitle() || defaultTitle(oldTitle)) return; // if it is now using a custom one or if it just had a defult one don't switch
-
-  obs.disconnect(); // so the observer doesn't fire itself
-  changeTitle(oldTitle); // if the old one was set by MyGann+ bring it back
-  obs.observe(mutation.target, config);
-});
-
-function unloadTitleScroll() {
-  observer.disconnect();
+function clearTitle() {
   if (!defaultTitle()) document.title = lastTitle;
 }
 
-async function titleScrollMain(opts: void, unloaderContext: UnloaderContext) {
-  const { endTime, period } = await getClass();
+function displayTime(endTime: string, period: boolean) {
+  const now = Date.now();
+  const minutesRemaining = Math.ceil((timeStringToDate(to24Hr(endTime)).getTime() - now) / 60_000);
+  if (minutesRemaining <= 0) log('error', `Dynamic Title Found ${minutesRemaining} remaining in class, should be more than 0`);
+  changeTitle(`${minutesRemaining} min ${period ? 'left' : 'before next class'}`);
+}
 
-  if (!endTime) {
-    unloadTitleScroll();
-    const today = new Date();
-    const now = today.getTime();
-    const midnight = today.setHours(24, 0, 0, 0);
-    return setTimeout(titleScrollMain, midnight - now, opts, unloaderContext); // run again at midnight
+function updateTitle(blocks: any[]) {
+  for (let i = 0; i < blocks.length; i++) {
+    const block = blocks[i];
+    if (isCurrentTime(`${block.MyDayStartTime}-${block.MyDayEndTime}`)) {
+      return displayTime(block.MyDayEndTime, true);
+    } if (i < blocks.length - 1 && isCurrentTime(`${block.MyDayEndTime}-${blocks[i + 1].MyDayStartTime}`)) {
+      return displayTime(blocks[i + 1].MyDayStartTime, false);
+    }
   }
+  clearTitle();
+}
 
-  displayTime(endTime, period);
-  observer.observe(document.querySelector('title'), config);
-
-  const interval = addMinuteListener(() => {
-    if (displayTime(endTime, period) < 0) {
-      // clearInterval(interval);
-      interval.remove();
-      unloadTitleScroll();
-      titleScrollMain(opts, unloaderContext);
+async function dynamicTitleMain(opts: void, unloaderContext: UnloaderContext) {
+  const observer = new MutationObserver(([mutation]) => {
+    const oldTitle = (mutation.removedNodes[0] as Text)?.data; // won't exist if it is the first title load
+    if (defaultTitle() && !defaultTitle(oldTitle)) {
+      // if it changed from a custom one to a default unchange it
+      (mutation.target.firstChild as Text).data = oldTitle;
     }
   });
+  observer.observe(document.querySelector('title'), { childList: true });
+  unloaderContext.addFunction(() => observer.disconnect());
 
+  let schedule = await getSchedule();
+  updateTitle(schedule);
+
+  const interval = addMinuteListener(async () => {
+    schedule = await getSchedule(schedule);
+    updateTitle(schedule);
+  });
   unloaderContext.addRemovable(interval);
+}
+
+function unloadDynamicTitle() {
+  clearTitle();
 }
 
 export default registerModule('{f724b60d-6d47-4497-a71e-a40d7990a2f4}', {
   name: 'Dynamic Title',
   description: 'Displays minutes remaining in class in tab title',
   defaultEnabled: false,
-  init: titleScrollMain,
-  unload: unloadTitleScroll,
+  init: dynamicTitleMain,
+  unload: unloadDynamicTitle,
 });
