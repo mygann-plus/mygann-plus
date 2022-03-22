@@ -1,5 +1,5 @@
 import registerModule from '~/core/module';
-import { createElement, waitForLoad } from '~/utils/dom';
+import { createElement } from '~/utils/dom';
 import { UnloaderContext } from '~/core/module-loader';
 import { changeDate, getDayViewDateString, getPermanentHeader } from '~/shared/schedule';
 

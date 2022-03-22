@@ -2,9 +2,8 @@ import registerModule from '~/core/module';
 import { UnloaderContext } from '~/core/module-loader';
 
 import { createElement } from '~/utils/dom';
-import { compareDate, timeStringToDate } from '~/utils/date';
+import { compareDate, timeStringToDate, to24Hr } from '~/utils/date';
 import {
-  to24Hr,
   isCurrentClass,
   isFaculty,
   addAsyncDayLoadedListener,

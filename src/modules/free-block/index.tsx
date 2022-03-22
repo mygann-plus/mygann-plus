@@ -5,9 +5,8 @@ import {
   getAnnouncementWrap,
   getDayViewDateString,
   isEmptySchedule,
-  to24Hr,
 } from '~/shared/schedule';
-import { isDaylightSavings, timeStringToDate } from '~/utils/date';
+import { isDaylightSavings, timeStringToDate, to24Hr } from '~/utils/date';
 import { createElement, insertCss } from '~/utils/dom';
 import { fetchData } from '~/utils/fetch';
 import log from '~/utils/log';
