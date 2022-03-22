@@ -14,13 +14,26 @@ export function compareDateMilliseconds(a: number, b: number) {
   return a > b ? 1 : a < b ? -1 : 0;
 }
 
+export function to24Hr(timeString: string) {
+  let hours = Number(timeString.match(/^(\d+)/)[1]);
+  const minutes = Number(timeString.match(/:(\d+)/)[1]);
+  const ampm = timeString.match(/\s(.*)$/)[1];
+  if (ampm === 'PM' && hours < 12) hours += 12;
+  if (ampm === 'AM' && hours === 12) hours -= 12;
+  let sHours = hours.toString();
+  let sMinutes = minutes.toString();
+  if (hours < 10) sHours = `0${sHours}`;
+  if (minutes < 10) sMinutes = `0${sMinutes}`;
+  return `${sHours}:${sMinutes}:00`;
+}
+
 /**
  * Converts a 24-hour time string to a Date object
 */
 export function timeStringToDate(timeString: string) {
   const date = new Date();
-  const [hours, minutes, seconds] = timeString.split(':');
-  date.setHours(Number(hours), Number(minutes), Number(seconds));
+  const [hours, minutes, seconds] = timeString.split(':').map(Number);
+  date.setHours(hours, minutes, seconds, 0);
   return date;
 }
 
@@ -36,6 +49,22 @@ export function dateTo12HrTimeString(date: Date) {
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
   const period = hours < 12 ? 'AM' : 'PM';
   return `${formattedHours}:${formattedMinutes} ${period}`;
+}
+
+function isBetween(start: string, end: string) {
+  const currentDate = new Date();
+  const startDate = new Date(currentDate.getTime());
+  const startTime = start.split(':').map(Number);
+  startDate.setHours(startTime[0], startTime[1], startTime[2], 0);
+  const endDate = new Date(currentDate.getTime());
+  const endTime = end.split(':').map(Number);
+  endDate.setHours(endTime[0], endTime[1], endTime[2], 0);
+  return startDate <= currentDate && endDate > currentDate;
+}
+
+export function isCurrentTime(timeString: string) {
+  const times = timeString.split('-').map(s => to24Hr(s.trim()));
+  return isBetween(times[0], times[1]);
 }
 
 export function isDaylightSavings(date = new Date()) {
