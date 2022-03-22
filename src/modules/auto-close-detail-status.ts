@@ -28,8 +28,9 @@ function attachListeners() {
   return addEventListener(document.getElementById('app'), 'click', hideDropdownMenu);
 }
 
-function autoCloseDetailStatusMain(opts: void, unloaderContext: UnloaderContext) {
-  waitForLoad(getDropdownButton).then(attachListeners).then(unloaderContext.addRemovable);
+async function autoCloseDetailStatusMain(opts: void, unloaderContext: UnloaderContext) {
+  await waitForLoad(getDropdownButton);
+  unloaderContext.addRemovable(attachListeners());
 }
 
 export default registerModule('{1020164f-8a6e-4bb0-aac8-d5acf0e5ad72}', {
