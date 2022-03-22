@@ -143,10 +143,10 @@ async function insertFreeBlock(
       blockName,
     );
 
-    if (insertBefore) domQuery.table().insertBefore(newBlock.element, insertBefore.element);
+    if (insertBefore) insertBefore.element.before(newBlock.element);
     else if (newBlock.startTicks >= blockObjects[blockObjects.length - 1].endTicks) {
-      domQuery.table().appendChild(newBlock.element);
-    } else continue; // if the new block just does not fit into the schedule (i.e. a welness that doesn't say wellness)
+      blocks[0].parentElement.appendChild(newBlock.element);
+    } else continue; // if the new block just does not fit into the schedule (i.e. a wellness that doesn't say wellness)
     blockObjects.splice(
       insertBefore ? blockObjects.indexOf(insertBefore) : blockObjects.length, // before insertBefore or at the end
       0, // delete 0 blocksObjects
