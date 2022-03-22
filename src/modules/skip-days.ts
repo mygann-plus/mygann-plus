@@ -2,6 +2,8 @@
 import registerModule from '~/core/module';
 import runWithPodiumApp from '~/utils/podium-app';
 
+// https://src-e1.myschoolapp.com/1.52.22068.10/src/modules/sis/shared/schedule.js
+
 function updateExistingView() {
   // if the page is already schedule, then the methods on that schedule view need to be changed in addition to the prototype
   runWithPodiumApp(({ p3 }) => {
