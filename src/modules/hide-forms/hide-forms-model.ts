@@ -4,7 +4,7 @@ const SCHEMA_VERSION = 1;
 const HIDE_FORMS_KEY = 'hide-forms';
 const FORM_ID_KEY = 'formId';
 
-function getIds(array: any) {
+function getIds(array: any[]) {
   return array.map((item: any) => {
     return parseInt(item[FORM_ID_KEY], 10);
   });
@@ -27,8 +27,8 @@ export async function deleteHiddenForm(id: any) {
 export function addHiddenFormsChangeListener(callback: StorageChangeListener<any>) {
   return storage.addChangeListener(HIDE_FORMS_KEY, ({ oldValue, newValue }) => {
     callback({
-      oldValue: getIds(oldValue),
-      newValue: getIds(newValue),
+      oldValue: getIds(oldValue as any[]),
+      newValue: getIds(newValue as any[]),
     });
   });
 }

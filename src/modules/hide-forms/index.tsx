@@ -44,7 +44,7 @@ class HideButton {
   private id: number;
   private isActive: boolean;
 
-  constructor(formRow: HTMLElement, hiddenForms: any[]) {
+  constructor(formRow: HTMLElement, hiddenForms: number[]) {
     this.formRow = formRow;
     this.id = getFormId(formRow);
     this.isActive = hiddenForms.includes(this.id);
@@ -95,8 +95,8 @@ async function getActiveForms() {
 
 async function updateBanner(
   banner: HTMLElement,
-  activeForms: any[],
-  hiddenForms: any[],
+  activeForms: number[],
+  hiddenForms: number[],
 ) {
   await waitForLoad(() => banner.querySelector('[data-bulletintype]:not([data-bulletintype=""])'));
   const bulletins = banner.querySelectorAll('[data-bulletintype]:not([data-bulletintype=""])');
