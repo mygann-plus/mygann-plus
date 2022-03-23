@@ -12,6 +12,7 @@ import {
 
 import style from './style.css';
 import { getIsFiltered, setIsFiltered } from './due-soon-model';
+import { UnloaderContext } from '~/core/module-loader';
 
 let isFiltered: boolean = null;
 
@@ -23,11 +24,14 @@ const selectors = {
 
 const domQuery = {
   rangeButton: () => document.querySelector('#custom-view'),
+  todayButton: () => document.querySelector('#button-today') as HTMLElement,
+  activeButton: () => document.querySelectorAll('.assignmentDisplayTypeFilter')[1] as HTMLElement,
   header: {
     main: () => document.querySelector('#small-date-display-label'),
     small: () => document.querySelector('#date-display-label'),
     mobile: () => document.querySelector('#mobile-date-display-label'),
   },
+  buttons: () => document.querySelectorAll('.btn-toolbar .btn.btn-default, label.assignmentDisplayTypeFilter'),
 };
 
 const dateRanges = {
@@ -45,24 +49,16 @@ async function setHeadersText(text: string) {
 }
 
 async function normalizeSelectedRange() {
-  // TODO: move to domQuery
-  (document.querySelector('#button-today') as HTMLElement).click();
-  (document.querySelectorAll('.assignmentDisplayTypeFilter')[1] as HTMLElement).click();
+  domQuery.todayButton().click();
+  domQuery.activeButton().click();
   await tick();
 }
 
 // disabled or enables day-range and assigned-due buttons
 async function setDateButtonsDisabled(isDisabled: boolean) {
-  // TODO: Clean this up
-  const buttons = await waitForOne(() => ([
-    ...[
-      'custom-view', 'month-view', 'week-view', 'day-view',
-      'next-button', 'previous-button', 'button-today',
-    ].map(id => document.querySelector(`#${id}`)),
-    ...document.querySelectorAll('label.assignmentDisplayTypeFilter'),
-  ] as HTMLElement[]));
+  const buttons = await waitForOne(domQuery.buttons);
   for (const button of buttons) {
-    if (!button) continue;
+    if (button.textContent === 'Due Soon') continue;
     if (isDisabled) {
       button.setAttribute('disabled', '');
     } else {
@@ -127,7 +123,7 @@ function handleButtonClick(
   toggleFiltered(suboptions);
 }
 
-async function dueSoonMain(suboptions: DueSoonSuboptions) {
+async function dueSoonMain(suboptions: DueSoonSuboptions, unloaderContext: UnloaderContext) {
   insertCss(style.toString());
 
   if (suboptions.persist) {
@@ -143,22 +139,32 @@ async function dueSoonMain(suboptions: DueSoonSuboptions) {
     className: selectors.mainButton,
   });
   rangeButton.after(desktopButton);
+  unloaderContext.addRemovable(desktopButton);
 
-  const mobileButton = appendMobileAssignmentCenterMenuLink('Due Soon', () => {}, 0);
+  const mobileButton = appendMobileAssignmentCenterMenuLink('Due Soon', () => { }, 0);
+  unloaderContext.addRemovable(mobileButton);
 
   if (isFiltered) {
     desktopButton.classList.add('active');
     mobileButton.classList.add(selectors.buttonActive);
   }
 
-  addEventListener(desktopButton, 'click', e => {
+  const desktopListener = addEventListener(desktopButton, 'click', e => {
     handleButtonClick(e, suboptions, desktopButton, mobileButton);
   });
-  addEventListener(mobileButton, 'click', e => {
+  const mobileListener = addEventListener(mobileButton, 'click', e => {
     handleButtonClick(e, suboptions, desktopButton, mobileButton);
   });
+  unloaderContext.addRemovable(desktopListener);
+  unloaderContext.addRemovable(mobileListener);
 
-  addAssignmentTableMutationObserver(() => runFilter(suboptions));
+  const observer = await addAssignmentTableMutationObserver(() => runFilter(suboptions));
+  unloaderContext.addRemovable(observer);
+}
+
+function unloadDueSoon() {
+  disableDueSoonFilter();
+  if (isFiltered) normalizeSelectedRange();
 }
 
 interface DueSoonSuboptions {
@@ -170,6 +176,7 @@ export default registerModule('{5351d862-0067-49b5-b4b4-3aa6957db245}', {
   name: 'Due Soon',
   description: 'Button to quickly see assignments due today or tomorrow.',
   main: dueSoonMain,
+  unload: unloadDueSoon,
   suboptions: {
     persist: {
       name: 'Stay enabled after reloading',
