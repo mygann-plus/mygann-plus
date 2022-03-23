@@ -15,7 +15,7 @@ async function hideAssignmentMain() {
   const assignments = await waitForLoad(getAssignmentRows);
   for (const assignment of assignments) {
     const type = getTableRowColumnContent(assignment as HTMLElement, 'Type');
-    if (type.trim() === 'Community Service Hours') {
+    if (type === 'Community Service Hours') {
       assignment.classList.add(selectors.hiddenAssignment);
     }
   }

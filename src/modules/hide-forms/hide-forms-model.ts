@@ -28,7 +28,7 @@ export function addHiddenFormsChangeListener(callback: StorageChangeListener<any
   return storage.addChangeListener(HIDE_FORMS_KEY, ({ oldValue, newValue }) => {
     callback({
       oldValue: getIds(oldValue as any[]),
-      newValue: getIds(newValue as any[]),
+      newValue: getIds(newValue as any),
     });
   });
 }

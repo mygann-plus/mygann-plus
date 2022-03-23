@@ -16,8 +16,8 @@ async function fixAssignmentNavMain() {
         // this button is the last button in te list
         const firstActive = button.parentElement.querySelector('.active');
         if (firstActive !== button) firstActive.classList.remove('active');
+        active = true;
       }
-      active = true;
     } else {
       active = false;
     }

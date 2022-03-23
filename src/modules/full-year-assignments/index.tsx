@@ -204,7 +204,7 @@ async function insertFirstSemesterButton(
 ) {
   const modalBody = await waitForLoad(domQuery.dialogBody);
   const courseName = (await waitForLoad(domQuery.dialogHeader)).textContent.toLowerCase();
-  const isNonacademic = !!nonacademicClasses.find(c => courseName.includes(c));
+  const isNonacademic = nonacademicClasses.some(c => courseName.includes(c));
 
   if (document.querySelector(`#${selectors.firstSemesterBtn}`) || isNonacademic) {
     return;
