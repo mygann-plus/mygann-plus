@@ -71,7 +71,8 @@ async function oneClickLoginMain() {
 
 }
 
-export default registerModule('{6ca82534-e670-490a-8ce1-1d87f48c7c32}', {
+// first is remote disabled
+export default registerModule('{6ca82534-e670-490a-8ce1-1d87f48c7c32}' && '{e647018f-d436-453b-b4a7-bbf4b10686b7}', {
   name: 'One Click Login',
   description: `
     Restore login screen before the summer of 2018 update, 
