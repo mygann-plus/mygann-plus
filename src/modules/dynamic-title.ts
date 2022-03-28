@@ -4,15 +4,20 @@ import { UnloaderContext } from '~/core/module-loader';
 import { addMinuteListener } from '~/utils/tick';
 import { timeStringToDate, to24Hr, isCurrentTime } from '~/utils/date';
 import log from '~/utils/log';
+import fetchNonacademicClasses from '~/shared/nonacademic-classes';
 
-function getSchedule(cachedSchedule?: any[]) {
+async function getSchedule(cachedSchedule?: any[]) {
   const today = new Date().toLocaleDateString();
   if (cachedSchedule && (cachedSchedule[0].CalendarDate as string).startsWith(today)) {
     return cachedSchedule;
   }
   const [month, day, year] = today.split('/');
   const endpoint = `/api/schedule/MyDayCalendarStudentList/?scheduleDate=${month}%2F${day}%2F${year}`;
-  return fetchApi(endpoint);
+  const schedule = await fetchApi(endpoint);
+
+  // filter out breaks so during break it displays time until next class
+  const nonacademic = (await fetchNonacademicClasses()).schedule;
+  return (schedule as any[]).filter(({ Block }) => !nonacademic.some(c => Block.includes(c)));
 }
 
 // check if the title was changed by MyGann+ or not

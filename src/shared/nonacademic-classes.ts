@@ -6,6 +6,7 @@ const NONACADEMIC_CLASSES_SCHEMA = 2;
 interface NonacademicClasses {
   classesMenu: string[];
   progress: string[];
+  schedule: string[];
 }
 
 export default function fetchNonacademicClasses(): Promise<NonacademicClasses> {

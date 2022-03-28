@@ -28,6 +28,10 @@
       "z'man kodesh",
       "lunch",
       "break"
+    ],
+    "schedule": [
+      "mincha",
+      "break"
     ]
   }
 }
