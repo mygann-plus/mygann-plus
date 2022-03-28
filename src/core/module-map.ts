@@ -62,6 +62,9 @@ import cleanUp from '~/modules/clean-up';
 import hideProgressGradesButton from '~/modules/hide-grades-button';
 import logo from '~/modules/logo';
 import datePicker from '~/modules/schedule-date-picker';
+import taskDueDate from '~/modules/task-due-date';
+import autoHideAssignmentCenterDropdowns from '~/modules/auto-hide-assignment-center-dropdowns';
+import fixRangeButtonHighlight from '~/modules/fix-range-button-highlight';
 
 interface ModuleMap {
   [key: string]: Module[]
@@ -105,6 +108,9 @@ const MODULE_MAP: ModuleMap = {
     assignmentCheckpoints,
     hideAssignmentTimes,
     extreme,
+    taskDueDate,
+    autoHideAssignmentCenterDropdowns,
+    fixRangeButtonHighlight,
   ],
   '#taskdetail': [taskDetail, assignmentCheckpoints],
   '#studentmyday/schedule': [
