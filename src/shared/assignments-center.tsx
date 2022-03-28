@@ -1,6 +1,7 @@
 import { createElement, waitForLoad } from '~/utils/dom';
 import { getUserId } from '~/utils/user';
 import { fetchApi } from '~/utils/fetch';
+import runWithPodiumApp from '~/utils/podium-app';
 
 export function appendMobileAssignmentCenterMenuLink(
   textContent: string,
@@ -84,4 +85,11 @@ export function getAssignmentIdFromRow(row: HTMLElement) {
 
 export function getAssignmentRows() {
   return document.querySelectorAll('#assignment-center-assignment-items > tr');
+}
+
+export function changeDate(date: Date) {
+  runWithPodiumApp(({ p3, $ }, dateString) => {
+    p3.Data.LMS.AssignmentCenterDate = new Date(dateString);
+    $('#assignment-center-assignment-items').trigger($.Event('listRefresh'));
+  }, date.toString());
 }
