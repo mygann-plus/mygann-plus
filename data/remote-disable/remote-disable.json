@@ -10,6 +10,11 @@
             "guid": "{df198a10-fcff-4e1b-8c8d-daf9630b4c99}",
             "extensionVersion": "*",
             "_comment": "Ms. Jacobs"
+        },
+        {
+            "guid": "{6ca82534-e670-490a-8ce1-1d87f48c7c32}",
+            "extensionVersion": "*",
+            "_comment": "Possible problem with new login system"
         }
     ]
 }
