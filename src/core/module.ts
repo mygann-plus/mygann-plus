@@ -41,6 +41,7 @@ interface BaseSuboption<TypeName, DefaultValue> {
 
 type StringSuboption = BaseSuboption<'string', string>;
 type BooleanSuboption = BaseSuboption<'boolean', boolean>;
+type ColorSuboption = BaseSuboption<'color', string>;
 type TextareaSuboption = BaseSuboption<'textarea', string>;
 type EmailSuboption = BaseSuboption<'email', string>;
 type PasswordSuboption = BaseSuboption<'password', string>;
@@ -58,10 +59,6 @@ interface EnumSuboption extends BaseSuboption<'enum', string> {
 
 interface ComboSuboption extends BaseSuboption<'combo', string> {
   presetValues: string[];
-}
-
-interface ColorSuboption extends BaseSuboption<'color', string> {
-  getHisory?: () => Promise<string[]>;
 }
 
 

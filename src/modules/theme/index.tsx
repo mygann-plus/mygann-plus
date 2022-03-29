@@ -6,7 +6,6 @@ import { createElement, insertCss, waitForLoad } from '~/utils/dom';
 
 import style from './style.css';
 import fontStyle from './font-style.css';
-import { getThemeHistory, setLastThemeColor } from './theme-model';
 
 const DEFAULT_COLOR = constants.primaryMaroon;
 const DEFAULT_FONT = '';
@@ -132,14 +131,11 @@ function themeMain(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
   if (font !== DEFAULT_FONT) {
     applyFontStyles(font, unloaderContext);
   }
+
 }
 
 // empty unloader to prevent unnecessary reload if no styles were initially applied
-function unloadTheme(opts: ThemeSuboptions) {
-  if (opts.color !== DEFAULT_COLOR) {
-    setLastThemeColor(opts.color);
-  }
-}
+function unloadTheme() {}
 
 interface ThemeSuboptions {
   color: string;
@@ -158,7 +154,6 @@ export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
       type: 'color',
       defaultValue: DEFAULT_COLOR,
       resettable: true,
-      getHisory: getThemeHistory,
     },
     font: {
       name: 'Font',

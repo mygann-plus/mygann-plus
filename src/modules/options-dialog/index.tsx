@@ -64,8 +64,7 @@ const selectors = {
 const formatDescription = (desc: string) => desc.replace(/\n/g, ' ');
 
 function createSuboptionInput(suboption: Suboption) {
-  let input: HTMLElement;
-  let id: string;
+  let input;
   switch (suboption.type) {
     case 'string':
       input = <input />;
@@ -83,7 +82,7 @@ function createSuboptionInput(suboption: Suboption) {
       );
       break;
     case 'combo':
-      id = Math.floor(Math.random() * 1000).toString();
+      const id = Math.floor(Math.random() * 1000).toString();
       input = (
         <span>
           <input list={id} />
@@ -115,18 +114,7 @@ function createSuboptionInput(suboption: Suboption) {
       input = <input type="password"></input>;
       break;
     case 'color':
-      input = <span><input type="color"></input></span>;
-      if (!suboption.getHisory) return;
-      id = Math.floor(Math.random() * 1000).toString();
-      suboption.getHisory().then(history => {
-        if (!history.length) return;
-        input.appendChild(
-          <datalist id={id}>
-            { history.map(color => <option value={color} />) }
-          </datalist>,
-        );
-        input.firstElementChild.setAttribute('list', id);
-      });
+      input = <input type="color"></input>;
       break;
     default:
       input = <input type="text"></input>;
@@ -139,7 +127,7 @@ function getSuboptionValue(suboptElem: HTMLElement, suboption: Suboption) {
   switch (suboption.type) {
     case 'boolean':
       return suboptElem.querySelector('input').checked;
-    case 'combo': case 'color':
+    case 'combo':
       return suboptElem.querySelector('input').value;
     default:
       return (suboptElem as HTMLInputElement).value;
@@ -152,28 +140,6 @@ function setSuboptionValue(suboptElem: HTMLElement, suboption: Suboption, value:
       break;
     case 'combo':
       suboptElem.querySelector('input').value = value;
-      break;
-    case 'color':
-      const input = suboptElem.querySelector('input');
-      input.value = value;
-      // waiting for the history will make sure the datalist has been created
-      suboption.getHisory().then(() => {
-        const datalist = suboptElem.querySelector('datalist');
-        if (!datalist) return;
-
-        datalist.querySelector('option[disabled]')?.removeAttribute('disabled'); // remove any disabled one
-        if (!input.list) input.setAttribute('list', datalist.id); // make sure the datalist is connected
-        const options = Array.from(datalist.children) as HTMLOptionElement[];
-        const sameValue = options.find(option => option.value === value);
-        console.log(value);
-        if (sameValue) {
-          console.log('yeehaw');
-          sameValue.setAttribute('disabled', '');
-          if (options.every(option => option.disabled)) {
-            input.removeAttribute('list');
-          }
-        }
-      });
       break;
     default:
       (suboptElem as HTMLInputElement).value = value;
