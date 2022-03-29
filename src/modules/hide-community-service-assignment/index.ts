@@ -32,7 +32,6 @@ async function hideCommunityServiceAssignment(opts: void, unloaderContext: Unloa
 }
 
 export default registerModule('{299b8ce0-c876-4f27-b820-7a2af3c44be2}', {
-  name: 'fix.hideCommunityServiceAssignment',
+  name: 'Hide Community Service Assignment',
   main: hideCommunityServiceAssignment,
-  showInOptions: false,
 });
