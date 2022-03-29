@@ -1,7 +1,7 @@
 import registerModule from '~/core/module';
 import { fetchApi } from '~/utils/fetch';
 import { UnloaderContext } from '~/core/module-loader';
-import { addMinuteListener } from '~/utils/tick';
+import { addMinuteInterval } from '~/utils/tick';
 import { timeStringToDate, to24Hr, isCurrentTime } from '~/utils/date';
 import log from '~/utils/log';
 import fetchNonacademicClasses from '~/shared/nonacademic-classes';
@@ -69,7 +69,7 @@ async function dynamicTitleMain(opts: void, unloaderContext: UnloaderContext) {
   let schedule = await getSchedule();
   updateTitle(schedule);
 
-  const interval = addMinuteListener(async () => {
+  const interval = addMinuteInterval(async () => {
     schedule = await getSchedule(schedule);
     updateTitle(schedule);
   });
@@ -80,10 +80,9 @@ function unloadDynamicTitle() {
   clearTitle();
 }
 
-export default registerModule('{f724b60d-6d47-4497-a71e-a40d7990a2f4}', {
+export default registerModule('{4cb24906-d916-4732-aa8e-d61bee5033cf}', {
   name: 'Dynamic Title',
   description: 'Displays minutes remaining in class in tab title',
-  defaultEnabled: false,
   init: dynamicTitleMain,
   unload: unloadDynamicTitle,
 });

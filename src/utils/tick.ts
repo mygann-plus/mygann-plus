@@ -11,7 +11,7 @@ setInterval(() => {
   }
 }, 60_000);
 
-export function addMinuteListener(callback: () => void) {
+export function addMinuteInterval(callback: () => void) {
   minuteListeners.push(callback);
   return {
     remove() {

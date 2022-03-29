@@ -5,7 +5,7 @@ import { insertCss } from '~/utils/dom';
 import { addAsyncDayLoadedListener, isCurrentClass } from '~/shared/schedule';
 
 import style from './style.css';
-import { addMinuteListener } from '~/utils/tick';
+import { addMinuteInterval } from '~/utils/tick';
 
 const selectors = {
   currentClass: style.locals['current-class'],
@@ -34,7 +34,7 @@ async function highlightCurrentClassMain(opts: void, unloaderContext: UnloaderCo
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
-  const interval = addMinuteListener(() => {
+  const interval = addMinuteInterval(() => {
     removeHighlight();
     highlight();
   });
