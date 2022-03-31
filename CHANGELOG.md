@@ -1,3 +1,35 @@
+## 1.22.0
+### Added
+- Task Due Date setting the due date of an added task to the date selected in assignment center rather than the current actual date
+- Fix to autoatically close dropdowns in assignment center when clicked away
+- Fix to not highlight multiple day settings when viewing a range in assignment center
+- April Fools 2022
+
+### Changed
+- Dynamic Title now filters out breaks
+- Dynamic Title to display block name in addition to time (e.g. 15 min until D block)
+- Hiding The Community Service Assignment can now be toggled off
+
+### Fixed
+- Tomorrow's Events overlapping with today's events in schedule
+- Tomorrow's Events staying on schedule after being disabled
+- Dynamic Title not working reliably
+- Some Modules for progress page not working
+- Mobile Button to hide completed forms not disabling
+- Module to hide obsolete grades button on progress running multiple times
+- Internal module Auto Close Detail Status continuing to listen for clicks after navigating away
+- When clearing grade notifications, if an assignment has been graded since it has been opened, it would clear that unseen assignment
+- Fixed messages page staying highlighted after navigating away (basically reverted updated 1.21.1. Whoops)
+- Previous April Fools Day setup not working
+- Free blocks nearly always appearing twice, now almost never (what an improvement!)
+- Due Soon Module reloading when turned off (aka added unloader)
+- Zoom Links flashing on schedule load
+- Highlight class sometimes flashing on schedule load
+- Semester Switcher not working, now sometimes works
+
+### Removed
+- Next Graded Course since the functionality this module added now happens natively on the website
+
 ## 1.21.3
 ### Fixed
 - Block Length showing upcoming blocks from current time on other days when Only Upcoming Blocks is selected
