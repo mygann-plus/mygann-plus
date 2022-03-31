@@ -1,7 +1,7 @@
 ## 1.22.0
 ### Added
 - Task Due Date setting the due date of an added task to the date selected in assignment center rather than the current actual date
-- Fix to autoatically close dropdowns in assignment center when clicked away
+- Fix to automatically close dropdowns in assignment center when clicked away
 - Fix to not highlight multiple day settings when viewing a range in assignment center
 - April Fools 2022
 
