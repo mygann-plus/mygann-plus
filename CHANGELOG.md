@@ -8,7 +8,7 @@
 ### Changed
 - Dynamic Title now filters out breaks
 - Dynamic Title to display block name in addition to time (e.g. 15 min until D block)
-- Hiding The Community Service Assignment can now be toggled off
+- Hiding Community Service Assignment to be togglable
 
 ### Fixed
 - Tomorrow's Events overlapping with today's events in schedule
