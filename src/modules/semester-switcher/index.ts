@@ -97,9 +97,9 @@ async function semesterSwitcherMain(opts: void, unloaderContext: UnloaderContext
     );
   }
 
-  const coursesBarObserver = await observeCoursesBar(async () => {
+  const coursesBarObserver = await observeCoursesBar(() => {
     semesterSwitchButtonUnloader.remove();
-    semesterSwitchButtonUnloader = unloaderContext.addRemovable(await insertSemesterSwitchButton());
+    semesterSwitchButtonUnloader = unloaderContext.addRemovable(insertSemesterSwitchButton());
   });
 
   const activitiesBarObserver = await observeActivitiesBar(async () => {

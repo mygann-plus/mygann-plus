@@ -54,6 +54,9 @@ export function isEmptySchedule() {
   );
 }
 
+/**
+ *  @deprecated see addDayLoadedListener
+ */
 export function addDayChangeListener(callback: () => void) {
   const listener = (e: Event) => {
     if (hasParentWithClassName(e.target as HTMLElement, [
