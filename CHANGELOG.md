@@ -1,6 +1,6 @@
 ## 1.22.1
 ### Changed
-April Fools 2022
+- April Fools 2022
 
 ## 1.22.0
 ### Added
