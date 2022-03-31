@@ -14,7 +14,8 @@ function isAprilFirst() {
 
 let initRun = false;
 
-const ELI_BENNET = 'https://bbk12e1-cdn.myschoolcdn.com/ftpimages/591/user/large_user4321840_2403859_930.JPG?resize=200,200';
+// const ELI_BENNET = 'https://bbk12e1-cdn.myschoolcdn.com/ftpimages/591/user/large_user4321840_2403859_930.JPG?resize=200,200';
+const ELI_BENNET = 'https://i.imgur.com/PzHUOGT.jpg';
 
 function extremeInit() {
   insertCss(style.toString());

@@ -23,6 +23,7 @@ export default async function setAllImages(imageURL: string) {
   obs.observe(document.body, { childList: true, subtree: true });
 
   const header = await waitForLoad(domQuery);
+  header.src = imageURL;
   const srcWatcher = new MutationObserver(() => {
     if (header.src !== imageURL) {
       header.src = imageURL;
