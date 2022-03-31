@@ -4,7 +4,7 @@ import { UnloaderContext } from '~/core/module-loader';
 import { createElement, waitForOne, constructButton, insertCss } from '~/utils/dom';
 import Flyout from '~/utils/flyout';
 import DropdownMenu from '~/utils/dropdown-menu';
-import { addDayChangeListener } from '~/shared/schedule';
+import { addAsyncDayLoadedListener } from '~/shared/schedule';
 
 import {
   ZoomLinks,
@@ -158,25 +158,9 @@ async function addHeaderColumn() {
   header.appendChild(zoomColumnHeader);
 }
 
-async function insertZoomLinks(links: ZoomLinks) {
-  const scheduleRows = await waitForOne(domQuery.scheduleRows);
-
-  const existingZoomHeader = document.querySelector(`.${selectors.zoomHeader}`);
-  if (existingZoomHeader) {
-    return;
-  }
-
+function insertZoomLinks(links: ZoomLinks) {
   addHeaderColumn();
-
-  // schedule sometimes renders multiple times, which removes zoom links
-  const reinsert = (link: HTMLElement) => {
-    if (!document.body.contains(link)) {
-      insertZoomLinks(links);
-    }
-  };
-
-  let firstZoomColumn: HTMLElement; // store first column, for reinsertion
-
+  const scheduleRows = domQuery.scheduleRows();
   for (const row of scheduleRows) {
     const id = getClassIdFromRow(row);
     if (!id) { // basically if it was a free block
@@ -192,13 +176,8 @@ async function insertZoomLinks(links: ZoomLinks) {
         button = createAddZoomLinkButton(id);
       }
       const zoomColumn = <td className={selectors.zoomColumn}>{button}</td>;
-      firstZoomColumn = firstZoomColumn || zoomColumn;
       row.appendChild(zoomColumn);
     });
-  }
-
-  for (let i = 0; i < 20; i++) {
-    setTimeout(() => reinsert(firstZoomColumn), i * 50);
   }
 }
 
@@ -218,8 +197,7 @@ async function zoomLinksMain(opts: zoomLinksSuboptions, unloaderContext: Unloade
 
   let links = await getZoomLinks();
 
-  insertZoomLinks(links);
-  const listener = addDayChangeListener(() => insertZoomLinks(links));
+  const listener = await addAsyncDayLoadedListener(() => insertZoomLinks(links));
   unloaderContext.addRemovable(listener);
 
   addZoomLinksChangeListener(newLinks => {
