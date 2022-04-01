@@ -12,6 +12,10 @@ const selectors = {
 
 function generateFrame(existingUrl: string) {
   const urls = [
+    'https://www.youtube.com/embed/myjEoDypUD8',
+    'https://www.youtube.com/embed/Z8lNz2AqoRw',
+    'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    'https://www.youtube.com/embed/eZLx_zoBF4w',
     'https://www.youtube.com/embed/LadBSoOT_08',
     'https://www.youtube.com/embed/FO0iG_P0P6M',
     'https://www.youtube.com/embed/3FG_xStCjI0',
