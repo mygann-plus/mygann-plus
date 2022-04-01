@@ -30,7 +30,6 @@ async function fixDueDate() {
 // $0.dispatchEvent(new Event('change',{bubbles:true}))
 async function taskDueDateMain(opts: void, unloaderContext: UnloaderContext) {
   const buttons = await waitForOne(domQuery.addTask);
-  console.log(buttons.length);
   for (let button of buttons) {
     const listener = addEventListener(button, 'click', fixDueDate);
     unloaderContext.addRemovable(listener);

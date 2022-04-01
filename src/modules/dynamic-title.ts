@@ -4,25 +4,29 @@ import { UnloaderContext } from '~/core/module-loader';
 import { addMinuteInterval } from '~/utils/tick';
 import { timeStringToDate, to24Hr, isCurrentTime } from '~/utils/date';
 import log from '~/utils/log';
-import fetchNonacademicClasses from '~/shared/nonacademic-classes';
 
-async function getSchedule(cachedSchedule?: any[]) {
+interface ScheduleBlock {
+  CalendarDate: string;
+  Block: string;
+  MyDayStartTime: string;
+  MyDayEndTime: string;
+}
+
+async function getSchedule(filterMincha: boolean, cachedSchedule?: ScheduleBlock[]) {
   const today = new Date().toLocaleDateString();
-  if (cachedSchedule && (cachedSchedule[0].CalendarDate as string).startsWith(today)) {
+  if (cachedSchedule && (cachedSchedule[0].CalendarDate).startsWith(today)) {
     return cachedSchedule;
   }
   const [month, day, year] = today.split('/');
   const endpoint = `/api/schedule/MyDayCalendarStudentList/?scheduleDate=${month}%2F${day}%2F${year}`;
-  const schedule = await fetchApi(endpoint);
+  const schedule = await fetchApi(endpoint) as ScheduleBlock[];
 
-  // filter out breaks so during break it displays time until next class
-  const nonacademic = (await fetchNonacademicClasses()).schedule;
-  return (schedule as any[]).filter(({ Block }) => !nonacademic.some(c => Block.includes(c)));
+  return schedule.filter(({ Block }) => Block !== 'Break' && (!filterMincha || Block !== 'Mincha'));
 }
 
 // check if the title was changed by MyGann+ or not
 function defaultTitle(title?: string) {
-  return !/\d+ min (left)|(before next class)/.test(title || document.title);
+  return !/\d+ min (left)|(until .+)/.test(title || document.title);
 }
 
 // to unload and revert the title
@@ -36,26 +40,32 @@ function clearTitle() {
   if (!defaultTitle()) document.title = lastTitle;
 }
 
-function displayTime(endTime: string, period: boolean) {
+function displayTime(endTime: string, title: string) {
   const now = Date.now();
+  // const now = new Date().setHours(12, 15);
   const minutesRemaining = Math.ceil((timeStringToDate(to24Hr(endTime)).getTime() - now) / 60_000);
   if (minutesRemaining <= 0) log('error', `Dynamic Title Found ${minutesRemaining} remaining in class, should be more than 0`);
-  changeTitle(`${minutesRemaining} min ${period ? 'left' : 'before next class'}`);
+  changeTitle(`${minutesRemaining} min ${title}`);
 }
 
-function updateTitle(blocks: any[]) {
+function updateTitle(blocks: ScheduleBlock[], showBlockName: boolean) {
   for (let i = 0; i < blocks.length; i++) {
     const block = blocks[i];
-    if (isCurrentTime(`${block.MyDayStartTime}-${block.MyDayEndTime}`)) {
-      return displayTime(block.MyDayEndTime, true);
-    } if (i < blocks.length - 1 && isCurrentTime(`${block.MyDayEndTime}-${blocks[i + 1].MyDayStartTime}`)) {
-      return displayTime(blocks[i + 1].MyDayStartTime, false);
+    if (isCurrentTime(`${block.MyDayStartTime}-${block.MyDayEndTime}`)) { // if it is during the block
+      return displayTime(block.MyDayEndTime, 'left');
+    } if (i < blocks.length - 1 && isCurrentTime(`${block.MyDayEndTime}-${blocks[i + 1].MyDayStartTime}`)) { // if it is between this block and the next
+      return displayTime(
+        blocks[i + 1].MyDayStartTime,
+        `until ${showBlockName
+          ? blocks[i + 1].Block
+          : 'next block'}`,
+      );
     }
   }
-  clearTitle();
+  clearTitle(); // if it didn't find it is during or between any blocks
 }
 
-async function dynamicTitleMain(opts: void, unloaderContext: UnloaderContext) {
+async function dynamicTitleMain(opts: DynamicTitleSuboptions, unloaderContext: UnloaderContext) {
   const observer = new MutationObserver(([mutation]) => {
     const oldTitle = (mutation.removedNodes[0] as Text)?.data; // won't exist if it is the first title load
     if (defaultTitle() && !defaultTitle(oldTitle)) {
@@ -66,12 +76,12 @@ async function dynamicTitleMain(opts: void, unloaderContext: UnloaderContext) {
   observer.observe(document.querySelector('title'), { childList: true });
   unloaderContext.addFunction(() => observer.disconnect());
 
-  let schedule = await getSchedule();
-  updateTitle(schedule);
+  let schedule = await getSchedule(opts.filterMincha);
+  updateTitle(schedule, opts.showBlockName);
 
   const interval = addMinuteInterval(async () => {
-    schedule = await getSchedule(schedule);
-    updateTitle(schedule);
+    schedule = await getSchedule(opts.filterMincha, schedule);
+    updateTitle(schedule, opts.showBlockName);
   });
   unloaderContext.addRemovable(interval);
 }
@@ -80,9 +90,27 @@ function unloadDynamicTitle() {
   clearTitle();
 }
 
+interface DynamicTitleSuboptions {
+  showBlockName: boolean;
+  filterMincha: boolean;
+}
+
 export default registerModule('{4cb24906-d916-4732-aa8e-d61bee5033cf}', {
   name: 'Dynamic Title',
   description: 'Displays minutes remaining in class in tab title',
   init: dynamicTitleMain,
   unload: unloadDynamicTitle,
+  suboptions: {
+    showBlockName: {
+      name: 'Display Name of Upcoming Block',
+      description: 'Display the name of the upcoming block in addition to the time until it begins',
+      type: 'boolean',
+      defaultValue: true,
+    },
+    filterMincha: {
+      name: 'Treat Mincha as Break',
+      type: 'boolean',
+      defaultValue: true,
+    },
+  },
 });

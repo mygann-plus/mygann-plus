@@ -91,6 +91,7 @@ const MODULE_MAP: ModuleMap = {
     theme,
     autofocusSiteSearch,
     logo,
+    extreme,
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus, assignmentCheckpoints],
@@ -107,7 +108,6 @@ const MODULE_MAP: ModuleMap = {
     hideCommunityServiceAssignment,
     assignmentCheckpoints,
     hideAssignmentTimes,
-    extreme,
     taskDueDate,
     autoHideAssignmentCenterDropdowns,
     fixRangeButtonHighlight,
@@ -121,7 +121,6 @@ const MODULE_MAP: ModuleMap = {
     classEndingTime,
     tomorrowsEvents,
     scheduleArrowNavigation,
-    extreme,
     skipDays,
     cleanUp,
     datePicker,

@@ -1,6 +1,6 @@
-import { createElement, waitForOne, constructButton } from '~/utils/dom';
+import { createElement, constructButton } from '~/utils/dom';
 import tick from '~/utils/tick';
-import { addDayChangeListener } from '~/shared/schedule';
+import { addAsyncDayLoadedListener } from '~/shared/schedule';
 
 import style from './style.css';
 
@@ -22,7 +22,7 @@ async function handleCancelClick(e: Event) {
 }
 
 async function insertCancelButtons() {
-  const attendanceCols = await waitForOne(domQuery);
+  const attendanceCols = domQuery();
   if (document.querySelector(`.${selectors.button}`)) {
     return;
   }
@@ -36,7 +36,6 @@ async function insertCancelButtons() {
   }
 }
 
-export default async function cancelClass() {
-  insertCancelButtons();
-  addDayChangeListener(insertCancelButtons);
+export default function cancelClass() {
+  addAsyncDayLoadedListener(insertCancelButtons);
 }
