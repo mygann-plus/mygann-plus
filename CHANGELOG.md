@@ -1,3 +1,7 @@
+## 1.22.2
+### Changed
+- April Fools Procrastination
+
 ## 1.22.1
 ### Changed
 - April Fools 2022
