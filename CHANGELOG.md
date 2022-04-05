@@ -1,3 +1,7 @@
+## 1.22.3
+### Fixed
+- Dynamic Title not clearing after the school day
+
 ## 1.22.2
 ### Changed
 - April Fools Procrastination

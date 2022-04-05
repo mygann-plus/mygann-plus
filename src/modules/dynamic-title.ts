@@ -14,7 +14,7 @@ interface ScheduleBlock {
 
 async function getSchedule(filterMincha: boolean, cachedSchedule?: ScheduleBlock[]) {
   const today = new Date().toLocaleDateString();
-  if (cachedSchedule && (cachedSchedule[0].CalendarDate).startsWith(today)) {
+  if (cachedSchedule && cachedSchedule[0].CalendarDate.startsWith(today)) {
     return cachedSchedule;
   }
   const [month, day, year] = today.split('/');
@@ -37,7 +37,8 @@ function changeTitle(newTitle: string) {
 }
 
 function clearTitle() {
-  if (!defaultTitle()) document.title = lastTitle;
+  // don't set document.title since
+  if (!defaultTitle()) (document.querySelector('title').firstChild as Text).data = lastTitle;
 }
 
 function displayTime(endTime: string, title: string) {
