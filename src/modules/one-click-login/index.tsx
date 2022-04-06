@@ -1,7 +1,9 @@
 import registerModule from '~/core/module';
-import { createElement, waitForLoad } from '~/utils/dom';
+import { createElement, insertCss, waitForLoad } from '~/utils/dom';
 import { isBookmarklet } from '~/utils/bookmarklet';
 import Dialog from '~/utils/dialog';
+
+import style from './style.css';
 
 const getUsernameField = () => document.getElementById('Username') as HTMLInputElement;
 const getPasswordDiv = () => document.getElementById('divPassword') as HTMLInputElement;
@@ -9,6 +11,7 @@ const getNextbtn = () => document.getElementById('nextBtn');
 
 const domQuery = {
   siteLoginAlert: () => document.getElementById('site-login-alert') as HTMLElement,
+  buttons: () => document.querySelector('#divButtons'),
 };
 
 async function enableUsernameField() {
@@ -34,14 +37,15 @@ function showRerunExplanationDialog(e: Event) {
   dialog.open();
 }
 
-function insertRerunNotice() {
+async function insertRerunNotice() {
   const notice = (
     <div style={{ margin: '10px 0' }}>
       The MyGann+ bookmark must be run again after
       logging in (<a href="#" onClick={(e: any) => showRerunExplanationDialog(e)}>why?</a>)
     </div>
   );
-  document.querySelector('#areaCancel + .clear').after(notice);
+  // document.querySelector('#areaCancel + .clear').after(notice);
+  (await waitForLoad(domQuery.buttons)).appendChild(notice);
 }
 
 async function oneClickLoginMain() {
@@ -71,13 +75,21 @@ async function oneClickLoginMain() {
 
 }
 
+function main2() {
+  insertCss(style.toString());
+  if (isBookmarklet()) {
+    insertRerunNotice();
+  }
+}
+
 // first is remote disabled
-export default registerModule('{6ca82534-e670-490a-8ce1-1d87f48c7c32}', {
+export default registerModule('{6ca82534-e670-490a-8ce1-1d87f48c7c32}' && '{b25f7d4a-7ba6-4fb7-8b6b-0a3cb57ea758}', {
   name: 'One Click Login',
   description: `
     Restore login screen before the summer of 2018 update, 
     with only one login button (as opposed to post-2018 version, 
     which requires two button clicks: "next", then "login")
   `,
-  main: oneClickLoginMain,
+  main: main2,
+  // main: oneClickLoginMain,
 });

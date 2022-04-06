@@ -1,0 +1,11 @@
+:global #areaNext {
+  display: none !important;
+}
+
+:global #areaLogin, :global #areaCancel {
+  display: inline !important;
+}
+
+:global #divPassword {
+  display: block !important;
+}
