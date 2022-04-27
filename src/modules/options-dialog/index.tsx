@@ -195,6 +195,7 @@ function getTopLevelModules() {
 
 class OptionsDialog {
 
+  private prviews: Set<Module>;
   private state: AllOptions;
   private onSave: (state: AllOptions) => void;
   private getDefaultState: () => AllOptions
@@ -221,6 +222,7 @@ class OptionsDialog {
     onSave: (state: AllOptions) => void,
     getDefaultState: () => AllOptions,
   ) {
+    this.prviews = new Set();
     this.state = optionsData;
     this.onSave = onSave;
     this.getDefaultState = getDefaultState;
@@ -454,14 +456,14 @@ class OptionsDialog {
     input.classList.add(selectors.suboption.input);
     setSuboptionValue(input, suboption, value);
 
+    const evt = module.config.preview.onInput ? 'input' : 'change';
+
     let oldValue = value;
-    input.addEventListener('change', async () => {
+    input.addEventListener(evt, async () => {
       const validated = await validateSuboption(input, suboption);
       if (validated.valid) {
-
         const newValue = getSuboptionValue(input, suboption);
         this.state[module.guid].suboptions[key] = newValue;
-        oldValue = newValue;
         this.enableSaveButton();
         this.enableUnloadWarning();
 
@@ -474,6 +476,14 @@ class OptionsDialog {
         }
 
         invalidMessage.textContent = '';
+
+        if (module.config.preview.preview) {
+          this.prviews.add(module);
+          this.enablePreviewNotice();
+          module.config.preview.applyPreview(this.state[module.guid], oldValue);
+        }
+
+        oldValue = newValue;
       } else {
         setSuboptionValue(input, suboption, oldValue);
         invalidMessage.textContent = validated.message;
@@ -614,6 +624,10 @@ class OptionsDialog {
     if (this.unloadListener) {
       this.unloadListener.remove();
     }
+  }
+
+  enablePreviewNotice() {
+    this.dialog.rename('MyGann+ Options (Previewing Changes)');
   }
 
   registerDependentSuboption(module: Module, suboptionKey: string, element: HTMLElement) {

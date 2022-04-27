@@ -114,6 +114,11 @@ export default class Dialog {
     return this.innerElem;
   }
 
+  rename(newTitle: string) {
+    const title = this.outerElem.querySelector('h1.bb-dialog-header');
+    title.textContent = newTitle;
+  }
+
   getLeftButton(index: number) {
     return this.leftButtons[index];
   }
