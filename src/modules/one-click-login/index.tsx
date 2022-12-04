@@ -4,9 +4,10 @@ import { isBookmarklet } from '~/utils/bookmarklet';
 import Dialog from '~/utils/dialog';
 
 import style from './style.css';
+import tick from '~/utils/tick';
 
-const getUsernameField = () => document.getElementById('Username') as HTMLInputElement;
-const getPasswordDiv = () => document.getElementById('divPassword') as HTMLInputElement;
+// const getUsernameField = () => document.getElementById('Username') as HTMLInputElement;
+// const getPasswordDiv = () => document.getElementById('divPassword') as HTMLInputElement;
 const getNextbtn = () => document.getElementById('nextBtn');
 
 const domQuery = {
@@ -14,10 +15,10 @@ const domQuery = {
   buttons: () => document.querySelector('#divButtons'),
 };
 
-async function enableUsernameField() {
-  await waitForLoad(() => domQuery.siteLoginAlert().children.length);
-  getUsernameField().disabled = false;
-}
+// async function enableUsernameField() {
+//   await waitForLoad(() => domQuery.siteLoginAlert().children.length);
+//   getUsernameField().disabled = false;
+// }
 
 function showRerunExplanationDialog(e: Event) {
   e.preventDefault();
@@ -48,35 +49,42 @@ async function insertRerunNotice() {
   (await waitForLoad(domQuery.buttons)).appendChild(notice);
 }
 
-async function oneClickLoginMain() {
-  await waitForLoad(() => getPasswordDiv() && getNextbtn());
+// async function oneClickLoginMain() {
+//   await waitForLoad(() => getPasswordDiv() && getNextbtn());
 
-  getPasswordDiv().style.display = 'block';
-  getNextbtn().style.display = 'none';
-  document.getElementById('areaLogin').style.display = 'block';
+//   getPasswordDiv().style.display = 'block';
+//   getNextbtn().style.display = 'none';
+//   document.getElementById('areaLogin').style.display = 'block';
 
-  document.getElementById('loginBtn').addEventListener('click', async () => {
-    enableUsernameField();
-  });
-  getNextbtn().addEventListener('click', async () => {
-    document.getElementById('loginBtn').click();
-    enableUsernameField();
-  });
-  getUsernameField().addEventListener('input', (e: KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      document.getElementById('loginBtn').click();
-      enableUsernameField();
-    }
-  });
+//   document.getElementById('loginBtn').addEventListener('click', async () => {
+//     enableUsernameField();
+//   });
+//   getNextbtn().addEventListener('click', async () => {
+//     document.getElementById('loginBtn').click();
+//     enableUsernameField();
+//   });
+//   getUsernameField().addEventListener('input', (e: KeyboardEvent) => {
+//     if (e.key === 'Enter') {
+//       document.getElementById('loginBtn').click();
+//       enableUsernameField();
+//     }
+//   });
 
-  if (isBookmarklet()) {
-    insertRerunNotice();
-  }
+//   if (isBookmarklet()) {
+//     insertRerunNotice();
+//   }
 
-}
+// }
 
-function main2() {
+async function main2() {
   insertCss(style.toString());
+
+  const next = await waitForLoad(getNextbtn);
+  next.addEventListener('click', async () => {
+    await tick(); // make sure to let the stuff thats supposed to happen when next is clicked happen
+    document.getElementById('loginBtn').click();
+  });
+
   if (isBookmarklet()) {
     insertRerunNotice();
   }
