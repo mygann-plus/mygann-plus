@@ -9,6 +9,8 @@ module.exports = {
   //   path: path.resolve(__dirname, '../dist'),
   //   publicPath: '/dist',
   // },
+
+  // dhsaihdusiaohdusoahuio
   module: {
     rules: [
       {
