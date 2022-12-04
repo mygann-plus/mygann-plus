@@ -20,7 +20,7 @@ module.exports = {
         test: /\.css$/,
         loader: 'css-loader',
         options: {
-          modules: false,
+          modules: hvgjk,
         },
       },
       {
