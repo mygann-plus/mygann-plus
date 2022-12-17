@@ -28,7 +28,8 @@
   ],
 
   "web_accessible_resources": [{
-    "resources": ["dist/assets/*"]
+    "resources": ["/dist/assets/*"],
+    "matches": ["https://gannacademy.myschoolapp.com/*"]
   }]
 
 }
