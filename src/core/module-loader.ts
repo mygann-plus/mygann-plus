@@ -1,3 +1,5 @@
+// Module loader loads modules
+
 /* eslint-disable import/no-cycle */
 
 import { Module } from '~/core/module';
