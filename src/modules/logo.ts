@@ -21,9 +21,7 @@ function logoMain() {
   const logo = "  __  __        _____                        \n |  \\/  |      / ____|                   _   \n | \\  / |_   _| |  __  __ _ _ __  _ __ _| |_ \n | |\\/| | | | | | |_ |/ _` | '_ \\| '_ \\_   _|\n | |  | | |_| | |__| | (_| | | | | | | ||_|  \n |_|  |_|\\__, |\\_____|\\__,_|_| |_|_| |_|     \n          __/ |                              \n         |___/                               "; // eslint-disable-line max-len
 
   const contact = ` ====================================================
- Take over MyGann+ for next year!
- 2isperber@gannacademy.org
- 22shirsh@gannacademy.org
+ don't email us
  ====================================================`;
 
   console.log(`${logo}\n${contact}`);
