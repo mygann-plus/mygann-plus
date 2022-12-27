@@ -1,6 +1,6 @@
 module.exports = {
   extends: require.resolve('./webpack.common'),
   mode: 'development',
-  devtool: 'eval-source-map',
+  devtool: 'source-map',
   watch: true,
 };
