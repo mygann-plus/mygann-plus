@@ -2,13 +2,12 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    // 'content-script': path.resolve(__dirname, '../src/index.ts'),
+    'content-script': path.resolve(__dirname, '../src/index.ts'),
     'install-watch': path.resolve(__dirname, '../src/core/install-watch.ts'),
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/dist',
-    hashFunction: 'xxhash64',
   },
   module: {
     rules: [
