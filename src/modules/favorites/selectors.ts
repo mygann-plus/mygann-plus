@@ -1,4 +1,6 @@
-import { locals } from './style.css';
+import style from './style.css';
+
+const { locals } = style;
 
 const selectors = {
   dialog: {
