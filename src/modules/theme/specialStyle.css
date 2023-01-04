@@ -917,8 +917,8 @@
     background-color: var(--main1) !important;
 
 }
+/* Current Class Color Change FINAL. THIS ONE IS THE ONE THAT WORKS*/
 
-/* Current Class Color Change */
 :global tr._1kMg6Jbiz48iM6uOh5L7V1,
 :global #accordionSchedules>tr._1kMg6Jbiz48iM6uOh5L7V1 {
 
@@ -929,6 +929,7 @@
 
 
 }
+
 /* Current Class Color Change */
 :global #accordionSchedules>tr._1kMg6Jbiz48iM6uOh5L7V1>td:nth-child(odd)>h4>a,
 :global #accordionSchedules>tr._1kMg6Jbiz48iM6uOh5L7V1>td:nth-child(odd)>h4>a,
