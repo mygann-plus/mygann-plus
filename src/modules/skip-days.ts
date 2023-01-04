@@ -34,6 +34,8 @@ function skipEmptyMain() {
         Schedule.Data.collectionFullYearCallendar = new Schedule.Cs.AllEventsCalendar();
         Schedule.Data.fetched = Schedule.Data.collectionFullYearCallendar.fetch({ // fetched.done(callback) allows stuff to make sure the data is loaded
           data: {
+            // new start = 1661776200
+            // new end =   1686931560
             start: '1630209600', // begginning of the year in epoch ticks
             end: '1654747200', // end of the year in epoch ticks
             viewerId: p3.Data.Context.get('UserInfo').UserId,

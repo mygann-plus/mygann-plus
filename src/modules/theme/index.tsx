@@ -5,7 +5,10 @@ import constants from '~/utils/style-constants';
 import { createElement, insertCss, waitForLoad } from '~/utils/dom';
 
 import style from './style.css';
+import enhancedstyle from './specialStyle.css';
 import fontStyle from './font-style.css';
+import stringStripHtml from 'string-strip-html';
+import { remove } from 'lodash';
 
 const DEFAULT_COLOR = constants.primaryMaroon;
 const DEFAULT_FONT = '';
@@ -43,7 +46,65 @@ function hexToRgba(hex: string) {
     a: 1, // hex only works at full opacity
   };
 }
+// START OF NATAN
+function lighten(col: string, amt: number) {
+  
+  var usePound = true;
 
+  if (col[0] == "#") {
+      col = col.slice(1);
+      usePound = true;
+  }
+
+  var num = parseInt(col,16);
+
+  var r = (num >> 16) + amt;
+
+  if (r > 255) r = 255;
+  else if  (r < 0) r = 0;
+
+  var b = ((num >> 8) & 0x00FF) + amt;
+
+  if (b > 255) b = 255;
+  else if  (b < 0) b = 0;
+
+  var g = (num & 0x0000FF) + amt;
+
+  if (g > 255) g = 255;
+  else if (g < 0) g = 0;
+
+  return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+
+}
+function hexToRgb(hex: string) {
+  let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16),
+  } : null;
+}
+function componentToHex(c: { toString: (arg0: number) => any; }) {
+  let hex = c.toString(16);
+  return hex.length === 1 ? `0${hex}` : hex;
+}
+function rgbToHex(r: number, g: number, b: number) {
+  return `#${componentToHex(r)}${componentToHex(g)}${componentToHex(b)}`;
+}
+function changeSaturation(sat: number, hex: any) {
+  sat /= 100;
+  let col = hexToRgb(hex);
+  let gray = col.r * 0.3086 + col.g * 0.6094 + col.b * 0.0820;
+
+  col.r = Math.round(col.r * sat + gray * (1 - sat));
+  col.g = Math.round(col.g * sat + gray * (1 - sat));
+  col.b = Math.round(col.b * sat + gray * (1 - sat));
+
+  let out = rgbToHex(col.r, col.g, col.b);
+  return out;
+
+}
+// END OF NATAN
 function createColorObject(base: Color, r: number, g: number, b: number, a: number): Color {
   return {
     r: base.r + r,
@@ -51,6 +112,19 @@ function createColorObject(base: Color, r: number, g: number, b: number, a: numb
     b: base.b + b,
     a,
   };
+}
+
+// Basic functions
+
+function replaceAll(replacetext: string, newtext: string, text: string) {
+
+  while (!text.includes(replacetext)) {
+
+    text.replace(replacetext, newtext);
+
+  }
+  return text;
+
 }
 
 // Suboption Validators
@@ -77,8 +151,14 @@ async function applyColorStyles(color: string, enhance: boolean, unloaderContext
   const themeStyles = <style>{ style.toString() }</style>;
   appStyles.after(themeStyles);
   unloaderContext.addRemovable(themeStyles);
-
+  // themeStyles.remove()
   const primaryColor = hexToRgba(color);
+
+
+  const themeStyles2 = <style>{ enhancedstyle.toString() }</style>;
+  appStyles.after(themeStyles2);
+  unloaderContext.addRemovable(themeStyles2);
+
 
   const calendarColor = createColorObject(primaryColor, 0, 0, 0, 0.9);
   const topGradient = createColorObject(primaryColor, 230, 230, 230, 1);
@@ -94,17 +174,61 @@ async function applyColorStyles(color: string, enhance: boolean, unloaderContext
   const panelBodyDefault = hexToRgba(constants.panelBodyDefault);
 
   if (enhance) {
-    setThemeColorProperty('body-background', createColorObject(primaryColor, 0, 0, 0, 0.15));
-    setThemeColorProperty('panel-border', createColorObject(primaryColor, 0, 0, 0, 0.4));
-    setThemeColorProperty('panel-head', createColorObject(panelBodyDefault, 0, 0, 0, 0.55));
-    setThemeColorProperty('panel-body', createColorObject(panelBodyDefault, 0, 0, 0, 0.7));
-    setThemeColorProperty('highlight', createColorObject(primaryColor, 45, 45, 45, 0.3));
+    themeStyles.remove();
+    const themeStyles2 = <style>{ enhancedstyle.toString() }</style>;
+  appStyles.after(themeStyles2);
+  unloaderContext.addRemovable(themeStyles2);
+    let tempstring = replaceAll('#e1c2cb', 'transparent!important', document.querySelector('#app-style > div > style').innerHTML);
+    tempstring = replaceAll('#site-nav DIV.subnav UL > li > a.active {background-color: #fff2c0 !important;}', '#site-nav DIV.subnav UL > li > a.active {background-color: transparent !important;}', tempstring);
+    tempstring = replaceAll('#880d2f;background-image: -moz-linear-gradient(top, #a64a63, #880d2f); background-image: -ms-linear-gradient(top, #a64a63, #880d2f);background-', 'var(--header)!important;background-image: none; background-image:none;background-', tempstring);
+    document.querySelector('#app-style > div > style').innerHTML = tempstring;
+    document.querySelector('#app-style > div > style').addEventListener('change', () => {
+      let tempstring2 = replaceAll('#e1c2cb', 'transparent!important', document.querySelector('#app-style > div > style').innerHTML);
+    tempstring2 = replaceAll('#site-nav DIV.subnav UL > li > a.active {background-color: #fff2c0 !important;}', '#site-nav DIV.subnav UL > li > a.active {background-color: transparent !important;}', tempstring2);
+    tempstring2 = replaceAll('#880d2f;background-image: -moz-linear-gradient(top, #a64a63, #880d2f); background-image: -ms-linear-gradient(top, #a64a63, #880d2f);background-', 'var(--header)!important;background-image: none; background-image:none;background-', tempstring2);
+      document.querySelector('#app-style > div > style').innerHTML = tempstring2;
+    });
+
+
+      
+
+    
+
+    let tempcolor = color;
+    let tempcolor2 = changeSaturation(30, tempcolor);
+    let tempcolor3 = changeSaturation(20, tempcolor);
+
+    document.documentElement.style.setProperty('--header', tempcolor);
+    document.documentElement.style.setProperty('--subheader', lighten(tempcolor,100));
+    document.documentElement.style.setProperty('--background', lighten(tempcolor,35));
+    document.documentElement.style.setProperty('--main1', lighten(tempcolor3,160));
+    document.documentElement.style.setProperty('--main2', lighten(tempcolor2,150));
+    document.documentElement.style.setProperty('--headercolor', tempcolor);
+    document.documentElement.style.setProperty('--subheadercolor', lighten(tempcolor,100));
+    document.documentElement.style.setProperty('--backgroundcolor', lighten(tempcolor,35));
+    document.documentElement.style.setProperty('--main1color', lighten(tempcolor3,160));
+    document.documentElement.style.setProperty('--main2color', lighten(tempcolor2,150));
+
+
+
+
+    // setThemeColorProperty('body-background', createColorObject(primaryColor, 0, 0, 0, 0.15));
+    // setThemeColorProperty('panel-border', createColorObject(primaryColor, 0, 0, 0, 0.4));
+    // setThemeColorProperty('panel-head', createColorObject(panelBodyDefault, 0, 0, 0, 0.55));
+    // setThemeColorProperty('panel-body', createColorObject(panelBodyDefault, 0, 0, 0, 0.7));
+    // setThemeColorProperty('highlight', createColorObject(primaryColor, 45, 45, 45, 0.3));
   } else {
-    setThemeProperty('body-background', constants.bodyBackgroundDefault);
-    setThemeProperty('panel-border', constants.panelBorderDefault);
-    setThemeProperty('panel-head', constants.panelBodyDefault);
-    setThemeProperty('panel-body', constants.panelBodyDefault);
-    setThemeProperty('highlight', constants.defaultProgressHighlight);
+    themeStyles2.remove();
+    const themeStyles = <style>{ style.toString() }</style>;
+  appStyles.after(themeStyles);
+  unloaderContext.addRemovable(themeStyles);
+    
+    // NOT NATAN'S:
+    // setThemeProperty('body-background', constants.bodyBackgroundDefault);
+    // setThemeProperty('panel-border', constants.panelBorderDefault);
+    // setThemeProperty('panel-head', constants.panelBodyDefault);
+    // setThemeProperty('panel-body', constants.panelBodyDefault);
+    // setThemeProperty('highlight', constants.defaultProgressHighlight);
 
   }
 }
