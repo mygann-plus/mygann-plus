@@ -1,0 +1,1105 @@
+/* THIS IS THE EDITED VERSION!!!!!!!!!! */
+
+
+/* TO CHANGE GRADE GRAPH THING */
+/* #chart > svg */
+
+/* Variables Including Mainly Color */
+
+/* @media (prefers-color-scheme: light) {  */
+
+
+
+
+
+    :global :root {
+    
+    
+        --blur: 10px;
+        --blur2: 20px;
+        --color: rgba(244, 244, 244, 0.2);
+        --headerclear: rgba(244, 244, 244, 0.7);
+        --subheaderclear: rgba(244, 244, 244, 0.3);
+        --main1clear: var(--color);
+        --main2clear: var(--color);
+    
+        --headerclearcolor: black;
+        --subheaderclearcolor: black;
+        --backgroundclearcolor: black;
+        --main1clearcolor: black;
+        --main2clearcolor: black;
+    
+    
+    }
+    
+    /* } */
+    
+    
+    /* lil header things in advisory and such */
+    :global .nav.nav-tabs>li.active>a,
+    :global .nav.nav-tabs>li.active>a:hover,
+    :global .nav.nav-tabs>li.active>a:focus,
+    :global .nav.nav-tabs ul.dropdown-menu>li.active>a,
+    :global .nav.nav-tabs ul.dropdown-menu>li.active>a:hover,
+    :global .nav.nav-tabs ul.dropdown-menu>li.active>a:focus,
+    :global .nav-tabs.nav-justified>li.active>a,
+    :global .nav-tabs.nav-justified>li.active>a:hover,
+    :global .nav-tabs.nav-justified>li.active>a:focus,
+    :global .nav-tabs.nav-justified ul.dropdown-menu>li.active>a,
+    :global .nav-tabs.nav-justified ul.dropdown-menu>li.active>a:hover,
+    :global .nav-tabs.nav-justified ul.dropdown-menu>li.active>a:focus {
+        background-color: var(--headerclear) !important;
+        color: black;
+    }
+    
+    /* line for lil header things in advisory and such */
+    :global .nav.nav-tabs,
+    :global .nav-tabs.nav-justified {
+    
+        border-bottom-color: var(--headerclear) !important;
+    
+    }
+    
+    :global html body {
+    
+    
+        /* background-image:url('https://pbs.twimg.com/profile_images/458793300388884481/i8zzeu_Z_400x400.jpeg')!important; */
+    
+    
+    
+    
+    
+    
+        /* background-size:40%; */
+    
+    
+    
+    }
+    
+    :global #site-main>div {
+        backdrop-filter: blur(var(--blur));
+    
+    
+    }
+    
+    :global #site-top-spacer {
+        /* backdrop-filter: blur(10px); */
+        /* background-image:var(--TOHRU)!important; */
+    
+        /* background-size:40%; */
+    
+    }
+    
+    :global .ground {
+        fill: #94d31b;
+    }
+    
+    
+    /* advisory header */
+    :global #overview>div.section-heading.mb-0,
+    :global #overview>div.section-heading.mb-0>div.bb-page-heading {
+    
+        background-color: var(--headerclear) !important;
+        color: black !important;
+    
+    }
+    
+    :global #site-nav DIV.subnav UL>li>a.active {
+    
+        background-color: transparent !important;
+        background: transparent !important;
+    
+    }
+    
+    /* roster people thing */
+    :global .bb-card {
+    
+        background-color: var(--headerclear) !important;
+    }
+    
+    /* roster people thing */
+    :global .bb-card-title {
+        color: black !important;
+    }
+    
+    
+    :global .contactCardP {
+        background-color: var(--main2clear) !important;
+    }
+    
+    /* SET GRADIENT */
+    :global #app>div>div.site-main-wrap {
+    
+        /* background: linear-gradient(var(--backgroundclear), var(--subheaderclear))!important; */
+    
+    
+    }
+    
+    /* Mygann+ Menu toggleables */
+    :global .Wu0vvpUp2mlIsGDFDPbAF {
+    
+    
+        background: var(--main1clear);
+    
+    }
+    
+    /* Mygann+ Icon Background */
+    :global #mygannplusicon {
+    
+        background-color: var(--backgroundclear);
+    
+    }
+    
+    /* Popup Fixes */
+    :global .BOXTOAPPEND {
+    
+        background-color: var(--backgroundclear) !important;
+    
+    }
+    
+    :global .XTOAPPEND {
+    
+        color: var(--headerclear) !important;
+    }
+    
+    :global #site-login-box {
+    
+        backdrop-filter: blur(var(--blur));
+    
+    }
+    
+    /* Changes tan thing in directories to header */
+    :global .subnavbar,
+    :global #site-main>div>div.directory-header.sec-15-bgc.visible-md-block.visible-lg-block.subnavbar {
+    
+        background-color: var(--headerclear) !important;
+        border-color: var(--headerclear) !important;
+        background-image: none;
+    }
+    
+    :global #site-nav UL.topnav>LI>a.active {
+        background: blue !important;
+    }
+    
+    /* Fix button colors calendar */
+    :global .btn-primary {
+    
+        background-color: var(--headerclear) !important;
+        border-color: var(--main1clear) !important;
+        background-image: none !important;
+    
+    }
+    
+    :global #search-directory-button {
+    
+        background-color: var(--headerclear) !important;
+        border-color: var(--subheaderclear) !important;
+        background-image: none;
+    }
+    
+    /* Main background */
+    :global html body {
+    
+        /* background-color: var(--backgroundclear)!important; */
+        /* background: linear-gradient(var(--backgroundclear), var(--subheaderclear))!important; */
+        /* background: orange!important; */
+    
+    }
+    
+    /*Main Header(My Gann)*/
+    :global #site-header-container {
+    
+        background-color: var(--headerclear) !important;
+    
+    }
+    
+    /*Sub Header 1&2,middle line,form alert*/
+    :global #site-nav-container,
+    :global #site-nav-lower,
+    :global #site-nav-bottom,
+    :global #main-bulletin>div>div {
+    
+        background-color: var(--subheaderclear) !important;
+        color: var(--headerclear);
+        border: none;
+    }
+    
+    /*form alert fixes*/
+    :global #main-bulletin>div>div>div>div.pull-left>h3>a,
+    :global #main-bulletin>div>div>div>div.pull-left>h3>i {
+    
+        color: var(--headerclearcolor) !important;
+    
+    }
+    
+    /* Transition For Mid Header "Classes", "Groups", ect */
+    :global #topnav-containter>ul>li.oneline.parentitem.first>a,
+    :global #group-header-Classes,
+    :global #group-header-Groups,
+    :global #group-header-Resources,
+    :global #calendar-subnav,
+    :global #group-header-News,
+    :global #directory-subnav,
+    :global #topnav-containter>ul>li.oneline.parentitem.first {
+    
+        transition: 1s;
+    
+    }
+    
+    /* time, block, activity, ect headers, Student schedule header*/
+    :global .table>caption+thead>tr:first-child>th,
+    :global .table>caption+thead>tr:first-child>td,
+    :global .table>colgroup+thead>tr:first-child>th,
+    :global .table>colgroup+thead>tr:first-child>td,
+    :global .table>thead:first-child>tr:first-child>th,
+    :global .table>thead:first-child>tr:first-child>td,
+    :global #site-main>div>div>div>div>section>div.bb-tile-title>div>h2 {
+    
+        color: var(--headerclearcolor) !important;
+    
+    }
+    
+    /*Header hover Boxes Fix*/
+    :global #topnav-containter>ul>li.oneline.parentitem.first>a,
+    :global #group-header-Classes,
+    :global #group-header-Groups,
+    :global #group-header-Resources,
+    :global #calendar-subnav,
+    :global #group-header-News,
+    :global #directory-subnav {
+    
+        background: transparent !important;
+    
+    }
+    
+    /*Selected Bottom Subheader Color (progress, schedule, ect)*/
+    :global #site-nav ul.topnav>li>a.active,
+    :global #site-nav ul.topnav>li>a:hover,
+    :global .subnavbar .nav>.active>a,
+    :global .subnavbar .nav>.active>a:hover {
+    
+        background: var(--main1clear) !important;
+        border: none;
+    
+    }
+    
+    /*"Student Schedule" Header For Schedule*/
+    :global #site-main>div>div>div>div>section>div.bb-tile-title>div {
+    
+        background-color: var(--subheaderclear);
+    
+    }
+    
+    /*Main Part Of Schedule Directly Under "Student Schedule" Header*/
+    :global #col-main {
+    
+        background-color: var(--main1clear);
+    
+    }
+    
+    /*Caret For Middle Header Things (Myday, Classes, ect)*/
+    :global #site-nav ul.topnav li a .caret {
+    
+        color: var(--headerclearcolor);
+    
+    }
+    
+    /* progress preformance conduct ect header */
+    :global .bb-tile .bb-tile-header-with-content .bb-tile-header {
+    
+        color: var(--headerclearcolor) !important;
+    
+    }
+    
+    /* progress graph */
+    :global .modal-content {
+    
+        background-color: var(--backgroundclear) !important;
+        /* color: var(--backgroundclearcolor)!important; */
+    
+    }
+    
+    /* Text in popup graph */
+    :global svg text {
+        fill: var(--main1clear);
+    }
+    
+    /* progress graph lines */
+    :global .nvd3 .nv-multibar .nv-groups rect,
+    :global .nvd3 .nv-multibarHorizontal .nv-groups rect,
+    :global .nvd3 .nv-discretebar .nv-groups rect {
+    
+        fill: var(--main1clear) !important;
+        stroke: var(--mai12) !important;
+        background-color: var(--subheaderclear) !important;
+    
+    }
+    
+    /*Main Header Parts Color Change (Official Notes, Messages, ect)*/
+    :global #site-user-nav>div>ul>li:nth-child(2)>a>span.desc>span,
+    :global #inbox-link>span.desc>span,
+    :global #account-nav>span.desc>span,
+    :global #account-nav>span.caret,
+    :global #_2GE2q433dhFtLXkkLJMFeS>span.desc>span,
+    :global #_2GE2q433dhFtLXkkLJMFeS>span.caret {
+    
+        color: var(--subheaderclearcolor) !important;
+    
+    }
+    
+    /*subheader of schedule (Time, Block, Activity)*/
+    :global #col-main>div.ch.schedule-list>table>thead {
+    
+        background-color: var(--subheaderclear);
+    
+    }
+    
+    /*Today, Month, Week Button Change Text Color*/
+    :global .chCal-button-content {
+    
+        color: var(--headerclearcolor);
+    
+    }
+    
+    /*Odd Schedule Elements*/
+    :global .table-striped>tbody>tr:nth-of-type(odd) {
+    
+        background-color: var(--main2clear) !important;
+        color: var(--headerclearcolor) !important;
+        border-bottom: 4px solid rgba(244, 244, 244, .2);
+        border-top: 4px solid rgba(244, 244, 244, .2);
+    }
+    
+    /*Even Schedule Elements*/
+    :global .table-striped>tbody>tr:nth-of-type(even) {
+    
+        background-color: var(--main1clear);
+        color: var(--headerclearcolor) !important;
+    
+    }
+    
+    /*Arrow and Today, Month, Week Buttons*/
+    :global #schedule-header>div>div>div>div.pull-right>span.chCal-button.chCal-button-today.chCal-state-default.chCal-corner-left.chCal-corner-right,
+    :global #schedule-header>div>div>div>div:nth-child(2)>div>span.chCal-button.chCal-button-prev.chCal-state-default.chCal-corner-left,
+    :global #schedule-header>div>div>div>div:nth-child(2)>div>span.chCal-button.chCal-button-next.chCal-state-default.chCal-corner-right,
+    :global #schedule-header>div>div>div>div.pull-right>span.chCal-button.chCal-button-today.chCal-state-default.chCal-corner-left.chCal-corner-right.chCal-state-disabled,
+    :global #schedule-header>div>div>div>div.pull-right>a.nav-month>span,
+    :global #schedule-header>div>div>div>div.pull-right>a.nav-week>span {
+    
+        background-color: var(--subheaderclear) !important;
+    
+    }
+    
+    /*Arrow and Today, Month, Week Buttons TRANSITIONS*/
+    
+    :global #schedule-header>div>div>div>div.pull-right>span.chCal-button.chCal-button-today.chCal-state-default.chCal-corner-left.chCal-corner-right:hover,
+    :global #schedule-header>div>div>div>div.pull-right>a.nav-month>span:hover,
+    :global #schedule-header>div>div>div>div.pull-right>a.nav-week>span:hover,
+    :global #schedule-header>div>div>div>div:nth-child(2)>div:nth-child(1)>span.chCal-button.chCal-button-prev.chCal-state-default.chCal-corner-left:hover,
+    :global #schedule-header>div>div>div>div:nth-child(2)>div:nth-child(1)>span.chCal-button.chCal-button-next.chCal-state-default.chCal-corner-right:hover {
+    
+        transition: .4s;
+        background-color: var(--headerclear) !important;
+        color: var(--subheaderclearcolor) !important;
+    
+    
+    
+    }
+    
+    /*The Alert For The Day Background*/
+    :global .alert-info {
+    
+        background-color: var(--subheaderclear) !important;
+        color: var(--headerclearcolor) !important;
+        border-color: var(--main2clear) !important;
+        /* The box for the "i" thing */
+    
+    }
+    
+    /*Alert "i" Color*/
+    :global .alert-info::before {
+    
+        color: var(--subheaderclearcolor) !important;
+    
+    
+    }
+    
+    /*Color For Link For Classes In Schedule*/
+    :global a {
+    
+        color: var(--headerclearcolor) !important;
+    
+    }
+    
+    /*Get Rid Of Dotted Line Between Elements in Schedule*/
+    :global .table tbody tr td {
+    
+        border: none !important;
+    
+    }
+    
+    /*Changing Colors Of Subheaders (Myday, Classes, Progress, Schedule)*/
+    :global #topnav-containter>ul>li.oneline.parentitem.first>a>span.desc>span,
+    :global #group-header-Classes>span.desc>span,
+    :global #group-header-Classes>span.desc,
+    :global #group-header-Groups>span.desc,
+    :global #group-header-Groups>span.desc>span,
+    :global #group-header-Resources>span>span,
+    :global #group-header-News>span.desc>span,
+    :global #calendar-subnav>span>span,
+    :global #calendar-subnav>span>span,
+    :global #directory-subnav>span.desc,
+    :global #directory-subnav>span.desc>span,
+    :global #progress-btn,
+    :global #schedule-btn,
+    :global #assignment-center-btn,
+    :global #course-requests-btn,
+    :global #conduct-btn,
+    :global #requirement-btn,
+    :global #checklist-btn {
+    
+        color: var(--headerclearcolor) !important;
+    
+    }
+    
+    
+    /*START OF PROGRESS TAB*/
+    
+    /* [In Progress Tab] */
+    
+    /* background-color: hotpink!important; */
+    
+    /*Grade Selector Colors In Progress*/
+    :global #site-main>div>div>div>div.well.well-sm,
+    :global #gradeSelect {
+    
+        background-color: var(--subheaderclear);
+        color: var(--headerclearcolor) !important;
+    
+    }
+    
+    /*Header Of Subsections In Progress (Performance, Conduct, Attendance Summary, Files, Courses) [In Progress Tab] */
+    :global .bb-tile .bb-tile-title {
+    
+        background-color: var(--subheaderclear) !important;
+        color: var(--headerclearcolor) !important;
+    
+    }
+    
+    /*Even Progress Elements and "Performance, Conduct, Attendance Summary, Files, Courses" - Main Section [In Progress Tab]*/
+    :global .bb-tile-content {
+    
+        background-color: var(--main1clear) !important;
+        color: var(--headerclearcolor) !important;
+    
+    }
+    
+    /*Odd Progress Elements [In Progress Tab] */
+    :global #courses #coursesContainer .row:nth-child(odd),
+    :global #courses #communitiesContainer .row:nth-child(odd),
+    :global #courses #activitiesContainer .row:nth-child(odd),
+    :global #courses #advisoryContainer .row:nth-child(odd) {
+    
+        background-color: var(--main2clear) !important;
+    
+    }
+    
+    /*"Tardy", "View History","Totals" Buttons [In Progress Tab]*/
+    :global #ec_221>div,
+    :global #attendanceCollapse>div>div.clearfix.mt-10>a:nth-child(1),
+    :global #attendanceCollapse>div>div.clearfix.mt-10>a:nth-child(2) {
+    
+        background: var(--subheaderclear) !important;
+        border-color: var(--subheaderclear) !important;
+    
+    
+    }
+    
+    /* Files Number Circle [In Progress Tab] */
+    :global #collapse-myfiles>li>a>span {
+        background: var(--headerclear) !important;
+        color: var(--main1clearcolor) !important;
+    }
+    
+    /*"Search Courses", "See Grade Detail", "Message" Boxes [In Progress Tab] */
+    :global .btn-default,
+    :global #coursesCollapse>div>div.row>div>input {
+    
+        background-color: var(--subheaderclear) !important;
+        color: var(--headerclearcolor) !important;
+        border-color: var(--subheaderclear) !important;
+    
+    }
+    
+    /* "Due Today, Assigned Today, Active" Box [In Progress Tab] */
+    :global tr {
+    
+        background-color: var(--main1clear) !important;
+        color: var(--headerclearcolor) !important;
+    
+    }
+    
+    /* Header Search Icon Color */
+    :global #site-user-nav>div>ul>li.oneline.first>a,
+    :global #site-user-nav>div>ul>li.oneline.first>a>span {
+    
+        color: var(--subheaderclearcolor) !important;
+    
+    }
+    
+    /* MyDay Hover Box Background Color*/
+    :global #topnav-containter>ul>li.oneline.parentitem.first>div.subnav.sec-75-bordercolor.white-bgc.sky-nav {
+    
+        backdrop-filter: blur(var(--blur2));
+    
+        border-color: var(--main1clear) !important;
+        background-color: var(--subheaderclear) !important;
+    
+    }
+    
+    
+    
+    
+    
+    /*ASSIGNMENT CENTER*/
+    
+    
+    /* ANIMATION START */
+    
+    
+    /* Animation to progress and such buttons */
+    
+    :global #schedule-btn,
+    :global #progress-btn,
+    :global #assignment-center-btn {
+    
+        background-image: linear-gradient(to right, var(--headerclear) 50%, transparent 50%);
+        background-size: 300%;
+    
+        border: none !important;
+        border-right: none !important;
+        background-position: 100%;
+    
+    
+    }
+    
+    :global .assignment-detail-link iframe {
+        display: none;
+    }
+    
+    :global .assignment-detail-link:hover iframe,
+    :global .ifrm1:hover {
+        display: block;
+        position: absolute;
+    
+    }
+    
+    :global #a {
+    
+        border: none;
+    
+    }
+    
+    :global #ifrm1 {
+    
+        opacity: 1;
+        border: 10px solid;
+        border-radius: 10px;
+        border-color: white;
+        position: relative;
+        z-index: 100000000000000;
+        /* -webkit-transform-origin: 0 0; */
+        /* padding-bottom: 100000px; */
+    
+    
+    
+        width: 100%;
+        height: 30%;
+        scroll-padding-inline: none;
+    
+        scale: .75;
+        transition: opacity .5s linear;
+    
+    
+    
+    
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /* New Graded Assignments Button */
+    :global #gocp-ui-button {
+    
+        background: var(--headerclear) !important;
+        color: var(--main1clearcolor) !important;
+    }
+    
+    /* New Graded Assignments Button Hover*/
+    :global #gocp-ui-button:hover {
+    
+        background: var(--subheaderclear) !important;
+        color: var(--headerclearcolor) !important;
+    }
+    
+    /* Clear All Notifications Button */
+    :global #site-modal>div>div>div>div.modal-footer>button.btn.btn-default.btn-primary {
+    
+        background: var(--headerclear) !important;
+        color: var(--main1clearcolor) !important;
+    
+    }
+    
+    /* Clear All Notifications Button Hover */
+    :global #site-modal>div>div>div>div.modal-footer>button.btn.btn-default.btn-primary:hover {
+    
+        background: var(--subheaderclear) !important;
+        color: var(--headerclearcolor) !important;
+    }
+    :global #site-modal > div > div > div > div.modal-footer > button.btn.btn-default.btn-primary{
+
+        background-color: gray !important;
+
+    }
+    
+    :global #schedule-btn:active,
+    :global #progress-btn:active,
+    :global #assignment-center-btn:active {
+        color: var(--main1clearcolor) !important;
+        transition: .2s;
+        border: none !important;
+        background-position: 0%;
+    
+    
+    }
+    
+    
+    
+    :global #schedule-btn,
+    :global #progress-btn,
+    :global #assignment-center-btn {}
+    
+    :global #schedule-btn:active,
+    :global #progress-btn:active,
+    :global #assignment-center-btn:active {}
+    
+    
+    
+    
+    /* ANIMATION END */
+    
+    
+    
+    /* Subheader With All Buttons And Select Buttons [In Assignment Center Tab]s */
+    :global s #assignment-center-header-view>div>div>div:nth-child(2),
+    :global #assignment-center-list-view>div>table>thead>tr,
+    :global #assignment-center-header-view>div>div>div:nth-child(3),
+    :global select,
+    :global select.form-control {
+    
+        background-color: var(--subheaderclear) !important;
+        border-color: var(--subheaderclear) !important;
+    
+    
+    }
+    
+    /* Assignment Center Subheader Buttons (Arrows, Day, Week, Range, Add Task, Hide Completed) [In Assignment Center Tab] */
+    :global #assignment-center .bb-action-bar .btn-group .btn,
+    :global .btn-sm,
+    :global .btn-group-sm>.btn {
+    
+        background-color: var(--main1clear) !important;
+    
+    
+    }
+    
+    /* "To Do" Icon [In Assignment Center Tab] */
+    :global .label-todo {
+    
+        background-color: var(--backgroundclear) !important;
+        border: 2px solid var(--headerclear);
+    
+    }
+    
+    /* "In Progress" Icon [In Assignment Center Tab] */
+    :global .label-warning {
+    
+        background-color: var(--subheaderclear) !important;
+        border: 2px solid var(--headerclear);
+    
+    }
+    
+    /* "Completed" Icon [In Assignment Center Tab] */
+    :global .label-success {
+    
+        background: var(--headerclear) !important;
+        color: var(--main1clearcolor) !important;
+    
+    }
+    
+    /* Assignment Center Back Button Color [In Assignment Center Tab] */
+    :global #BackButton>div {
+    
+        color: var(--headerclearcolor) !important;
+    
+    
+    }
+    
+    /* Headers Drop Down Box Hover Colors */
+    :global #site-nav ul.topnav li div.subnav li a:hover {
+        transition: .4s;
+        background-color: var(--main1clear) !important;
+        backdrop-filter: blur(var(--blur2));
+    }
+    
+    /* Classes Active Tab (DOESN'T WORK) */
+    :global #group-header-Classes:active,
+    :global #group-header-Groups,
+    :global #site-nav UL.topnav>LI>a.active {
+    
+        background-color: var(--subheaderclear) !important;
+    
+    }
+    
+    /* Classes Drop Down Box Color */
+    :global #topnav-containter>ul>li:nth-child(2)>div.subnav.sec-75-bordercolor.white-bgc.sky-nav.subnav-multicol.nav-visible {
+    
+        background-color: var(--subheaderclear) !important;
+    
+    }
+    
+    /* Progress Elements Hover [In Progress Tab] */
+    :global #courses #coursesContainer .row:nth-child(odd):hover,
+    :global #courses #coursesContainer .row:hover,
+    :global #courses #advisoryContainer .row:nth-child(odd):hover,
+    :global #communitiesContainer>div:nth-child(1):hover,
+    :global #communitiesContainer>div:nth-child(2):hover,
+    :global #communitiesContainer>div:nth-child(3):hover,
+    :global #activitiesContainer>div:hover {
+    
+        background-color: rgba(244, 244, 244, 0.9) !important;
+        filter: brightness(90%);
+    
+        /* box-shadow: 0px 0px 5px 5px var(--headerclear); */
+        transition: width 2s, height 2s, background-color .5s, transform .5s;
+        transform: translate(20px, 0);
+    
+        box-shadow: -20px 0px 0px 0px rgba(200, 200, 200, 1);
+    
+        /* margin-left: 10px!important; */
+        width: 1120px !important;
+    
+    
+    }
+    
+    /* Text Color For Hover Drop Down Boxes */
+    :global #site-nav ul.topnav li div.subnav li a span.title.sky-nav {
+    
+    
+        color: var(--headerclearcolor) !important;
+        backdrop-filter: blur(0px);
+    
+    }
+    
+    /* Border For Dropdown Hover Boxes */
+    :global .sec-75-bordercolor,
+    :global .sec-75-bordercolor-hover:hover {
+    
+        border-color: var(--main1clear) !important;
+    
+    }
+    
+    /* Subheader Drop Down Box Background color */
+    :global #site-nav ul.topnav li DIV.subnav {
+        backdrop-filter: blur(var(--blur2));
+    
+        background: var(--subheaderclear) !important;
+    
+    }
+    
+    /* Assignment Center Two Lines */
+    :global #assignment-center-list-view>div>table>thead {
+    
+        border-color: var(--headerclear) !important;
+    
+    }
+    
+    /* Bottom Drop Down Hover Box - "View Other Classes", "Find More" */
+    :global #topnav-containter>ul>li:nth-child(2)>div.subnav.sec-75-bordercolor.white-bgc.sky-nav.subnav-multicol.nav-visible>ul.subnavfooter>li.last>a,
+    :global #topnav-containter>ul>li:nth-child(3)>div.subnav.sec-75-bordercolor.white-bgc.sky-nav>ul.subnavfooter>li.last>a {
+    
+        background-color: var(--subheaderclear) !important;
+    
+    }
+    
+    /* Get Rid Of Icons */
+    :global #progress-btn>i,
+    :global #schedule-btn>i,
+    :global #checklist-btn>i,
+    :global #requirement-btn>i,
+    :global #conduct-btn>i,
+    :global #course-requests-btn>i {
+    
+        display: none !important;
+    
+    }
+    
+    /* Get Rid Of Icons */
+    :global #topnav-containter>ul>li.oneline.parentitem.first>a>div,
+    :global #group-header-Classes>img,
+    :global #group-header-Groups>img,
+    :global #group-header-Resources>img,
+    :global #group-header-News>img,
+    :global #calendar-subnav>img,
+    :global #directory-subnav>img {
+    
+        display: none !important;
+    
+    }
+    
+    /* Get Rid of Assignment Center Icon */
+    :global #assignment-center-btn>i {
+    
+        display: none !important;
+    
+    }
+    
+    /*Sub Header 1&2,middle line,form alert*/
+    :global #site-nav-lower>div>ul {
+    
+        padding-left: 150px;
+    
+    }
+    
+    /* Re-align MyDay Row */
+    :global #topnav-containter>ul {
+    
+        padding-left: 200px !important;
+    
+    }
+    
+    /* (Schedule, Assignment Center, ect) Seperation */
+    :global .nav-pills>li+li {
+    
+        margin-left: 20px !important;
+    
+    }
+    
+    :global div.thumbnail.bulletin {
+    
+        background: var(--headerclear);
+        backdrop-filter: blur(var(--blur));
+    
+    }
+    
+    /* Move Down MyDay Row */
+    :global #site-nav ul.topnav li {
+    
+        margin-top: 10px !important;
+    
+    }
+    
+    /* Hide Completed Button Active */
+    :global #assignment-center-header-view>div>div>div:nth-child(3)>div>div.col-md-9>div>button.btn.btn-default.btn-sm._2lVx85HSWbUcRGAS6mufII {
+        transition: 1s;
+        background-color: var(--headerclear) !important;
+        color: black !important;
+    
+    }
+    
+    :global .modal-body {
+    
+        backdrop-filter: blur(var(--blur2));
+    
+    }
+    
+    /* Try To Make Groups Transparent When It Randomly Turns Pink (Not Working I Think) */
+    :global #group-header-Groups {
+    
+        background-color: transparent !important;
+    
+    }
+    
+    /* MyDay Active Change Color */
+    :global #site-nav UL.topnav>LI>a.active {
+    
+        background-color: transparent !important;
+    
+    }
+    
+    /* Groups Header To Transparent */
+    :global #group-header-Groups {
+    
+        background-color: transparent !important;
+    
+    }
+    
+    /* Shadow For Progress Header Row */
+    :global #site-nav-lower {
+    
+        box-shadow: 4px 4px 6px hsl(var(--color), calc(var(--l) - 10%)) !important;
+    
+    }
+    
+    /* Drop Shadow For Assignment Center Main Box */
+    :global #site-main>div>div>div>div>section,
+    :global #assignment-center {
+    
+        box-shadow: 6px 6px hsl(var(--color), calc(var(--l) - 10%)) !important;
+    
+    }
+    
+    /* Top Header Hover Drop Down Boxes Colors */
+    :global .site-header-nav div.subnav {
+    
+        background-color: var(--subheaderclear) !important;
+        border-color: var(--main1clear) !important;
+        color: var(--headerclearcolor) !important;
+    
+    }
+    
+    /* Search Bar Input Search Box */
+    :global #site-search-input {
+    
+        background-color: var(--main1clear) !important;
+        color: var(--headerclearcolor) !important;
+        border-color: var(--headerclear) !important;
+    
+    }
+    
+    /* Top Header Hover Drop Down Boxes Text Colors */
+    :global #site-user-nav div.subnav LI A {
+    
+        color: var(--headerclearcolor) !important;
+    
+    }
+    
+    /* Top Header Hover Drop Down Boxes Hover Colors */
+    :global .site-header-nav div.subnav LI A.sky-nav:hover {
+        transition: .4s;
+        background-color: var(--main1clear) !important;
+    
+    }
+    
+    /* Current Class Color Change */
+    
+    :global tr._1kMg6Jbiz48iM6uOh5L7V1,
+    :global #accordionSchedules>tr._1kMg6Jbiz48iM6uOh5L7V1 {
+    
+        border: 2px solid var(--headerclear) !important;
+        filter: brightness(85%);
+        background-color: var(--headerclear) !important;
+        color: var(--main1clearcolor) !important;
+    
+    
+    }
+    
+    @media (prefers-color-scheme: dark) {
+    
+        :global tr._1kMg6Jbiz48iM6uOh5L7V1,
+        :global #accordionSchedules>tr._1kMg6Jbiz48iM6uOh5L7V1 {
+    
+            border: 3px solid var(--headerclear) !important;
+            filter: brightness(200%);
+            background-color: var(--main2clear) !important;
+            color: var(--headerclearcolor) !important;
+    
+        }
+    
+    
+    }
+    
+    
+    
+    /* Current Class Color Change */
+    :global #accordionSchedules>tr._1kMg6Jbiz48iM6uOh5L7V1>td:nth-child(odd)>h4>a,
+    :global #accordionSchedules>tr._1kMg6Jbiz48iM6uOh5L7V1>td:nth-child(odd)>h4>a,
+    :global #accordionSchedules>tr._1kMg6Jbiz48iM6uOh5L7V1>td:nth-child(even)>h4>a {
+    
+        color: var(--main1clearcolor) !important;
+    
+    }
+    
+    /* Current Class Color Change */
+    :global #accordionSchedules>tr._1kMg6Jbiz48iM6uOh5L7V1>td:nth-child(3)>h4 {
+    
+        color: white !important;
+    
+    }
+    
+    /* Current Class Color Change */
+    :global #gocp_class-ending-time_main {
+    
+        color: var(--main2clearcolor) !important;
+    
+    }
+    
+    /* Current Class Color Change */
+    :global #topnav-containter>ul>li.oneline.parentitem.first:hover {
+    
+        background-color: var(--main1clear) !important;
+    
+    }
+    
+    /* Fix Login Screen Background */
+    :global #app,
+    :global HTML,
+    :global BODY,
+    :global #app {
+    
+        background: var(--backgroundclear);
+    
+    }
+    
+    /* Login Screen Header */
+    :global #site-login-header {
+    
+        background: var(--headerclear) !important;
+    
+    }
+    
+    /* Login Screen Popup Background */
+    :global #site-login-main-wrapper {
+    
+        background: var(--main2clear) !important;
+    
+    }
+    
+    /* Next Button On Login Screen Popup */
+    :global #nextBtn {
+    
+        background: var(--subheaderclear) !important;
+    
+    }
+    
+    
+    
+    
+    
+    
+    /* #site-nav UL.topnav > LI > a.active,#group-header-Classes{background-color: blue!important;background: blue!important;} */
+    
+    /* #site-nav UL.topnav > LI > a.active {background-color: none !important;} */
+    /* #site-nav UL.topnav > LI > a.active {
+        background-color: orange !important;
+    } */
+    /* #group-header-Classes > span.desc{ */
+    
+    /* background-color: blue; */
+    /* border-left: 100px solid blue; */
+    /* border-right: 100px solid blue; */
+    
+    /* } */
+    /* element.style{background-color: orange;} */

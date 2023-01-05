@@ -6,6 +6,7 @@ import { createElement, insertCss, waitForLoad } from '~/utils/dom';
 
 import style from './style.css';
 import enhancedstyle from './specialStyle.css';
+import clearstyle from './clear.css';
 import fontStyle from './font-style.css';
 
 const DEFAULT_COLOR = constants.primaryMaroon;
@@ -106,6 +107,25 @@ function changeSaturation(sat: number, hex: any) {
   let out = rgbToHex(col.r, col.g, col.b);
   return out;
 
+}
+function waitForElm(selector: string) {
+  return new Promise(resolve => {
+    if (document.querySelector(selector)) {
+      return resolve(document.querySelector(selector));
+    }
+
+    const observer = new MutationObserver(mutations => {
+      if (document.querySelector(selector)) {
+        resolve(document.querySelector(selector));
+        observer.disconnect();
+      }
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+  });
 }
 // END OF NATAN
 function createColorObject(base: Color, r: number, g: number, b: number, a: number): Color {
@@ -230,6 +250,47 @@ async function applyColorStyles(color: string, enhance: boolean, unloaderContext
   }
 }
 
+async function applyClearTheme(url: string, scale: number, transparency: number, unloaderContext: UnloaderContext) {
+  const appStyles = await waitForLoad(domQuery);
+  if (window.location.href === 'https://gannacademy.myschoolapp.com/app/student#studentmyday/schedule' || window.location.href === 'https://gannacademy.myschoolapp.com/app/student#studentmyday/progress' || window.location.href === 'https://gannacademy.myschoolapp.com/app/student#studentmyday/assignment-center' || window.location.href === 'https://gannacademy.myschoolapp.com/app/student#studentmyday/course-requests') {
+    waitForElm('#site-top-spacer').then((elm) => {
+      document.querySelector('#site-top-spacer').insertAdjacentHTML('afterend', '<div id="e0e2e063-50ac-4287-bc68-d5fa20de986d" class="site-top-spacer site-top-spacer-lower-nav site-top-spacer-lower-nav-desktop f20345f4-b47f-4764-bf21-b4e6d007d26a" style="position: fixed;top: 0%;width: 100%;z-index: 10;height: 19vh!important;background-image: none!important;backdrop-filter: blur(1000px);"></div>');
+    });
+  } else if (document.querySelector('#site-top-spacer') !== undefined) {
+    if (document.getElementById('.f20345f4-b47f-4764-bf21-b4e6d007d26a') === undefined) {
+      document.querySelector('#site-top-spacer').insertAdjacentHTML('afterend', '<div id="e0e2e063-50ac-4287-bc68-d5fa20de986d" class="site-top-spacer site-top-spacer-lower-nav site-top-spacer-lower-nav-desktop f20345f4-b47f-4764-bf21-b4e6d007d26a" style="position: fixed;top: 0%;width: 100%;z-index: 10;height: 19vh!important;background-image: none!important;backdrop-filter: blur(1000px);"></div>');
+    }
+    document.querySelectorAll('.f20345f4-b47f-4764-bf21-b4e6d007d26a').forEach((item) => {
+      const a = item as HTMLElement;
+      a.style.height = '12.8vh';
+    });
+  }
+  window.addEventListener('popstate', () => {
+    if (window.location.href === 'https://gannacademy.myschoolapp.com/app/student#studentmyday/schedule' || window.location.href === 'https://gannacademy.myschoolapp.com/app/student#studentmyday/progress' || window.location.href === 'https://gannacademy.myschoolapp.com/app/student#studentmyday/assignment-center' || window.location.href === 'https://gannacademy.myschoolapp.com/app/student#studentmyday/course-requests') {
+      waitForElm('#site-top-spacer').then((elm) => {
+        document.querySelector('#site-top-spacer').insertAdjacentHTML('afterend', '<div id="e0e2e063-50ac-4287-bc68-d5fa20de986d" class="site-top-spacer site-top-spacer-lower-nav site-top-spacer-lower-nav-desktop f20345f4-b47f-4764-bf21-b4e6d007d26a" style="position: fixed;top: 0%;width: 100%;z-index: 10;height: 19vh!important;background-image: none!important;backdrop-filter: blur(1000px);"></div>');
+      });
+    } else if (document.querySelector('#site-top-spacer') !== undefined) {
+      if (document.getElementById('.f20345f4-b47f-4764-bf21-b4e6d007d26a') === undefined) {
+        document.querySelector('#site-top-spacer').insertAdjacentHTML('afterend', '<div id="e0e2e063-50ac-4287-bc68-d5fa20de986d" class="site-top-spacer site-top-spacer-lower-nav site-top-spacer-lower-nav-desktop f20345f4-b47f-4764-bf21-b4e6d007d26a" style="position: fixed;top: 0%;width: 100%;z-index: 10;height: 19vh!important;background-image: none!important;backdrop-filter: blur(1000px);"></div>');
+      }
+      document.querySelectorAll('.f20345f4-b47f-4764-bf21-b4e6d007d26a').forEach((item) => {
+        const a = item as HTMLElement;
+        a.style.height = '12.8vh';
+      });
+    }
+  });
+
+  let clearcss = <style>{ clearstyle.toString() }</style>;
+  appStyles.after(clearcss);
+  unloaderContext.addRemovable(clearcss);
+  document.querySelector('body').style.backgroundImage = `url('${url}')`;
+  document.querySelector('body').style.backgroundSize = `${scale}%`;
+
+  document.documentElement.style.setProperty('--blur', `${transparency}px`);
+  document.documentElement.style.setProperty('--blur', `${(transparency * 2)}px`);
+
+}
 function applyFontStyles(font: string, unloaderContext: UnloaderContext) {
   const fontStyles = insertCss(fontStyle.toString());
   unloaderContext.addRemovable(fontStyles);
@@ -244,10 +305,18 @@ function applyFontStyles(font: string, unloaderContext: UnloaderContext) {
 }
 
 function themeMain(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
-  const { color, font, enhanced } = options;
+  const { color, font, enhanced, clear, bgImage, imageScale, transparency } = options;
 
-  if (color !== DEFAULT_COLOR) {
+  if (clear && !enhanced) {
+    applyClearTheme(bgImage, imageScale, transparency, unloaderContext);
+  }
+  if (color !== DEFAULT_COLOR && !clear) {
+    document.querySelector('body').style.backgroundImage = 'none';
     applyColorStyles(color, enhanced, unloaderContext);
+  }
+  if (clear && enhanced) {
+    document.querySelector('body').style.backgroundImage = 'none';
+    applyColorStyles(color, false, unloaderContext);
   }
   if (font !== DEFAULT_FONT) {
     applyFontStyles(font, unloaderContext);
@@ -262,6 +331,10 @@ interface ThemeSuboptions {
   color: string;
   font: string;
   enhanced: boolean;
+  clear: boolean;
+  bgImage: string;
+  imageScale: number;
+  transparency: number;
 }
 
 export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
@@ -305,6 +378,30 @@ export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
       type: 'boolean',
       defaultValue: true,
       description: 'Apply theme color to webpage body',
+    },
+    clear: {
+      name: 'Clear',
+      type: 'boolean',
+      defaultValue: false,
+      description: 'Apply a clear theme to every element. Pick background image and size',
+    },
+    bgImage: {
+      name: 'Background Image',
+      type: 'string',
+      defaultValue: 'https://pbs.twimg.com/profile_images/458793300388884481/i8zzeu_Z_400x400.jpeg',
+      description: 'Insert URL for background image for clear theme',
+    },
+    imageScale: {
+      name: 'Background Image Scale',
+      type: 'number',
+      defaultValue: 100,
+      description: 'Change scale of image for clear theme',
+    },
+    transparency: {
+      name: 'Opacity Amount',
+      type: 'number',
+      defaultValue: 10,
+      description: 'Change opacity (clearness) of clear theme',
     },
   },
 });
