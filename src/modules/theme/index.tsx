@@ -321,44 +321,6 @@ function themeMain(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
   if (font !== DEFAULT_FONT) {
     applyFontStyles(font, unloaderContext);
   }
-  if (window.MutationObserver) {
-
-    const observer = new MutationObserver(((mutations) => {
-      mutations.forEach((mutation) => {
-        mutation.addedNodes.forEach((node) => {
-          // @ts-ignore
-          if (typeof node.getElementsByTagName !== 'function') {
-            return;
-          }
-          // @ts-ignore
-          let imgs = node.getElementsByTagName('img');
-          // eslint-disable-next-line vars-on-top, no-var
-          for (var value of imgs) {
-            const handleImageLoad = () => {
-              if (value.src.includes('6244383')) {
-                value.src = 'https://i.etsystatic.com/27152142/r/il/5c1415/3021507188/il_fullxfull.3021507188_r8ss.jpg';
-              }
-              if (value.src.includes('6784562')) {
-                value.src = 'https://lh3.googleusercontent.com/vnZeg0VV6F2xBO2tXemg_T_B-Fn2kRmN4EJ2tz1qfjRIl2By0bg-c7G0t0-BmxMBhK44yY22ObDNES8Xrnzm4dyVaH31tIRI51rKBUGVhSIU7LZvY_yFq_lQrd1VyBKiKOVHhNljiQ=w2400';
-              }
-              value.removeEventListener('load', handleImageLoad);
-
-            };
-            if (value.src.includes('6244383')) {
-              value.src = 'https://i.etsystatic.com/27152142/r/il/5c1415/3021507188/il_fullxfull.3021507188_r8ss.jpg';
-            }
-            if (value.src.includes('6784562')) {
-              value.src = 'https://lh3.googleusercontent.com/vnZeg0VV6F2xBO2tXemg_T_B-Fn2kRmN4EJ2tz1qfjRIl2By0bg-c7G0t0-BmxMBhK44yY22ObDNES8Xrnzm4dyVaH31tIRI51rKBUGVhSIU7LZvY_yFq_lQrd1VyBKiKOVHhNljiQ=w2400';
-            }
-            if (!value.complete) {
-              value.addEventListener('load', handleImageLoad);
-            }
-          }
-        });
-      });
-    }));
-    observer.observe(document.body, { childList: true, subtree: true });
-  }
 }
 
 // empty unloader to prevent unnecessary reload if no styles were initially applied
