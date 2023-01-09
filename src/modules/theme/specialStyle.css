@@ -16,7 +16,7 @@
 
 
 }
-@media (prefers-color-scheme: dark) { 
+/* @media (prefers-color-scheme: dark) { 
     :global :root{
         
         --header: #000000!important;
@@ -48,7 +48,7 @@
 
     }
 
-}
+} */
 
 /* lil header things in advisory and such */
 :global .nav.nav-tabs>li.active>a,

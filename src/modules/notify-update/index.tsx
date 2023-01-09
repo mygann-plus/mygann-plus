@@ -20,7 +20,7 @@ function waitForElm(selector: string) {
   });
 }
 
-const text: string = '- Clear theme - ENABLE BY CLICKING "CLEAR"<br>   - pick your own image as the background for mygann<br>   - change the amount of blur (how transparent everything is)<br>   - change the size of image<br><br>- New color theme - ENABLE BY CLICKING "ENHANCED"<br>   - looks super good<br>   - pick color by changing color next to "color" and select "enhanced"<br><br><br>If you don\'t know how to change options, click on the mygann box at the top left of the screen and click on options.';
+const text: string = '- Clear theme - ENABLE BY CLICKING "CLEAR"<br>   - pick your own image as the background for mygann<br>   - change the amount of blur (how transparent everything is)<br>   - change the size of image<br><br>- New color theme - ENABLE BY CLICKING "ENHANCED"<br>   - looks super good<br>   - pick color by changing color next to "color" and select "enhanced"<br><br>-New dark mode toggle<br><br><br>If you don\'t know how to change options, click on the mygann box at the top left of the screen and click on options.';
 
 function notifyUpdate() {
   chrome.storage.sync.get('notifiedupdate', (result) => {
