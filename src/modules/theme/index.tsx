@@ -168,71 +168,6 @@ async function fontValidator(font: string) {
 
 const domQuery = () => document.querySelector('#app-style style');
 
-function changeScheme(dark: boolean, enhance: boolean, color: string, themeStyles: any, themeStyles2: any, unloaderContext: UnloaderContext, appStyles: any) {
-
-  // true=dark mode   |   false=light mode
-  if (dark) {
-
-    if (!enhance) {
-
-      themeStyles.remove();
-      themeStyles2 = <style>{ enhancedstyle.toString() }</style>;
-      appStyles.after(themeStyles2);
-      unloaderContext.addRemovable(themeStyles2);
-      let tempstring = replaceAll('#e1c2cb', 'transparent!important', document.querySelector('#app-style > div > style').innerHTML);
-      tempstring = replaceAll('#site-nav DIV.subnav UL > li > a.active {background-color: #fff2c0 !important;}', '#site-nav DIV.subnav UL > li > a.active {background-color: transparent !important;}', tempstring);
-      tempstring = replaceAll('#880d2f;background-image: -moz-linear-gradient(top, #a64a63, #880d2f); background-image: -ms-linear-gradient(top, #a64a63, #880d2f);background-', 'var(--header)!important;background-image: none; background-image:none;background-', tempstring);
-      tempstring = replaceAll('#880d2f;background-image: -moz-linear-gradient(top, #a64a63, #880d2f); background-image: -ms-linear-gradient(top, #a64a63, #880d2f);background-', 'var(--header)!important;background-image: none; background-image:none;background-', tempstring);
-      tempstring = replaceAll('#fff2c0', 'var(--main1)', tempstring);
-      document.querySelector('#app-style > div > style').innerHTML = tempstring;
-      document.querySelector('#app-style > div > style').addEventListener('change', () => {
-        let tempstring2 = replaceAll('#e1c2cb', 'transparent!important', document.querySelector('#app-style > div > style').innerHTML);
-        tempstring2 = replaceAll('#site-nav DIV.subnav UL > li > a.active {background-color: #fff2c0 !important;}', '#site-nav DIV.subnav UL > li > a.active {background-color: transparent !important;}', tempstring2);
-        tempstring2 = replaceAll('#880d2f;background-image: -moz-linear-gradient(top, #a64a63, #880d2f); background-image: -ms-linear-gradient(top, #a64a63, #880d2f);background-', 'var(--header)!important;background-image: none; background-image:none;background-', tempstring2);
-        tempstring2 = replaceAll('#fff2c0', 'var(--main1)', tempstring2);
-        document.querySelector('#app-style > div > style').innerHTML = tempstring2;
-
-      });
-
-    }
-
-    document.documentElement.style.setProperty('--header', '#000000');
-    document.documentElement.style.setProperty('--subheader', '#1E1E1E');
-    document.documentElement.style.setProperty('--background', '#121212');
-    document.documentElement.style.setProperty('--main1', '#2E2E2E');
-    document.documentElement.style.setProperty('--main2', '#424242');
-    document.documentElement.style.setProperty('--headercolor', '#a1a1a1');
-    document.documentElement.style.setProperty('--subheadercolor', '#a1a1a1');
-    document.documentElement.style.setProperty('--backgroundcolor', '#a1a1a1');
-    document.documentElement.style.setProperty('--main1color', '#a1a1a1');
-    document.documentElement.style.setProperty('--main2color', '#a1a1a1');
-
-  } else {
-    if (!enhance) {
-      themeStyles2.remove();
-      themeStyles = <style>{ style.toString() }</style>;
-      appStyles.after(themeStyles);
-      unloaderContext.addRemovable(themeStyles);
-    }
-    let tempcolor = color;
-    let tempcolor2 = changeSaturation(30, tempcolor);
-    let tempcolor3 = changeSaturation(20, tempcolor);
-
-    document.documentElement.style.setProperty('--header', tempcolor);
-    document.documentElement.style.setProperty('--subheader', lighten(tempcolor, 100));
-    document.documentElement.style.setProperty('--background', lighten(tempcolor, 35));
-    document.documentElement.style.setProperty('--main1', lighten(tempcolor3, 160));
-    document.documentElement.style.setProperty('--main2', lighten(tempcolor2, 150));
-    document.documentElement.style.setProperty('--headercolor', tempcolor);
-    document.documentElement.style.setProperty('--subheadercolor', lighten(tempcolor, 100));
-    document.documentElement.style.setProperty('--backgroundcolor', lighten(tempcolor, 35));
-    document.documentElement.style.setProperty('--main1color', lighten(tempcolor3, 160));
-    document.documentElement.style.setProperty('--main2color', lighten(tempcolor2, 150));
-
-  }
-
-}
-
 async function applyColorStyles(color: string, enhance: boolean, dark: boolean, unloaderContext: UnloaderContext) {
   const appStyles = await waitForLoad(domQuery);
   // let themeStyles;
@@ -372,7 +307,11 @@ async function applyClearTheme(url: string, scale: number, transparency: number,
   let clearcss = <style>{ clearstyle.toString() }</style>;
   appStyles.after(clearcss);
   unloaderContext.addRemovable(clearcss);
-  document.querySelector('body').style.backgroundImage = `url('${url}')`;
+  if (url === '' || url === undefined) {
+    document.documentElement.style.setProperty('--url', 'url("https://pbs.twimg.com/profile_images/458793300388884481/i8zzeu_Z_400x400.jpeg")');
+  } else {
+    document.documentElement.style.setProperty('--url', `url("${url}")`);
+  }
   document.querySelector('body').style.backgroundSize = `${scale}%`;
 
   document.documentElement.style.setProperty('--blur', `${transparency}px`);
@@ -393,7 +332,7 @@ function applyFontStyles(font: string, unloaderContext: UnloaderContext) {
 }
 
 function themeMain(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
-  const { color, font, enhanced, clear, bgImage, imageScale, transparency, dark } = options;
+  const { color, font, enhanced, clear, bgImage, imageScale, transparency, dark, invert } = options;
 
   if (clear && !enhanced) {
     applyClearTheme(bgImage, imageScale, transparency, unloaderContext);
@@ -405,6 +344,11 @@ function themeMain(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
   if (clear && enhanced) {
     document.querySelector('body').style.backgroundImage = 'none';
     applyColorStyles(color, false, dark, unloaderContext);
+  }
+  if (invert) {
+    document.querySelector('html').style.filter = 'invert(1)';
+  } else {
+    document.querySelector('html').style.filter = 'invert(0)';
   }
   if (font !== DEFAULT_FONT) {
     applyFontStyles(font, unloaderContext);
@@ -423,6 +367,7 @@ interface ThemeSuboptions {
   imageScale: number;
   transparency: number;
   dark: boolean;
+  invert: boolean;
 }
 
 export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
@@ -499,6 +444,12 @@ export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
       type: 'boolean',
       defaultValue: false,
       description: 'Apply dark mode',
+    },
+    invert: {
+      name: 'Invert',
+      type: 'boolean',
+      defaultValue: false,
+      description: 'Invert page colors',
     },
   },
 });
