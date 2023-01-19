@@ -18,7 +18,7 @@ const desktopMenu = (
   <li className="oneline parentitem last">
     <a href="#" data-taskid="-1" className="subnavtrigger white-fgc-hover sky-nav" id={selectors.nav}>
       <div className="bb-avatar-wrapper-nav pull-left">
-        <img className="bb-avatar-image-nav" src="https://lh3.googleusercontent.com/8EPlmhx-PFvcBVhxNnlEv6u6SLz8uValHGkcHY07R7RCfqkU5f_oevZG-fOjFKCSn3Ncz3wowHMLOqZ8HT-iPG1S=w128-h128-e365-rj-sc0x00ffffff?resize=75,75" id="mygannplusicon" />
+        <img className="bb-avatar-image-nav" src="https://lh3.googleusercontent.com/cdzX7wA6-d_-AAhU-6SdEgcpnThVHMbUFe-LfiERqex1-Tjjtzun5n7wuT3Pt1k0LufD94_9INwld5zTnzqLh9V5-5NEJhNEqJ3iLhTJkeFFaQRS4vTzzCwcR5I22knoMo-HXt2JZA=s128-p-k?resize=75,75" id="mygannplusicon" />
       </div>
       <span className="desc">
         <span className="title">MyGann+</span>

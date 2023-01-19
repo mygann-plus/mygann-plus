@@ -36,8 +36,10 @@ function skipEmptyMain() {
           data: {
             // new start = 1661776200
             // new end =   1686931560
-            start: '1630209600', // begginning of the year in epoch ticks
-            end: '1654747200', // end of the year in epoch ticks
+            // old start = 1630209600
+            // old end = 1654747200
+            start: '1661776200', // begginning of the year in epoch ticks
+            end: '1686931560', // end of the year in epoch ticks
             viewerId: p3.Data.Context.get('UserInfo').UserId,
             personaId: p3.Data.Context.getSelectedPersona().Id,
             viewerPersonaId: p3.Data.Context.getSelectedPersona().Id,
@@ -119,7 +121,7 @@ function unloadSkipDays() {
   updateExistingView();
 }
 
-export default registerModule('{42efc8ef-9de0-4eef-8e74-ba18f568b8a3}', {
+export default registerModule('{43efc8ef-9de0-4eef-8e74-ba18f568b8a3}', {
   name: 'Smart Schedule',
   description: `
   Automatically switches schedule to next date with classes. 

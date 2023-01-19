@@ -170,20 +170,12 @@ const domQuery = () => document.querySelector('#app-style style');
 
 async function applyColorStyles(color: string, enhance: boolean, dark: boolean, unloaderContext: UnloaderContext) {
   const appStyles = await waitForLoad(domQuery);
-  // let themeStyles;
-  // let themeStyles2;
-  // if (!dark) {
   let themeStyles = <style>{ style.toString() }</style>;
   if (!dark) {
     appStyles.after(themeStyles);
   }
   unloaderContext.addRemovable(themeStyles);
-  // themeStyles.remove()
   const primaryColor = hexToRgba(color);
-
-  let themeStyles2 = <style>{ enhancedstyle.toString() }</style>;
-  appStyles.after(themeStyles2);
-  unloaderContext.addRemovable(themeStyles2);
 
   const calendarColor = createColorObject(primaryColor, 0, 0, 0, 0.9);
   const topGradient = createColorObject(primaryColor, 230, 230, 230, 1);
@@ -198,48 +190,23 @@ async function applyColorStyles(color: string, enhance: boolean, dark: boolean, 
   // }
   const panelBodyDefault = hexToRgba(constants.panelBodyDefault);
   if (enhance) {
-    themeStyles.remove();
-    themeStyles2 = <style>{ enhancedstyle.toString() }</style>;
-    appStyles.after(themeStyles2);
-    unloaderContext.addRemovable(themeStyles2);
-    let tempstring = replaceAll('#e1c2cb', 'transparent!important', document.querySelector('#app-style > div > style').innerHTML);
-    tempstring = replaceAll('#site-nav DIV.subnav UL > li > a.active {background-color: #fff2c0 !important;}', '#site-nav DIV.subnav UL > li > a.active {background-color: transparent !important;}', tempstring);
-    tempstring = replaceAll('#880d2f;background-image: -moz-linear-gradient(top, #a64a63, #880d2f); background-image: -ms-linear-gradient(top, #a64a63, #880d2f);background-', 'var(--header)!important;background-image: none; background-image:none;background-', tempstring);
-    tempstring = replaceAll('#880d2f;background-image: -moz-linear-gradient(top, #a64a63, #880d2f); background-image: -ms-linear-gradient(top, #a64a63, #880d2f);background-', 'var(--header)!important;background-image: none; background-image:none;background-', tempstring);
-    tempstring = replaceAll('#fff2c0', 'var(--main1)', tempstring);
-    document.querySelector('#app-style > div > style').innerHTML = tempstring;
-    document.querySelector('#app-style > div > style').addEventListener('change', () => {
-      let tempstring2 = replaceAll('#e1c2cb', 'transparent!important', document.querySelector('#app-style > div > style').innerHTML);
-      tempstring2 = replaceAll('#site-nav DIV.subnav UL > li > a.active {background-color: #fff2c0 !important;}', '#site-nav DIV.subnav UL > li > a.active {background-color: transparent !important;}', tempstring2);
-      tempstring2 = replaceAll('#880d2f;background-image: -moz-linear-gradient(top, #a64a63, #880d2f); background-image: -ms-linear-gradient(top, #a64a63, #880d2f);background-', 'var(--header)!important;background-image: none; background-image:none;background-', tempstring2);
-      tempstring2 = replaceAll('#fff2c0', 'var(--main1)', tempstring2);
-      document.querySelector('#app-style > div > style').innerHTML = tempstring2;
-
-    });
-
-    let tempcolor = color;
-    let tempcolor2 = changeSaturation(30, tempcolor);
-    let tempcolor3 = changeSaturation(20, tempcolor);
-
-    document.documentElement.style.setProperty('--header', tempcolor);
-    document.documentElement.style.setProperty('--subheader', lighten(tempcolor, 100));
-    document.documentElement.style.setProperty('--background', lighten(tempcolor, 35));
-    document.documentElement.style.setProperty('--main1', lighten(tempcolor3, 160));
-    document.documentElement.style.setProperty('--main2', lighten(tempcolor2, 150));
-    document.documentElement.style.setProperty('--headercolor', tempcolor);
-    document.documentElement.style.setProperty('--subheadercolor', lighten(tempcolor, 100));
-    document.documentElement.style.setProperty('--backgroundcolor', lighten(tempcolor, 35));
-    document.documentElement.style.setProperty('--main1color', lighten(tempcolor3, 160));
-    document.documentElement.style.setProperty('--main2color', lighten(tempcolor2, 150));
+    setThemeColorProperty('body-background', createColorObject(primaryColor, 0, 0, 0, 0.15));
+    setThemeColorProperty('panel-border', createColorObject(primaryColor, 0, 0, 0, 0.4));
+    setThemeColorProperty('panel-head', createColorObject(panelBodyDefault, 0, 0, 0, 0.55));
+    setThemeColorProperty('panel-body', createColorObject(panelBodyDefault, 0, 0, 0, 0.7));
+    setThemeColorProperty('highlight', createColorObject(primaryColor, 45, 45, 45, 0.3));
   } else {
-    themeStyles2.remove();
-    themeStyles = <style>{ style.toString() }</style>;
-    appStyles.after(themeStyles);
-    unloaderContext.addRemovable(themeStyles);
+    setThemeProperty('body-background', constants.bodyBackgroundDefault);
+    setThemeProperty('panel-border', constants.panelBorderDefault);
+    setThemeProperty('panel-head', constants.panelBodyDefault);
+    setThemeProperty('panel-body', constants.panelBodyDefault);
+    setThemeProperty('highlight', constants.defaultProgressHighlight);
   }
-  // changeScheme(dark, enhance, color, themeStyles, themeStyles2, unloaderContext, appStyles);
   if (dark) {
     if (!enhance) {
+      let themeStyles2 = <style>{ enhancedstyle.toString() }</style>;
+      appStyles.after(themeStyles2);
+      unloaderContext.addRemovable(themeStyles2);
       themeStyles.remove();
       themeStyles2 = <style>{ enhancedstyle.toString() }</style>;
       appStyles.after(themeStyles2);
@@ -273,7 +240,7 @@ async function applyColorStyles(color: string, enhance: boolean, dark: boolean, 
   }
 }
 
-async function applyClearTheme(url: string, scale: number, transparency: number, unloaderContext: UnloaderContext) {
+async function applyClearTheme(url: string, transparency: number, unloaderContext: UnloaderContext) {
   const appStyles = await waitForLoad(domQuery);
   if (window.location.href === 'https://gannacademy.myschoolapp.com/app/student#studentmyday/schedule' || window.location.href === 'https://gannacademy.myschoolapp.com/app/student#studentmyday/progress' || window.location.href === 'https://gannacademy.myschoolapp.com/app/student#studentmyday/assignment-center' || window.location.href === 'https://gannacademy.myschoolapp.com/app/student#studentmyday/course-requests') {
     waitForElm('#site-top-spacer').then((elm) => {
@@ -312,7 +279,6 @@ async function applyClearTheme(url: string, scale: number, transparency: number,
   } else {
     document.documentElement.style.setProperty('--url', `url("${url}")`);
   }
-  document.querySelector('body').style.backgroundSize = `${scale}%`;
 
   document.documentElement.style.setProperty('--blur', `${transparency}px`);
   document.documentElement.style.setProperty('--blur', `${(transparency * 2)}px`);
@@ -332,10 +298,10 @@ function applyFontStyles(font: string, unloaderContext: UnloaderContext) {
 }
 
 function themeMain(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
-  const { color, font, enhanced, clear, bgImage, imageScale, transparency, dark, invert } = options;
+  const { color, font, enhanced, clear, bgImage, transparency, dark } = options;
 
   if (clear && !enhanced) {
-    applyClearTheme(bgImage, imageScale, transparency, unloaderContext);
+    applyClearTheme(bgImage, transparency, unloaderContext);
   }
   if (color !== DEFAULT_COLOR && !clear) {
     document.querySelector('body').style.backgroundImage = 'none';
@@ -344,11 +310,6 @@ function themeMain(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
   if (clear && enhanced) {
     document.querySelector('body').style.backgroundImage = 'none';
     applyColorStyles(color, false, dark, unloaderContext);
-  }
-  if (invert) {
-    document.querySelector('html').style.filter = 'invert(1)';
-  } else {
-    document.querySelector('html').style.filter = 'invert(0)';
   }
   if (font !== DEFAULT_FONT) {
     applyFontStyles(font, unloaderContext);
@@ -364,10 +325,10 @@ interface ThemeSuboptions {
   enhanced: boolean;
   clear: boolean;
   bgImage: string;
-  imageScale: number;
+  // imageScale: number;
   transparency: number;
   dark: boolean;
-  invert: boolean;
+  // invert: boolean;
 }
 
 export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
@@ -425,13 +386,6 @@ export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
       description: 'Insert URL for background image for clear theme',
       dependent: 'clear',
     },
-    imageScale: {
-      name: 'Background Image Scale',
-      type: 'number',
-      defaultValue: 100,
-      description: 'Change scale of image for clear theme',
-      dependent: 'clear',
-    },
     transparency: {
       name: 'Opacity Amount',
       type: 'number',
@@ -444,12 +398,6 @@ export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
       type: 'boolean',
       defaultValue: false,
       description: 'Apply dark mode',
-    },
-    invert: {
-      name: 'Invert',
-      type: 'boolean',
-      defaultValue: false,
-      description: 'Invert page colors',
     },
   },
 });

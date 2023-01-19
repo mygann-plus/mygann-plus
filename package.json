@@ -27,7 +27,7 @@
     "@types/string-strip-html": "^4.3.0",
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
-    "babel-core": "^4.7.16",
+    "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^9.1.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",

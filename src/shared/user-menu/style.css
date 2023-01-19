@@ -19,3 +19,8 @@
 :global(#account-nav > span.desc > span) {
   vertical-align: middle;
 }
+:global #mygannplusicon{
+
+  background: #880E2F;
+
+}

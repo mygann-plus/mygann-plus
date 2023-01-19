@@ -5,7 +5,7 @@
         "C Block": ["8:30 AM", "9:30 AM"],
         "Z'man Kodesh": ["9:35 AM", "10:20 AM"],
         "D Block": ["10:25 AM", "11:20 AM"],
-        "E Block": ["11:30 AM", "12:25 PM"],
+      "E Block": ["11:30 AM", "12:25 PM"],
         "F Block": ["1:05 PM", "2:05 PM"],
         "G Block": ["2:10 PM", "3:10 PM"],
         "Flex A/Office Hours": ["3:15 PM", "3:45 PM"],
@@ -29,10 +29,10 @@
         "Wellness M/W": ["4:00 PM", "5:00 PM"]
       },
       {
- "F Block": ["8:30 AM", "9:30 AM"],
+        "F Block": ["8:30 AM", "9:30 AM"],
         "Z'man Kodesh": ["9:35 AM", "10:20 AM"],
         "G Block": ["10:25 AM", "11:20 AM"],
- "C Block": ["11:30 AM", "12:25 PM"],
+        "C Block": ["11:30 AM", "12:25 PM"],
         "D Block": ["1:05 PM", "2:05 PM"],
         "E Block": ["2:10 PM", "3:10 PM"],
         "Flex B/Office Hours": ["3:15 PM", "3:45 PM"],

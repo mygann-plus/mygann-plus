@@ -36,10 +36,9 @@
         content: "";
         position: fixed;
         top: 0; left: 0;
-        background-size: 110%;
-        background-repeat:repeat;
-        filter: invert(var(--invert));
-        width: 100%; 
+        background-size:cover;
+        /* background-repeat:repeat; */
+        width: 100%;
         height: 100%;
         background-image: var(--url);
       }
@@ -71,7 +70,7 @@
     }
     
     :global html body {
-    
+        object-fit: cover;
     
         /* background-image:url('https://pbs.twimg.com/profile_images/458793300388884481/i8zzeu_Z_400x400.jpeg')!important; */
     
