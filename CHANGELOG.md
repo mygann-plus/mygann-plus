@@ -1,3 +1,18 @@
+## 1.23.0
+### Added
+- Dark mode in theme module
+- Clear theme with url and transparency options
+
+### Changed
+- Skip days now enabled
+- Skip days has new epoch ticks
+- Updated block schedule
+- Mygann+ logo for options menu is now a white logo with transparent background and a circular background color (default is #880E2F)
+
+### Fixed 
+- Block schedule json for new year
+- Skip days epoch ticks for new year
+
 ## 1.22.3
 ### Fixed
 - Dynamic Title not clearing after the school day

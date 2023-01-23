@@ -69,6 +69,7 @@ For example, recently the Improved Status Dropdown made it impossible to edit ta
     * For releases that only fix bugs, increment `z`
     * For releases that add features, increment `y`
     * For releases that significantly change the way MyGann+ works, increment `x` (this has only happened once, when MyGann+ went from beta to stable. This should be reserved for major overhauls).
+    * If you increment one, the rest below it go to 0 (increment y, z goes to 0)
 
 2. Update `changelog.md` with new features, changes, or fixes
 3. Update the "Known Issues" page on the GitHub wiki, if applicable.
