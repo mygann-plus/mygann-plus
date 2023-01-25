@@ -240,6 +240,43 @@ async function applyColorStyles(color: string, enhance: boolean, dark: boolean, 
   }
 }
 
+async function darkMode(enhance: boolean, unloaderContext: UnloaderContext) {
+  const appStyles = await waitForLoad(domQuery);
+  if (!enhance) {
+    let themeStyles2 = <style>{ enhancedstyle.toString() }</style>;
+    appStyles.after(themeStyles2);
+    unloaderContext.addRemovable(themeStyles2);
+    themeStyles2 = <style>{ enhancedstyle.toString() }</style>;
+    appStyles.after(themeStyles2);
+    unloaderContext.addRemovable(themeStyles2);
+    let tempstring = replaceAll('#e1c2cb', 'transparent!important', document.querySelector('#app-style > div > style').innerHTML);
+    tempstring = replaceAll('#site-nav DIV.subnav UL > li > a.active {background-color: #fff2c0 !important;}', '#site-nav DIV.subnav UL > li > a.active {background-color: transparent !important;}', tempstring);
+    tempstring = replaceAll('#880d2f;background-image: -moz-linear-gradient(top, #a64a63, #880d2f); background-image: -ms-linear-gradient(top, #a64a63, #880d2f);background-', 'var(--header)!important;background-image: none; background-image:none;background-', tempstring);
+    tempstring = replaceAll('#880d2f;background-image: -moz-linear-gradient(top, #a64a63, #880d2f); background-image: -ms-linear-gradient(top, #a64a63, #880d2f);background-', 'var(--header)!important;background-image: none; background-image:none;background-', tempstring);
+    tempstring = replaceAll('#fff2c0', 'var(--main1)', tempstring);
+    document.querySelector('#app-style > div > style').innerHTML = tempstring;
+    document.querySelector('#app-style > div > style').addEventListener('change', () => {
+      let tempstring2 = replaceAll('#e1c2cb', 'transparent!important', document.querySelector('#app-style > div > style').innerHTML);
+      tempstring2 = replaceAll('#site-nav DIV.subnav UL > li > a.active {background-color: #fff2c0 !important;}', '#site-nav DIV.subnav UL > li > a.active {background-color: transparent !important;}', tempstring2);
+      tempstring2 = replaceAll('#880d2f;background-image: -moz-linear-gradient(top, #a64a63, #880d2f); background-image: -ms-linear-gradient(top, #a64a63, #880d2f);background-', 'var(--header)!important;background-image: none; background-image:none;background-', tempstring2);
+      tempstring2 = replaceAll('#fff2c0', 'var(--main1)', tempstring2);
+      document.querySelector('#app-style > div > style').innerHTML = tempstring2;
+
+    });
+
+  }
+  document.documentElement.style.setProperty('--header', '#000000');
+  document.documentElement.style.setProperty('--subheader', '#1E1E1E');
+  document.documentElement.style.setProperty('--background', '#121212');
+  document.documentElement.style.setProperty('--main1', '#2E2E2E');
+  document.documentElement.style.setProperty('--main2', '#424242');
+  document.documentElement.style.setProperty('--headercolor', '#a1a1a1');
+  document.documentElement.style.setProperty('--subheadercolor', '#a1a1a1');
+  document.documentElement.style.setProperty('--backgroundcolor', '#a1a1a1');
+  document.documentElement.style.setProperty('--main1color', '#a1a1a1');
+  document.documentElement.style.setProperty('--main2color', '#a1a1a1');
+}
+
 async function applyClearTheme(url: string, transparency: number, unloaderContext: UnloaderContext) {
   const appStyles = await waitForLoad(domQuery);
   if (window.location.href === 'https://gannacademy.myschoolapp.com/app/student#studentmyday/schedule' || window.location.href === 'https://gannacademy.myschoolapp.com/app/student#studentmyday/progress' || window.location.href === 'https://gannacademy.myschoolapp.com/app/student#studentmyday/assignment-center' || window.location.href === 'https://gannacademy.myschoolapp.com/app/student#studentmyday/course-requests') {
@@ -299,7 +336,7 @@ function applyFontStyles(font: string, unloaderContext: UnloaderContext) {
 
 function themeMain(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
   const { color, font, enhanced, clear, bgImage, transparency, dark } = options;
-
+  
   if (clear && !enhanced) {
     applyClearTheme(bgImage, transparency, unloaderContext);
   }
@@ -310,6 +347,9 @@ function themeMain(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
   if (clear && enhanced) {
     document.querySelector('body').style.backgroundImage = 'none';
     applyColorStyles(color, false, dark, unloaderContext);
+  }
+  if (dark && !clear && color === DEFAULT_COLOR) {
+    darkMode(enhanced, unloaderContext);
   }
   if (font !== DEFAULT_FONT) {
     applyFontStyles(font, unloaderContext);

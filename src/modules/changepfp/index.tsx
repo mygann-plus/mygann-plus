@@ -12,6 +12,7 @@ const pfplist = [
 
   new (pfp as any)('gedalya', '6244383', 'https://i.etsystatic.com/27152142/r/il/5c1415/3021507188/il_fullxfull.3021507188_r8ss.jpg'),
   new (pfp as any)('yakir', '6784562', 'https://lh3.googleusercontent.com/vnZeg0VV6F2xBO2tXemg_T_B-Fn2kRmN4EJ2tz1qfjRIl2By0bg-c7G0t0-BmxMBhK44yY22ObDNES8Xrnzm4dyVaH31tIRI51rKBUGVhSIU7LZvY_yFq_lQrd1VyBKiKOVHhNljiQ=w2400'),
+  // new (pfp as any)('natan', '6784542', 'https://gannacademy.myschoolapp.com/app/content/images/user.png'),
 ];
 
 function changepfps() {
