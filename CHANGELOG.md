@@ -1,4 +1,8 @@
 ## 1.23.0
+### Fixed
+- Dark mode only worked with enhanced, now it always works when selected
+
+## 1.23.0
 ### Added
 - Dark mode in theme module
 - Clear theme with url and transparency options
