@@ -1,4 +1,4 @@
-## 1.23.0
+## 1.23.1
 ### Fixed
 - Dark mode only worked with enhanced, now it always works when selected
 
