@@ -73,37 +73,35 @@
         object-fit: cover;
     
         /* background-image:url('https://pbs.twimg.com/profile_images/458793300388884481/i8zzeu_Z_400x400.jpeg')!important; */
-    
-    
-    
-    
-    
-    
         /* background-size:40%; */
-    
-    
-    
+    }
+    :global .bb-modal .modal-body{
+        background: var(--subheaderclear)!important;
     }
     
     :global #site-main>div {
         backdrop-filter: blur(var(--blur));
-    
-    
     }
     
-    :global #site-top-spacer {
+    :global .message-list-body {
+        
         /* backdrop-filter: blur(10px); */
         /* background-image:var(--TOHRU)!important; */
     
         /* background-size:40%; */
-    
     }
     
+    :global #site-modal > div > div > div > div.modal-footer, :global #site-modal > div > div > div > div.modal-header{}
+
     :global .ground {
         fill: #94d31b;
     }
-    
-    
+    /* Headers */
+    :global .section-heading{
+        background-color: var(--headerclear)!important;
+        backdrop-filter: blur(var(--blur2))!important;
+    }
+    :global h3, :global h4, :global h5, :global h6, :global .h3, :global .h4, :global .h5, :global .h6{color: white!important;}
     /* advisory header */
     :global #overview>div.section-heading.mb-0,
     :global #overview>div.section-heading.mb-0>div.bb-page-heading {
@@ -129,11 +127,6 @@
     /* roster people thing */
     :global .bb-card-title {
         color: black !important;
-    }
-    
-    
-    :global .contactCardP {
-        background-color: var(--main2clear) !important;
     }
     
     /* SET GRADIENT */

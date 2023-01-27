@@ -1,3 +1,7 @@
+## 1.23.2
+### Fixed
+- Dark and Clear mode css fixes
+
 ## 1.23.1
 ### Fixed
 - Dark mode only worked with enhanced, now it always works when selected

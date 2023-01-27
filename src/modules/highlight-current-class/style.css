@@ -1,3 +1,9 @@
+:root{
+  --highlightcolor: #fff38c;
+  --highlighttextcolor: black;
+}
+
 .current-class {
-  background-color: #fff38c !important;
+  background-color: var(--highlightcolor) !important;
+  color: black!important;
 }

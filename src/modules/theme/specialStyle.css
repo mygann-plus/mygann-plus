@@ -64,8 +64,13 @@
 :global .nav-tabs.nav-justified ul.dropdown-menu>li.active>a:hover,
 :global .nav-tabs.nav-justified ul.dropdown-menu>li.active>a:focus {
     background-color: var(--header) !important;
-    color: var(--main2) !important;
+    color: var(--main2color) !important;
 }
+/* Headers for progress and rows for progress */
+:global .bb-tile .bb-tile-title,:global #courses #coursesContainer .row:nth-child(odd), :global #courses #communitiesContainer .row:nth-child(odd),:global #courses #activitiesContainer .row:nth-child(odd), :global #courses #advisoryContainer .row:nth-child(odd){
+    background-color: var(--main2)!important;
+  
+  }
 
 /* line for lil header things in advisory and such */
 :global .nav.nav-tabs,
@@ -74,7 +79,18 @@
     border-bottom-color: var(--header) !important;
 
 }
+:global .message-list div.well.fromother{
+    background-color: var(--main2)!important;
+}
 
+:global .modal-footer, :global .bb-modal .modal-body, :global .skyui-modal .modal-header,:global .bb-modal .modal-header, :global .tox .tox-edit-area__iframe, :global .mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before{
+    background-color: var(--main1)!important;
+    color: var(--main1color)!important;
+}
+
+:global .message-list-body {
+    color: var(--main1color)!important;
+}
 
 :global .ground {
     fill: #94d31b;
@@ -85,25 +101,32 @@
 :global #overview>div.section-heading.mb-0,
 :global #overview>div.section-heading.mb-0>div.bb-page-heading {
 
-    background-color: var(--header) !important;
-    color: var(--main2) !important;
+    background-color: var(--subheader) !important;
+    
+    color: var(--main2color) !important;
 
 }
 
 /* roster people thing */
 :global .bb-card {
 
-    background-color: var(--header) !important;
+    background-color: var(--main1)!important;
+}
+/* Headers */
+:global #grouppagemaincontainer > div:nth-child(1) > div{
+
+    background-color: var(--subheader)!important;
+
 }
 
 /* roster people thing */
 :global .bb-card-title {
-    color: var(--main2) !important;
+    color: var(--main1color) !important;
 }
 
 
 :global .contactCardP {
-    background-color: var(--main2) !important;
+    /* background-color: var(--main2) !important; */
 }
 
 /* SET GRADIENT */
@@ -175,18 +198,43 @@
     background-color: var(--header) !important;
 
 }
+/* form alert */
+:global #main-bulletin > div > div > div > i, :global #main-bulletin > div > div > div > h3{
+color: var(--main1color)!important;
 
+}
+:global #main-bulletin .main-bulletin-container{
+    border: none;
+}
+:global .section-heading{
+    background-color: var(--main1);
+}
+:global .bb-page-heading{
+    color: var(--main1color)!important;
+}
+:global div.thumbnail.bulletin{
+    background: var(--subheader);
+    color: var(--main1color);}
+:global h1, :global h2, :global h3, :global h4, :global h5, :global h6, :global .h1, :global .h2, :global .h3, :global .h4, :global .h5, :global .h6{
+    color: var(--main1color)!important;
+}
+:global #main-bulletin > div > div{
+    background: var(--main1)!important;
+}
 /*Sub Header 1&2,middle line,form alert*/
 :global #site-nav-container,
 :global #site-nav-lower,
 :global #site-nav-bottom,
 :global #main-bulletin>div>div {
-
     background-color: var(--subheader) !important;
     color: var(--header);
     border: none;
 }
-
+/* Year long advisory */
+:global #roster-term-picker{
+    
+    color: var(--headercolor)!important;
+}
 /*form alert fixes*/
 :global #main-bulletin>div>div>div>div.pull-left>h3>a,
 :global #main-bulletin>div>div>div>div.pull-left>h3>i {
@@ -874,7 +922,7 @@
 /* Shadow For Progress Header Row */
 :global #site-nav-lower {
 
-    box-shadow: 4px 4px 6px hsl(var(--color), calc(var(--l) - 10%)) !important;
+    /* box-shadow: 4px 4px 6px hsl(var(--color), calc(var(--l) - 10%)) !important; */
 
 }
 
@@ -882,7 +930,7 @@
 :global #site-main>div>div>div>div>section,
 :global #assignment-center {
 
-    box-shadow: 6px 6px hsl(var(--color), calc(var(--l) - 10%)) !important;
+    /* box-shadow: 6px 6px hsl(var(--color), calc(var(--l) - 10%)) !important; */
 
 }
 
@@ -989,4 +1037,6 @@
 
     background: var(--subheader) !important;
 
+}:global #main-bulletin > div > div{
+    background: var(--main1)!important;
 }

@@ -227,9 +227,9 @@ async function applyColorStyles(color: string, enhance: boolean, dark: boolean, 
       });
 
     }
-    document.documentElement.style.setProperty('--header', '#000000');
+    document.documentElement.style.setProperty('--header', '#121212');
     document.documentElement.style.setProperty('--subheader', '#1E1E1E');
-    document.documentElement.style.setProperty('--background', '#121212');
+    document.documentElement.style.setProperty('--background', '#292929');
     document.documentElement.style.setProperty('--main1', '#2E2E2E');
     document.documentElement.style.setProperty('--main2', '#424242');
     document.documentElement.style.setProperty('--headercolor', '#a1a1a1');
@@ -263,11 +263,10 @@ async function darkMode(enhance: boolean, unloaderContext: UnloaderContext) {
       document.querySelector('#app-style > div > style').innerHTML = tempstring2;
 
     });
-
   }
-  document.documentElement.style.setProperty('--header', '#000000');
+  document.documentElement.style.setProperty('--header', '#121212');
   document.documentElement.style.setProperty('--subheader', '#1E1E1E');
-  document.documentElement.style.setProperty('--background', '#121212');
+  document.documentElement.style.setProperty('--background', '#292929');
   document.documentElement.style.setProperty('--main1', '#2E2E2E');
   document.documentElement.style.setProperty('--main2', '#424242');
   document.documentElement.style.setProperty('--headercolor', '#a1a1a1');
@@ -275,6 +274,7 @@ async function darkMode(enhance: boolean, unloaderContext: UnloaderContext) {
   document.documentElement.style.setProperty('--backgroundcolor', '#a1a1a1');
   document.documentElement.style.setProperty('--main1color', '#a1a1a1');
   document.documentElement.style.setProperty('--main2color', '#a1a1a1');
+  document.documentElement.style.setProperty('--highlightcolor', '#a1a1a1');
 }
 
 async function applyClearTheme(url: string, transparency: number, unloaderContext: UnloaderContext) {
@@ -411,13 +411,13 @@ export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
       name: 'Enhanced',
       type: 'boolean',
       defaultValue: true,
-      description: 'Apply theme color to webpage body',
+      description: "DOESN'T WORK WITH CLEAR: Apply theme color to webpage body",
     },
     clear: {
       name: 'Clear',
       type: 'boolean',
       defaultValue: false,
-      description: 'Apply a clear theme to every element. Pick background image and size',
+      description: "DOESN'T WORK WITH ENHANCED: Apply a clear theme to every element. Pick background image and size",
     },
     bgImage: {
       name: 'Background Image',
