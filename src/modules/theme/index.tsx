@@ -336,20 +336,20 @@ function applyFontStyles(font: string, unloaderContext: UnloaderContext) {
 
 function themeMain(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
   const { color, font, enhanced, clear, bgImage, transparency, dark } = options;
-  
-  if (clear && !enhanced) {
-    applyClearTheme(bgImage, transparency, unloaderContext);
-  }
-  if (color !== DEFAULT_COLOR && !clear) {
-    document.querySelector('body').style.backgroundImage = 'none';
-    applyColorStyles(color, enhanced, dark, unloaderContext);
-  }
-  if (clear && enhanced) {
-    document.querySelector('body').style.backgroundImage = 'none';
-    applyColorStyles(color, false, dark, unloaderContext);
-  }
-  if (dark && !clear && color === DEFAULT_COLOR) {
-    darkMode(enhanced, unloaderContext);
+  if (dark) {
+    darkMode(false, unloaderContext);
+  } else {
+    if (clear && !enhanced) {
+      applyClearTheme(bgImage, transparency, unloaderContext);
+    }
+    if (color !== DEFAULT_COLOR && !clear) {
+      document.querySelector('body').style.backgroundImage = 'none';
+      applyColorStyles(color, enhanced, dark, unloaderContext);
+    }
+    if (clear && enhanced) {
+      document.querySelector('body').style.backgroundImage = 'none';
+      applyColorStyles(color, false, dark, unloaderContext);
+    }
   }
   if (font !== DEFAULT_FONT) {
     applyFontStyles(font, unloaderContext);
