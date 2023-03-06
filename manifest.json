@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "MyGann+",
-  "version": "1.23.3",
+  "version": "1.24.0",
   "minimum_chrome_version": "60",
   
   "description": "A collection of modules that improve your MyGann experience",

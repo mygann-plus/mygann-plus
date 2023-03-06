@@ -333,29 +333,33 @@ function applyFontStyles(font: string, unloaderContext: UnloaderContext) {
 
   setThemeProperty('font', `"${font}", "Blackbaud Sans","Helvetica Neue",Arial,sans-serif`);
 }
-
+function isPurim() {
+  const date = new Date();
+  return (date.getDate() === 6 || date.getDate() === 7) && date.getMonth() === 2;
+}
 function themeMain(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
   const { color, font, enhanced, clear, bgImage, transparency, dark } = options;
-  if (dark) {
-    darkMode(false, unloaderContext);
-  } else {
-    if (clear && !enhanced) {
-      applyClearTheme(bgImage, transparency, unloaderContext);
+  if (!isPurim()) {
+    if (dark) {
+      darkMode(false, unloaderContext);
+    } else {
+      if (clear && !enhanced) {
+        applyClearTheme(bgImage, transparency, unloaderContext);
+      }
+      if (color !== DEFAULT_COLOR && !clear) {
+        document.querySelector('body').style.backgroundImage = 'none';
+        applyColorStyles(color, enhanced, dark, unloaderContext);
+      }
+      if (clear && enhanced) {
+        document.querySelector('body').style.backgroundImage = 'none';
+        applyColorStyles(color, false, dark, unloaderContext);
+      }
     }
-    if (color !== DEFAULT_COLOR && !clear) {
-      document.querySelector('body').style.backgroundImage = 'none';
-      applyColorStyles(color, enhanced, dark, unloaderContext);
+    if (font !== DEFAULT_FONT) {
+      applyFontStyles(font, unloaderContext);
     }
-    if (clear && enhanced) {
-      document.querySelector('body').style.backgroundImage = 'none';
-      applyColorStyles(color, false, dark, unloaderContext);
-    }
-  }
-  if (font !== DEFAULT_FONT) {
-    applyFontStyles(font, unloaderContext);
   }
 }
-
 // empty unloader to prevent unnecessary reload if no styles were initially applied
 function unloadTheme() {}
 

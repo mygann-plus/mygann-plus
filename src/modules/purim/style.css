@@ -1,0 +1,67 @@
+.button {
+  background: linear-gradient(105deg,
+    /* Base gradient stops */
+    #f6d365, #fda085, #f6d365, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3,
+    /* Repeat your base gradient stops */
+    #f6d365, #fda085, #f6d365, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3,
+    /* Repeat your first gradient stop */
+    #f6d365);
+  
+  background-size: 200% 200%;
+  border: 0;
+  color: #fff !important;
+  font-weight: bolder;
+}
+
+.frame {
+  width: 100%;
+  height: 500px;
+}
+
+.close {
+  font-size: 12px;
+  margin: 10px 0;
+  float: right;
+}
+
+.title {
+  font-size: 15px;
+  margin: 10px 0;
+  text-align: center;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.cancel-class-btn {
+  float: right;
+  transition: all 0.5s;
+}
+
+.cancel-class-btn.explode {
+  opacity: 0;
+  transform: scale(10) rotate(360deg);
+  background: linear-gradient(105deg,
+  /* Base gradient stops */
+  #f6d365, #fda085, #f6d365, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3,
+  /* Repeat your base gradient stops */
+  #f6d365, #fda085, #f6d365, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3,
+  /* Repeat your first gradient stop */
+  #f6d365);;
+}
+
+.cancel-class-message {
+  float: right;
+  animation: colorFlash 2s;
+  animation-iteration-count: infinite;
+  font-weight: bold;
+  font-size: 19px;
+}
+
+@keyframes colorFlash {
+  from { color: red }
+  20% { color: orange }
+  40% { color: green }
+  60% { color: blue }
+  80% { color: indigo }
+  to { color: violet }
+}

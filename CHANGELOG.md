@@ -1,7 +1,10 @@
+## 1.24.0
+### Added
+- Mygann purim theme 2023!
+
 ## 1.23.3
 ### Changed
 - The way different themes override eachother
-
 
 ## 1.23.2
 ### Fixed
