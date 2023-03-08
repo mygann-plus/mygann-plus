@@ -96,8 +96,7 @@ const MODULE_MAP: ModuleMap = {
     logo,
     extreme,
     custompfp,
-    notifyUpdate,
-    purim
+    notifyUpdate
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus, assignmentCheckpoints],

@@ -1,6 +1,6 @@
 import registerModule from '~/core/module';
 
-import { insertCss } from '~/utils/dom';
+import { insertCss, waitForLoad } from '~/utils/dom';
 
 import style from './style.css';
 import setAllImages from './funImages';
@@ -40,13 +40,71 @@ function replaceText() {
   waitForElm('#site-logo > a > img').then((elm) => {
     // @ts-ignore
     document.querySelector('#site-logo > a > img').src = url;
-    document.querySelector('body').style.backgroundImage = "url('https://media.istockphoto.com/id/1373141996/vector/hamantash-purim-pattern.jpg?s=612x612&w=0&k=20&c=Dgw5apYCbYufOFnuK3IxSiegpSnatzQCysB1BzD0D7s=')"
-    document.querySelector("body").style.cursor =  "url('https://lh3.googleusercontent.com/TsraUfU531F4_gd9HlROT3TFXjHFwV9z2uLD_ZlZJo5cp71uE6buJnDYTFODz6MHjg5n4IU1RGUha-mzLDK7hG7d6pVqBL-0S7ab0hpBfw6f8uPje2nFkiXTZOscqjtJ1bFNkZTjNw=s128-p-k'),auto"
+    document.querySelector('body').style.backgroundImage = "url('https://media.istockphoto.com/id/1373141996/vector/hamantash-purim-pattern.jpg?s=612x612&w=0&k=20&c=Dgw5apYCbYufOFnuK3IxSiegpSnatzQCysB1BzD0D7s=')";
+    // document.querySelector("body").style.cursor =  "url('https://lh3.googleusercontent.com/TsraUfU531F4_gd9HlROT3TFXjHFwV9z2uLD_ZlZJo5cp71uE6buJnDYTFODz6MHjg5n4IU1RGUha-mzLDK7hG7d6pVqBL-0S7ab0hpBfw6f8uPje2nFkiXTZOscqjtJ1bFNkZTjNw=s128-p-k'),auto"
+    // @ts-ignore
+    // $('*').css('cursor', 'url("https://lh3.googleusercontent.com/5euME0_VdxZQm5BzNx8S7WBsnmKXCKMIxJcosnsB9rMqNkbbB7Ods-XFEkCqofkw25xIu9MqMbJdUP671X8T5mfGlSIEcq9T3iNVYFjmuiYcZgVxIEqvvBLPZ6cXkwsQb-d71sXXDQ=s32-p-k"), auto');
+    // @ts-ignore
+    document.querySelector('body').style.cursor = 'url("https://lh3.googleusercontent.com/5euME0_VdxZQm5BzNx8S7WBsnmKXCKMIxJcosnsB9rMqNkbbB7Ods-XFEkCqofkw25xIu9MqMbJdUP671X8T5mfGlSIEcq9T3iNVYFjmuiYcZgVxIEqvvBLPZ6cXkwsQb-d71sXXDQ=s32-p-k"), default'
+
+  });
+}
+const domQuery = () => document.querySelector('*') as HTMLElement;
+
+function replace(container: HTMLElement) {
+  const images = container.querySelectorAll<HTMLElement>('*');
+  for (const image of images) {
+    image.style.cursor = 'url("https://lh3.googleusercontent.com/5euME0_VdxZQm5BzNx8S7WBsnmKXCKMIxJcosnsB9rMqNkbbB7Ods-XFEkCqofkw25xIu9MqMbJdUP671X8T5mfGlSIEcq9T3iNVYFjmuiYcZgVxIEqvvBLPZ6cXkwsQb-d71sXXDQ=s32-p-k"), auto';
+  }
+}
+async function setCursor() {
+  const obs = new MutationObserver(async mutationList => {
+    for (let mutation of mutationList) {
+      for (let newNode of mutation.addedNodes) {
+        if (newNode instanceof HTMLElement) {
+          replace(newNode);
+        }
+      }
+    }
+  });
+  replace(document.body);
+  obs.observe(document.body, { childList: true, subtree: true });
+
+  const header = await waitForLoad(domQuery);
+  header.style.cursor = 'url("https://lh3.googleusercontent.com/5euME0_VdxZQm5BzNx8S7WBsnmKXCKMIxJcosnsB9rMqNkbbB7Ods-XFEkCqofkw25xIu9MqMbJdUP671X8T5mfGlSIEcq9T3iNVYFjmuiYcZgVxIEqvvBLPZ6cXkwsQb-d71sXXDQ=s32-p-k"), auto';
+  const srcWatcher = new MutationObserver(() => {
+    if (header.style.cursor !== 'url("https://lh3.googleusercontent.com/5euME0_VdxZQm5BzNx8S7WBsnmKXCKMIxJcosnsB9rMqNkbbB7Ods-XFEkCqofkw25xIu9MqMbJdUP671X8T5mfGlSIEcq9T3iNVYFjmuiYcZgVxIEqvvBLPZ6cXkwsQb-d71sXXDQ=s32-p-k"), auto') {
+      header.style.cursor = 'url("https://lh3.googleusercontent.com/5euME0_VdxZQm5BzNx8S7WBsnmKXCKMIxJcosnsB9rMqNkbbB7Ods-XFEkCqofkw25xIu9MqMbJdUP671X8T5mfGlSIEcq9T3iNVYFjmuiYcZgVxIEqvvBLPZ6cXkwsQb-d71sXXDQ=s32-p-k"), auto';
+    }
+  });
+  srcWatcher.observe(header, { attributes: true, attributeFilter: ['src'] });
+}
+
+function buttons() {
+
+  waitForElm("#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-next.chCal-state-default.chCal-corner-right > span > span.chCal-button-content").then((elm) => { 
+    // @ts-ignore
+    document.querySelector("#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-next.chCal-state-default.chCal-corner-right > span > span.chCal-button-content").style.backgroundImage = 'url("https://lh3.googleusercontent.com/5euME0_VdxZQm5BzNx8S7WBsnmKXCKMIxJcosnsB9rMqNkbbB7Ods-XFEkCqofkw25xIu9MqMbJdUP671X8T5mfGlSIEcq9T3iNVYFjmuiYcZgVxIEqvvBLPZ6cXkwsQb-d71sXXDQ=s32-p-k")'
+    // @ts-ignore
+    document.querySelector("#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-next.chCal-state-default.chCal-corner-right > span > span.chCal-button-content").style.backgroundSize = "contain"
+    // @ts-ignore
+    document.querySelector("#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-next.chCal-state-default.chCal-corner-right > span > span.chCal-button-content").style.color = "transparent"
+    // @ts-ignore
+    document.querySelector("#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-prev.chCal-state-default.chCal-corner-left > span > span.chCal-button-content").style.backgroundImage = 'url("https://lh3.googleusercontent.com/5euME0_VdxZQm5BzNx8S7WBsnmKXCKMIxJcosnsB9rMqNkbbB7Ods-XFEkCqofkw25xIu9MqMbJdUP671X8T5mfGlSIEcq9T3iNVYFjmuiYcZgVxIEqvvBLPZ6cXkwsQb-d71sXXDQ=s32-p-k")'
+    // @ts-ignore
+    document.querySelector("#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-prev.chCal-state-default.chCal-corner-left > span > span.chCal-button-content").style.backgroundSize = "contain"
+    // @ts-ignore
+    document.querySelector("#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-prev.chCal-state-default.chCal-corner-left > span > span.chCal-button-content").style.color = "transparent"
+    // @ts-ignore
+    document.querySelector("#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-prev.chCal-state-default.chCal-corner-left > span > span.chCal-button-content").style.transform = "scaleX(-1)"
   })
+  
 }
 
 function extremeInit() {
-  replaceText()
+  buttons()
+  setCursor()
+  replaceText();
   if (!isPurim()) {
     return;
   }
@@ -57,7 +115,9 @@ function extremeInit() {
 }
 
 function extremeMain() {
-  replaceText()
+  buttons()
+  setCursor()
+  replaceText();
   if (!isPurim()) {
     return;
   }
