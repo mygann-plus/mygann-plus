@@ -13,6 +13,7 @@
     --backgroundcolor: black;
     --main1color: black;
     --main2color: black;
+    --endTime: black;
 
 
 }
@@ -71,7 +72,13 @@
     background-color: var(--main2)!important;
   
   }
-
+  :global #site-modal > div > div > div.modal-body{
+    color: var(--header)!important;
+  }
+/*  */
+:global #directory-items-container > tbody {
+    color: var(--header)!important;
+}
 /* line for lil header things in advisory and such */
 :global .nav.nav-tabs,
 :global .nav-tabs.nav-justified {
@@ -92,9 +99,7 @@
     color: var(--main1color)!important;
 }
 
-:global .ground {
-    fill: #94d31b;
-}
+
 
 
 /* advisory header */
@@ -103,7 +108,7 @@
 
     background-color: var(--subheader) !important;
     
-    color: var(--main2color) !important;
+    color: var(--header) !important;
 
 }
 
@@ -115,13 +120,30 @@
 /* Headers */
 :global #grouppagemaincontainer > div:nth-child(1) > div{
 
-    background-color: var(--subheader)!important;
+    background-color: var(--main1)!important;
 
+}
+
+:global .icLWETUSq53ZQ30E096K {
+    color: var(--header)!important;
+}
+:global .QNaRtFIk0Y2Oh_p6ZG2Q {
+    color: var(--background)!important;
+}
+:global .pri-75-bordercolor, :global .pri-75-bordercolor-hover:hover {
+    border-color: transparent!important;
+}
+
+:global #rosterSearchButton {
+    background-color: var(--main1)!important;
+    color: var(--header)!important;
+    border: 1px solid var(--header)!important;
+    background-image: none;
 }
 
 /* roster people thing */
 :global .bb-card-title {
-    color: var(--main1color) !important;
+    color: var(--header) !important;
 }
 
 
@@ -172,6 +194,7 @@
 
     background-color: var(--header) !important;
     border-color: var(--main1) !important;
+    color: var(--main1)!important;
     background-image: none !important;
 
 }
@@ -210,16 +233,26 @@ color: var(--main1color)!important;
     background-color: var(--main1);
 }
 :global .bb-page-heading{
-    color: var(--main1color)!important;
+    color: var(--header)!important;
 }
 :global div.thumbnail.bulletin{
     background: var(--subheader);
     color: var(--main1color);}
-:global h1, :global h2, :global h3, :global h4, :global h5, :global h6, :global .h1, :global .h2, :global .h3, :global .h4, :global .h5, :global .h6{
-    color: var(--main1color)!important;
+:global h1, :global h2, :global h6{
+    color: var(--header);
+}
+:global h3, :global h4, :global h5{
+    color: var(--header)!important;
 }
 :global #main-bulletin > div > div{
     background: var(--main1)!important;
+}
+/* Progress top buttons */
+:global .popContainerStraight{
+    background-image: none!important;
+    background-color: var(--subheader)!important;
+    text-shadow: none!important;
+    box-shadow: none!important;
 }
 /*Sub Header 1&2,middle line,form alert*/
 :global #site-nav-container,
@@ -265,7 +298,7 @@ color: var(--main1color)!important;
 :global .table>thead:first-child>tr:first-child>th,
 :global .table>thead:first-child>tr:first-child>td,
 :global #site-main>div>div>div>div>section>div.bb-tile-title>div>h2 {
-
+    border: none!important;
     color: var(--headercolor) !important;
 
 }
@@ -283,9 +316,10 @@ color: var(--main1color)!important;
 
 }
 
-:global #assignment-center-header-view>div>div>div:nth-child(2)>div {
+:global #assignment-center-header-view > div > div > div:nth-child(2) {
 
     background: var(--subheader) !important;
+    border: none!important;
 
 }
 
@@ -337,19 +371,58 @@ color: var(--main1color)!important;
 }
 
 /* Text in popup graph */
-:global svg text {
-    fill: var(--main1);
+:global * {
+    fill: var(--header)!important;
+    stroke: transparent!important;
 }
-
+:global .progress-bar {
+    background-color: var(--header)!important;
+}
+:global .form-control:focus {
+    box-shadow: 0px 0px 7px var(--background)!important;
+}
+:global #course-request-container :global .requested-courses :global .requested-course {
+    background-color: var(--main2);
+    border-color: var(--subheader);
+}
+:global #course-request-container .accordion-toggle {
+    background-color: var(--subheader);
+}
+:global #course-request-container .requested-courses .alternate-course{
+    background-color: var(--main1)!important;
+    border-color: var(--subheader);
+}
+:global #header > div > p{
+    color: var(--subheader);
+}
+:global #course-request-container .course-request-stats .stat-label.sky-key-label, :global #course-request-container .requested-courses .request-order, :global #course-request-container .recommended-headers{
+    color: var(--header);
+}
+:global #academicclassmaincontainer > div:nth-child(1){
+    background-color: var(--main1);
+}
+:global .gradebook-analysis h6, :global .p3icon-message:before{
+    color: var(--header)!important;
+}
+:global .bb-card-actions .bb-context-menu-btn {
+    background: var(--main2);
+    color: var(--subheader);
+}
+:global #academicclassmaincontainer > div:nth-child(1) > div{
+    background-color: var(--main1)!important;
+}
 /* progress graph lines */
 :global .nvd3.nv-multibar.nv-groups rect,
 :global .nvd3.nv-multibarHorizontal.nv-groups rect,
 :global .nvd3.nv-discretebar.nv-groups rect {
 
-    fill: var(--main1) !important;
-    stroke: var(--mai12) !important;
+    fill: var(--header) !important;
+    stroke: var(--header) !important;
     background-color: var(--subheader) !important;
 
+}
+:global #site-nav DIV.subnav UL > li > a.active{
+    background-color: var(--main1)!important;
 }
 
 /*Main Header Parts Color Change (Official Notes, Messages, ect)*/
@@ -377,7 +450,16 @@ color: var(--main1color)!important;
     color: var(--headercolor);
 
 }
-
+:global #gocp_class-ending-time_main{
+    color: var(--endTime)!important;
+}
+:global #pu67ShCm0iwYIPwFcV0s {
+    background: var(--main1);
+    border: none;
+}
+:global #pu67ShCm0iwYIPwFcV0s::placeholder{
+    color: var(--background);
+}
 /*Odd Schedule Elements*/
 :global .table-striped>tbody>tr:nth-of-type(odd) {
 
@@ -536,12 +618,18 @@ color: var(--main1color)!important;
 
 /*"Search Courses", "See Grade Detail", "Message" Boxes [In Progress Tab] */
 :global .btn-default,
-:global #coursesCollapse>div>div.row>div>input {
+:global .form-control {
 
     background-color: var(--subheader) !important;
     color: var(--headercolor) !important;
     border-color: var(--subheader) !important;
 
+}
+:global .form-control::placeholder {
+    color: var(--backgroundcolor);
+}
+:global #communitypagecontainer > div:nth-child(1) > div {
+    background-color: var(--main1)!important;
 }
 
 /* "Due Today, Assigned Today, Active" Box [In Progress Tab] */
@@ -696,7 +784,7 @@ color: var(--main1color)!important;
 }
 
 /* Assignment Center Subheader Buttons (Arrows, Day, Week, Range, Add Task, Hide Completed) [In Assignment Center Tab] */
-:global #assignment-center .bb-action-bar .btn-group .btn,
+:global #assignment-center.bb-action-bar.btn-group.btn,
 :global .btn-sm,
 :global .btn-group-sm>.btn {
 
@@ -783,7 +871,10 @@ color: var(--main1color)!important;
 
 
 }
-
+/* FOR NON-MAIN PAGES */
+:global #site-nav-container {
+    /* box-shadow: inset 0 1px 0 #fff, 0 5px 10px rgba(0,0,0,.2); */
+}
 /* Text Color For Hover Drop Down Boxes */
 :global #site-nav ul.topnav li div.subnav li a span.title.sky-nav {
 
@@ -965,9 +1056,12 @@ color: var(--main1color)!important;
     background-color: var(--main1) !important;
 
 }
+:global .modal-footer .btn+.btn {
+    color: var(--header);
+}
 /* Current Class Color Change FINAL. THIS ONE IS THE ONE THAT WORKS*/
 
-:global tr._1kMg6Jbiz48iM6uOh5L7V1,
+/* :global tr._1kMg6Jbiz48iM6uOh5L7V1,
 :global #accordionSchedules>tr._1kMg6Jbiz48iM6uOh5L7V1 {
 
     border: 2px solid var(--header) !important;
@@ -976,7 +1070,7 @@ color: var(--main1color)!important;
     color: var(--main1color) !important;
 
 
-}
+} */
 
 /* Current Class Color Change */
 :global #accordionSchedules>tr._1kMg6Jbiz48iM6uOh5L7V1>td:nth-child(odd)>h4>a,
@@ -995,11 +1089,6 @@ color: var(--main1color)!important;
 }
 
 /* Current Class Color Change */
-:global #gocp_class-ending-time_main {
-
-    color: var(--main2color) !important;
-
-}
 
 /* Current Class Color Change */
 :global #topnav-containter>ul>li.oneline.parentitem.first:hover {
@@ -1007,7 +1096,9 @@ color: var(--main1color)!important;
     background-color: var(--main1) !important;
 
 }
-
+:global .gradebook-analysis .margin-top-10{
+    color: var(--header)!important;
+}
 /* Fix Login Screen Background */
 :global #app,
 :global HTML,
@@ -1039,4 +1130,7 @@ color: var(--main1color)!important;
 
 }:global #main-bulletin > div > div{
     background: var(--main1)!important;
+}
+:global #directory-items-container > tbody > tr:nth-child(1) > td:nth-child(2) > div:nth-child(2) > h3 {
+    color: var(--header)!important;
 }

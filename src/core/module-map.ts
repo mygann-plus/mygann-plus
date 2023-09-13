@@ -67,7 +67,7 @@ import autoHideAssignmentCenterDropdowns from '~/modules/auto-hide-assignment-ce
 import fixRangeButtonHighlight from '~/modules/fix-range-button-highlight';
 import custompfp from '~/modules/changepfp';
 import notifyUpdate from '~/modules/notify-update';
-import purim from '~/modules/purim'
+import letterGradePoints from '~/modules/letter-grade-points';
 
 interface ModuleMap {
   [key: string]: Module[]
@@ -140,6 +140,7 @@ const MODULE_MAP: ModuleMap = {
     semesterSwitcher,
     autocollapseProgressBoxes,
     hideProgressGradesButton,
+    letterGradePoints,
   ],
   '#message': [archiveAll],
   '#message/inbox': [markAllAsRead, markAsRead, fixArchiveHighlight],

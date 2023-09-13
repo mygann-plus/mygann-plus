@@ -1,9 +1,11 @@
 :root{
   --highlightcolor: #fff38c;
   --highlighttextcolor: black;
+  --highlightbordercolor: transparent;
 }
 
 .current-class {
   background-color: var(--highlightcolor) !important;
-  color: black!important;
+  color: var(--highlighttextcolor)!important;
+  border: 2px dashed var(--highlightbordercolor);
 }

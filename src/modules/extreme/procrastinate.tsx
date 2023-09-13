@@ -1,4 +1,3 @@
-
 import { createElement, waitForLoad, constructButton } from '~/utils/dom';
 
 import style from './style.css';
@@ -14,19 +13,12 @@ function generateFrame(existingUrl: string) {
   const urls = [
     'https://www.youtube.com/embed/myjEoDypUD8',
     'https://www.youtube.com/embed/Z8lNz2AqoRw',
-    'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    'https://www.youtube.com/embed/eZLx_zoBF4w',
-    'https://www.youtube.com/embed/LadBSoOT_08',
     'https://www.youtube.com/embed/FO0iG_P0P6M',
-    'https://www.youtube.com/embed/3FG_xStCjI0',
-    'https://www.youtube.com/embed/9Z6tVQvm8G4',
-    'https://www.youtube.com/embed/AGVtCzr_i5U',
     'https://www.youtube.com/embed/FaOSCASqLsE',
-    'https://www.youtube.com/embed/imW392e6XR0',
-    'https://www.youtube.com/embed/886A2ErYpQk',
+    'https://www.youtube.com/embed/3ct68JZKsZ8',
     'https://www.boredbutton.com',
     'https://theuselessweb.com/',
-    'https://www.powr.io/plugins/instagram-feed/view?unique_label=4980c32f_1553727425&external_type=iframe',
+    'https://funhtml5games.com?embed=flappy',
   ];
   if (existingUrl) {
     urls.splice(urls.indexOf(existingUrl), 1);
@@ -41,7 +33,6 @@ function generateFrame(existingUrl: string) {
     allowFullScreen
   ></iframe>;
 }
-
 
 function incrementCloseButton(button: HTMLElement) {
   const level = Number(button.dataset.level);

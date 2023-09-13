@@ -134,7 +134,6 @@ async function insertPoints(unloaderContext: UnloaderContext) {
     }
   }
 
-
 }
 
 async function letterGradePointsMain(opts: void, unloaderContext: UnloaderContext) {
