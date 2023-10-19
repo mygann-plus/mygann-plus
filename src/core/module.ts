@@ -61,7 +61,6 @@ interface ComboSuboption extends BaseSuboption<'combo', string> {
   presetValues: string[];
 }
 
-
 export type Suboption = (
   StringSuboption | BooleanSuboption |
   NumberSuboption | EnumSuboption |
@@ -78,7 +77,6 @@ export interface Module extends ModuleFunctions {
   guid: string,
   config: Exclude<ModuleConfig, 'init' | 'main' | 'unload'>
 }
-
 
 export default function registerModule(guid: string, moduleConfig: ModuleConfig): Module {
 

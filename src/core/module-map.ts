@@ -30,7 +30,7 @@ import teacherOffices from '~/modules/teacher-offices';
 import markAllAsRead from '~/modules/mark-all-as-read';
 import messageConversationControls from '~/modules/message-conversation-archive';
 import gradeNotifications from '~/modules/grade-notifications';
-import calculateGradePercentage from '~/modules/calculate-grade-percentage';
+// import calculateGradePercentage from '~/modules/calculate-grade-percentage';
 import collapseAssignmentSections from '~/modules/collapse-assignment-sections';
 import dueSoon from '~/modules/due-soon';
 import nameQuiz from '~/modules/name-quiz';
@@ -67,7 +67,7 @@ import autoHideAssignmentCenterDropdowns from '~/modules/auto-hide-assignment-ce
 import fixRangeButtonHighlight from '~/modules/fix-range-button-highlight';
 import custompfp from '~/modules/changepfp';
 import notifyUpdate from '~/modules/notify-update';
-import letterGradePoints from '~/modules/letter-grade-points';
+// import letterGradePoints from '~/modules/letter-grade-points';
 
 interface ModuleMap {
   [key: string]: Module[]
