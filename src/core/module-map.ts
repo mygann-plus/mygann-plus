@@ -30,7 +30,7 @@ import teacherOffices from '~/modules/teacher-offices';
 import markAllAsRead from '~/modules/mark-all-as-read';
 import messageConversationControls from '~/modules/message-conversation-archive';
 import gradeNotifications from '~/modules/grade-notifications';
-// import calculateGradePercentage from '~/modules/calculate-grade-percentage';
+import calculateGradePercentage from '~/modules/calculate-grade-percentage';
 import collapseAssignmentSections from '~/modules/collapse-assignment-sections';
 import dueSoon from '~/modules/due-soon';
 import nameQuiz from '~/modules/name-quiz';
@@ -140,7 +140,7 @@ const MODULE_MAP: ModuleMap = {
     semesterSwitcher,
     autocollapseProgressBoxes,
     hideProgressGradesButton,
-    letterGradePoints,
+    // letterGradePoints,
   ],
   '#message': [archiveAll],
   '#message/inbox': [markAllAsRead, markAsRead, fixArchiveHighlight],

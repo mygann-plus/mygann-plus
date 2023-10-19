@@ -1,3 +1,10 @@
+## 1.25.0
+### Added
+- New enhanced theme
+### Fixed
+- Time skip in schedule
+- Various purim bugs
+
 ## 1.24.0
 ### Added
 - Mygann purim theme 2023!
