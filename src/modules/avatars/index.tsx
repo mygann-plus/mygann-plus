@@ -45,7 +45,7 @@ function replace(container: HTMLElement) {
 }
 
 let exampleImages = [
-  'https://i1.wp.com/bestlifeonline.com/wp-content/uploads/2019/07/what-is-quokka.jpg?fit=1200%2C800&ssl=1',
+  // 'https://i1.wp.com/bestlifeonline.com/wp-content/uploads/2019/07/what-is-quokka.jpg?fit=1200%2C800&ssl=1',
   'https://upload.wikimedia.org/wikipedia/commons/7/7d/Wildlife_at_Maasai_Mara_%28Lion%29.jpg',
   'https://images.ctfassets.net/cnu0m8re1exe/w4TS6ONjG71UXC3pkZDLc/5f162a88da4bebf9a9d29a867205b795/Zebra.jpg?w=650&h=433&fit=fill',
   'https://c.files.bbci.co.uk/6BC0/production/_112548572_gettyimages-492611032-1.jpg',
@@ -57,7 +57,7 @@ let exampleImages = [
   'https://st.depositphotos.com/1451970/2314/v/600/depositphotos_23149542-stock-illustration-geometric-seamless-pattern.jpg',
   'https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHw%3D&w=1000&q=80',
   'https://image.freepik.com/free-psd/abstract-background-design_1297-78.jpg',
-  'https://cdn.shopify.com/s/files/1/1916/6049/products/colorful_geo1_large.jpg?v=1543181150',
+  // 'https://cdn.shopify.com/s/files/1/1916/6049/products/colorful_geo1_large.jpg?v=1543181150',
 
   'https://i.pinimg.com/originals/d6/2a/fc/d62afc028ef952f5b4c60f1b7d904963.gif',
   'https://buffer.com/library/content/images/library/wp-content/uploads/2016/06/giphy.gif',
