@@ -45,7 +45,7 @@ function hexToRgba(hex: string) {
     a: 1, // hex only works at full opacity
   };
 }
-
+// START OF NATAN
 function lighten(col: string, amt: number) {
 
   let usePound = true;
@@ -170,21 +170,12 @@ const domQuery = () => document.querySelector('#app-style style');
 
 async function applyColorStyles(color: string, enhance: boolean, dark: boolean, unloaderContext: UnloaderContext) {
   const appStyles = await waitForLoad(domQuery);
-
   let themeStyles = <style>{ style.toString() }</style>;
-  appStyles.after(themeStyles);
-  unloaderContext.addRemovable(themeStyles);
-  // themeStyles.remove()
-  const primaryColor = hexToRgba(color);
-
-  let themeStyles2 = <style>{ enhancedstyle.toString() }</style>;
-  appStyles.after(themeStyles2);
-  unloaderContext.addRemovable(themeStyles2);
-
   if (!dark) {
     appStyles.after(themeStyles);
   }
   unloaderContext.addRemovable(themeStyles);
+  const primaryColor = hexToRgba(color);
 
   const calendarColor = createColorObject(primaryColor, 0, 0, 0, 0.9);
   const topGradient = createColorObject(primaryColor, 230, 230, 230, 1);
@@ -199,59 +190,21 @@ async function applyColorStyles(color: string, enhance: boolean, dark: boolean, 
   // }
   const panelBodyDefault = hexToRgba(constants.panelBodyDefault);
   if (enhance) {
-    
-    themeStyles.remove();
-    themeStyles2 = <style>{ enhancedstyle.toString() }</style>;
-    appStyles.after(themeStyles2);
-    unloaderContext.addRemovable(themeStyles2);
-    let tempstring = replaceAll('#e1c2cb', 'transparent!important', document.querySelector('#app-style > div > style').innerHTML);
-    tempstring = replaceAll('#site-nav DIV.subnav UL > li > a.active {background-color: #fff2c0 !important;}', '#site-nav DIV.subnav UL > li > a.active {background-color: transparent !important;}', tempstring);
-    tempstring = replaceAll('#880d2f;background-image: -moz-linear-gradient(top, #a64a63, #880d2f); background-image: -ms-linear-gradient(top, #a64a63, #880d2f);background-', 'var(--header)!important;background-image: none; background-image:none;background-', tempstring);
-    tempstring = replaceAll('#880d2f;background-image: -moz-linear-gradient(top, #a64a63, #880d2f); background-image: -ms-linear-gradient(top, #a64a63, #880d2f);background-', 'var(--header)!important;background-image: none; background-image:none;background-', tempstring);
-    tempstring = replaceAll('#fff2c0', 'var(--main1)', tempstring);
-    document.querySelector('#app-style > div > style').innerHTML = tempstring;
-    document.querySelector('#app-style > div > style').addEventListener('change', () => {
-      let tempstring2 = replaceAll('#e1c2cb', 'transparent!important', document.querySelector('#app-style > div > style').innerHTML);
-      tempstring2 = replaceAll('#site-nav DIV.subnav UL > li > a.active {background-color: #fff2c0 !important;}', '#site-nav DIV.subnav UL > li > a.active {background-color: transparent !important;}', tempstring2);
-      tempstring2 = replaceAll('#880d2f;background-image: -moz-linear-gradient(top, #a64a63, #880d2f); background-image: -ms-linear-gradient(top, #a64a63, #880d2f);background-', 'var(--header)!important;background-image: none; background-image:none;background-', tempstring2);
-      tempstring2 = replaceAll('#fff2c0', 'var(--main1)', tempstring2);
-      document.querySelector('#app-style > div > style').innerHTML = tempstring2;
-
-    });
-
-    let tempcolor = color;
-    let tempcolor2 = changeSaturation(30, tempcolor);
-    let tempcolor3 = changeSaturation(20, tempcolor);
-
-    document.documentElement.style.setProperty('--highlightbordercolor', tempcolor);
-    document.documentElement.style.setProperty('--highlightcolor', lighten(tempcolor, 100));
-    document.documentElement.style.setProperty('--header', tempcolor);
-    document.documentElement.style.setProperty('--subheader', lighten(tempcolor, 100));
-    document.documentElement.style.setProperty('--background', lighten(tempcolor, 35));
-    document.documentElement.style.setProperty('--main1', lighten(tempcolor3, 160));
-    document.documentElement.style.setProperty('--main2', lighten(tempcolor2, 150));
-    document.documentElement.style.setProperty('--headercolor', tempcolor);
-    document.documentElement.style.setProperty('--subheadercolor', lighten(tempcolor, 100));
-    document.documentElement.style.setProperty('--backgroundcolor', lighten(tempcolor, 35));
-    document.documentElement.style.setProperty('--main1color', lighten(tempcolor3, 160));
-    document.documentElement.style.setProperty('--main2color', lighten(tempcolor2, 150));
-    document.documentElement.style.setProperty('--highlightcolor', 'default');
-    document.documentElement.style.setProperty('--highlightbordercolor', tempcolor);
-    document.documentElement.style.setProperty('--highlighttextcolor', tempcolor);
-    document.documentElement.style.setProperty('--endTime', tempcolor);
-
+    setThemeColorProperty('body-background', createColorObject(primaryColor, 0, 0, 0, 0.15));
+    setThemeColorProperty('panel-border', createColorObject(primaryColor, 0, 0, 0, 0.4));
+    setThemeColorProperty('panel-head', createColorObject(panelBodyDefault, 0, 0, 0, 0.55));
+    setThemeColorProperty('panel-body', createColorObject(panelBodyDefault, 0, 0, 0, 0.7));
+    setThemeColorProperty('highlight', createColorObject(primaryColor, 45, 45, 45, 0.3));
   } else {
-    document.documentElement.style.setProperty('--highlightbordercolor', 'transparent');
-    document.documentElement.style.setProperty('--highlightcolor', '#fff38c');
-    document.documentElement.style.setProperty('--highlighttextcolor', 'black');
-    themeStyles2.remove();
-    themeStyles = <style>{ style.toString() }</style>;
-    appStyles.after(themeStyles);
-    unloaderContext.addRemovable(themeStyles);
-
+    setThemeProperty('body-background', constants.bodyBackgroundDefault);
+    setThemeProperty('panel-border', constants.panelBorderDefault);
+    setThemeProperty('panel-head', constants.panelBodyDefault);
+    setThemeProperty('panel-body', constants.panelBodyDefault);
+    setThemeProperty('highlight', constants.defaultProgressHighlight);
   }
   if (dark) {
     if (!enhance) {
+      let themeStyles2 = <style>{ enhancedstyle.toString() }</style>;
       appStyles.after(themeStyles2);
       unloaderContext.addRemovable(themeStyles2);
       themeStyles.remove();
@@ -284,10 +237,6 @@ async function applyColorStyles(color: string, enhance: boolean, dark: boolean, 
     document.documentElement.style.setProperty('--backgroundcolor', '#a1a1a1');
     document.documentElement.style.setProperty('--main1color', '#a1a1a1');
     document.documentElement.style.setProperty('--main2color', '#a1a1a1');
-    document.documentElement.style.setProperty('--highlightcolor', 'default');
-    document.documentElement.style.setProperty('--highlightbordercolor', '#a1a1a1');
-    document.documentElement.style.setProperty('--highlighttextcolor', '#a1a1a1');
-    document.documentElement.style.setProperty('--endTime', '#a1a1a1');
   }
 }
 
@@ -325,10 +274,7 @@ async function darkMode(enhance: boolean, unloaderContext: UnloaderContext) {
   document.documentElement.style.setProperty('--backgroundcolor', '#a1a1a1');
   document.documentElement.style.setProperty('--main1color', '#a1a1a1');
   document.documentElement.style.setProperty('--main2color', '#a1a1a1');
-  document.documentElement.style.setProperty('--highlightcolor', 'default');
-  document.documentElement.style.setProperty('--highlightbordercolor', '#a1a1a1');
-  document.documentElement.style.setProperty('--highlighttextcolor', '#a1a1a1');
-  document.documentElement.style.setProperty('--endTime', '#a1a1a1');
+  document.documentElement.style.setProperty('--highlightcolor', '#a1a1a1');
 }
 
 async function applyClearTheme(url: string, transparency: number, unloaderContext: UnloaderContext) {
@@ -387,33 +333,29 @@ function applyFontStyles(font: string, unloaderContext: UnloaderContext) {
 
   setThemeProperty('font', `"${font}", "Blackbaud Sans","Helvetica Neue",Arial,sans-serif`);
 }
-function isPurim() {
-  const date = new Date();
-  return (date.getDate() === 6 || date.getDate() === 7) && date.getMonth() === 2;
-}
+
 function themeMain(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
   const { color, font, enhanced, clear, bgImage, transparency, dark } = options;
-  if (!isPurim()) {
-    if (dark) {
-      darkMode(false, unloaderContext);
-    } else {
-      if (clear && !enhanced) {
-        applyClearTheme(bgImage, transparency, unloaderContext);
-      }
-      if (color !== DEFAULT_COLOR && !clear) {
-        document.querySelector('body').style.backgroundImage = 'none';
-        applyColorStyles(color, enhanced, dark, unloaderContext);
-      }
-      if (clear && enhanced) {
-        document.querySelector('body').style.backgroundImage = 'none';
-        applyColorStyles(color, false, dark, unloaderContext);
-      }
+  if (dark) {
+    darkMode(false, unloaderContext);
+  } else {
+    if (clear && !enhanced) {
+      applyClearTheme(bgImage, transparency, unloaderContext);
     }
-    if (font !== DEFAULT_FONT) {
-      applyFontStyles(font, unloaderContext);
+    if (color !== DEFAULT_COLOR && !clear) {
+      document.querySelector('body').style.backgroundImage = 'none';
+      applyColorStyles(color, enhanced, dark, unloaderContext);
+    }
+    if (clear && enhanced) {
+      document.querySelector('body').style.backgroundImage = 'none';
+      applyColorStyles(color, false, dark, unloaderContext);
     }
   }
+  if (font !== DEFAULT_FONT) {
+    applyFontStyles(font, unloaderContext);
+  }
 }
+
 // empty unloader to prevent unnecessary reload if no styles were initially applied
 function unloadTheme() {}
 
