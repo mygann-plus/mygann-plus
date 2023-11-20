@@ -168,12 +168,12 @@ async function fontValidator(font: string) {
 
 const domQuery = () => document.querySelector('#app-style style');
 
-async function applyColorStyles(color: string, enhance: boolean, dark: boolean, unloaderContext: UnloaderContext) {
+async function applyColorStyles(color: string, enhance: boolean, unloaderContext: UnloaderContext) {
   const appStyles = await waitForLoad(domQuery);
   let themeStyles = <style>{ style.toString() }</style>;
-  if (!dark) {
-    appStyles.after(themeStyles);
-  }
+  
+  appStyles.after(themeStyles);
+  
   unloaderContext.addRemovable(themeStyles);
   const primaryColor = hexToRgba(color);
 
@@ -202,79 +202,6 @@ async function applyColorStyles(color: string, enhance: boolean, dark: boolean, 
     setThemeProperty('panel-body', constants.panelBodyDefault);
     setThemeProperty('highlight', constants.defaultProgressHighlight);
   }
-  if (dark) {
-    if (!enhance) {
-      let themeStyles2 = <style>{ enhancedstyle.toString() }</style>;
-      appStyles.after(themeStyles2);
-      unloaderContext.addRemovable(themeStyles2);
-      themeStyles.remove();
-      themeStyles2 = <style>{ enhancedstyle.toString() }</style>;
-      appStyles.after(themeStyles2);
-      unloaderContext.addRemovable(themeStyles2);
-      let tempstring = replaceAll('#e1c2cb', 'transparent!important', document.querySelector('#app-style > div > style').innerHTML);
-      tempstring = replaceAll('#site-nav DIV.subnav UL > li > a.active {background-color: #fff2c0 !important;}', '#site-nav DIV.subnav UL > li > a.active {background-color: transparent !important;}', tempstring);
-      tempstring = replaceAll('#880d2f;background-image: -moz-linear-gradient(top, #a64a63, #880d2f); background-image: -ms-linear-gradient(top, #a64a63, #880d2f);background-', 'var(--header)!important;background-image: none; background-image:none;background-', tempstring);
-      tempstring = replaceAll('#880d2f;background-image: -moz-linear-gradient(top, #a64a63, #880d2f); background-image: -ms-linear-gradient(top, #a64a63, #880d2f);background-', 'var(--header)!important;background-image: none; background-image:none;background-', tempstring);
-      tempstring = replaceAll('#fff2c0', 'var(--main1)', tempstring);
-      document.querySelector('#app-style > div > style').innerHTML = tempstring;
-      document.querySelector('#app-style > div > style').addEventListener('change', () => {
-        let tempstring2 = replaceAll('#e1c2cb', 'transparent!important', document.querySelector('#app-style > div > style').innerHTML);
-        tempstring2 = replaceAll('#site-nav DIV.subnav UL > li > a.active {background-color: #fff2c0 !important;}', '#site-nav DIV.subnav UL > li > a.active {background-color: transparent !important;}', tempstring2);
-        tempstring2 = replaceAll('#880d2f;background-image: -moz-linear-gradient(top, #a64a63, #880d2f); background-image: -ms-linear-gradient(top, #a64a63, #880d2f);background-', 'var(--header)!important;background-image: none; background-image:none;background-', tempstring2);
-        tempstring2 = replaceAll('#fff2c0', 'var(--main1)', tempstring2);
-        document.querySelector('#app-style > div > style').innerHTML = tempstring2;
-
-      });
-
-    }
-    document.documentElement.style.setProperty('--header', '#121212');
-    document.documentElement.style.setProperty('--subheader', '#1E1E1E');
-    document.documentElement.style.setProperty('--background', '#292929');
-    document.documentElement.style.setProperty('--main1', '#2E2E2E');
-    document.documentElement.style.setProperty('--main2', '#424242');
-    document.documentElement.style.setProperty('--headercolor', '#a1a1a1');
-    document.documentElement.style.setProperty('--subheadercolor', '#a1a1a1');
-    document.documentElement.style.setProperty('--backgroundcolor', '#a1a1a1');
-    document.documentElement.style.setProperty('--main1color', '#a1a1a1');
-    document.documentElement.style.setProperty('--main2color', '#a1a1a1');
-  }
-}
-
-async function darkMode(enhance: boolean, unloaderContext: UnloaderContext) {
-  const appStyles = await waitForLoad(domQuery);
-  if (!enhance) {
-    let themeStyles2 = <style>{ enhancedstyle.toString() }</style>;
-    appStyles.after(themeStyles2);
-    unloaderContext.addRemovable(themeStyles2);
-    themeStyles2 = <style>{ enhancedstyle.toString() }</style>;
-    appStyles.after(themeStyles2);
-    unloaderContext.addRemovable(themeStyles2);
-    let tempstring = replaceAll('#e1c2cb', 'transparent!important', document.querySelector('#app-style > div > style').innerHTML);
-    tempstring = replaceAll('#site-nav DIV.subnav UL > li > a.active {background-color: #fff2c0 !important;}', '#site-nav DIV.subnav UL > li > a.active {background-color: transparent !important;}', tempstring);
-    tempstring = replaceAll('#880d2f;background-image: -moz-linear-gradient(top, #a64a63, #880d2f); background-image: -ms-linear-gradient(top, #a64a63, #880d2f);background-', 'var(--header)!important;background-image: none; background-image:none;background-', tempstring);
-    tempstring = replaceAll('#880d2f;background-image: -moz-linear-gradient(top, #a64a63, #880d2f); background-image: -ms-linear-gradient(top, #a64a63, #880d2f);background-', 'var(--header)!important;background-image: none; background-image:none;background-', tempstring);
-    tempstring = replaceAll('#fff2c0', 'var(--main1)', tempstring);
-    document.querySelector('#app-style > div > style').innerHTML = tempstring;
-    document.querySelector('#app-style > div > style').addEventListener('change', () => {
-      let tempstring2 = replaceAll('#e1c2cb', 'transparent!important', document.querySelector('#app-style > div > style').innerHTML);
-      tempstring2 = replaceAll('#site-nav DIV.subnav UL > li > a.active {background-color: #fff2c0 !important;}', '#site-nav DIV.subnav UL > li > a.active {background-color: transparent !important;}', tempstring2);
-      tempstring2 = replaceAll('#880d2f;background-image: -moz-linear-gradient(top, #a64a63, #880d2f); background-image: -ms-linear-gradient(top, #a64a63, #880d2f);background-', 'var(--header)!important;background-image: none; background-image:none;background-', tempstring2);
-      tempstring2 = replaceAll('#fff2c0', 'var(--main1)', tempstring2);
-      document.querySelector('#app-style > div > style').innerHTML = tempstring2;
-
-    });
-  }
-  document.documentElement.style.setProperty('--header', '#121212');
-  document.documentElement.style.setProperty('--subheader', '#1E1E1E');
-  document.documentElement.style.setProperty('--background', '#292929');
-  document.documentElement.style.setProperty('--main1', '#2E2E2E');
-  document.documentElement.style.setProperty('--main2', '#424242');
-  document.documentElement.style.setProperty('--headercolor', '#a1a1a1');
-  document.documentElement.style.setProperty('--subheadercolor', '#a1a1a1');
-  document.documentElement.style.setProperty('--backgroundcolor', '#a1a1a1');
-  document.documentElement.style.setProperty('--main1color', '#a1a1a1');
-  document.documentElement.style.setProperty('--main2color', '#a1a1a1');
-  document.documentElement.style.setProperty('--highlightcolor', '#a1a1a1');
 }
 
 async function applyClearTheme(url: string, transparency: number, unloaderContext: UnloaderContext) {
@@ -335,21 +262,17 @@ function applyFontStyles(font: string, unloaderContext: UnloaderContext) {
 }
 
 function themeMain(options: ThemeSuboptions, unloaderContext: UnloaderContext) {
-  const { color, font, enhanced, clear, bgImage, transparency, dark } = options;
-  if (dark) {
-    darkMode(false, unloaderContext);
-  } else {
-    if (clear && !enhanced) {
-      applyClearTheme(bgImage, transparency, unloaderContext);
-    }
-    if (color !== DEFAULT_COLOR && !clear) {
-      document.querySelector('body').style.backgroundImage = 'none';
-      applyColorStyles(color, enhanced, dark, unloaderContext);
-    }
-    if (clear && enhanced) {
-      document.querySelector('body').style.backgroundImage = 'none';
-      applyColorStyles(color, false, dark, unloaderContext);
-    }
+  const { color, font, enhanced, clear, bgImage, transparency } = options;
+  if (clear && !enhanced) {
+    applyClearTheme(bgImage, transparency, unloaderContext);
+  }
+  if (color !== DEFAULT_COLOR && !clear) {
+    document.querySelector('body').style.backgroundImage = 'none';
+    applyColorStyles(color, enhanced, unloaderContext);
+  }
+  if (clear && enhanced) {
+    document.querySelector('body').style.backgroundImage = 'none';
+    applyColorStyles(color, false, unloaderContext);
   }
   if (font !== DEFAULT_FONT) {
     applyFontStyles(font, unloaderContext);
@@ -367,7 +290,6 @@ interface ThemeSuboptions {
   bgImage: string;
   // imageScale: number;
   transparency: number;
-  dark: boolean;
   // invert: boolean;
 }
 
@@ -410,7 +332,7 @@ export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
     enhanced: {
       name: 'Enhanced',
       type: 'boolean',
-      defaultValue: true,
+      defaultValue: false,
       description: "DOESN'T WORK WITH CLEAR: Apply theme color to webpage body",
     },
     clear: {
@@ -432,12 +354,6 @@ export default registerModule('{da4e5ba5-d2da-45c1-afe5-83436e5915ec}', {
       defaultValue: 10,
       description: 'Change opacity (clearness) of clear theme',
       dependent: 'clear',
-    },
-    dark: {
-      name: 'Dark Mode',
-      type: 'boolean',
-      defaultValue: false,
-      description: 'Apply dark mode',
     },
   },
 });
