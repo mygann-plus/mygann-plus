@@ -84,3 +84,24 @@ For example, recently the Improved Status Dropdown made it impossible to edit ta
 The bookmarklet allows non-Chrome users to use MyGann+. To create a MyGann+ bookmarklet, use the following code. 
 
 `javascript:fetch('https://mygann-plus-bookmarklet.surge.sh/dist/content-script.js').then(d=>d.text()).then(eval)`
+
+
+## Suboptions Object Format
+```javascript
+{
+  myOption: { // key
+    name: 'My Option', // User-friendly option name
+    type: '', // string, one of [boolean, enum, number, string]
+    defaultValue: '', // default value (for enum, string key of default value)
+    enumValues: { // object of values in enum
+      doOneThing: 'Do One Thing', // Internal key : User-friendly value name
+    },
+    dependent: 'myOtherOption' // (optional) only show if myOtherOption is enabled
+  }
+}
+```
+
+## Typescript Conventions
+
+- Always use `as` to typecast, since `<>` notation isn't allowed in `.tsx` files
+- Use `any` type for data returned from OnCampus API (for the time being, maybe later add types)
