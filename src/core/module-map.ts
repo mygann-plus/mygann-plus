@@ -41,7 +41,7 @@ import classEmail from '~/modules/class-email';
 import fixSemesterSwitch from '~/modules/fix-semester-switch';
 import fullYearAssignments from '~/modules/full-year-assignments';
 import theme from '~/modules/theme';
-import extreme from '~/modules/extreme';
+import extreme from '~/modules/extreme'; // april fools
 import progressAssignmentDetails from '~/modules/progress-assignment-details';
 // import serveryMenu from '~/modules/servery-menu';
 import scheduleArrowNavigation from '~/modules/schedule-arrow-navigation';
@@ -67,10 +67,12 @@ import autoHideAssignmentCenterDropdowns from '~/modules/auto-hide-assignment-ce
 import fixRangeButtonHighlight from '~/modules/fix-range-button-highlight';
 import custompfp from '~/modules/changepfp';
 import notifyUpdate from '~/modules/notify-update';
+import changeAssignmentCenterURl from '~/modules/change-assignment-center-link';
+
 // import letterGradePoints from '~/modules/letter-grade-points';
 
 interface ModuleMap {
-  [key: string]: Module[]
+  [key: string]: Module[];
 }
 
 interface SectionMap {
@@ -96,7 +98,8 @@ const MODULE_MAP: ModuleMap = {
     logo,
     extreme,
     custompfp,
-    notifyUpdate
+    notifyUpdate,
+    changeAssignmentCenterURl,
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus, assignmentCheckpoints],

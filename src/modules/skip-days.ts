@@ -1,7 +1,7 @@
 /* eslint no-underscore-dangle: ["warn", { "allow": ["_currentMainView"] }] */
 import registerModule from '~/core/module';
 import runWithPodiumApp from '~/utils/podium-app';
-
+import fetchSchoolYearDomain from '~/shared/school-year-domain';
 // https://src-e1.myschoolapp.com/1.52.22068.10/src/modules/sis/shared/schedule.js
 
 function updateExistingView() {
@@ -19,7 +19,9 @@ function updateExistingView() {
   });
 }
 
-function skipEmptyMain() {
+async function skipEmptyMain() {
+  const schoolYearTimes = (await fetchSchoolYearDomain());
+
   runWithPodiumApp(({ p3, $, Backbone, aP, _ }) => {
     let Schedule = p3.module('schedule');
 
@@ -32,31 +34,38 @@ function skipEmptyMain() {
     Schedule.Us.waitForCalendar = function (callback: () => void) {
       if (Schedule.Data.fetched === undefined) {
         Schedule.Data.collectionFullYearCallendar = new Schedule.Cs.AllEventsCalendar();
-        Schedule.Data.fetched = Schedule.Data.collectionFullYearCallendar.fetch({ // fetched.done(callback) allows stuff to make sure the data is loaded
-          data: {
-            start: '1693485000', // begginning of the year in epoch ticks
-            end: '1717751100', // end of the year in epoch ticks
-            viewerId: p3.Data.Context.get('UserInfo').UserId,
-            personaId: p3.Data.Context.getSelectedPersona().Id,
-            viewerPersonaId: p3.Data.Context.getSelectedPersona().Id,
+        Schedule.Data.fetched = Schedule.Data.collectionFullYearCallendar.fetch(
+          {
+            // fetched.done(callback) allows stuff to make sure the data is loaded
+            // NOTE: can also use Date.now().toString() to get current epoch ticks. could be useful conversion for dev/for Automatically generating it
+            data: {
+              start: schoolYearTimes.start, // '1693485000',// begginning of the year in epoch ticks
+              end: schoolYearTimes.end, // '1717751100', // end of the year in epoch ticks
+              viewerId: p3.Data.Context.get('UserInfo').UserId,
+              personaId: p3.Data.Context.getSelectedPersona().Id,
+              viewerPersonaId: p3.Data.Context.getSelectedPersona().Id,
+            },
           },
-        });
+        );
       }
       Schedule.Data.fetched.done(callback);
     };
 
-    // TODO: make next event and previous event use binary search (instead of underscore methods) for optimization. getNext generally takes under 1 ms and getPrev generally under 2 // note while going through todos much much later: if it takes under 2 ms why would you optimize it?
+    // TODO\: make next event and previous event use binary search (instead of underscore methods) for optimization. getNext generally takes under 1 ms and getPrev generally under 2 // note while going through todos much much later: if it takes under 2 ms why would you optimize it?
     Schedule.Us.getNextEvt = function (date: Date) {
       return Schedule.Data.collectionFullYearCallendar.find(
-        (evt: any) => !evt.get('allDay') && date.getTime() < new Date(evt.get('end')).getTime(),
+        (evt: any) => !evt.get('allDay')
+          && date.getTime() < new Date(evt.get('end')).getTime(),
       );
     };
 
     Schedule.Us.getPrevEvt = function (date: Date) {
       return Schedule.Data.collectionFullYearCallendar.at(
-        _.findLastIndex( // _.findLastIndex is not in proxied in Collection in Backbone 1.1.2, nor is mixin to do it here. If they ever update backbone, yay
+        _.findLastIndex(
+          // _.findLastIndex is not in proxied in Collection in Backbone 1.1.2, nor is mixin to do it here. If they ever update backbone, yay
           Schedule.Data.collectionFullYearCallendar.models,
-          (evt: any) => !evt.get('allDay') && date.getTime() > new Date(evt.get('start')).getTime(),
+          (evt: any) => !evt.get('allDay')
+            && date.getTime() > new Date(evt.get('start')).getTime(),
         ),
       );
     };
@@ -81,7 +90,9 @@ function skipEmptyMain() {
     prevNextView.navDateNext = function (k: any) {
       p3.loadingIcon('.schedule-list');
       $(k.target).closest('.chCal-button').addClass('chCal-state-down');
-      Schedule.Data.DayViewDate.setDate(Schedule.Data.DayViewDate.getUTCDate() + 1);
+      Schedule.Data.DayViewDate.setDate(
+        Schedule.Data.DayViewDate.getUTCDate() + 1,
+      );
       Schedule.Us.waitForCalendar(() => {
         let nextEvt = Schedule.Us.getNextEvt(Schedule.Data.DayViewDate);
         // console.log('found next'); // for timing
@@ -98,7 +109,11 @@ function skipEmptyMain() {
         let prevEvt = Schedule.Us.getPrevEvt(Schedule.Data.DayViewDate);
         // console.log('found prev'); // for timing
         if (prevEvt !== undefined) Schedule.Data.DayViewDate = new Date(prevEvt.get('start'));
-        else Schedule.Data.DayViewDate.setDate(Schedule.Data.DayViewDate.getUTCDate() - 1);
+        else {
+          Schedule.Data.DayViewDate.setDate(
+            Schedule.Data.DayViewDate.getUTCDate() - 1,
+          );
+        }
         Schedule.Us.fetchScheduleData();
       });
     };

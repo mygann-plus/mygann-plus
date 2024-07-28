@@ -8,6 +8,6 @@ module.exports = merge(common, {
     publicPath: '/test/dist',
   },
   mode: 'development',
-  devtool: 'source-map',
+  devtool: 'eval-source-map',
   watch: true,
 });

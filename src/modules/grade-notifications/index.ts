@@ -65,7 +65,7 @@ async function getNewGradedAssignments(
   clearedNotifications: any[],
   pointsThreshold: number,
 ) {
-  const startDate = '9/17/2018'; // TODO: better, generally
+  const startDate = '9/17/2018'; // NOTE\: better, generally - how was this "TODO"?
   const endDate = new Date().toLocaleDateString('en-US');
 
   const endpoint = '/api/DataDirect/AssignmentCenterAssignments/';

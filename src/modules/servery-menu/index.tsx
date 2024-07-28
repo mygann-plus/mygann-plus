@@ -77,11 +77,12 @@ async function shouldShowMenu() {
 }
 
 async function serveryMenuMain(opts: void, unloaderContext: UnloaderContext) {
+  // QUESTION: 
   // TODO: why is this line commented out?
   // const styles = insertCss(style.toString());
   // unloaderContext.addRemovable(styles);
 
-  // TODO: Is this line needed? Maybe to cache the data?
+  // NOTE: Is this line needed? Maybe to cache the data?
   const serveryMenuItems = getMenuItems(await getDayViewDateString());
   registerAnnouncementDropdownLink({
     title: 'Servery Menu',

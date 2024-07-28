@@ -1,6 +1,6 @@
 ## Creating a module
 
-1. Create a file or folder in src/modules
+1. Create a file or folder in `src/modules`
     * If the module will include CSS, create a folder called `module-name`, with an `index.ts` and `style.css` file
     * Otherwise, create a file called `module-name.ts`
 2. Register the module in `MODULE-MAP` 
@@ -78,6 +78,16 @@ For example, recently the Improved Status Dropdown made it impossible to edit ta
 6. Run `npm run deploy-bookmarklet`
 7. Copy the `dist` folder, the `assets` folder, and the `manifest.json`.into a new folder. Install that folder in Chrome to make sure it works.
 8. Upload the folder to the Chrome Web Store and publish.
+
+## General Uploading Commands
+>! Some of this may no longer be in use once we migrate to manifest v3
+
+- To upload the current code:
+  1. `npm run build`
+  2. `npm run deploy-surge`
+
+- To upload the `/data` folder (will be more important following the change to v3)
+  1. `npm run push-in-cd-data`
 
 ## Bookmarklet
 

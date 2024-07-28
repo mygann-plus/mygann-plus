@@ -8,8 +8,9 @@ import { getAllMessageConversations } from '~/shared/messages';
 import style from './style.css';
 import { getUserId } from '~/utils/user';
 
+// TODO: Make this a list, maybe even in data. Currently the only Admin is Matan.
 const ADMIN_ID = 4109775;
-
+const ADMIN_IDS = [4109775, 6784542]
 const selectors = {
   spinner: style.locals.spinner,
   report: style.locals.report,
@@ -35,7 +36,8 @@ async function getBugReports(): Promise<BugReport[]> {
       conversation.Messages
         .filter((message: any) => {
           return message.Body.includes('MyGann+ Bug Report')
-            && message.FromUser.UserId !== ADMIN_ID;
+            // && message.FromUser.UserId !== ADMIN_ID;
+            && !ADMIN_IDS.includes(message.FromUser.UserId);
         })
         .map((message: any) => {
           const lines = message.Body.split('<br>').join('\n');
@@ -113,7 +115,8 @@ class AdminPanel {
 }
 
 async function adminMain() {
-  if (await getUserId() !== String(ADMIN_ID)) {
+  const userId = await getUserId();
+  if (ADMIN_IDS.includes(Number(userId))) {
     return;
   }
 
