@@ -9,8 +9,7 @@ import style from './style.css';
 import { getUserId } from '~/utils/user';
 
 // TODO: Make this a list, maybe even in data. Currently the only Admin is Matan.
-const ADMIN_ID = 4109775;
-const ADMIN_IDS = [4109775, 6784542]
+const ADMIN_IDS = [4109775, 6784542];
 const selectors = {
   spinner: style.locals.spinner,
   report: style.locals.report,
@@ -28,43 +27,41 @@ interface BugReport {
 
 async function getBugReports(): Promise<BugReport[]> {
   const conversations = await getAllMessageConversations();
-  const taskMessages = flatten(conversations
-    .filter((conversation: any) => (
-      conversation.Messages.find((message: any) => message.Body.includes('MyGann+ Bug Report'))
-    ))
-    .map((conversation: any) => (
-      conversation.Messages
-        .filter((message: any) => {
-          return message.Body.includes('MyGann+ Bug Report')
-            // && message.FromUser.UserId !== ADMIN_ID;
-            && !ADMIN_IDS.includes(message.FromUser.UserId);
-        })
-        .map((message: any) => {
-          const lines = message.Body.split('<br>').join('\n');
-          const body = lines.split('MyGann+ Bug Report:')[1].split('-- debug data')[0];
-          const from = `${message.FromUser.FirstName} ${message.FromUser.LastName}`;
-          let image = '';
-          if (message.Body.includes('-- image id')) {
-            const imageId = message.Body.match(/-- image id: (.+) --/)[1];
-            image = `https://i.imgur.com/${imageId}.png`;
-          }
-          return {
-            from,
-            body,
-            image,
-          };
-        })
-    )));
+  const taskMessages = flatten(
+    conversations
+      .filter((conversation: any) => conversation.Messages.find((message: any) => message.Body.includes('MyGann+ Bug Report')))
+      .map((conversation: any) => conversation.Messages.filter((message: any) => {
+        return (
+          message.Body.includes('MyGann+ Bug Report')
+            && !ADMIN_IDS.includes(message.FromUser.UserId)
+        );
+      }).map((message: any) => {
+        const lines = message.Body.split('<br>').join('\n');
+        const body = lines
+          .split('MyGann+ Bug Report:')[1]
+          .split('-- debug data')[0];
+        const from = `${message.FromUser.FirstName} ${message.FromUser.LastName}`;
+        let image = '';
+        if (message.Body.includes('-- image id')) {
+          const imageId = message.Body.match(/-- image id: (.+) --/)[1];
+          image = `https://i.imgur.com/${imageId}.png`;
+        }
+        return {
+          from,
+          body,
+          image,
+        };
+      })),
+  );
   return taskMessages;
 }
 
 class AdminPanel {
-
   private page: HTMLElement;
 
   constructor() {
     this.page = this.generatePage();
-    getBugReports().then(reports => {
+    getBugReports().then((reports) => {
       this.populateReports(reports);
       this.removeSpinner();
     });
@@ -72,18 +69,16 @@ class AdminPanel {
 
   populateReports(reports: BugReport[]) {
     const reportsWrap = this.page.querySelector(`.${selectors.report}`);
-    reports.forEach(report => {
+    reports.forEach((report) => {
       const reportElem = (
         <div className={selectors.report}>
           <b>From:</b> {report.from}
           <div>{report.body} </div>
-          {
-            report.image
-              ? <a href={report.image} target="_blank" rel="noopener noreferrer">
-                <img src={report.image}></img>
-              </a>
-              : null
-          }
+          {report.image ? (
+            <a href={report.image} target="_blank" rel="noopener noreferrer">
+              <img src={report.image}></img>
+            </a>
+          ) : null}
         </div>
       );
       reportsWrap.appendChild(reportElem);
@@ -103,8 +98,7 @@ class AdminPanel {
         <div className={selectors.spinner}>
           <i className="fa fa-spinner fa-spin" />
         </div>
-        <div className={selectors.report}>
-        </div>
+        <div className={selectors.report}></div>
       </div>
     );
   }
@@ -116,7 +110,7 @@ class AdminPanel {
 
 async function adminMain() {
   const userId = await getUserId();
-  if (ADMIN_IDS.includes(Number(userId))) {
+  if (!ADMIN_IDS.includes(Number(userId))) {
     return;
   }
 

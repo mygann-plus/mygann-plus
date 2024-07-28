@@ -5,6 +5,7 @@ import { waitForLoad } from '~/utils/dom';
 const domQuery = () => document.getElementById('assignment-center-btn');
 
 async function changeLink() {
+  document.querySelector('body');
   const linkButton = await waitForLoad(domQuery);
   try {
     linkButton.setAttribute(

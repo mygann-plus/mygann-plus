@@ -80,7 +80,7 @@ For example, recently the Improved Status Dropdown made it impossible to edit ta
 8. Upload the folder to the Chrome Web Store and publish.
 
 ## General Uploading Commands
->! Some of this may no longer be in use once we migrate to manifest v3
+> [!WARNING] Some of this may no longer be in use once we migrate to manifest v3
 
 - To upload the current code:
   1. `npm run build`

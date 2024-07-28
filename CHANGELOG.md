@@ -1,4 +1,17 @@
+## 1.26.0
+### Added
+- New module to change assignment center button link to the old version
+- Data for `skip-days`
+### Changed
+- The way `skip-days` works by making it fetch from a json to get the start and end dates
+
+### Fixed
+- Admin module now applies to a list of IDs, not just Matan's
+
+
 ## 1.25.0
+
+
 ### Added
 - New enhanced theme
 ### Fixed
