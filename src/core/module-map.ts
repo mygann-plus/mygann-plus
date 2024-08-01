@@ -68,7 +68,9 @@ import fixRangeButtonHighlight from '~/modules/fix-range-button-highlight';
 import custompfp from '~/modules/changepfp';
 import notifyUpdate from '~/modules/notify-update';
 import changeAssignmentCenterURl from '~/modules/change-assignment-center-link';
-
+import stucoButton from '~/modules/stuco';
+import stucoPage from '~/modules/stucoPage';
+import zapper from '~/modules/zapper';
 // import letterGradePoints from '~/modules/letter-grade-points';
 
 interface ModuleMap {
@@ -100,6 +102,8 @@ const MODULE_MAP: ModuleMap = {
     custompfp,
     notifyUpdate,
     changeAssignmentCenterURl,
+    stucoButton,
+    zapper,
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus, assignmentCheckpoints],
@@ -145,6 +149,9 @@ const MODULE_MAP: ModuleMap = {
     hideProgressGradesButton,
     // letterGradePoints,
   ],
+  '#studentmyday/stuco': [
+    stucoPage,
+  ],
   '#message': [archiveAll],
   '#message/inbox': [markAllAsRead, markAsRead, fixArchiveHighlight],
   '#message/archive': [fixArchiveHighlight],
@@ -169,6 +176,7 @@ const SECTION_MAP: SectionMap = {
   '#studentmyday/assignment-center': 'Assignment Center',
   '#studentmyday/schedule': 'Schedule',
   '#studentmyday/progress': 'Progress',
+  '#studentmyday/stuco': 'Stuco',
   '#message': 'Messages',
   '#message/inbox': 'Messages Inbox',
   '#message/compose': 'Message Compose',

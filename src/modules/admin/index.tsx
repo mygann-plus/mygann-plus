@@ -8,7 +8,6 @@ import { getAllMessageConversations } from '~/shared/messages';
 import style from './style.css';
 import { getUserId } from '~/utils/user';
 
-// TODO: Make this a list, maybe even in data. Currently the only Admin is Matan.
 const ADMIN_IDS = [4109775, 6784542];
 const selectors = {
   spinner: style.locals.spinner,
