@@ -1,8 +1,8 @@
 import registerModule from '~/core/module';
-
+import MouseBox from './mouseBox';
 import { createElement, waitForLoad, insertCss } from '~/utils/dom';
-import storage from '~/utils/storage';
 import style from './style.css';
+import { loadStyle, writeStyle, listToCss } from './utils';
 
 function addStyle() {
   const css = `
@@ -11,70 +11,50 @@ function addStyle() {
     `;
   insertCss(css);
 }
+let styles: string[] = [];
+function clickAction(add: boolean, path: string): void {
+  if (add) {
+    const index = styles.indexOf(path);
+    if (index > -1) {
+      styles.splice(index, 1);
+    }
+  } else {
+    styles.push(path);
+  }
+  console.log(styles);
+}
 
-function handleSubnavtop() {
-  const elements = document.getElementsByClassName('subnavtop');
-  for (let i = 0; i < elements.length; i++) {
-    const elm = elements[i] as HTMLElement;
-    elm.remove();
-    i--;
+const mouseBox = new MouseBox(clickAction);
+
+async function selectMode(on: boolean = true) {
+  styles = await loadStyle();
+  const css = listToCss(styles);
+  console.log(css);
+  const styleElem = <style>{css}</style>;
+  document.head.appendChild(styleElem);
+
+  if (!on) {
+    mouseBox.mouseBoxOff();
+  } else {
+    // for (const s of styles) {
+    //   const elm = document.querySelector(s) as HTMLElement;
+    //   elm.style.setProperty('background', 'rgba(255, 0, 0, 0.7)', 'important');
+    //   elm.dataset.clicked = 'true';
+    // }
+    mouseBox.mouseBoxOn();
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Escape') {
+        mouseBox.mouseBoxOff();
+        writeStyle('zapStyles', styles);
+      } else if (e.code === 'KeyE') {
+        mouseBox.mouseBoxOn();
+      }
+    });
   }
 }
 
-async function zapperMain() {
-  handleSubnavtop();
-
-  const overlay = document.createElement('div');
-  overlay.style.position = 'absolute';
-  overlay.style.pointerEvents = 'none';
-  overlay.style.border = '2px solid rgba(255, 0, 0, 0.5)';
-  overlay.style.background = 'rgba(255,0, 0, 0.2)';
-  overlay.style.zIndex = '9999';
-  overlay.style.display = 'none';
-  document.body.appendChild(overlay);
-
-  let currentTarget: HTMLElement | null = null;
-  document.addEventListener('mouseover', (event: MouseEvent) => {
-    handleSubnavtop();
-    const target = event.target as HTMLElement;
-    if (target && target !== overlay) {
-      const rect = target.getBoundingClientRect();
-      overlay.style.width = `${rect.width}px`;
-      overlay.style.height = `${rect.height}px`;
-      overlay.style.left = `${rect.left + window.scrollX}px`;
-      overlay.style.top = `${rect.top + window.scrollY}px`;
-      overlay.style.display = 'block';
-    }
-  });
-
-  document.addEventListener('mouseout', (event: MouseEvent) => {
-    handleSubnavtop();
-    const target = event.target as HTMLElement;
-    if (target && target !== overlay && target !== currentTarget) {
-      overlay.style.display = 'none';
-    }
-  });
-
-  document.addEventListener('click', (event: MouseEvent) => {
-    handleSubnavtop();
-    const target = event.target as HTMLElement;
-    event.preventDefault();
-    if (target && target !== overlay) {
-      if (target.dataset.clicked === 'true') {
-        target.style.removeProperty('background');
-        target.dataset.clicked = 'false';
-      } else {
-        target.style.setProperty(
-          'background',
-          'rgba(255, 0, 0, 0.7)',
-          'important',
-        );
-        target.dataset.clicked = 'true';
-      }
-      overlay.style.display = 'none';
-      currentTarget = target;
-    }
-  });
+function zapperMain() {
+  selectMode(true);
 }
 
 export default registerModule('{a1824798-1bd0-457b-9c29-241efba96b73}', {
