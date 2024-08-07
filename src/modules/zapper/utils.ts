@@ -1,37 +1,42 @@
 import { createElement, waitForLoad, insertCss } from '~/utils/dom';
 import storage from '~/utils/storage';
 
-export function getCssSelector(element: Element): string {
-  if (!(element instanceof Element)) {
-    throw new Error('Provided argument is not an Element');
-  }
-
-  const getSelector = (el: Element): string => {
+export function getCssSelector(el: Element): string {
+  if (!(el instanceof Element)) return;
+  let path = [];
+  while (el.nodeType === Node.ELEMENT_NODE) {
+    let selector = el.nodeName.toLowerCase();
     if (el.id) {
-      return `#${el.id}`;
+      selector += `#${el.id}`;
+      path.unshift(selector);
+      break;
+    } else {
+      let sib = el;
+      let nth = 1;
+      sib = sib.previousElementSibling;
+      while (sib) {
+        if (sib.nodeName.toLowerCase() === selector) {
+          nth++;
+        }
+        sib = sib.previousElementSibling;
+      }
+      if (el.previousElementSibling != null || el.nextElementSibling != null) {
+        selector += `:nth-of-type(${nth})`;
+      }
     }
-    if (el.className) {
-      return `.${el.className.trim().replace(/\s+/g, '.')}`;
-    }
-    if (el.tagName) {
-      const parent = el.parentElement ? getSelector(el.parentElement) : '';
-      return `${parent} > ${el.tagName.toLowerCase()}`;
-    }
-    return '';
-  };
-
-  return getSelector(element);
+    path.unshift(selector);
+    el = el.parentNode as Element;
+  }
+  return path.join(' > ');
 }
 
 export function listToCss(selectors: string[]): string {
   let full: string = '';
-  console.log(selectors);
   for (let s of selectors) {
-    console.log(s);
     full += `${s} ,`;
   }
   full = full.slice(0, -1);
-  full += ' { display: hidden }';
+  full += ' { display: none }';
   return full;
 }
 
@@ -64,7 +69,10 @@ export async function loadStyle(path: string = 'zapStyles'): Promise<string[]> {
 // - no but when adding new rules it updates based off that - if click is false it removes it, if it's true it adds the style tag
 // - when click Escape it saves the config (or a save button)
 
-export function writeStyle(path: string = 'zapStyles', style: string[]): Promise<void> {
+export function writeStyle(
+  path: string = 'zapStyles',
+  style: string[],
+): Promise<void> {
   return new Promise((resolve, reject) => {
     const data = { [path]: style };
     chrome.storage.sync.set(data, () => {

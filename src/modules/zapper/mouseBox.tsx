@@ -23,6 +23,7 @@ export default class MouseBox {
   }
 
   private handleMouseOver = (event: MouseEvent) => {
+    event.stopPropagation();
     this.handleSubnavtop(); // Use 'this' to refer to the class method
     const target = event.target as HTMLElement;
     if (target && target !== this.overlay) {
@@ -38,6 +39,7 @@ export default class MouseBox {
   };
 
   private handleMouseOut = (event: MouseEvent) => {
+    event.stopPropagation();
     this.handleSubnavtop(); // Use 'this' to refer to the class method
     const target = event.target as HTMLElement;
     if (target && target !== this.overlay && target !== this.currentTarget) {
@@ -49,7 +51,7 @@ export default class MouseBox {
 
   private handleClick = (event: MouseEvent) => {
     event.preventDefault();
-
+    event.stopPropagation();
     this.handleSubnavtop(); // Use 'this' to refer to the class method
     const target = event.target as HTMLElement;
     if (target && target !== this.overlay) {
