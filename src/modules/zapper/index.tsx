@@ -71,7 +71,8 @@ async function selectMode(on: boolean = true) {
       mouseBox.mouseBoxOff();
       writeStyle('zapStyles', styles);
       updateStyles();
-    } else if (e.code === 'KeyE') {
+    } else if (e.code === 'KeyE' && e.ctrlKey) {
+      e.preventDefault();
       mouseBox.mouseBoxOn();
       offStyles();
     }
@@ -85,7 +86,7 @@ function zapperMain() {
 export default registerModule('{a1824798-1bd0-457b-9c29-241efba96b73}', {
   name: 'Zapper',
   description:
-    'A tool to zap away items in mygann. Simply press E to activate and the Escape key to deactivate. While in zapper mode you can click on items once to mark them as hidden (they will be marked red) and click on them again to unmark them. Once you click escape, they will be hidden until you go back into editing mode when you can change your prefrence.',
+    'A tool to zap away items in mygann. Simply press ctrl + E to activate and the Escape key to deactivate. While in zapper mode you can click on items once to mark them as hidden (they will be marked red) and click on them again to unmark them. Once you click escape, they will be hidden until you go back into editing mode when you can change your prefrence.',
   main: zapperMain,
   showInOptions: true,
   defaultEnabled: false,
