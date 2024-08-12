@@ -18,8 +18,8 @@ async function changeLinks() {
   const dropDown = () => document.querySelector(
     '#topnav-containter > ul > li.oneline.parentitem.first > div.subnav.sec-75-bordercolor.white-bgc.sky-nav.nav-visible > ul > li:nth-child(3) > a',
   );
-  await changeLink(barIcon);
   await changeLink(dropDown);
+  await changeLink(barIcon);
 }
 
 export default registerModule('{eec0a74b-0e45-4ed6-bb40-dbc1955b4dc6}', {
