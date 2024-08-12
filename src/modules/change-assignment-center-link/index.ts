@@ -15,10 +15,11 @@ async function changeLink(domQuery: () => Element) {
 
 async function changeLinks() {
   const barIcon = () => document.getElementById('assignment-center-btn');
-  const dropDown = () => document.querySelector(
-    '#topnav-containter > ul > li.oneline.parentitem.first > div.subnav.sec-75-bordercolor.white-bgc.sky-nav.nav-visible > ul > li:nth-child(3) > a',
-  );
-  await changeLink(dropDown);
+  const dropDown = () =>
+    document.querySelector(
+      '#topnav-containter > ul > li.oneline.parentitem.first > div.subnav.sec-75-bordercolor.white-bgc.sky-nav.nav-visible > ul > li:nth-child(3) > a',
+    );
+  // await changeLink(dropDown);
   await changeLink(barIcon);
 }
 
