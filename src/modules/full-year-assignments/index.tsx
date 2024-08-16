@@ -34,6 +34,7 @@ const domQuery = {
   dialogBody: () => document.querySelector('.modal-body') as HTMLElement,
   courseTitles: () => document.querySelectorAll('#coursesContainer h3'),
   firstSemesterButton: () => document.querySelector('#coursesCollapse > div > div.row > div > div:nth-child(1) > span > label:nth-child(1)') as HTMLElement,
+  currentYear: () => document.querySelector('#gradeSelect > option[selected]') as HTMLSelectElement,
 };
 
 const formatDate = (dateString: string) => { // remove time and year
@@ -46,13 +47,22 @@ const formatDate = (dateString: string) => { // remove time and year
 async function getFirstSemesterCourseList() {
   // const termButtons = await waitForOne(domQuery.termButtons);
   const firstSemButton = await waitForLoad(domQuery.firstSemesterButton);
-  const durationListId = firstSemButton.dataset.value;
+  let durationListId = firstSemButton.dataset.value;
+  const userId = await getUserId();
+  // TODO: we can also migrate to just using durationList throught api calls:
+  // to get durationLists for year: api/DataDirect/StudentGroupTermList/?studentUserId=${userId}&schoolYearLabel=${2023%20-%202024}&personaId=2
 
+  const currentYear = await waitForLoad(domQuery.currentYear);
+  const yearString = encodeURIComponent(currentYear.value);
+  const data = await fetchApi(`/api/DataDirect/StudentGroupTermList/?studentUserId=${userId}&schoolYearLabel=${yearString}&personaId=2`);
+  if (data[0].DurationDescription === '1st Semester') {
+    durationListId = data[0].DurationId;
+  }
   // could have probably just used waitForLoad instead of waitForOne and would've worked. Main issue is that seasons render before semesters
   // WTF. WHO USED THEIR OWN USERID. OMG I DON'T WANNA CLOWN BUT THIS IS RIDICULOUSLY HILARIOUS. NO SHAME IN THE COPY AND PASTE GAME
   // MATAN! REALLY!?! HOW DID YOU OF ALL PPL MAKE THIS MISTAKE. OMG THIS IS AMAZING
   // I'LL FIX IT RN. DW
-  const userId = await getUserId();
+
   const endpoint = '/api/datadirect/ParentStudentUserAcademicGroupsGet';
   const query = `?userId=${userId}&memberLevel=3&persona=2&durationList=${durationListId}`;
   const courseList = await fetchApi(endpoint + query);
