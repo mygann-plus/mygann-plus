@@ -4,6 +4,7 @@ import { UnloaderContext } from '~/core/module-loader';
 import { createElement, insertCss, waitForOne } from '~/utils/dom';
 import log from '~/utils/log';
 import { fetchApi } from '~/utils/fetch';
+import { getUserId } from '~/utils/user';
 
 import {
   addProgressDialogListener,
@@ -26,7 +27,10 @@ const selectors = {
 async function getAssignments(courseId: string) {
   const markingPeriodId = await getActiveMarkingPeriodId();
   const endpoint = '/api/datadirect/GradeBookPerformanceAssignmentStudentList/';
-  const query = `?sectionId=${courseId}&markingPeriodId=${markingPeriodId}&studentUserId=4109775`;
+  // NOT AGAIN MAN. QUIT USING YOUR USERID!!!
+  // DW, I'LL FIX IT (again)
+  const userId = await getUserId();
+  const query = `?sectionId=${courseId}&markingPeriodId=${markingPeriodId}&studentUserId=${userId}`;
   return fetchApi(endpoint + query);
 }
 
@@ -60,7 +64,7 @@ async function getAssignmentPoints(assignmentRow: HTMLElement, assignments: any[
     const due = getTableRowColumnContent(assignmentRow, 'Due');
 
     const assignmentData = assignments.find(assignment => {
-      console.log(sanitizeAssignmentTitle(assignment.AssignmentShortDescription), name);
+      // console.log(sanitizeAssignmentTitle(assignment.AssignmentShortDescription), name);
       return sanitizeAssignmentTitle(assignment.AssignmentShortDescription) === name
         && isEqualDate(assignment.DateAssigned, assigned)
         && isEqualDate(assignment.DateDue, due);
@@ -99,7 +103,6 @@ function isLetterGrade(gradeElem: HTMLElement) {
 const domQuery = () => document.querySelectorAll('[data-heading="Points"] h4');
 
 async function insertPoints(unloaderContext: UnloaderContext) {
-  console.log('inserting');
   const gradeElems = await waitForOne(domQuery);
   const letterGradeElems = Array.from(gradeElems)
     .filter(isLetterGrade);

@@ -22,10 +22,20 @@ const selectors = {
   hideButtonActive: style.locals.active,
 };
 
+// If true, the form is able to be filled out
+function verifyFormExceptions(formRow: HTMLElement) {
+  return (formRow.querySelector('td').childElementCount === 0);
+}
+
 function getFormControls(formRow: HTMLElement) {
   return formRow.querySelector('h4.pull-right');
 }
 function getFormId(formRow: HTMLElement) {
+
+  if (!verifyFormExceptions(formRow)) {
+    return -1;
+  }
+
   return parseInt(
     getFormControls(formRow).querySelector('button').dataset.downloadlink
       .split('#schoolform/')[1]
@@ -52,7 +62,9 @@ class HideButton {
   }
 
   show() {
-    getFormControls(this.formRow).appendChild(this.button);
+    if (verifyFormExceptions(this.formRow)) {
+      getFormControls(this.formRow).appendChild(this.button);
+    }
   }
 
   generateButton() {

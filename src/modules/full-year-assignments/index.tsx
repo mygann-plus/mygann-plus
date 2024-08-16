@@ -33,6 +33,7 @@ const domQuery = {
   dialogHeader: () => document.querySelector('.bb-dialog-header'),
   dialogBody: () => document.querySelector('.modal-body') as HTMLElement,
   courseTitles: () => document.querySelectorAll('#coursesContainer h3'),
+  firstSemesterButton: () => document.querySelector('#coursesCollapse > div > div.row > div > div:nth-child(1) > span > label:nth-child(1)') as HTMLElement,
 };
 
 const formatDate = (dateString: string) => { // remove time and year
@@ -43,12 +44,17 @@ const formatDate = (dateString: string) => { // remove time and year
 /* DATA FETCHING */
 
 async function getFirstSemesterCourseList() {
-  const termButtons = await waitForOne(domQuery.termButtons);
-  const durationListId = Array.from(termButtons)
-    .find(button => button.textContent.trim() === '1st Semester')
-    .dataset.value;
+  // const termButtons = await waitForOne(domQuery.termButtons);
+  const firstSemButton = await waitForLoad(domQuery.firstSemesterButton);
+  const durationListId = firstSemButton.dataset.value;
+
+  // could have probably just used waitForLoad instead of waitForOne and would've worked. Main issue is that seasons render before semesters
+  // WTF. WHO USED THEIR OWN USERID. OMG I DON'T WANNA CLOWN BUT THIS IS RIDICULOUSLY HILARIOUS. NO SHAME IN THE COPY AND PASTE GAME
+  // MATAN! REALLY!?! HOW DID YOU OF ALL PPL MAKE THIS MISTAKE. OMG THIS IS AMAZING
+  // I'LL FIX IT RN. DW
+  const userId = await getUserId();
   const endpoint = '/api/datadirect/ParentStudentUserAcademicGroupsGet';
-  const query = `?userId=4109775&memberLevel=3&persona=2&durationList=${durationListId}`;
+  const query = `?userId=${userId}&memberLevel=3&persona=2&durationList=${durationListId}`;
   const courseList = await fetchApi(endpoint + query);
   return courseList.map((course: any) => ({
     name: course.sectionidentifier,
