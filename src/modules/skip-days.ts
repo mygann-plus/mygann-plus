@@ -20,7 +20,8 @@ function updateExistingView() {
 }
 
 async function skipEmptyMain() {
-  const schoolYearTimes = (await fetchSchoolYearDomain());
+  // TODO: ADD THIS TO DATA. GIVE ME PERMISSION PLEASE PLEASE PLEASE. IT'S SO EASY!!!!!
+  // const schoolYearTimes = (await fetchSchoolYearDomain());
 
   runWithPodiumApp(({ p3, $, Backbone, aP, _ }) => {
     let Schedule = p3.module('schedule');
@@ -32,6 +33,10 @@ async function skipEmptyMain() {
     });
 
     Schedule.Us.waitForCalendar = function (callback: () => void) {
+      const schoolYearTimes = {
+        start: '1724817600',
+        end: '1750305600',
+      };
       if (Schedule.Data.fetched === undefined) {
         Schedule.Data.collectionFullYearCallendar = new Schedule.Cs.AllEventsCalendar();
         Schedule.Data.fetched = Schedule.Data.collectionFullYearCallendar.fetch(

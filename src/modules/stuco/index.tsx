@@ -37,7 +37,9 @@ function createStucoButton() {
 
 async function stucoMain() {
   const buttonBar = await waitForLoad(domQuery);
-  buttonBar.appendChild(createStucoButton());
+  if (document.getElementById('stuco-btn') === null) {
+    buttonBar.appendChild(createStucoButton());
+  }
 }
 
 export default registerModule('{1de0e122-8f76-40d8-b081-ea1e4e86fb7d}', {

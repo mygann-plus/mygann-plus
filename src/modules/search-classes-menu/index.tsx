@@ -193,17 +193,18 @@ function searchClassesMenuMain(opts: void, unloaderContext: UnloaderContext) {
     unloaderContext.addRemovable(showListener);
   });
 
-  waitForLoad(domQuery.mobile).then(() => {
-    const classFilter = new MobileClassFilter();
-    classFilter.mountInput(domQuery.mobile());
-    unloaderContext.addRemovable(classFilter);
-
-    const classesMenu = document.querySelector('#mobile-group-header-Classes');
-    const showListener = addEventListener(classesMenu, 'click', () => {
-      classFilter.showSearchbar();
-    });
-    unloaderContext.addRemovable(showListener);
-  });
+  // I don't know what this is for. Why mobile? This isn't visible on mobile. Also why is it different from the desktop one? Why do we want this in the first place? It's not even functional cause it's adding the listener to a null element. I'm commenting this out.
+  // waitForLoad(domQuery.mobile).then(() => {
+  //   const classFilter = new MobileClassFilter();
+  //   classFilter.mountInput(domQuery.mobile());
+  //   unloaderContext.addRemovable(classFilter);
+  //
+  //   const classesMenu = document.querySelector('#mobile-group-header-Classes');
+  //   const showListener = addEventListener(classesMenu, 'click', () => {
+  //     classFilter.showSearchbar();
+  //   });
+  //   unloaderContext.addRemovable(showListener);
+  // });
 }
 
 export default registerModule('{3eb98c28-475a-43d7-ae80-721fffcdda11}', {
