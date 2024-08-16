@@ -14,7 +14,7 @@ interface ScheduleBlock {
 
 async function getSchedule(filterMincha: boolean, cachedSchedule?: ScheduleBlock[]) {
   const today = new Date().toLocaleDateString();
-  if (cachedSchedule && cachedSchedule[0].CalendarDate.startsWith(today)) {
+  if (cachedSchedule && cachedSchedule.length > 0 && cachedSchedule[0].CalendarDate.startsWith(today)) {
     return cachedSchedule;
   }
   const [month, day, year] = today.split('/');

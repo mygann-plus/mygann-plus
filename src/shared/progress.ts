@@ -7,21 +7,26 @@ import { getAssignmentData } from './assignments-center';
 import { UnloaderContext } from '~/core/module-loader';
 
 export function coursesListLoaded() {
-  return document.querySelector('#coursesContainer > *')
-    && document.querySelector('#coursesCollapse > div > div.row');
+  return (
+    document.querySelector('#coursesContainer > *') &&
+    document.querySelector('#coursesCollapse > div > div.row')
+  );
 }
 
 async function observeSectionBar(id: string, fn: MutationCallback) {
-  const courseWrap = await waitForLoad(() => (
-    document.querySelector(`#${id}`)
-    && document.querySelector(`#${id}`).closest('.ch')
-  ));
+  const courseWrap = await waitForLoad(
+    () =>
+      document.querySelector(`#${id}`) &&
+      document.querySelector(`#${id}`).closest('.ch'),
+  );
   const observer = new MutationObserver(fn);
   observer.observe(courseWrap, {
     childList: true,
   });
   return {
-    remove() { observer.disconnect(); },
+    remove() {
+      observer.disconnect();
+    },
   };
 }
 
@@ -40,8 +45,10 @@ export function computeGradePercentage(earned: string, total: string) {
 const domQuery = {
   dialogTitle: () => document.querySelector('.media-heading'),
   gradeDetailButton: () => document.querySelectorAll('.col-md-2 .btn'),
-  prevButton: () => document.querySelectorAll('button[data-analysis="prev"]')[0],
-  nextButton: () => document.querySelectorAll('button[data-analysis="next"]')[0],
+  prevButton: () =>
+    document.querySelectorAll('button[data-analysis="prev"]')[0],
+  nextButton: () =>
+    document.querySelectorAll('button[data-analysis="next"]')[0],
 };
 
 export interface ProgressDialogListenerData {
@@ -52,14 +59,12 @@ async function callWhenDialogChanges(
   callback: (data: ProgressDialogListenerData) => void,
   data: ProgressDialogListenerData,
 ) {
-  const getDialogTitle = () => (
-    domQuery.dialogTitle()
-    && domQuery.dialogTitle().textContent
-  );
+  const getDialogTitle = () =>
+    domQuery.dialogTitle() && domQuery.dialogTitle().textContent;
   const currentTitle = getDialogTitle();
-  await waitForLoad(() => (
-    getDialogTitle() && getDialogTitle() !== currentTitle
-  ));
+  await waitForLoad(
+    () => getDialogTitle() && getDialogTitle() !== currentTitle,
+  );
   callback(data);
 }
 
@@ -67,31 +72,45 @@ export async function addProgressDialogListener(
   callback: (data: ProgressDialogListenerData) => void,
   unloaderContext: UnloaderContext,
 ) {
-  const gradeDetailButtons = await waitForOne(() => document.querySelectorAll('.showGrade + a'));
+  const gradeDetailButtons = await waitForOne(() =>
+    document.querySelectorAll('.showGrade + a'),
+  );
   for (const button of gradeDetailButtons) {
-    unloaderContext.addRemovable(addEventListener(button, 'click', async () => {
-      await callWhenDialogChanges(callback, { fromGradeDetailButton: true });
-      const navButtons = await waitForOne(() => (
-        document.querySelectorAll('[data-analysis="next"], [data-analysis="prev"]')
-      ));
-      for (const navButton of navButtons) {
-        const data = { fromGradeDetailButton: false };
-        unloaderContext.addRemovable(addEventListener(navButton, 'click', () => callback(data)));
-      }
-    }));
+    unloaderContext.addRemovable(
+      addEventListener(button, 'click', async () => {
+        await callWhenDialogChanges(callback, { fromGradeDetailButton: true });
+        const navButtons = await waitForOne(() =>
+          document.querySelectorAll(
+            '[data-analysis="next"], [data-analysis="prev"]',
+          ),
+        );
+        for (const navButton of navButtons) {
+          const data = { fromGradeDetailButton: false };
+          unloaderContext.addRemovable(
+            addEventListener(navButton, 'click', () => callback(data)),
+          );
+        }
+      }),
+    );
   }
-  unloaderContext.addRemovable(await observeCoursesBar(() => {
-    return addProgressDialogListener(callback, unloaderContext);
-  }));
+  unloaderContext.addRemovable(
+    await observeCoursesBar(() => {
+      return addProgressDialogListener(callback, unloaderContext);
+    }),
+  );
 }
 
 // removes HTML entities (for Hebrew characters) and HTML fragments
 export function sanitizeAssignmentTitle(title: string) {
-  return he.decode(stripHtml(title)
-    .replace(/\s+/g, ' ')
-    .replace(/<!--StartFragment-->/g, '')
-    .replace(/<!--EndFragment-->/g, '')
-    .trim()).trim();
+  return he
+    .decode(
+      stripHtml(title)
+        .replace(/\s+/g, ' ')
+        .replace(/<!--StartFragment-->/g, '')
+        .replace(/<!--EndFragment-->/g, '')
+        .trim(),
+    )
+    .trim();
 }
 
 // assigned date does not include year
@@ -117,9 +136,15 @@ function getAssignmentsByAssigned(assigned: string) {
   return fetchApi(endpoint + query);
 }
 
-export async function getAssignmentBasicDataFromRow(assignmentRow: HTMLElement) {
-  const assignedDate = assignmentRow.querySelector('[data-heading="Assigned"]').textContent;
-  const name = assignmentRow.querySelector('[data-heading="Assignment"]').textContent.trim();
+export async function getAssignmentBasicDataFromRow(
+  assignmentRow: HTMLElement,
+) {
+  const assignedDate = assignmentRow.querySelector(
+    '[data-heading="Assigned"]',
+  ).textContent;
+  const name = assignmentRow
+    .querySelector('[data-heading="Assignment"]')
+    .textContent.trim();
   const assignedAssignments = await getAssignmentsByAssigned(assignedDate);
   const assignment = assignedAssignments.find((a: any) => {
     return sanitizeAssignmentTitle(a.short_description) === name;
@@ -128,7 +153,8 @@ export async function getAssignmentBasicDataFromRow(assignmentRow: HTMLElement) 
 }
 
 export async function getAssignmentDataFromRow(assignmentRow: HTMLElement) {
-  const assignmentBasicData = await getAssignmentBasicDataFromRow(assignmentRow);
+  const assignmentBasicData =
+    await getAssignmentBasicDataFromRow(assignmentRow);
   // could not find assignment due to unexpected unstripped formatting
   if (!assignmentBasicData) {
     return;
@@ -141,7 +167,7 @@ export function assignmentHasRubric(assignmentRow: HTMLElement) {
 }
 
 export function letterGradeToPercentage(letter: string) {
-  const letterMap : { [grade: string] : number } = {
+  const letterMap: { [grade: string]: number } = {
     A: 96.99,
     B: 86.99,
     C: 76.99,
@@ -158,16 +184,30 @@ export function letterGradeToPercentage(letter: string) {
 // / Get sectionId for currently open "See grade detail" modal
 export function getOpenCourseId() {
   const title = document.querySelector('.bb-dialog-header').textContent.trim();
-  const courses = Array.from(document.querySelectorAll('#coursesContainer .row'));
-  const openCourse = courses.find(course => {
+  const courses = Array.from(
+    document.querySelectorAll('#coursesContainer .row'),
+  );
+  const openCourse = courses.find((course) => {
     return course.querySelector('h3').textContent.trim() === title;
   });
-  return openCourse && (openCourse.querySelector('.showGrade + a') as HTMLElement).dataset.analysis;
+  return (
+    openCourse &&
+    (openCourse.querySelector('.showGrade + a') as HTMLElement).dataset.analysis
+  );
 }
 
 export async function getActiveMarkingPeriodId() {
+  // TODO: Change to use https://gannacademy.myschoolapp.com/api/DataDirect/StudentGroupTermList/?studentUserId={userID}&schoolYearLabel=2023%20-%202024&personaId=2 style
+  // - requires:
+  //    - userID
+  //    - schoolYearLabel (which allows us to change year too)
+  // - returns:
+  //    - list of semesters ( and seasons ) with durationID that can be used (sometimes instead of markingPeriod)
   const activeMarkingPeriod = await waitForLoad(() => {
-    return document.querySelector('#showHideGrade .dropdown-menu .active a') as HTMLElement;
+    return document.querySelector(
+      '#showHideGrade .dropdown-menu .active a',
+    ) as HTMLElement;
   });
+  // NOTE: I think it might be document.querySelector("#showHideGrade > div > ul > li > a") now
   return activeMarkingPeriod.dataset.value;
 }

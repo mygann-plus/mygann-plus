@@ -13,24 +13,32 @@ const selectors = {
 
 function removeHighlight() {
   // only one block is supposed to be highlighted, but this is in case a bug causes multiple to be
-  const highlightedBlocks = document.querySelectorAll(`.${selectors.currentClass}`);
+  const highlightedBlocks = document.querySelectorAll(
+    `.${selectors.currentClass}`,
+  );
   for (const block of highlightedBlocks) {
     block.classList.remove(selectors.currentClass);
   }
 }
 
 async function highlight() {
-  const blocks = document.getElementById('accordionSchedules').children;
-  for (const block of blocks) {
-    const timeString = (block.children[0].childNodes[0] as Text).data.trim();
-    if (await isCurrentClass(timeString)) {
-      block.classList.add(selectors.currentClass);
-      return block;
+  const schedule = document.getElementById('accordionSchedules');
+  if (schedule) {
+    const blocks = schedule.children;
+    for (const block of blocks) {
+      const timeString = (block.children[0].childNodes[0] as Text).data.trim();
+      if (await isCurrentClass(timeString)) {
+        block.classList.add(selectors.currentClass);
+        return block;
+      }
     }
   }
 }
 
-async function highlightCurrentClassMain(opts: void, unloaderContext: UnloaderContext) {
+async function highlightCurrentClassMain(
+  opts: void,
+  unloaderContext: UnloaderContext,
+) {
   const styles = insertCss(style.toString());
   unloaderContext.addRemovable(styles);
 
