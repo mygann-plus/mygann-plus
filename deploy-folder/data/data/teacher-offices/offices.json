@@ -1,0 +1,259 @@
+{
+  "1": [
+    {
+      "room": "110",
+      "faculty": [
+        "Rabbi Dina Brawer"
+      ]
+    },
+    {
+      "room": "112",
+      "faculty": ["Lily Rabinoff-Goldman"]
+    },
+    {
+      "room": "114",
+      "faculty": [
+        "Julia Mabuchi",
+        "Sheila Macdonald"
+      ]
+    },
+    {
+      "room": "118",
+      "faculty": [
+        "Dalia Hochman"
+      ]
+    },
+    {
+      "room": "128",
+      "faculty": [
+        "Laila Goodman"
+      ]
+    },
+    {
+      "room": "126",
+      "faculty": [
+        "Sarah Rogers"
+      ]
+    },
+    {
+      "room": "124",
+      "faculty": [
+        "Marion Menzin",
+        "Greg Banks"
+      ]
+    },
+    {
+      "room": "122",
+      "faculty": [
+        "Cate Bleyl",
+        "Elan Cohen",
+        "Elizabeth Lowenberg",
+        "Brenden O'Donnell",
+        "Michelle Poirier",
+        "Dena Glasgow"
+      ]
+    },
+    {
+      "room": "130",
+      "faculty": [
+        "Michelle Langwieder",
+        "Maria Lazebnik Sims",
+        "Stephanie Hoffman",
+        "Jaime Guarnaccia",
+        "Shira Shazeer",
+        "Seth Berger"
+      ]
+    },
+    {
+      "room": "216",
+      "faculty": [
+        "Maya Wainhaus",
+        "Susan Cheloff",
+        "Jonathan Golden",
+        "Casey Beyer",
+        "Shlomi Zan",
+        "Casey Moden"
+      ]
+    },
+    {
+      "room": "218",
+      "faculty": [
+        "Chris Senhouse",
+        "Efrat Amiri",
+        "Alex Lahr"
+      ]
+    },
+    {
+      "room": "222",
+      "faculty": [
+        "Shira Zar-Kessler"
+      ]
+    },
+    {
+      "room": "220",
+      "faculty": [
+        "Adam Marshak"
+      ]
+    },
+    {
+      "room": "224",
+      "faculty": [
+        "Lynda Bachman",
+        "Greg Kee",
+        "Abby Shapiro",
+        "Hillel Greene",
+        "Nati Golan",
+        "Sam Davis"
+      ]
+    },
+    {
+      "room": "231B - Art",
+      "faculty": [
+        "Michelle Poirier"
+      ]
+    },
+    {
+      "room": "Music Studio",
+      "faculty": [
+        "Ray Daniels"
+      ]
+    },
+    {
+      "room": "S102",
+      "faculty": [
+        "Rachel Frenkil",
+        "Gavriel Goldfeder",
+        "Shuli Ben-Natan",
+        "Steve Wood",
+        "Elena Morgan"
+      ],
+      "help": "This office is in the SAC"
+    },
+    {
+      "room": "S104",
+      "faculty": [
+        "Valerie Giebel",
+        "Luke Pritchett",
+        "Hannah Abelman",
+        "Simon Metcalf",
+        "Naomi Bilmes",
+        "Vanessa Harper"
+      ],
+      "help": "This office is in the SAC"
+    },
+    {
+      "room": "S106",
+      "faculty": [
+        "Brian Infante",
+        "Rachel Shapiro",
+        "Lindsay Goldstein",
+        "Mark Wilkins",
+        "Eli Witkin"
+      ],
+      "help": "This office is in the SAC"
+    },
+    {
+      "room": "S103",
+      "faculty": [
+        "Yoni Kadden",
+        "Sara Meirowitz",
+        "Rabbi Sara Meirowitz",
+        "Aki Yonekawa",
+        "Akiko Yonekawa"
+      ],
+      "help": "This office is in the SAC"
+    },
+    {
+      "room": "L017 - Dance Studio",
+      "faculty": [
+        "Katie Pustizzi"
+      ]
+    },
+    {
+      "room": "L015",
+      "faculty": [
+        "Cindy Jacobs"
+      ]
+    },
+    {
+      "room": "133",
+      "faculty": [
+        "Jenny Gomeringer",
+        "Ellen Seward"
+      ]
+    },
+    {
+      "room": "134B",
+      "faculty": [
+        "Rebecca Friedman"
+      ]
+    },
+    {
+      "room": "134A",
+      "faculty": [
+        "Emilie Goncalves"
+      ]
+    },
+    {
+      "room": "135",
+      "faculty": []
+    },
+    {
+      "room": "136",
+      "faculty": [
+        "Trine Lustig"
+      ]
+    },
+    {
+      "room": "137",
+      "faculty": [
+        "Placid Dingue",
+        "Elena Dumanis",
+        "Amy Chandler-Nelson"
+      ]
+    },
+    {
+      "room": "138",
+      "faculty": [
+        "Isaac Judd"
+      ]
+    },
+    {
+      "room": "CUBICLES",
+      "faculty": [
+        "Noah Weinberg",
+        "Simon Luxemburg",
+        "Kerry Maher",
+        "Adam Cucchiara",
+        "Leila Gordon",
+        "Shira Weiss"
+      ]
+    },
+    {
+      "room": "138 (FORMER HOS OFFICE)",
+      "faculty": [
+        "All School Conference Room"
+      ]
+    },
+    {
+      "room": "140",
+      "faculty": [
+        "Seth Finkle",
+        "Cam Barta",
+        "Kelse Peterson"
+      ]
+    },
+    {
+      "room": "141A",
+      "faculty": [
+        "Cheryl George"
+      ]
+    },
+    {
+      "room": "141",
+      "faculty": [
+        "Ben Liston"
+      ]
+    }
+  ]
+}

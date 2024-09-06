@@ -1,0 +1,30 @@
+{
+    "$schemaVersion": 1,
+    "disabled": [
+        {
+            "guid": "{4155f319-a10b-4e4e-8a10-999a43ef9d19}",
+            "extensionVersion": "<=1.13.1",
+            "_comment": "Improved status dropdown: Edit tasks not working"
+        },
+        {
+            "guid": "{df198a10-fcff-4e1b-8c8d-daf9630b4c99}",
+            "extensionVersion": "*",
+            "_comment": "Ms. Jacobs"
+        },
+        {
+            "guid": "{6ca82534-e670-490a-8ce1-1d87f48c7c32}",
+            "extensionVersion": "*",
+            "_comment": "Possible problem with new login system"
+        },
+        {
+            "guid": "{5a1befbf-8fed-481d-8184-8db72ba22ad1}",
+            "extensionVersion": "*",
+            "_comment": "It hasn't been updated in like a year"
+        },
+        {
+            "guid": "{42efc8ef-9de0-4eef-8e74-ba18f568b8a3}",
+            "extensionVersion": "*",
+            "_comment": "It takes you back to June"
+        }
+    ]
+}

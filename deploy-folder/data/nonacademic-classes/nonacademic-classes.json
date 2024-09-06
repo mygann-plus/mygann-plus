@@ -1,0 +1,33 @@
+{
+  "1": [
+    "mincha",
+    "special program",
+    "assembly",
+    "hakhel",
+    "z'man kodesh",
+    "community service",
+    "lunch",
+    "breakfast"
+  ],
+  "2": {
+    "classesMenu": [
+      "mincha",
+      "special program",
+      "assembly",
+      "hakhel",
+      "z'man kodesh",
+      "community service",
+      "lunch",
+      "break"
+    ],
+    "progress": [
+      "mincha",
+      "special program",
+      "assembly",
+      "hakhel",
+      "z'man kodesh",
+      "lunch",
+      "break"
+    ]
+  }
+}

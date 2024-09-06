@@ -10,7 +10,9 @@
     "deploy-bookmarklet": "sure --question 'Are you sure? (Make the project has been built) [type \"deploy bookmarklet\" to continue]' --yes 'deploy bookmarklet' && surge --domain mygann-plus-bookmarklet.surge.sh",
     "deploy-surge": "surge --domain mygann-plus-bookmarklet.surge.sh",
     "push-data": "cd data && sure --question 'Are you sure you want to push the data? (MAKE SURE YOU ARE IN /DATA) [type \"push data\" to continue]' --yes 'push data' && surge --domain mygannplus-data.surge.sh",
-    "push-in-cd-data": "surge --domain mygannplus-data.surge.sh"
+    "push-in-cd-data": "surge --domain mygannplus-data.surge.sh",
+    "deploy-content-script": "cp -r ./dist/content-script.js ./deploy-folder/content-script.js && netlify deploy --dir=deploy-folder --site=8eb3cc87-e134-4392-89e8-eb84f0ad7ffe --prod",
+    "deploy-data": "cp -r ./data ./deploy-folder/data && netlify deploy --dir=deploy-folder --site=8eb3cc87-e134-4392-89e8-eb84f0ad7ffe --prod"
   },
   "author": "",
   "license": "ISC",

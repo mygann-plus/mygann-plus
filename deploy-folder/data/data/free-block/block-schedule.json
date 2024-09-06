@@ -1,0 +1,173 @@
+{
+  "1": {
+    "week": [
+      {
+        "C Block": ["8:30 AM", "9:30 AM"],
+        "Z'man Kodesh": ["9:35 AM", "10:20 AM"],
+        "D Block": ["10:25 AM", "11:20 AM"],
+      "E Block": ["11:30 AM", "12:25 PM"],
+        "F Block": ["1:05 PM", "2:05 PM"],
+        "G Block": ["2:10 PM", "3:10 PM"],
+        "Flex A/Office Hours": ["3:15 PM", "3:45 PM"],
+        "Wellness M/W": ["4:00 PM", "5:00 PM"]
+      },
+      {
+        "Flex B/Office Hours": ["8:30 AM", "9:15 AM"],
+        "D Block": ["9:20 AM", "10:20 AM"],
+        "E Block": ["10:25 AM", "11:25 AM"],
+        "C Block": ["12:35 PM", "1:35 PM"],
+        "G Block": ["1:40 PM", "2:35 PM"],
+        "F Block": ["2:45 PM", "3:35 PM"],
+        "Wellness Tu/Th": ["4:00 PM", "5:00 PM"]
+      },
+      {
+        "E Block": ["9:30 AM", "10:30 AM"],
+        "F Block": ["10:35 AM", "11:35 AM"],
+        "G Block": ["12:35 PM", "1:35 PM"],
+        "C Block": ["1:40 PM", "2:35 PM"],
+        "D Block": ["2:45 PM", "3:45 PM"],
+        "Wellness M/W": ["4:00 PM", "5:00 PM"]
+      },
+      {
+        "F Block": ["8:30 AM", "9:30 AM"],
+        "Z'man Kodesh": ["9:35 AM", "10:20 AM"],
+        "G Block": ["10:25 AM", "11:20 AM"],
+        "C Block": ["11:30 AM", "12:25 PM"],
+        "D Block": ["1:05 PM", "2:05 PM"],
+        "E Block": ["2:10 PM", "3:10 PM"],
+        "Flex B/Office Hours": ["3:15 PM", "3:45 PM"],
+        "Wellness Tu/Th": ["4:00 PM", "5:00 PM"]
+      }
+    ],
+    "friday": {
+      "A": {
+  
+        "E Block": ["9:20 AM", "10:10 AM"],
+        "F Block": ["11:15 AM", "12:05 PM"],
+        "D Block": ["12:40 PM", "1:30 PM"],
+        "G Block": ["1:35 PM", "2:25 PM"]
+      },
+      "B": {
+        "Flex A/Office Hours": ["8:30 AM", "9:15 AM"],
+       "F Block": ["9:20 AM", "10:10 AM"],
+        "G Block": ["11:15 AM", "12:05 PM"],
+        "C Block": ["12:40 PM", "1:30 PM"],
+        "D Block": ["1:35 PM", "2:25 PM"]
+      },
+      "C": {
+        "Flex A/Office Hours": ["8:30 AM", "9:15 AM"],
+        "E Block": ["9:20 AM", "10:10 AM"],
+        "F Block": ["11:15 AM", "12:05 PM"]
+  
+      }
+    },
+    "fridayWinter": {
+      "A": {
+        "Flex A/Office Hours": ["8:30 AM", "9:15 AM"],
+        "G Block": ["9:20 AM", "10:15 AM"],
+        "C Block": ["11:20 AM", "12:15 PM"],
+        "D Block": ["12:50 PM", "1:45 PM"]
+      },
+      "B": {
+        "Flex A/Office Hours": ["8:30 AM", "9:15 AM"],
+        "E Block": ["9:20 AM", "10:15 AM"],
+        "F Block": ["11:20 AM", "12:15 PM"],
+        "G Block": ["12:50 PM", "1:45 PM"]
+      },
+      "C": {
+        "Flex A/Office Hours": ["8:30 AM", "9:15 AM"],
+        "C Block": ["9:20 AM", "10:10 AM"],
+        "D Block": ["10:40 AM", "11:30 AM"],
+        "E Block": ["12:00 PM", "12:50 PM"],
+        "F Block": ["12:55 PM", "1:45 PM"]
+      }
+    },
+    "exceptions": {
+      "11/4/2021": {
+        "G Block": ["9:20 AM", "10:15 AM"],
+        "F Block": ["10:25 AM", "11:20 AM"],
+        "Flex B/Office Hours": ["11:25 AM", "12:10 PM"],
+        "D Block": ["12:10 PM", "1:00 PM"]
+      },
+      "11/19/2021": {
+        "F Block": ["9:00 AM", "9:40 AM"],
+        "G Block": ["12:15 PM", "12:55 PM"],
+        "D Block": ["1:00 PM", "1:40 PM"]
+      },
+      "1/4/2022": {
+        "E Block": ["9:00 AM", "9:45 AM"],
+        "F Block": ["10:00 AM", "10:45 AM"],
+        "G Block": ["11:00 AM", "11:45 AM"],
+        "C Block": ["12:30 PM", "1:15 PM"],
+        "Flex B/Office Hours": ["1:30 PM", "2:05 PM"],
+        "D Block": ["2:15 PM", "3:00 PM"]
+      },
+      "1/5/2022": {
+        "D Block": ["9:00 AM", "9:45 AM"],
+        "C Block": ["10:00 AM", "10:45 AM"],
+        "E Block": ["11:00 AM", "11:45 AM"],
+        "G Block": ["12:30 PM", "1:15 PM"],
+        "Flex A/Office Hours": ["1:30 PM", "2:05 PM"],
+        "F Block": ["2:15 PM", "3:00 PM"]
+      },
+      "1/6/2022": {
+        "G Block": ["9:00 AM", "9:45 AM"],
+        "F Block": ["10:00 AM", "10:45 AM"],
+        "Flex B/Office Hours": ["11:00 AM", "11:45 AM"],
+        "D Block": ["12:30 PM", "1:15 PM"],
+        "C Block": ["1:30 PM", "2:05 PM"],
+        "E Block": ["2:15 PM", "3:00 PM"]
+      },
+      "1/7/2021": {
+        "Flex A/Office Hours": ["9:00 AM", "9:45 AM"],
+        "E Block": ["10:00 AM", "10:40 AM"],
+        "F Block": ["10:50 AM", "11:30 AM"],
+        "G Block": ["12:50 PM", "1:30 PM"]
+      },
+      "2/18/2022": {
+        "E Block": ["9:00 AM", "9:40 AM"],
+        "F Block": ["10:35 AM", "11:15 AM"],
+        "Flex B/Office Hours": ["12:15 PM", "12:55 PM"],
+        "G Block": ["1:00 PM", "1:40 PM"]
+      },
+      "3/2/2022": {
+        "D Block": ["9:00 AM", "9:55 AM"],
+        "C Block": ["10:00 AM", "10:55 AM"],
+        "E Block": ["11:20 AM", "12:15 PM"],
+        "G Block": ["12:50 PM", "1:50 PM"],
+        "Flex A/Office Hours": ["1:55 PM", "2:30 PM"],
+        "F Block": ["2:40 PM", "3:40 PM"]
+      },
+      "3/4/2022": {
+        "F Block": ["9:35 AM", "10:15 AM"],
+        "C Block": ["12:15 PM", "12:55 PM"],
+        "G Block": ["1:00 PM", "1:40 PM"]
+      },
+      "3/9/2022": {
+        "D Block": ["9:00 AM", "10:00 AM"],
+        "C Block": ["10:05 AM", "11:05 AM"],
+        "G Block": ["12:50 PM", "1:50 PM"],
+        "Flex A/Office Hours": ["1:55 PM", "2:30 PM"],
+        "F Block": ["2:40 PM", "3:40 PM"],
+        "Wellness M/W": ["4:00 PM", "5:00 PM"]
+      },
+      "3/10/2022": {
+        "E Block": ["9:20 AM", "10:05 AM"],
+        "C Block": ["10:10 AM", "10:55 AM"],
+        "D Block": ["11:00 AM", "11:45 AM"],
+        "F Block": ["12:15 PM", "1:00 PM"]
+      },
+      "3/17/2022": { },
+      "3/31/2022": {
+        "G Block": ["9:20 AM", "10:15 AM"],
+        "Flex B/Office Hours": ["11:25 AM", "12:10 PM"],
+        "F Block": ["12:45 PM", "1:40 PM"],
+        "C Block": ["1:45 PM", "2:40 PM"],
+        "E Block": ["2:50 PM", "3:45 PM"]
+      }
+    }
+  }
+ }
+  
+ 
+ 
