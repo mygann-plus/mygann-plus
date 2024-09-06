@@ -72,6 +72,7 @@ import stucoButton from '~/modules/stuco';
 import stucoPage from '~/modules/stucoPage';
 import zapper from '~/modules/zapper';
 // import letterGradePoints from '~/modules/letter-grade-points';
+import changeAssignmentLink from '~/modules/change-assignment-link';
 
 interface ModuleMap {
   [key: string]: Module[];
@@ -102,7 +103,7 @@ const MODULE_MAP: ModuleMap = {
     custompfp,
     notifyUpdate,
     changeAssignmentCenterURl,
-    stucoButton,
+    // stucoButton,
     zapper,
   ], // universal modules
   '#login': [oneClickLogin],
@@ -123,6 +124,7 @@ const MODULE_MAP: ModuleMap = {
     taskDueDate,
     autoHideAssignmentCenterDropdowns,
     fixRangeButtonHighlight,
+    changeAssignmentLink,
   ],
   '#taskdetail': [taskDetail, assignmentCheckpoints],
   '#studentmyday/schedule': [
@@ -133,7 +135,7 @@ const MODULE_MAP: ModuleMap = {
     classEndingTime,
     tomorrowsEvents,
     scheduleArrowNavigation,
-    skipDays,
+    // skipDays,
     cleanUp,
     datePicker,
   ],
@@ -150,7 +152,7 @@ const MODULE_MAP: ModuleMap = {
     // letterGradePoints,
   ],
   '#studentmyday/stuco': [
-    stucoPage,
+    // stucoPage,
   ],
   '#message': [archiveAll],
   '#message/inbox': [markAllAsRead, markAsRead, fixArchiveHighlight],

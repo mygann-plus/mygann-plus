@@ -132,7 +132,9 @@ class CheckpointsPreview {
 // Some assignments do not have links to their details pages by default
 function addDetailsLink(row: HTMLElement, unloaderContext: UnloaderContext) {
   const details = row.querySelector('[data-heading="Details"]');
-
+  if (!details) {
+    return;
+  }
   const existingLink = details.querySelector('a');
   if (existingLink) {
     return;
