@@ -25,6 +25,11 @@
             "guid": "{42efc8ef-9de0-4eef-8e74-ba18f568b8a3}",
             "extensionVersion": "*",
             "_comment": "It takes you back to June"
-        }
+        },
+        {
+          "guid": "{43efc8ef-9de0-4eef-8e74-ba18f568b8a3}",
+          "extensionVersion": "*",
+          "_comment": "Started to sometimes not show schedule"
+    }
     ]
 }

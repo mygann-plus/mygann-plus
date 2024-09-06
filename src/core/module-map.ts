@@ -135,7 +135,7 @@ const MODULE_MAP: ModuleMap = {
     classEndingTime,
     tomorrowsEvents,
     scheduleArrowNavigation,
-    // skipDays,
+    skipDays,
     cleanUp,
     datePicker,
   ],

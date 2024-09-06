@@ -50,7 +50,8 @@ export function fetchApi(endpoint: string, opts: RequestInit = {}) {
   }));
 }
 
-const DATA_ENDPOINT = 'https://mygannplus-data.surge.sh';
+// const DATA_ENDPOINT = 'https://mygannplus-data.surge.sh';
+const DATA_ENDPOINT = 'https://mygann-plus.netlify.app/data';
 
 // Fetch path from /data endpoint
 export function fetchRawData(name: string) {
