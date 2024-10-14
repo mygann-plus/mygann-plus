@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "MyGann+",
   "version": "1.26.0",
   "minimum_chrome_version": "60",
@@ -14,16 +14,20 @@
   "content_scripts": [
     {
       "matches": ["https://gannacademy.myschoolapp.com/app/*"],
-      "js": ["fetchContentScript.min.js"]
+      "js": ["dist/content-script.js"]
     }
   ],
 
   "background": {
-    "scripts": ["dist/install-watch.js"],
-    "persistent": false
+    "service_worker": "dist/install-watch.js"
   },
 
-  "permissions": ["storage"],
+  "permissions": [
+    "storage"
+  ],
 
-  "web_accessible_resources": ["dist/assets/*"]
+  "web_accessible_resources": [{
+    "resources": ["/dist/assets/*"],
+    "matches": ["https://gannacademy.myschoolapp.com/*"]
+  }]
 }
