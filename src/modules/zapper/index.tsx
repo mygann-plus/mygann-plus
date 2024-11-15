@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import registerModule from '~/core/module';
 import MouseBox from './mouseBox';
 import { createElement, waitForLoad, insertCss } from '~/utils/dom';
@@ -66,7 +67,7 @@ async function selectMode(on: boolean = true) {
     mouseBox.mouseBoxOff();
   }
 
-  document.addEventListener('keydown', (e) => {
+  document.addEventListener('keydown', (e: KeyboardEvent) => {
     if (e.code === 'Escape') {
       mouseBox.mouseBoxOff();
       writeStyle('zapStyles', styles);

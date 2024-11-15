@@ -92,7 +92,6 @@ function getMessagePage(inbox: boolean, index: number) {
   return fetchApi(`/api/message/inbox/${query}`);
 }
 
-
 export async function getAllMessages(inbox = true, page = 0, messages: any[] = []): Promise<any> {
   const pageMessages = await getMessagePage(inbox, page);
 

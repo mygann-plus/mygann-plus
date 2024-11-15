@@ -42,7 +42,6 @@ async function archive() {
   refreshMessageList();
 }
 
-
 async function archiveAllMain(opts: void, unloaderContext: UnloaderContext) {
 
   const existingButton = document.getElementById(selectors.button);

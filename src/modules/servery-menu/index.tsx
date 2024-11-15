@@ -77,7 +77,7 @@ async function shouldShowMenu() {
 }
 
 async function serveryMenuMain(opts: void, unloaderContext: UnloaderContext) {
-  // QUESTION: 
+  // QUESTION:
   // TODO: why is this line commented out?
   // const styles = insertCss(style.toString());
   // unloaderContext.addRemovable(styles);

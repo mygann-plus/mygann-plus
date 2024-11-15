@@ -20,7 +20,6 @@ async function readAll() {
   refreshMessageList();
 }
 
-
 async function markAllAsReadMain(opts: void, unloaderContext: UnloaderContext) {
 
   const { button, message } = await addMessageBarButton({

@@ -1,6 +1,5 @@
 import { UnloaderContext, isModuleLoaded } from '~/core/module-loader';
 
-
 import { createElement, waitForLoad, addEventListener } from '~/utils/dom';
 import { fetchApi } from '~/utils/fetch';
 

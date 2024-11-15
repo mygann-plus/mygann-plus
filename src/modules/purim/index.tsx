@@ -10,8 +10,6 @@ function isPurim() {
   return (date.getDate() === 6 || date.getDate() === 7) && date.getMonth() === 2;
 }
 
-let initRun = false;
-
 // const ELI_BENNET = 'https://bbk12e1-cdn.myschoolcdn.com/ftpimages/591/user/large_user4321840_2403859_930.JPG?resize=200,200';
 const ELI_BENNET = 'https://cdn.discordapp.com/attachments/939668210435887164/1082171985196490752/istockphoto-1282932721-612x612.jpg';
 
@@ -21,7 +19,7 @@ function waitForElm(selector: string) {
       return resolve(document.querySelector(selector));
     }
 
-    const observer = new MutationObserver(mutations => {
+    const observer = new MutationObserver(() => {
       if (document.querySelector(selector)) {
         resolve(document.querySelector(selector));
         observer.disconnect();
@@ -37,7 +35,7 @@ function waitForElm(selector: string) {
 
 function replaceText() {
   let url = 'https://see.fontimg.com/api/renderfont4/oODV/eyJyIjoiZnMiLCJoIjoxMzgsInciOjE1MDAsImZzIjo5MiwiZmdjIjoiI0ZGRkZGRiIsImJnYyI6IiMwMDAwMDAiLCJ0IjoxfQ/R0FOTiBBQ0FERU1Z/kanisah.png';
-  waitForElm('#site-logo > a > img').then((elm) => {
+  waitForElm('#site-logo > a > img').then(() => {
     // @ts-ignore
     document.querySelector('#site-logo > a > img').src = url;
     document.querySelector('body').style.backgroundImage = "url('https://media.istockphoto.com/id/1373141996/vector/hamantash-purim-pattern.jpg?s=612x612&w=0&k=20&c=Dgw5apYCbYufOFnuK3IxSiegpSnatzQCysB1BzD0D7s=')";
@@ -45,7 +43,7 @@ function replaceText() {
     // @ts-ignore
     // $('*').css('cursor', 'url("https://lh3.googleusercontent.com/5euME0_VdxZQm5BzNx8S7WBsnmKXCKMIxJcosnsB9rMqNkbbB7Ods-XFEkCqofkw25xIu9MqMbJdUP671X8T5mfGlSIEcq9T3iNVYFjmuiYcZgVxIEqvvBLPZ6cXkwsQb-d71sXXDQ=s32-p-k"), auto');
     // @ts-ignore
-    document.querySelector('body').style.cursor = 'url("https://lh3.googleusercontent.com/5euME0_VdxZQm5BzNx8S7WBsnmKXCKMIxJcosnsB9rMqNkbbB7Ods-XFEkCqofkw25xIu9MqMbJdUP671X8T5mfGlSIEcq9T3iNVYFjmuiYcZgVxIEqvvBLPZ6cXkwsQb-d71sXXDQ=s32-p-k"), default'
+    document.querySelector('body').style.cursor = 'url("https://lh3.googleusercontent.com/5euME0_VdxZQm5BzNx8S7WBsnmKXCKMIxJcosnsB9rMqNkbbB7Ods-XFEkCqofkw25xIu9MqMbJdUP671X8T5mfGlSIEcq9T3iNVYFjmuiYcZgVxIEqvvBLPZ6cXkwsQb-d71sXXDQ=s32-p-k"), default';
 
   });
 }
@@ -82,41 +80,40 @@ async function setCursor() {
 
 function buttons() {
 
-  waitForElm("#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-next.chCal-state-default.chCal-corner-right > span > span.chCal-button-content").then((elm) => { 
+  waitForElm('#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-next.chCal-state-default.chCal-corner-right > span > span.chCal-button-content').then((elm) => {
     // @ts-ignore
-    document.querySelector("#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-next.chCal-state-default.chCal-corner-right > span > span.chCal-button-content").style.backgroundImage = 'url("https://lh3.googleusercontent.com/5euME0_VdxZQm5BzNx8S7WBsnmKXCKMIxJcosnsB9rMqNkbbB7Ods-XFEkCqofkw25xIu9MqMbJdUP671X8T5mfGlSIEcq9T3iNVYFjmuiYcZgVxIEqvvBLPZ6cXkwsQb-d71sXXDQ=s32-p-k")'
+    document.querySelector('#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-next.chCal-state-default.chCal-corner-right > span > span.chCal-button-content').style.backgroundImage = 'url("https://lh3.googleusercontent.com/5euME0_VdxZQm5BzNx8S7WBsnmKXCKMIxJcosnsB9rMqNkbbB7Ods-XFEkCqofkw25xIu9MqMbJdUP671X8T5mfGlSIEcq9T3iNVYFjmuiYcZgVxIEqvvBLPZ6cXkwsQb-d71sXXDQ=s32-p-k")';
     // @ts-ignore
-    document.querySelector("#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-next.chCal-state-default.chCal-corner-right > span > span.chCal-button-content").style.backgroundSize = "contain"
+    document.querySelector('#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-next.chCal-state-default.chCal-corner-right > span > span.chCal-button-content').style.backgroundSize = 'contain';
     // @ts-ignore
-    document.querySelector("#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-next.chCal-state-default.chCal-corner-right > span > span.chCal-button-content").style.color = "transparent"
+    document.querySelector('#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-next.chCal-state-default.chCal-corner-right > span > span.chCal-button-content').style.color = 'transparent';
     // @ts-ignore
-    document.querySelector("#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-prev.chCal-state-default.chCal-corner-left > span > span.chCal-button-content").style.backgroundImage = 'url("https://lh3.googleusercontent.com/5euME0_VdxZQm5BzNx8S7WBsnmKXCKMIxJcosnsB9rMqNkbbB7Ods-XFEkCqofkw25xIu9MqMbJdUP671X8T5mfGlSIEcq9T3iNVYFjmuiYcZgVxIEqvvBLPZ6cXkwsQb-d71sXXDQ=s32-p-k")'
+    document.querySelector('#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-prev.chCal-state-default.chCal-corner-left > span > span.chCal-button-content').style.backgroundImage = 'url("https://lh3.googleusercontent.com/5euME0_VdxZQm5BzNx8S7WBsnmKXCKMIxJcosnsB9rMqNkbbB7Ods-XFEkCqofkw25xIu9MqMbJdUP671X8T5mfGlSIEcq9T3iNVYFjmuiYcZgVxIEqvvBLPZ6cXkwsQb-d71sXXDQ=s32-p-k")';
     // @ts-ignore
-    document.querySelector("#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-prev.chCal-state-default.chCal-corner-left > span > span.chCal-button-content").style.backgroundSize = "contain"
+    document.querySelector('#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-prev.chCal-state-default.chCal-corner-left > span > span.chCal-button-content').style.backgroundSize = 'contain';
     // @ts-ignore
-    document.querySelector("#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-prev.chCal-state-default.chCal-corner-left > span > span.chCal-button-content").style.color = "transparent"
+    document.querySelector('#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-prev.chCal-state-default.chCal-corner-left > span > span.chCal-button-content').style.color = 'transparent';
     // @ts-ignore
-    document.querySelector("#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-prev.chCal-state-default.chCal-corner-left > span > span.chCal-button-content").style.transform = "scaleX(-1)"
-  })
-  
+    document.querySelector('#schedule-header > div > div > div > div:nth-child(2) > div:nth-child(1) > span.chCal-button.chCal-button-prev.chCal-state-default.chCal-corner-left > span > span.chCal-button-content').style.transform = 'scaleX(-1)';
+  });
+
 }
 
 function extremeInit() {
-  buttons()
-  setCursor()
+  buttons();
+  setCursor();
   replaceText();
   if (!isPurim()) {
     return;
   }
   insertCss(style.toString());
 
-  initRun = true;
   setAllImages(ELI_BENNET);
 }
 
 function extremeMain() {
-  buttons()
-  setCursor()
+  buttons();
+  setCursor();
   replaceText();
   if (!isPurim()) {
     return;

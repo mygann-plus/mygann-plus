@@ -19,7 +19,7 @@ async function changeLinks() {
   // const dropDown = () => document.querySelector('#topnav-containter > ul > li.oneline.parentitem.first > div.subnav.sec-75-bordercolor.white-bgc.sky-nav.nav-visible > ul > li:nth-child(3) > a');
   // await changeLink(dropDown);
   // let parent = document.querySelector("#topnav-containter > ul > li.oneline.parentitem.first > div.subnav.sec-75-bordercolor.white-bgc.sky-nav > ul")
-  const parent = () => document.querySelector("#topnav-containter > ul > li.oneline.parentitem.first > div.subnav.sec-75-bordercolor.white-bgc.sky-nav > ul");
+  const parent = () => document.querySelector('#topnav-containter > ul > li.oneline.parentitem.first > div.subnav.sec-75-bordercolor.white-bgc.sky-nav > ul');
   const dropDown = await waitForLoad(parent);
   await changeLink(barIcon);
   const elm = () => dropDown.querySelector('li > [href="/lms-assignment/assignment-center/student/"]');

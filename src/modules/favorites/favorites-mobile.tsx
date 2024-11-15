@@ -46,7 +46,6 @@ function handleDelete(event: Event, id: string) {
   flyout.getBody().focus();
 }
 
-
 function createLink(favorite: Favorite) {
   return (
     <li className={classNames(selectors.menuItem.link, selectors.menuItem.mobileLink)}>

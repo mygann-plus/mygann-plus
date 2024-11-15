@@ -216,5 +216,4 @@ export default class Dialog {
 
 }
 
-
 insertCss(style.toString());

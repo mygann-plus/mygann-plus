@@ -8,16 +8,15 @@ import { UnloaderContext } from '~/core/module-loader';
 
 export function coursesListLoaded() {
   return (
-    document.querySelector('#coursesContainer > *') &&
-    document.querySelector('#coursesCollapse > div > div.row')
+    document.querySelector('#coursesContainer > *')
+    && document.querySelector('#coursesCollapse > div > div.row')
   );
 }
 
 async function observeSectionBar(id: string, fn: MutationCallback) {
   const courseWrap = await waitForLoad(
-    () =>
-      document.querySelector(`#${id}`) &&
-      document.querySelector(`#${id}`).closest('.ch'),
+    () => document.querySelector(`#${id}`)
+      && document.querySelector(`#${id}`).closest('.ch'),
   );
   const observer = new MutationObserver(fn);
   observer.observe(courseWrap, {
@@ -45,10 +44,8 @@ export function computeGradePercentage(earned: string, total: string) {
 const domQuery = {
   dialogTitle: () => document.querySelector('.media-heading'),
   gradeDetailButton: () => document.querySelectorAll('.col-md-2 .btn'),
-  prevButton: () =>
-    document.querySelectorAll('button[data-analysis="prev"]')[0],
-  nextButton: () =>
-    document.querySelectorAll('button[data-analysis="next"]')[0],
+  prevButton: () => document.querySelectorAll('button[data-analysis="prev"]')[0],
+  nextButton: () => document.querySelectorAll('button[data-analysis="next"]')[0],
 };
 
 export interface ProgressDialogListenerData {
@@ -59,8 +56,7 @@ async function callWhenDialogChanges(
   callback: (data: ProgressDialogListenerData) => void,
   data: ProgressDialogListenerData,
 ) {
-  const getDialogTitle = () =>
-    domQuery.dialogTitle() && domQuery.dialogTitle().textContent;
+  const getDialogTitle = () => domQuery.dialogTitle() && domQuery.dialogTitle().textContent;
   const currentTitle = getDialogTitle();
   await waitForLoad(
     () => getDialogTitle() && getDialogTitle() !== currentTitle,
@@ -72,18 +68,14 @@ export async function addProgressDialogListener(
   callback: (data: ProgressDialogListenerData) => void,
   unloaderContext: UnloaderContext,
 ) {
-  const gradeDetailButtons = await waitForOne(() =>
-    document.querySelectorAll('.showGrade + a'),
-  );
+  const gradeDetailButtons = await waitForOne(() => document.querySelectorAll('.showGrade + a'));
   for (const button of gradeDetailButtons) {
     unloaderContext.addRemovable(
       addEventListener(button, 'click', async () => {
         await callWhenDialogChanges(callback, { fromGradeDetailButton: true });
-        const navButtons = await waitForOne(() =>
-          document.querySelectorAll(
-            '[data-analysis="next"], [data-analysis="prev"]',
-          ),
-        );
+        const navButtons = await waitForOne(() => document.querySelectorAll(
+          '[data-analysis="next"], [data-analysis="prev"]',
+        ));
         for (const navButton of navButtons) {
           const data = { fromGradeDetailButton: false };
           unloaderContext.addRemovable(
@@ -153,8 +145,7 @@ export async function getAssignmentBasicDataFromRow(
 }
 
 export async function getAssignmentDataFromRow(assignmentRow: HTMLElement) {
-  const assignmentBasicData =
-    await getAssignmentBasicDataFromRow(assignmentRow);
+  const assignmentBasicData = await getAssignmentBasicDataFromRow(assignmentRow);
   // could not find assignment due to unexpected unstripped formatting
   if (!assignmentBasicData) {
     return;
@@ -191,8 +182,8 @@ export function getOpenCourseId() {
     return course.querySelector('h3').textContent.trim() === title;
   });
   return (
-    openCourse &&
-    (openCourse.querySelector('.showGrade + a') as HTMLElement).dataset.analysis
+    openCourse
+    && (openCourse.querySelector('.showGrade + a') as HTMLElement).dataset.analysis
   );
 }
 

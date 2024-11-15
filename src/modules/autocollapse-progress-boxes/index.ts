@@ -20,7 +20,6 @@ const domQuery = {
   content: (wrap: HTMLElement) => wrap.querySelector('.bb-tile-content') as HTMLElement,
 };
 
-
 async function collapseBox(wrap: HTMLElement) {
   const chevron = await waitForLoad(() => domQuery.chevron(wrap));
   const content = await waitForLoad(() => domQuery.content(wrap));

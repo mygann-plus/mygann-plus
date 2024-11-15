@@ -5,7 +5,6 @@ import { waitForLoad, createElement, insertCss } from '~/utils/dom';
 import { getImgurImage, changeImage } from '~/utils/imgur';
 import style from './style.css';
 import { appendUserMenuLink } from '~/shared/user-menu';
-import { UnloaderContext } from '~/core/module-loader';
 
 const selectors = {
   buttonsContainer: style.locals['buttons-container'],

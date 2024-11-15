@@ -94,7 +94,6 @@ export async function showAddDialog() {
   await saveNewFavorite(newFavorite);
 }
 
-
 export async function showEditDialog(id: string) {
   const oldFavorite = await getFavorite(id);
   const newFavorite = await showDialog('Edit Favorite', 'Save', oldFavorite);

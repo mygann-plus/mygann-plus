@@ -13,7 +13,6 @@ import {
   sanitizeAssignmentTitle,
   assignmentHasRubric,
   getAssignmentDataFromRow,
-  observeCoursesBar,
 } from '~/shared/progress';
 import { getTableRowColumnContent } from '~/shared/table';
 
@@ -51,7 +50,7 @@ async function getAssignmentPoints(assignmentRow: HTMLElement, assignments: any[
         assignmentRow,
       );
     }
-    const { rubricPoints, maxPoints } = assignmentData;
+    // const { rubricPoints, maxPoints } = assignmentData;
     // return
     // if (rubricPoints) {
     //   percentage = computeGradePercentage(rubricPoints, maxPoints);

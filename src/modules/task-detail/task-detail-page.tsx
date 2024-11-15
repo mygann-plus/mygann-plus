@@ -44,7 +44,6 @@ const statuses: { [key: string]: Status } = {
   },
 };
 
-
 function updateStatus(taskIndex: string, status: number) {
   const endpoint = '/api/assignment2/assignmentstatusupdate';
   const query = `?format=json&assignmentIndexId=${taskIndex}&assignmentStatus=${status}`;
