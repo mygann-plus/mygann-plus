@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "module": "es6",
-    "target": "es5",
+    "target": "es6",
     "sourceMap": true,
 
     "moduleResolution": "Node",
@@ -17,7 +17,7 @@
     "jsx": "react",
     "allowJs": true,
     "jsxFactory": "createElement",
-    
+
     "baseUrl": "src",
     "paths": {
       "~/core/*": ["core/*"],
@@ -25,5 +25,7 @@
       "~/shared/*": ["shared/*"],
       "~/utils/*": ["utils/*"]
     }
-  }
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
 }
+

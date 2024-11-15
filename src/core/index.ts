@@ -19,7 +19,11 @@ import {
 
 import setCssVars from '~/utils/css-vars';
 import log from '~/utils/log';
-import { isBookmarklet, markBookmarkletLoaded, isBookmarletLoaded } from '~/utils/bookmarklet';
+import {
+  isBookmarklet,
+  markBookmarkletLoaded,
+  isBookmarletLoaded,
+} from '~/utils/bookmarklet';
 import { ChangeListenerData } from '~/utils/storage';
 
 function getHash(url: string) {
@@ -36,10 +40,13 @@ function unloadModules(oldHash: string, newHash: string) {
   const oldModules = modulesForHash(oldHash);
   const newModules = modulesForHash(newHash);
 
-  const unloadedModules = new Set([...oldModules].filter(m => !newModules.has(m) && !m.config.stayLoaded));
+  const unloadedModules = new Set(
+    [...oldModules].filter((m) => !newModules.has(m) && !m.config.stayLoaded),
+  );
 
   for (const module of unloadedModules) {
-    if (!softUnloadModule(module)) { // module affects global state
+    if (!softUnloadModule(module)) {
+      // module affects global state
       if (!hardUnloadModule(module)) {
         log('warn', `Failed to hard unload module '${module.config.name}'`);
       }

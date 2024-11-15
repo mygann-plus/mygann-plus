@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Module } from './module';
 
 import autoCloseDetailStatus from '~/modules/auto-close-detail-status';

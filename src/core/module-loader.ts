@@ -79,7 +79,6 @@ export async function loadModule(module: Module, waitUntilLoaded = false) {
     return;
   }
 
-
   const options = await getOptionsFor(module.guid);
   const unloaderContext = isModuleLoaded(module)
     ? loadedModules.get(module).unloaderContext

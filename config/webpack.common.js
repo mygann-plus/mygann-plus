@@ -7,6 +7,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
+    filename: '[name].js', // Outputs as content-script.js, install-watch.js
     publicPath: '/dist',
   },
   module: {
@@ -14,28 +15,33 @@ module.exports = {
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        loader: 'ts-loader',
+        use: 'ts-loader',
       },
       {
         test: /\.css$/,
-        loader: 'css-loader',
-        options: {
-          modules: true,
-        },
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+            },
+          },
+        ],
       },
       {
-        test: /\.png|\.jpe?g$/,
+        test: /\.(png|jpe?g)$/,
         loader: 'file-loader',
         options: {
-          outputPath: '/assets',
+          outputPath: 'assets',
         },
       },
     ],
   },
   resolve: {
+    extensions: ['.js', '.tsx', '.ts'],
     alias: {
       '~': path.resolve(__dirname, '../src'),
     },
-    extensions: ['.js', '.ts', '.tsx'],
   },
 };
