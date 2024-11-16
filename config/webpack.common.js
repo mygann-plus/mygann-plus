@@ -17,25 +17,6 @@ module.exports = {
         exclude: /node_modules/,
         use: 'ts-loader',
       },
-      // {
-      //   test: /\.css$/,
-      //   use: [
-      //     {
-      //       loader: 'style-loader',
-      //       options: {
-      //         injectType: 'singletonStyleTag', // Ensures styles are injected properly
-      //       },
-      //     },
-      //     {
-      //       loader: 'css-loader',
-      //       options: {
-      //         modules: {
-      //           localIdentName: '[name]__[local]__[hash:base64:5]', // Readable class names in dev
-      //         },
-      //       },
-      //     },
-      //   ],
-      // },
       {
         test: /\.css$/,
         loader: 'css-loader',

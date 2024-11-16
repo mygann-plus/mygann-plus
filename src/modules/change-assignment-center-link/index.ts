@@ -5,23 +5,32 @@ import { waitForLoad } from '~/utils/dom';
 async function changeLink(domQuery: () => Element) {
   document.querySelector('body');
   const linkButton = await waitForLoad(domQuery);
-  try {
-    linkButton.setAttribute(
-      'href',
-      '/app/student#studentmyday/assignment-center',
-    );
-  // eslint-disable-next-line no-empty
-  } catch (error) {}
+
+  const desiredHref = '/app/student#studentmyday/assignment-center';
+
+  const setHref = () => {
+    if (linkButton.getAttribute('href') !== desiredHref) {
+      linkButton.setAttribute('href', desiredHref);
+    }
+  };
+
+  setHref();
+
+  const observer = new MutationObserver(() => setHref());
+
+  observer.observe(linkButton, {
+    attributes: true,
+    attributeFilter: ['href'],
+  });
+
 }
 
 async function changeLinks() {
   const barIcon = () => document.getElementById('assignment-center-btn');
-  // const dropDown = () => document.querySelector('#topnav-containter > ul > li.oneline.parentitem.first > div.subnav.sec-75-bordercolor.white-bgc.sky-nav.nav-visible > ul > li:nth-child(3) > a');
-  // await changeLink(dropDown);
-  // let parent = document.querySelector("#topnav-containter > ul > li.oneline.parentitem.first > div.subnav.sec-75-bordercolor.white-bgc.sky-nav > ul")
+  await changeLink(barIcon);
+
   const parent = () => document.querySelector('#topnav-containter > ul > li.oneline.parentitem.first > div.subnav.sec-75-bordercolor.white-bgc.sky-nav > ul');
   const dropDown = await waitForLoad(parent);
-  await changeLink(barIcon);
   const elm = () => dropDown.querySelector('li > [href="/lms-assignment/assignment-center/student/"]');
   const link = await waitForLoad(elm);
   try {
