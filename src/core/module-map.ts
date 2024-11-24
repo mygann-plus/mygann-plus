@@ -74,6 +74,7 @@ import stucoPage from '~/modules/stucoPage';
 import zapper from '~/modules/zapper';
 // import letterGradePoints from '~/modules/letter-grade-points';
 import changeAssignmentLink from '~/modules/change-assignment-link';
+import purim from '~/modules/purim';
 
 interface ModuleMap {
   [key: string]: Module[];
@@ -100,6 +101,7 @@ const MODULE_MAP: ModuleMap = {
     theme,
     autofocusSiteSearch,
     logo,
+    purim,
     extreme,
     custompfp,
     notifyUpdate,

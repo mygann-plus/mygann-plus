@@ -9,21 +9,8 @@ function replace(container: HTMLElement, imageURL: string) {
   }
 }
 function randomImage() {
-  let x = Math.random() * 7;
-
-  if (x <= 1) {
-    return 'https://cdn.discordapp.com/attachments/939668210435887164/1082171985196490752/istockphoto-1282932721-612x612.jpg';
-  } else if (x <= 2) {
-    return 'https://cdn.discordapp.com/attachments/939668210435887164/1082172034391474226/279982.png';
-  } else if (x <= 3) {
-    return 'https://cdn.discordapp.com/attachments/939668210435887164/1082172070181474344/3347544.png';
-  } else if (x <= 4) {
-    return 'https://cdn.discordapp.com/attachments/939668210435887164/1082172134568239104/4062979.png';
-  } else if (x <= 5) {
-    return 'https://cdn.discordapp.com/attachments/939668210435887164/1082173128790245416/image.png';
-  } else if (x <= 6) {
-    return 'https://cdn.discordapp.com/attachments/939668210435887164/1082173904434499646/purim-holiday-hamantash-with-strawberry-jam-flat-vector-22788130.jpg';
-  } else { return 'https://cdn.discordapp.com/attachments/939668210435887164/1082175165464596592/hamantaschen-vector-1345449.jpg'; }
+  let imgLinks = ['bVtMYUV', 'Mrj9soY', 'aRu0yaL', 'X9Bc3P1', 'CzpCnKX', 'TXteUSC', 'SBeaZYa'];
+  return `https://i.imgur.com/${imgLinks[Math.floor(Math.random() * imgLinks.length)]}.png`;
 }
 export default async function setAllImages(imageURL: string) {
   const obs = new MutationObserver(async mutationList => {
