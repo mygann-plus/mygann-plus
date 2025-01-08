@@ -13,6 +13,8 @@ let viewHeight = Math.max(
 );
 // viewHeight = 2000;
 let onPlatform = false;
+let touchingLeft = false;
+let touchingRight = false;
 let player: Player;
 let controller: Controller;
 let interval: ReturnType<typeof setInterval>;
@@ -158,12 +160,16 @@ function detectPlatforms() {
 }
 function accelerate() {
   if (leftPress && !rightPress) {
-    if (currentSpeed > -maxSpeed) {
-      currentSpeed -= accelerationRate;
+    if (!touchingLeft) {
+      if (currentSpeed > -maxSpeed) {
+        currentSpeed -= accelerationRate;
+      }
     }
   } else if (rightPress && !leftPress) {
-    if (currentSpeed < maxSpeed) {
-      currentSpeed += accelerationRate;
+    if (!touchingRight) {
+      if (currentSpeed < maxSpeed) {
+        currentSpeed += accelerationRate;
+      }
     }
   } else if (Math.abs(currentSpeed) > 1) {
     currentSpeed -= (Math.abs(currentSpeed) / currentSpeed) * decelerationRate;
@@ -180,11 +186,43 @@ function boost() {
   player.velY = -20;
   canScroll = false;
 }
+//
+// function boostRight() {
+//   player.x += 1;
+//   player.velX = 10;
+//   canScroll = false;
+// }
 
 function updatePlatforms() {
   let shouldFall = true;
+  let tempTouchingLeft = false;
+  let tempTouchingRight = false;
+
   platforms.forEach((p) => {
     p.update();
+    if (player.y < p.y + p.height && player.y + player.height > p.y) {
+      if (player.x < p.x + p.width + 10 && player.velX <= 0) {
+        if (
+          p.x + p.width <= (player.x)
+        ) {
+          player.velX = 0;
+          player.x = p.x + p.width;
+          touchingLeft = true;
+        }
+      }
+    }
+
+    if (player.y < p.y + p.height && player.y + player.height > p.y) {
+      if (player.x + player.width + 10 > p.x && player.velX >= 0) {
+        if (
+          p.x >= (player.x + player.width)
+        ) {
+          player.velX = 0;
+          player.x = p.x - player.width;
+          tempTouchingRight = true;
+        }
+      }
+    }
 
     if (player.x < p.x + p.width && player.x + player.width > p.x) {
       if (player.y + player.height < p.y + 10 && player.velY >= 0) {
@@ -208,6 +246,8 @@ function updatePlatforms() {
   });
 
   onPlatform = !shouldFall;
+  touchingLeft = tempTouchingLeft;
+  touchingRight = tempTouchingRight;
 }
 
 function updateFrame() {
