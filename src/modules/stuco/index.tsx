@@ -2,8 +2,6 @@ import registerModule from '~/core/module';
 
 import { createElement, waitForLoad, insertCss } from '~/utils/dom';
 
-import style from './style.css';
-
 const domQuery = () => document.querySelector('#site-nav-lower > div > ul');
 
 function createStucoButton() {

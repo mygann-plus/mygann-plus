@@ -75,6 +75,7 @@ import zapper from '~/modules/zapper';
 // import letterGradePoints from '~/modules/letter-grade-points';
 import changeAssignmentLink from '~/modules/change-assignment-link';
 import purim from '~/modules/purim';
+import platformer from '~/modules/platformer';
 
 interface ModuleMap {
   [key: string]: Module[];
@@ -108,6 +109,7 @@ const MODULE_MAP: ModuleMap = {
     changeAssignmentCenterURl,
     // stucoButton,
     zapper,
+    platformer,
   ], // universal modules
   '#login': [oneClickLogin],
   '#assignmentdetail': [autoCloseDetailStatus, assignmentCheckpoints],
