@@ -121,7 +121,7 @@ function createAboutBody() {
         <b>Continued By:</b> Samuel Hirsh & Ilan Sperber
       </p>
       <p>
-        <b>Current Developers:</b> Natan Meyer, Yakir Propp, & Noah Elbaum
+        <b>Current Developer:</b> Natan Meyer
       </p>
       <hr className="divider" />
 
@@ -145,9 +145,7 @@ function createAboutBody() {
         </li>
         <li>
           Suggestions, Requests, or Other Comments: Please email or talk to{' '}
-          <a href="mailto:25nmeyer@gannacademy.org">Natan Meyer</a>,{' '}
-          <a href="mailto:25ypropp@gannacademy.org">Yakir Propp</a>, or{' '}
-          <a href="mailto:24nelbaum@gannacademy.org">Noah Elbaum</a>.
+          <a href="mailto:25nmeyer@gannacademy.org">Natan Meyer</a>
         </li>
       </ul>
 
