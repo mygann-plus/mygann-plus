@@ -216,6 +216,7 @@ export default registerModule('{3dcf8f0c-2b54-4e28-bffa-d12c6a6e8a3a}', {
   description: 'Show Zoom links in schedule. (Automatically turns on during virtual learning)',
   main: zoomLinksMain,
   unload: unloadZoomLinks,
+  defaultEnabled: false,
   suboptions: {
     alwaysOn: {
       name: 'Always show Zoom links',
