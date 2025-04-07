@@ -29,10 +29,10 @@ let decelerationRate = 1.2;
 let currentSpeed = 0;
 let restrictKeys = false;
 let xDown: number = null;
-let yDown:number = null;
+let yDown: number = null;
 
 const deadZoneX: number = 60;
-const deadZoneY:number = 35;
+const deadZoneY: number = 35;
 
 let gameSpace: GameSpace = {
   canvas: document.createElement('canvas'),
@@ -107,13 +107,13 @@ function isFixed(element: HTMLElement) {
 function easeView() {
   if (player.y - window.pageYOffset - viewHeight / 2 > 0) {
     return (
-      window.pageYOffset
-      + (player.y - window.pageYOffset - viewHeight / 2) / easeSpeed
+      window.pageYOffset +
+      (player.y - window.pageYOffset - viewHeight / 2) / easeSpeed
     );
   } else if (player.y - window.pageYOffset - viewHeight / 2 < 0) {
     return (
-      window.pageYOffset
-      + (player.y - window.pageYOffset - viewHeight / 2) / easeSpeed
+      window.pageYOffset +
+      (player.y - window.pageYOffset - viewHeight / 2) / easeSpeed
     );
   } else {
     canScroll = true;
@@ -125,8 +125,8 @@ function smoothScroll() {
   let s = easeView();
 
   if (
-    (currentSpeed !== 0 || player.velY !== 0 || s !== window.pageYOffset)
-    && !canScroll
+    (currentSpeed !== 0 || player.velY !== 0 || s !== window.pageYOffset) &&
+    !canScroll
   ) {
     window.scrollTo(player.x - viewWidth / 2, s);
   }
@@ -152,7 +152,9 @@ function detectPlatforms() {
           left,
           top,
           gameSpace,
-          element.tagName === 'BUTTON' || element.classList.contains('btn') ? PlatformType.Jump : PlatformType.Normal,
+          element.tagName === 'BUTTON' || element.classList.contains('btn')
+            ? PlatformType.Jump
+            : PlatformType.Normal,
         ),
       );
     }
@@ -192,8 +194,73 @@ function boost() {
 //   player.velX = 10;
 //   canScroll = false;
 // }
+function mergePlatforms(platformList: Platform[]): Platform[] {
+  let merged = true;
+
+  // Keep merging until no platforms intersect or are close enough
+  while (merged) {
+    merged = false;
+    const newPlatformList: Platform[] = [];
+    const skipIndices = new Set<number>(); // Keep track of already merged platforms
+
+    for (let i = 0; i < platformList.length; i++) {
+      if (skipIndices.has(i)) continue;
+
+      let current = platformList[i];
+
+      for (let j = i + 1; j < platformList.length; j++) {
+        if (skipIndices.has(j)) continue;
+
+        const other = platformList[j];
+        const isHorizontallyOverlapping =
+          current.x <= other.x + other.width + 5 &&
+          current.x + current.width + 5 >= other.x;
+
+        // Check if the platforms overlap exactly or are within 2 pixels vertically
+        const isVerticallyOverlapping =
+          current.y + current.height >= other.y - 5 &&
+          current.y <= other.y + other.height + 5; // Check if the platforms overlap or are within 5 pixels of overlapping
+
+        if (isHorizontallyOverlapping && isVerticallyOverlapping) {
+          // Calculate the merged bounds
+          const mergedX = Math.min(current.x, other.x);
+          const mergedY = Math.min(current.y, other.y);
+          const mergedWidth =
+            Math.max(current.x + current.width, other.x + other.width) -
+            mergedX;
+          const mergedHeight =
+            Math.max(current.y + current.height, other.y + other.height) -
+            mergedY;
+
+          // Create a new platform with the merged dimensions
+          current = new Platform(
+            mergedWidth,
+            mergedHeight,
+            current.color, // Retain the color of the first platform
+            mergedX,
+            mergedY,
+            current.gameSpace,
+            current.type, // Assuming platform types remain consistent
+          );
+
+          // Mark the other platform as merged
+          skipIndices.add(j);
+          merged = true;
+        }
+      }
+
+      // Add the (potentially merged) platform to the new list
+      newPlatformList.push(current);
+    }
+
+    platformList = newPlatformList; // Replace the original list with the new merged list
+  }
+
+  return platformList;
+}
 
 function updatePlatforms() {
+  // platforms = mergePlatforms(platforms);
   let shouldFall = true;
   let tempTouchingLeft = false;
   let tempTouchingRight = false;
@@ -202,9 +269,7 @@ function updatePlatforms() {
     p.update();
     if (player.y < p.y + p.height && player.y + player.height > p.y) {
       if (player.x < p.x + p.width + 10 && player.velX <= 0) {
-        if (
-          p.x + p.width <= (player.x)
-        ) {
+        if (p.x + p.width <= player.x) {
           player.velX = 0;
           player.x = p.x + p.width;
           touchingLeft = true;
@@ -214,9 +279,7 @@ function updatePlatforms() {
 
     if (player.y < p.y + p.height && player.y + player.height > p.y) {
       if (player.x + player.width + 10 > p.x && player.velX >= 0) {
-        if (
-          p.x >= (player.x + player.width)
-        ) {
+        if (p.x >= player.x + player.width) {
           player.velX = 0;
           player.x = p.x - player.width;
           tempTouchingRight = true;
@@ -227,8 +290,8 @@ function updatePlatforms() {
     if (player.x < p.x + p.width && player.x + player.width > p.x) {
       if (player.y + player.height < p.y + 10 && player.velY >= 0) {
         if (
-          p.y - (player.height + player.y) >= 0
-          && p.y - (player.height + player.y) < 1 + Math.abs(player.velY)
+          p.y - (player.height + player.y) >= 0 &&
+          p.y - (player.height + player.y) < 1 + Math.abs(player.velY)
         ) {
           if (p.type === PlatformType.Jump) {
             boost();
@@ -394,7 +457,14 @@ export default function createCanvas() {
   if (document.getElementById('extensionGameCanvas') == null) {
     detectPlatforms();
     restrictKeys = true;
-    player = new Player(30, 60, 'red', viewWidth / 2, window.pageYOffset, gameSpace);
+    player = new Player(
+      30,
+      60,
+      'red',
+      viewWidth / 2,
+      window.pageYOffset,
+      gameSpace,
+    );
     controller = new Controller(
       deadZoneX * 2,
       deadZoneY * 2,
